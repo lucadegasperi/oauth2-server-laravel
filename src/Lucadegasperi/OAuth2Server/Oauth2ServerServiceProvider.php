@@ -1,8 +1,8 @@
-<?php namespace Lucadegasperi\Oauth2ServerLaravel;
+<?php namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Support\ServiceProvider;
 
-class Oauth2ServerLaravelServiceProvider extends ServiceProvider {
+class OAuth2ServerServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.

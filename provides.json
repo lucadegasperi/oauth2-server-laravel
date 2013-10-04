@@ -1,0 +1,15 @@
+{
+  "providers": [
+    "LucaDegasperi\\OAuth2Server\\OAuth2ServerServiceProvider"
+  ],
+  "aliases": [
+    {
+      "alias": "AuthorizationServer",
+      "facade": "LucaDegasperi\\OAuth2Server\\Facades\\AuthorizationServerFacade"
+    },
+    {
+      "alias": "ResourceServer",
+      "facade": "LucaDegasperi\\OAuth2Server\\Facades\\ResourceServerFacade"
+    }
+  ]
+}

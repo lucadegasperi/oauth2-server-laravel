@@ -23,7 +23,7 @@
             "src/migrations"
         ],
         "psr-0": {
-            "Lucadegasperi\\OAuth2Server": "src/"
+            "LucaDegasperi\\OAuth2Server": "src/"
         }
     },
     "minimum-stability": "dev",

@@ -20,7 +20,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider {
 	{
 		$this->package('lucadegasperi/oauth2-server-laravel');
 
-		require_once __DIR__.'../../filters.php';
+		//require_once __DIR__.'/../../filters.php';
 	}
 
 	/**

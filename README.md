@@ -4,7 +4,7 @@ A wrapper package for the standards compliant OAuth 2.0 authorization server and
 
 ## Package Installation
 
-The framework is provided as a Composer package which can be installed by adding the package to your composer.json file:
+The library is provided as a Composer package which can be installed by adding the package to your composer.json file:
 
 ```javascript
 {
@@ -12,6 +12,17 @@ The framework is provided as a Composer package which can be installed by adding
 		"lucadegasperi/oauth2-server-laravel": "dev-master"
 	}
 }
+```
+
+Add this line of code to the ```providers``` array located in your ```app/config/app.php``` file:
+```php
+'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
+```
+
+And this lines to the ```facades``` array:
+```php
+'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
+'ResourceServer' => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
 ```
 
 ## Support

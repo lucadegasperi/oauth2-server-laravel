@@ -20,7 +20,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider {
 	{
 		$this->package('lucadegasperi/oauth2-server-laravel');
 
-		//require_once __DIR__.'/../../filters.php';
+		require_once __DIR__.'/../../filters.php';
 	}
 
 	/**
@@ -43,8 +43,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider {
 
 			// add the supported grant types to the authorization server
 			foreach ($app['config']->get('oauth2-server-laravel::oauth2.grant_types') as $grantKey => $grantValue) {
-				$server->addGrantType(new $grantValue[0]($server));
-				$server->getGrantType($grantKey)->setAccessTokenTTL($grantValue[1]);
+				$server->addGrantType(new $grantValue['class']($server));
+				$server->getGrantType($grantKey)->setAccessTokenTTL($grantValue['access_token_ttl']);
 			}
 
 			$server->requireStateParam($app['config']->get('oauth2-server-laravel::oauth2.state_param'));

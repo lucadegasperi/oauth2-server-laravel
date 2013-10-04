@@ -93,4 +93,6 @@ return array(
     'limit_clients_to_scopes' => false,
 
     'limit_scopes_to_grants' => false,
+
+    'http_headers_only' => false,
 );

@@ -2,7 +2,7 @@
 
 A wrapper package for the standards compliant OAuth 2.0 authorization server and resource server written in PHP by the [League of Extraordinary Packages](http://www.thephpleague.com).
 
-The package assumes you have a good-enough knowledge of the principles behind the [OAuth2 Specification](http://tools.ietf.org/html/rfc6749).
+The package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 Specification](http://tools.ietf.org/html/rfc6749).
 
 ## Package Installation
 
@@ -81,7 +81,8 @@ Route::get('secure-route', array('before' => array('oauth|scope1,scope2', 'oauth
 }));
 ```
 
-The aim of this package is to make working with oauth2 server stuff in Laravel a breeze. You can still access all the undelying power of the league/oauth2-server package via the ResourceServer facade.
+
+The aim of this package is to make working with oauth2 server stuff in Laravel a breeze. You can still access all the undelying power of the league/oauth2-server package via the ```ResourceServer``` facade.
 
 ## Support
 

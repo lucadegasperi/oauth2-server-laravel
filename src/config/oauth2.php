@@ -27,12 +27,20 @@ return array(
 
         'password' => array(
             'class'            => 'League\OAuth2\Server\Grant\Password',
-            'access_token_ttl' => 3600,
+            'access_token_ttl' => 604800,
+            'callback' => function($username, $password){
+                return Auth::validate(array(
+                    'email' => $username,
+                    'password' => $password,
+                ));
+            }
         ),
 
         'refresh_token' => array(
             'class'            => 'League\OAuth2\Server\Grant\RefreshToken',
             'access_token_ttl' => 3600,
+            'refresh_token_ttl' => 604800,
+            'rotate_refresh_tokens' => false,
         ),
         
     ),
@@ -45,7 +53,7 @@ return array(
     | Whether or not the state parameter is required in the query string
     |
     */
-    'state_param' => true,
+    'state_param' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +63,7 @@ return array(
     | Whether or not the scope parameter is required in the query string
     |
     */
-    'scope_param' => true,
+    'scope_param' => false,
 
     /*
     |--------------------------------------------------------------------------

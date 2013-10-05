@@ -3,7 +3,7 @@
 Route::filter('check-authorization-params', function($route, $request, $scope = null)
 {
     try {
-        // depending on the different grant type used, different response parameters might be revealed
+        
         $params = AuthorizationServer::getGrantType('authorization_code')->checkAuthoriseParams();
 
         Session::put('client_id', $params['client_id']);

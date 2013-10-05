@@ -41,21 +41,23 @@ class OAuth2ServerServiceProvider extends ServiceProvider {
 
 			$server = $app->make('League\OAuth2\Server\Authorization');
 
+			$config = $app['config']->get('oauth2-server-laravel::oauth2');
+
 			// add the supported grant types to the authorization server
-			foreach ($app['config']->get('oauth2-server-laravel::oauth2.grant_types') as $grantKey => $grantValue) {
+			foreach ($config['grant_types'] as $grantKey => $grantValue) {
 				$server->addGrantType(new $grantValue['class']($server));
 				$server->getGrantType($grantKey)->setAccessTokenTTL($grantValue['access_token_ttl']);
 			}
 
-			$server->requireStateParam($app['config']->get('oauth2-server-laravel::oauth2.state_param'));
+			$server->requireStateParam($config['state_param']);
 
-			$server->requireScopeParam($app['config']->get('oauth2-server-laravel::oauth2.scope_param'));
+			$server->requireScopeParam($config['scope_param']);
 
-			$server->setScopeDelimeter($app['config']->get('oauth2-server-laravel::oauth2.scope_delimiter'));
+			$server->setScopeDelimeter($config['scope_delimiter']);
 
-			$server->setDefaultScope($app['config']->get('oauth2-server-laravel::oauth2.default_scope'));
+			$server->setDefaultScope($config['default_scope']);
 
-			$server->setAccessTokenTTL($app['config']->get('oauth2-server-laravel::oauth2.access_token_ttl'));
+			$server->setAccessTokenTTL($config['access_token_ttl']);
 
 			return $server;
 

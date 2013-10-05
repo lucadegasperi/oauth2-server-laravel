@@ -23,23 +23,25 @@ return array(
         'authorization_code' => array(
             'class'            => 'League\OAuth2\Server\Grant\AuthCode',
             'access_token_ttl' => 3600,
+            'auth_token_ttl'   => 3600,
         ),
 
         'password' => array(
             'class'            => 'League\OAuth2\Server\Grant\Password',
             'access_token_ttl' => 604800,
-            'callback' => function($username, $password){
+            'callback'         => function($username, $password){
+                
                 return Auth::validate(array(
-                    'email' => $username,
+                    'email'    => $username,
                     'password' => $password,
                 ));
             }
         ),
 
         'refresh_token' => array(
-            'class'            => 'League\OAuth2\Server\Grant\RefreshToken',
-            'access_token_ttl' => 3600,
-            'refresh_token_ttl' => 604800,
+            'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
+            'access_token_ttl'      => 3600,
+            'refresh_token_ttl'     => 604800,
             'rotate_refresh_tokens' => false,
         ),
         

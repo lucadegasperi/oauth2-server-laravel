@@ -1,6 +1,8 @@
 # PHP OAuth 2.0 Server for Laravel
 
-A wrapper package for the standards compliant OAuth 2.0 authorization server and resource server written in PHP by the [League of Extraordinary Packages](http://www.thephpleague.com)
+A wrapper package for the standards compliant OAuth 2.0 authorization server and resource server written in PHP by the [League of Extraordinary Packages](http://www.thephpleague.com).
+
+The package assumes you have a good-enough knowledge of the principles behind the [OAuth2 Specification](http://tools.ietf.org/html/rfc6749).
 
 ## Package Installation
 
@@ -43,12 +45,43 @@ Afterwards edit the file ```app/config/packages/lucadegasperi/oauth2-server-lara
 
 ### Migrations
 
-This package comes with all the migrations you might need to run an oauth2 server. Run:
+This package comes with all the migrations you need to run a full featured oauth2 server. Run:
 
 ```
 php artisan migrate --package="lucadegasperi/oauth2-server-laravel"
 ```
 
+## Issuing access tokens
+
+TBD
+
+## Securing the API endpoints
+
+You can protect your laravel routes with oauth by applying the ```oauth``` before filter to them like in the example shown below
+
+```php
+Route::get('secure-route', array('before' => 'oauth', function(){
+    return "oauth secured route";
+}));
+```
+
+Additionaly you can provide the allowed scopes to the ```oauth``` before filter by passing them in the filter name.
+
+```php
+Route::get('secure-route', array('before' => 'oauth|scope1,scope2', function(){
+    return "oauth secured route";
+}));
+```
+
+An interesting addition is the possibility to limit an endpoint to a specific owner type when using the client credentials grant type. It can be achieved by adding the ```oauth-owner``` before filter to your route.
+
+```php
+Route::get('secure-route', array('before' => array('oauth|scope1,scope2', 'oauth-owner|client'), function(){
+    return "oauth secured route for clients only";
+}));
+```
+
+The aim of this package is to make working with oauth2 server stuff in Laravel a breeze. You can still access all the undelying power of the league/oauth2-server package via the ResourceServer facade.
 
 ## Support
 

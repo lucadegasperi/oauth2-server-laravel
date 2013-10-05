@@ -4,11 +4,15 @@ A wrapper package for the standards compliant OAuth 2.0 authorization server and
 
 ## Package Installation
 
+### With Laravel Package Installer
+
 The easiest way to install this package is via [Laravel Package Installer](https://github.com/rtablada/package-installer), this will set all the service providers and aliases for you. Run this artisan command to install the package:
 
 ```
 php artisan package:install lucadegasperi/oauth2-server-laravel
 ```
+
+### Manual Install
 
 alternatively, you can manually install the package via composer. add the following line to your composer.json file:
 
@@ -26,6 +30,25 @@ And this lines to the ```facades``` array:
 'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
 'ResourceServer' => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
 ```
+
+### Configuration
+
+In order to use the OAuth2 server publish its configuration first
+
+```
+php artisan config:publish lucadegasperi/oauth2-server-laravel
+```
+
+Afterwards edit the file ```app/config/packages/lucadegasperi/oauth2-server-laravel/oauth2.php``` to suit your needs.
+
+### Migrations
+
+This package comes with all the migrations you might need to run an oauth2 server. Run:
+
+```
+php artisan migrate --package="lucadegasperi/oauth2-server-laravel"
+```
+
 
 ## Support
 

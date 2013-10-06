@@ -23,12 +23,6 @@
         "league/phpunit-coverage-listener": "~1.0",
         "whatthejeff/nyancat-phpunit-resultprinter": "~1.1"
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/lucadegasperi/oauth2-server-laravel.git"
-        }
-    ],
     "autoload": {
         "classmap": [
             "src/migrations"

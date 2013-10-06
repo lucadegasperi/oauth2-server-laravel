@@ -19,6 +19,7 @@
         "league/oauth2-server": "2.1.x"
     },
     "require-dev": {
+        "phpunit/phpunit": "3.7.22",
         "mockery/mockery": ">=0.7.2",
         "league/phpunit-coverage-listener": "~1.0",
         "whatthejeff/nyancat-phpunit-resultprinter": "~1.1"

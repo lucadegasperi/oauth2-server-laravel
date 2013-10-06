@@ -3,7 +3,7 @@
 Route::filter('check-authorization-params', function($route, $request, $scope = null)
 {
     try {
-        
+
         $params = AuthorizationServer::getGrantType('authorization_code')->checkAuthoriseParams();
 
         Session::put('client_id', $params['client_id']);
@@ -34,43 +34,7 @@ Route::filter('check-authorization-params', function($route, $request, $scope = 
 });
 
 // make sure an endpoint is accessible only by authrized members eventually with specific scopes 
-Route::filter('oauth', function($route, $request, $scope = null)
-{
-    try {
-        ResourceServer::isValid(Config::get('oauth2-server-laravel::oauth2.http_headers_only'));
-    }
-    catch (League\OAuth2\Server\Exception\InvalidAccessTokenException $e) {
-        return Response::json(array(
-            'status' => 403,
-            'error' => 'forbidden',
-            'error_message' => $e->getMessage(),
-        ), 403);
-    }
-
-    if ( ! is_null($scope)) {
-        $scopes = explode(',', $scope);
-
-        foreach ($scopes as $s) {
-            if ( ! ResourceServer::hasScope($s)) {
-                return Response::json(array(
-                    'status' => 403,
-                    'error' => 'forbidden',
-                    'error_message' => 'Only access token with scope '.$s.' can use this endpoint',
-                ), 403);
-            }
-        }
-    }
-
-});
+Route::filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
 
 // make sure an endpoint is accessible only by a specific owner
-Route::filter('oauth-owner', function($route, $request, $scope = null)
-{
-    if ( ! is_null($scope) and ResourceServer::getOwnerType() !== $scope){
-        return Response::json(array(
-            'status' => 403,
-            'error' => 'forbidden',
-            'error_message' => 'Only access tokens representing '.$scope.' can use this endpoint',
-        ), 403);
-    }
-});
+Route::filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');

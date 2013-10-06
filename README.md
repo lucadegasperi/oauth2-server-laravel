@@ -1,5 +1,7 @@
 # PHP OAuth 2.0 Server for Laravel
 
+[![Latest Unstable Version](https://poser.pugx.org/lucadegasperi/oauth2-server-laravel/v/unstable.png)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel) [![Build Status](https://travis-ci.org/lucadegasperi/oauth2-server-laravel.png?branch=master)](https://travis-ci.org/lucadegasperi/oauth2-server-laravel) [![Coverage Status](https://coveralls.io/repos/lucadegasperi/oauth2-server-laravel/badge.png)](https://coveralls.io/r/lucadegasperi/oauth2-server-laravel)
+
 A wrapper package for the standards compliant OAuth 2.0 authorization server and resource server written in PHP by the [League of Extraordinary Packages](http://www.thephpleague.com).
 
 The package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 Specification](http://tools.ietf.org/html/rfc6749).

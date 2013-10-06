@@ -70,7 +70,7 @@ Route::get('secure-route', array('before' => 'oauth', function(){
 Additionaly you can provide the allowed scopes to the ```oauth``` before filter by passing them in the filter name.
 
 ```php
-Route::get('secure-route', array('before' => 'oauth|scope1,scope2', function(){
+Route::get('secure-route', array('before' => 'oauth:scope1,scope2', function(){
     return "oauth secured route";
 }));
 ```
@@ -78,7 +78,7 @@ Route::get('secure-route', array('before' => 'oauth|scope1,scope2', function(){
 An interesting addition is the possibility to limit an endpoint to a specific owner type when using the client credentials grant type. It can be achieved by adding the ```oauth-owner``` before filter to your route.
 
 ```php
-Route::get('secure-route', array('before' => array('oauth|scope1,scope2', 'oauth-owner|client'), function(){
+Route::get('secure-route', array('before' => 'oauth:scope1,scope2|oauth-owner:client, function(){
     return "oauth secured route for clients only";
 }));
 ```

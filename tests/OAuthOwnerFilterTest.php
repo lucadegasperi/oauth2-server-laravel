@@ -26,4 +26,8 @@ class OAuthOwnerFilterTest extends TestCase {
         $this->assertTrue($response->isForbidden());
     }
 
+    public function tearDown() {
+        m::close();
+    }
+
 }

@@ -13,4 +13,8 @@ class AuthorizationServerFacadeTest extends TestCase {
         $this->assertEquals('example?', $redirect);
     }
 
+    public function tearDown() {
+        m::close();
+    }
+
 }

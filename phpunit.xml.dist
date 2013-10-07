@@ -15,7 +15,7 @@
         </blacklist>
     </filter>
     <logging>
-        <log type="coverage-clover" target="/tmp/coverage.xml"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
     </logging>
     <!-- <listeners>

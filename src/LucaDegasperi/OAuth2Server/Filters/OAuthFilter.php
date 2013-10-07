@@ -2,6 +2,7 @@
 
 use ResourceServer;
 use Response;
+use \Config;
 
 class OAuthFilter {
 

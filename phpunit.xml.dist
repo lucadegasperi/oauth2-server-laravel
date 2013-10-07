@@ -18,7 +18,7 @@
         <log type="coverage-clover" target="/tmp/coverage.xml"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
     </logging>
-    <listeners>
+    <!-- <listeners>
         <listener class="League\PHPUnitCoverageListener\Listener">
             <arguments>
                 <array>
@@ -43,5 +43,5 @@
                 </array>
             </arguments>
         </listener>
-    </listeners>
+    </listeners> -->
 </phpunit>

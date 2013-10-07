@@ -1,6 +1,6 @@
 {
     "name": "lucadegasperi/oauth2-server-laravel",
-    "description": "A Laravel 4 wrapper for the popular OAuth 2.0 league/oauth2-server",
+    "description": "A Laravel 4 wrapper for the popular OAuth 2.0 Server package league/oauth2-server",
     "keywords": [
         "laravel",
         "oauth2",
@@ -22,11 +22,13 @@
         "phpunit/phpunit": "3.7.22",
         "mockery/mockery": ">=0.7.2",
         "league/phpunit-coverage-listener": "~1.0",
-        "whatthejeff/nyancat-phpunit-resultprinter": "~1.1"
+        "whatthejeff/nyancat-phpunit-resultprinter": "~1.1",
+        "orchestra/testbench": "2.0.*"
     },
     "autoload": {
         "classmap": [
-            "src/migrations"
+            "src/migrations",
+            "tests/TestCase.php"
         ],
         "psr-0": {
             "LucaDegasperi\\OAuth2Server": "src/"

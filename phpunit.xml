@@ -15,4 +15,16 @@
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <blacklist>
+            <directory suffix=".php">PEAR_INSTALL_DIR</directory>
+            <directory suffix=".php">PHP_LIBDIR</directory>
+            <directory suffix=".php">vendor</directory>
+            <directory suffix=".php">tests</directory>
+            <directory suffix=".php">testing</directory>
+        </blacklist>
+    </filter>
+    <logging>
+        <log type="coverage-text" target="php://stdout" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="90"/>
+    </logging>
 </phpunit>

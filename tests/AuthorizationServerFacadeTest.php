@@ -1,13 +1,16 @@
 <?php
 
 use \Mockery as m;
-use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade;
+use LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade;
+use League\OAuth2\Server\Util\RedirectUri;
 
 class AuthorizationServerFacadeTest extends TestCase {
 
-    public function test_name_is_correct()
+    public function test_make_redirect()
     {
-        $name = ResourceServerFacade::getFacadeAccessor();
-        $this->assertEquals('oauth2.authorization-server', $name);
+        $redirect = AuthorizationServerFacade::makeRedirect('example');
+
+        $this->assertEquals('example?', $redirect);
     }
+
 }

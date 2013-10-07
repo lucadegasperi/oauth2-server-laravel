@@ -7,6 +7,9 @@ use Response;
 
 class AuthorizationServerFacade extends Facade {
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected static function getFacadeAccessor() { return 'oauth2.authorization-server'; }
 
     public static function makeRedirect($uri, $params = array(), $queryDelimeter = '?')

@@ -6,19 +6,22 @@
         </testsuite>
     </testsuites>
     <filter>
-        <blacklist>
-            <directory suffix=".php">PEAR_INSTALL_DIR</directory>
-            <directory suffix=".php">PHP_LIBDIR</directory>
-            <directory suffix=".php">vendor</directory>
-            <directory suffix=".php">tests</directory>
-            <directory suffix=".php">testing</directory>
-        </blacklist>
+        <whitelist>
+            <directory>./src</directory>
+            <exclude>
+                <directory>./build</directory>
+                <directory>./composer</directory>
+                <directory>./tests</directory>
+                <directory>./travis</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
     </filter>
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
     </logging>
-    <!-- <listeners>
+    <listeners>
         <listener class="League\PHPUnitCoverageListener\Listener">
             <arguments>
                 <array>
@@ -43,5 +46,5 @@
                 </array>
             </arguments>
         </listener>
-    </listeners> -->
+    </listeners>
 </phpunit>

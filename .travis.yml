@@ -7,4 +7,3 @@ php:
 
 before_script: composer install --prefer-source
 script: phpunit --configuration phpunit.xml.dist
-after_script: php vendor/bin/coveralls

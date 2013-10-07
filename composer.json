@@ -21,8 +21,8 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.22",
         "mockery/mockery": ">=0.7.2",
-        "orchestra/testbench": "2.0.*",
-        "satooshi/php-coveralls": "dev-master"
+        "league/phpunit-coverage-listener": "v1.1.2",
+        "orchestra/testbench": "2.0.*"
     },
     "autoload": {
         "classmap": [

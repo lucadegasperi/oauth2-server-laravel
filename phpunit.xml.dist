@@ -41,7 +41,7 @@
                         <string>https://coveralls.io/api/v1/jobs</string>
                     </element>
                     <element key="coverage_dir">
-                        <string>/tmp</string>
+                        <string>build/logs</string>
                     </element>
                 </array>
             </arguments>

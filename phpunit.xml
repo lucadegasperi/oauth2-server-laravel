@@ -24,7 +24,4 @@
             <directory suffix=".php">testing</directory>
         </blacklist>
     </filter>
-    <logging>
-        <log type="coverage-text" target="php://stdout" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="90"/>
-    </logging>
 </phpunit>

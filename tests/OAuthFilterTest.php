@@ -26,9 +26,27 @@ class OAuthFilterTest extends TestCase {
 
         $response = $this->getFilter()->filter('', '', null);
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
+        $this->assertTrue($response->isForbidden());
 
-        // to check te status code and the json payload
+    }
 
+    public function test_valid_filter_with_existing_scope()
+    {
+        ResourceServer::shouldReceive('isValid')->once()->andReturn(true);
+        ResourceServer::shouldReceive('hasScope')->twice()->andReturn(true);
+
+        $response = $this->getFilter()->filter('', '', 'scope1,scope2');
+        $this->assertNull($response);
+    }
+
+    public function test_valid_filter_with_unexisting_scope()
+    {
+        ResourceServer::shouldReceive('isValid')->once()->andReturn(true);
+        ResourceServer::shouldReceive('hasScope')->once()->andReturn(false);
+
+        $response = $this->getFilter()->filter('', '', 'scope1,scope2');
+        $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
+        $this->assertTrue($response->isForbidden());
     }
 
     public function tearDown() {

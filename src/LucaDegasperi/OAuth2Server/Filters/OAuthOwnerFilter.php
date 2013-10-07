@@ -1,5 +1,6 @@
 <?php namespace LucaDegasperi\OAuth2Server\Filters;
 
+use ResourceServer;
 use Response;
 
 class OAuthOwnerFilter {

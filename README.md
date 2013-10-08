@@ -53,9 +53,195 @@ This package comes with all the migrations you need to run a full featured oauth
 php artisan migrate --package="lucadegasperi/oauth2-server-laravel"
 ```
 
-## Issuing access tokens
+## Issuing an access token
 
-TBD
+You can use different grant types to issue an access token depending on which suits your use cases. A detailed description of the different grant types can be found [here](https://github.com/php-loep/oauth2-server/wiki/Which-OAuth-2.0-grant-should-I-use%3F)
+
+A client should make a ```POST``` request with the appropriate parameters (depending on the grant type used) to an access token endpoint like the one defined here. This package will take care of all the fuss for you.
+
+```php
+Route::post('oauth/access_token', function()
+{
+    return AuthorizationServer::performAccessTokenFlow();
+});
+```
+
+### Authorization Code flow
+
+The most common grant type is the ```authorization_code```. It's also the longest to setup, but don't worry, it will be easy.
+
+First the client must obtain the authorization (not an access token) from the resource owner to access the resources on its behalf. The client application should redirect the user to the authorization page with the correct query string parameters, for example:
+
+```
+https://www.example.com/oauth/authorize?
+client_id=the_client_id&
+redirect_uri=client_redirect_uri&
+response_type=code&
+scope=scope1,scope2&
+state=1234567890
+```
+
+```php
+Route::get('/oauth/authorize', array('before' => 'check-authorization-params|auth', function()
+{
+    // get the data from the check-authorization-params filter
+    $params['client_id'] = Session::get('client_id');
+    $params['client_details'] = Session::get('client_details');
+    $params['redirect_uri'] = Session::get('redirect_uri');
+    $params['response_type'] = Session::get('response_type');
+    $params['scopes'] = Session::get('scopes');
+    $params['state'] = Session::get('state');
+
+    // get the user id
+    $params['user_id'] = Auth::user()->id;
+
+    // display the authorization form
+    return View::make('authorization-form', array('params' => $params));
+}));
+```
+
+```php
+Route::post('/oauth/authorize', array('before' => 'check-authorization-params|auth|csrf', function()
+{
+    // get the data from the check-authorization-params filter
+    $params['client_id'] = Session::get('client_id');
+    $params['client_details'] = Session::get('client_details');
+    $params['redirect_uri'] = Session::get('redirect_uri');
+    $params['response_type'] = Session::get('response_type');
+    $params['scopes'] = Session::get('scopes');
+    $params['state'] = Session::get('state');
+
+    // get the user id
+    $params['user_id'] = Auth::user()->id;
+
+    // check if the user approved or denied the authorization request
+    if (Input::get('approve') !== null) {
+
+        $code = AuthorizationServer::getGrantType('authorization_code')->newAuthoriseRequest('user', $params['user_id'], $params);
+
+        // not appropriate
+        Session::flush();
+            
+        return Redirect::to(
+            AuthorizationServer::makeRedirect($params['redirect_uri'],
+            array(
+                'code'  =>  $code,
+                'state' =>  isset($params['state']) ? $params['state'] : ''
+            )
+        ));
+    }
+
+    if (Input::get('deny') !== null) {
+
+        // just for demonstration purposes (you should flush the vars individually)
+        Session::flush();
+
+        return Redirect::to(
+            AuthorizationServer::makeRedirect($params['redirect_uri'],
+            array(
+                'error' =>  'access_denied',
+                'error_message' =>  AuthorizationServer::getExceptionMessage('access_denied'),
+                'state' =>  isset($params['state']) ? $params['state'] : ''
+            )
+        ));
+    }
+});
+```
+
+If the authorization process is successful the client will be redirected to its ```redirect_uri``` parameter with an authorization code in the query string like in the example below
+
+```
+https://www.yourclient.com/redirect?code=XYZ123
+```
+
+The client can now use this code to make an access token request in the background.
+
+```
+POST https://www.example.com/oauth/access_token?
+grant_type=authorization_code&
+client_id=the_client_id&
+client_secret=the_client_secret&
+scope=scope1,scope2&
+state=123456789
+```
+
+### Password flow
+
+This grant type is the easiest to use and is ideal for highly trusted clients. To enable this grant type add the code below to the ```grant_types``` array located at ```app/config/packages/lucadegasperi/oauth2-server-laravel/oauth2.php``` 
+
+```php
+'password' => array(
+    'class'            => 'League\OAuth2\Server\Grant\Password',
+    'access_token_ttl' => 604800,
+    'callback'         => function($username, $password){
+        
+        return Auth::validate(array(
+            'email'    => $username,
+            'password' => $password,
+        ));
+    }
+),
+```
+An example request for an access token using this grant type might look like this.
+
+```
+POST https://www.example.com/oauth/access_token?
+grant_type=password&
+client_id=the_client_id&
+client_secret=the_client_secret&
+username=the_username&
+password=the_password&
+scope=scope1,scope2&
+state=123456789
+```
+
+### Client Credentials flow
+
+Sometimes the client and the resource owner are the same thing. This grant types allows for client to access your API on their own behalf. To enable this grant type add the code below to the ```grant_types``` array located at ```app/config/packages/lucadegasperi/oauth2-server-laravel/oauth2.php```
+
+```php
+'client_credentials' => array(
+    'class'            => 'League\OAuth2\Server\Grant\ClientCredentials',
+    'access_token_ttl' => 3600,
+),
+```
+
+An example request for an access token using this grant type might look like this.
+
+```
+POST https://www.example.com/oauth/access_token?
+grant_type=client_credentials&
+client_id=the_client_id&
+client_secret=the_client_secret&
+scope=scope1,scope2&
+state=123456789
+```
+
+### Refresh token flow
+
+Access tokens do expire but by using the refresh token flow you can exchange a refresh token for an access token.
+When this grant type is enabled, every access token request will also issue a refresh token you can use to get a new access token when the current one expires. Configure this grant type in the ```grant_types``` array located at ```app/config/packages/lucadegasperi/oauth2-server-laravel/oauth2.php``` like this:
+
+```php
+'refresh_token' => array(
+    'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
+    'access_token_ttl'      => 3600,
+    'refresh_token_ttl'     => 604800,
+    'rotate_refresh_tokens' => false,
+),
+```
+
+An example request for an access token using this grant type might look like this.
+
+```
+POST https://www.example.com/oauth/access_token?
+grant_type=refresh_token&
+refresh_token=the_refresh_token&
+client_id=the_client_id&
+client_secret=the_client_secret&
+state=123456789
+```
+
 
 ## Securing the API endpoints
 

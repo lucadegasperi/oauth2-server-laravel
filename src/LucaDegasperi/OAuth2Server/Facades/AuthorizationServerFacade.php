@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Facade;
 use League\OAuth2\Server\Util\RedirectUri;
 use League\OAuth2\Server\Exception\ClientException;
+use Exception;
 use Response;
 
 class AuthorizationServerFacade extends Facade {

@@ -84,6 +84,26 @@ class AuthorizationServerProxyTest extends TestCase {
         
     }
 
+    public function test_calls_to_underlying_object()
+    {
+        $mock = $this->getMock();
+        $mock->shouldReceive('unexistingMethod')->times(6)->andReturn('baz');
+
+        $proxy = $this->getProxy($mock);
+        $responses = array();
+        $responses[] = $proxy->unexistingMethod();
+        $responses[] = $proxy->unexistingMethod('foo');
+        $responses[] = $proxy->unexistingMethod('foo', 'bar');
+        $responses[] = $proxy->unexistingMethod('foo', 'bar', 'foo');
+        $responses[] = $proxy->unexistingMethod('foo', 'bar', 'foo', 'bar');
+        $responses[] = $proxy->unexistingMethod('foo', 'bar', 'foo', 'bar', 'foo');
+
+        for($i = 0; $i < count($responses); $i++)
+        {
+            $this->assertEquals('baz', $responses[$i]);
+        }
+    }
+
     public function tearDown() {
         m::close();
     }

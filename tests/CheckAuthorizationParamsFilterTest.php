@@ -25,11 +25,11 @@ class CheckAuthorizationParamsFilterTest extends TestCase {
     {
         $stub = $this->getStub();
 
-        AuthorizationServer::shouldReceive('getGrantType->checkAuthoriseParams')
+        AuthorizationServer::shouldReceive('checkAuthorizeParams')
                            ->once()
                            ->andReturn($stub);
 
-        Session::shouldReceive('put')->times(6);
+        Session::shouldReceive('put')->once();
 
         $response = $this->getFilter()->filter('','', null);
 
@@ -39,7 +39,7 @@ class CheckAuthorizationParamsFilterTest extends TestCase {
     public function test_with_invalid_valid_params()
     {
 
-        AuthorizationServer::shouldReceive('getGrantType->checkAuthoriseParams')
+        AuthorizationServer::shouldReceive('checkAuthorizeParams')
                            ->once()
                            ->andThrow(new \League\OAuth2\Server\Exception\ClientException('Invalid Request'));
 
@@ -52,7 +52,7 @@ class CheckAuthorizationParamsFilterTest extends TestCase {
     public function test_with_server_error()
     {
 
-        AuthorizationServer::shouldReceive('getGrantType->checkAuthoriseParams')
+        AuthorizationServer::shouldReceive('checkAuthorizeParams')
                            ->once()
                            ->andThrow(new Exception('Internal Server Error'));
 

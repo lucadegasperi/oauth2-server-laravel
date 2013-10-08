@@ -1,6 +1,7 @@
 <?php namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Support\ServiceProvider;
+use LucaDegasperi\OAuth2Server\Proxies\AuthorizationServerProxy;
 
 class OAuth2ServerServiceProvider extends ServiceProvider {
 
@@ -73,7 +74,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider {
 
 			$server->setAccessTokenTTL($config['access_token_ttl']);
 
-			return $server;
+			return new AuthorizationServerProxy($server);
 
 		});
 

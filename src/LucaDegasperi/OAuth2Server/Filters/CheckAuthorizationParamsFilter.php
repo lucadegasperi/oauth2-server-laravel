@@ -3,6 +3,8 @@
 use AuthorizationServer;
 use Response;
 use Session;
+use League\OAuth2\Server\Exception\ClientException;
+use Exception;
 
 class CheckAuthorizationParamsFilter {
 
@@ -10,17 +12,12 @@ class CheckAuthorizationParamsFilter {
     {
         try {
 
-            $params = AuthorizationServer::getGrantType('authorization_code')->checkAuthoriseParams();
+            $params = AuthorizationServer::checkAuthorizeParams();
 
-            Session::put('client_id', $params['client_id']);
-            Session::put('client_details', $params['client_details']);
-            Session::put('redirect_uri', $params['redirect_uri']);
-            Session::put('response_type', $params['response_type']);
-            Session::put('scopes', $params['scopes']);
-            Session::put('state', $params['state']);
+            Session::put('authorize-params', $params);
 
 
-        } catch (\League\OAuth2\Server\Exception\ClientException $e) {
+        } catch (ClientException $e) {
 
             return Response::json(array(
                 'status' => 400,
@@ -28,7 +25,7 @@ class CheckAuthorizationParamsFilter {
                 'error_message' => $e->getMessage(),
             ), 400);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             return Response::json(array(
                 'status' => 500,

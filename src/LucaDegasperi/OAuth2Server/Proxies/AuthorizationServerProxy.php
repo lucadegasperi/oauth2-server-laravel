@@ -38,9 +38,31 @@ class AuthorizationServerProxy {
         return RedirectUri::make($uri, $params, $queryDelimeter);
     }
 
+    public function makeRedirectWithCode($code, $params = array())
+    {                
+        return $this->makeRedirect($params['redirect_uri'], array(
+            'code'  =>  $code,
+            'state' =>  isset($params['state']) ? $params['state'] : '',
+        ));
+    }
+
+    public function makeRedirectWithError($params = array())
+    {                
+        return $this->makeRedirect($params['redirect_uri'], array(
+            'error' =>  'access_denied',
+            'error_message' =>  $this->authServer->getExceptionMessage('access_denied'),
+            'state' =>  isset($params['state']) ? $params['state'] : ''
+        ));
+    }
+
     public function checkAuthorizeParams()
     {
         return $this->authServer->getGrantType('authorization_code')->checkAuthoriseParams();
+    }
+
+    public function newAuthorizeRequest($owner, $owner_id, $options)
+    {
+        return $this->authServer->getGrantType('authorization_code')->newAuthoriseRequest($owner, $owner_id, $options);
     }
 
     public function performAccessTokenFlow()
@@ -61,7 +83,9 @@ class AuthorizationServerProxy {
             // make this better in order to return the correct headers via the response object
             $headers = $this->authServer->getExceptionHttpHeaders($this->authServer->getExceptionType($e->getCode()));
             foreach ($headers as $header) {
+                // @codeCoverageIgnoreStart
                 header($header);
+                // @codeCoverageIgnoreEnd
             }
 
         } catch (Exception $e) {

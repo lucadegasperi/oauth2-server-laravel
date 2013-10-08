@@ -85,12 +85,7 @@ state=1234567890
 Route::get('/oauth/authorize', array('before' => 'check-authorization-params|auth', function()
 {
     // get the data from the check-authorization-params filter
-    $params['client_id'] = Session::get('client_id');
-    $params['client_details'] = Session::get('client_details');
-    $params['redirect_uri'] = Session::get('redirect_uri');
-    $params['response_type'] = Session::get('response_type');
-    $params['scopes'] = Session::get('scopes');
-    $params['state'] = Session::get('state');
+    $params = Session::get('authorize-params');
 
     // get the user id
     $params['user_id'] = Auth::user()->id;
@@ -104,12 +99,7 @@ Route::get('/oauth/authorize', array('before' => 'check-authorization-params|aut
 Route::post('/oauth/authorize', array('before' => 'check-authorization-params|auth|csrf', function()
 {
     // get the data from the check-authorization-params filter
-    $params['client_id'] = Session::get('client_id');
-    $params['client_details'] = Session::get('client_details');
-    $params['redirect_uri'] = Session::get('redirect_uri');
-    $params['response_type'] = Session::get('response_type');
-    $params['scopes'] = Session::get('scopes');
-    $params['state'] = Session::get('state');
+    $params = Session::get('authorize-params')
 
     // get the user id
     $params['user_id'] = Auth::user()->id;
@@ -117,33 +107,18 @@ Route::post('/oauth/authorize', array('before' => 'check-authorization-params|au
     // check if the user approved or denied the authorization request
     if (Input::get('approve') !== null) {
 
-        $code = AuthorizationServer::getGrantType('authorization_code')->newAuthoriseRequest('user', $params['user_id'], $params);
+        $code = AuthorizationServer::newAuthorizeRequest('user', $params['user_id'], $params);
 
-        // not appropriate
-        Session::flush();
+        Session::forget('authorize-params');
             
-        return Redirect::to(
-            AuthorizationServer::makeRedirect($params['redirect_uri'],
-            array(
-                'code'  =>  $code,
-                'state' =>  isset($params['state']) ? $params['state'] : ''
-            )
-        ));
+        return Redirect::to(AuthorizationServer::makeRedirectWithCode($code, $params));
     }
 
     if (Input::get('deny') !== null) {
 
-        // just for demonstration purposes (you should flush the vars individually)
-        Session::flush();
+        Session::forget('authorize-params');
 
-        return Redirect::to(
-            AuthorizationServer::makeRedirect($params['redirect_uri'],
-            array(
-                'error' =>  'access_denied',
-                'error_message' =>  AuthorizationServer::getExceptionMessage('access_denied'),
-                'state' =>  isset($params['state']) ? $params['state'] : ''
-            )
-        ));
+        return Redirect::to(AuthorizationServer::makeRedirectWithError($params));
     }
 });
 ```

@@ -36,6 +36,35 @@ class AuthorizationServerProxyTest extends TestCase {
         $this->assertEquals('example?', $result);
     }
 
+    public function test_make_redirect_with_code()
+    {
+        $proxy = $this->getProxy($this->getMock());
+
+        $result = $proxy->makeRedirectWithCode('1234567890', array('redirect_uri' => 'example'));
+
+        $this->assertEquals('example?code=1234567890&state=', $result);
+
+        $result = $proxy->makeRedirectWithCode('1234567890', array('redirect_uri' => 'example', 'state' => 'random'));
+
+        $this->assertEquals('example?code=1234567890&state=random', $result);
+    }
+
+    public function test_make_redirect_with_error()
+    {
+        $mock = $this->getMock();
+        $mock->shouldReceive('getExceptionMessage')->twice()->andReturn('error_message');
+
+        $proxy = $this->getProxy($mock);
+
+        $result = $proxy->makeRedirectWithError(array('redirect_uri' => 'example'));
+
+        $this->assertEquals('example?error=access_denied&error_message=error_message&state=', $result);
+
+        $result = $proxy->makeRedirectWithError(array('redirect_uri' => 'example', 'state' => 'random'));
+
+        $this->assertEquals('example?error=access_denied&error_message=error_message&state=random', $result);
+    }
+
     public function test_check_authorize_params()
     {
         $mock = $this->getMock();

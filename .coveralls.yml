@@ -1,5 +1,0 @@
-#.coveralls.yml
-
-repo_token: C3CHnRnyaPen5icheG7CYU1O4EDO9aHfu
-service_name: travis-ci
-coverage_clover: build/logs/clover.xml

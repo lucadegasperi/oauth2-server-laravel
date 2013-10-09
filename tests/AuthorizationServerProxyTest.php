@@ -10,7 +10,7 @@ class AuthorizationServerProxyTest extends TestCase {
         return new AuthorizationServerProxy($mock);
     }
 
-    public function getMock()
+    public function getServer()
     {
         return m::mock('League\OAuth2\Server\Authorization');
     }
@@ -29,7 +29,7 @@ class AuthorizationServerProxyTest extends TestCase {
 
     public function test_make_redirect()
     {
-        $proxy = $this->getProxy($this->getMock());
+        $proxy = $this->getProxy($this->getServer());
 
         $result = $proxy->makeRedirect('example');
 
@@ -38,7 +38,7 @@ class AuthorizationServerProxyTest extends TestCase {
 
     public function test_make_redirect_with_code()
     {
-        $proxy = $this->getProxy($this->getMock());
+        $proxy = $this->getProxy($this->getServer());
 
         $result = $proxy->makeRedirectWithCode('1234567890', array('redirect_uri' => 'example'));
 
@@ -51,7 +51,7 @@ class AuthorizationServerProxyTest extends TestCase {
 
     public function test_make_redirect_with_error()
     {
-        $mock = $this->getMock();
+        $mock = $this->getServer();
         $mock->shouldReceive('getExceptionMessage')->twice()->andReturn('error_message');
 
         $proxy = $this->getProxy($mock);
@@ -67,7 +67,7 @@ class AuthorizationServerProxyTest extends TestCase {
 
     public function test_check_authorize_params()
     {
-        $mock = $this->getMock();
+        $mock = $this->getServer();
         $mock->shouldReceive('getGrantType->checkAuthoriseParams')->andReturn($this->getStub());
 
         $response = $this->getProxy($mock)->checkAuthorizeParams();
@@ -77,7 +77,7 @@ class AuthorizationServerProxyTest extends TestCase {
 
     public function test_access_token_correctly_issued()
     {
-        $mock = $this->getMock();
+        $mock = $this->getServer();
         $mock->shouldReceive('issueAccessToken')->once()->andReturn(array('foo' => 'bar'));
 
         $response = $this->getProxy($mock)->performAccessTokenFlow();
@@ -89,7 +89,7 @@ class AuthorizationServerProxyTest extends TestCase {
 
     public function test_access_token_with_client_error()
     {
-        $mock = $this->getMock();
+        $mock = $this->getServer();
         $mock->shouldReceive('issueAccessToken')->once()->andThrow(new League\OAuth2\Server\Exception\ClientException('client exception'));
         $mock->shouldReceive('getExceptionType')->twice()->andReturn('foo');
         $mock->shouldReceive('getExceptionHttpHeaders')->once()->andReturn(array());
@@ -103,7 +103,7 @@ class AuthorizationServerProxyTest extends TestCase {
 
     public function test_access_token_with_generic_error()
     {
-        $mock = $this->getMock();
+        $mock = $this->getServer();
         $mock->shouldReceive('issueAccessToken')->once()->andThrow(new Exception('internal server error'));
 
         $response = $this->getProxy($mock)->performAccessTokenFlow();
@@ -115,7 +115,7 @@ class AuthorizationServerProxyTest extends TestCase {
 
     public function test_calls_to_underlying_object()
     {
-        $mock = $this->getMock();
+        $mock = $this->getServer();
         $mock->shouldReceive('unexistingMethod')->times(6)->andReturn('baz');
 
         $proxy = $this->getProxy($mock);

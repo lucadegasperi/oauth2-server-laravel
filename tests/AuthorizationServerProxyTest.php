@@ -75,6 +75,16 @@ class AuthorizationServerProxyTest extends TestCase {
         $this->assertEquals($this->getStub(), $response);
     }
 
+    public function test_new_authorize_request()
+    {
+        $mock = $this->getServer();
+        $mock->shouldReceive('getGrantType->newAuthoriseRequest')->andReturn('example_code');
+
+        $response = $this->getProxy($mock)->newAuthorizeRequest('user', 1, $this->getStub());
+
+        $this->assertEquals('example_code', $response);
+    }
+
     public function test_access_token_correctly_issued()
     {
         $mock = $this->getServer();

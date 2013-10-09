@@ -6,7 +6,8 @@ use League\OAuth2\Server\Exception\ClientException;
 use Exception;
 use Response;
 
-class AuthorizationServerProxy {
+class AuthorizationServerProxy
+{
 
     protected $authServer;
 
@@ -39,7 +40,7 @@ class AuthorizationServerProxy {
     }
 
     public function makeRedirectWithCode($code, $params = array())
-    {                
+    {
         return $this->makeRedirect($params['redirect_uri'], array(
             'code'  =>  $code,
             'state' =>  isset($params['state']) ? $params['state'] : '',
@@ -47,7 +48,7 @@ class AuthorizationServerProxy {
     }
 
     public function makeRedirectWithError($params = array())
-    {                
+    {
         return $this->makeRedirect($params['redirect_uri'], array(
             'error' =>  'access_denied',
             'error_message' =>  $this->authServer->getExceptionMessage('access_denied'),
@@ -101,5 +102,4 @@ class AuthorizationServerProxy {
 
         return Response::json($response);
     }
-
 }

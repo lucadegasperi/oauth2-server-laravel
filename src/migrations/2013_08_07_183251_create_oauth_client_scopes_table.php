@@ -3,21 +3,22 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOAuthClientScopesTable extends Migration {
+class CreateOAuthClientScopesTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('oauth_client_scopes', function(Blueprint $table) {
-			$table->increments('id');
-			$table->string('client_id', 40);
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('oauth_client_scopes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('client_id', 40);
             $table->integer('scope_id')->unsigned();
 
-			$table->foreign('client_id')
+            $table->foreign('client_id')
                     ->references('id')->on('oauth_clients')
                     ->onDelete('cascade');
 
@@ -25,18 +26,17 @@ class CreateOAuthClientScopesTable extends Migration {
                     ->references('id')->on('oauth_scopes')
                     ->onDelete('cascade')
                     ->onUpdate('no action');
-			$table->timestamps();
-		});
-	}
+            $table->timestamps();
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('oauth_client_scopes');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('oauth_client_scopes');
+    }
 }

@@ -6,7 +6,8 @@ use Session;
 use League\OAuth2\Server\Exception\ClientException;
 use Exception;
 
-class CheckAuthorizationParamsFilter {
+class CheckAuthorizationParamsFilter
+{
 
     public function filter($route, $request, $scope = null)
     {

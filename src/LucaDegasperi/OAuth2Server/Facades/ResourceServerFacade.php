@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class ResourceServerFacade extends Facade {
+class ResourceServerFacade extends Facade
+{
 
     /**
      * @codeCoverageIgnore
      */
-    protected static function getFacadeAccessor() { return 'oauth2.resource-server'; }
-
+    protected static function getFacadeAccessor()
+    {
+        return 'oauth2.resource-server';
+    }
 }
-
-

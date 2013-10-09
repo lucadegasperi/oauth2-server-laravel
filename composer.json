@@ -22,7 +22,8 @@
         "phpunit/phpunit": "3.7.22",
         "mockery/mockery": ">=0.7.2",
         "league/phpunit-coverage-listener": "v1.1.2",
-        "orchestra/testbench": "2.0.*"
+        "orchestra/testbench": "2.0.*",
+        "squizlabs/php_codesniffer": "1.*"
     },
     "autoload": {
         "classmap": [

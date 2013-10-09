@@ -3,16 +3,17 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOAuthSessionAuthcodeScopesTable extends Migration {
+class CreateOAuthSessionAuthcodeScopesTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('oauth_session_authcode_scopes', function(Blueprint $table) {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('oauth_session_authcode_scopes', function (Blueprint $table) {
 
             $table->integer('oauth_session_authcode_id')->unsigned();
             $table->integer('scope_id')->unsigned();
@@ -30,16 +31,15 @@ class CreateOAuthSessionAuthcodeScopesTable extends Migration {
                     ->references('id')->on('oauth_session_authcodes')
                     ->onDelete('cascade');
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('oauth_session_authcode_scopes');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('oauth_session_authcode_scopes');
+    }
 }

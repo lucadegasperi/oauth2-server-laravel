@@ -4,14 +4,14 @@ use ResourceServer;
 use Response;
 use Config;
 
-class OAuthFilter {
+class OAuthFilter
+{
 
     public function filter($route, $request, $scope = null)
     {
         try {
             ResourceServer::isValid(Config::get('oauth2-server-laravel::oauth2.http_headers_only'));
-        }
-        catch (\League\OAuth2\Server\Exception\InvalidAccessTokenException $e) {
+        } catch (\League\OAuth2\Server\Exception\InvalidAccessTokenException $e) {
             return Response::json(array(
                 'status' => 403,
                 'error' => 'forbidden',
@@ -19,11 +19,11 @@ class OAuthFilter {
             ), 403);
         }
 
-        if ( ! is_null($scope)) {
+        if (! is_null($scope)) {
             $scopes = explode(',', $scope);
 
             foreach ($scopes as $s) {
-                if ( ! ResourceServer::hasScope($s)) {
+                if (! ResourceServer::hasScope($s)) {
                     return Response::json(array(
                         'status' => 403,
                         'error' => 'forbidden',
@@ -33,5 +33,4 @@ class OAuthFilter {
             }
         }
     }
-
 }

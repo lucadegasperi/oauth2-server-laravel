@@ -4,7 +4,8 @@ use League\OAuth2\Server\Storage\SessionInterface;
 use DB;
 use Carbon\Carbon;
 
-class FluentSession implements SessionInterface {
+class FluentSession implements SessionInterface
+{
 
     public function createSession($clientId, $ownerType, $ownerId)
     {
@@ -161,7 +162,7 @@ class FluentSession implements SessionInterface {
                 ->get();
 
         $toArray = array();
-        foreach($result as $obj) {
+        foreach ($result as $obj) {
             $toArray[] = (array)$obj;
         }
         
@@ -174,5 +175,4 @@ class FluentSession implements SessionInterface {
             ->where('refresh_token', '=', $refreshToken)
             ->delete();
     }
-
 }

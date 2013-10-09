@@ -2,12 +2,14 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class AuthorizationServerFacade extends Facade {
+class AuthorizationServerFacade extends Facade
+{
 
     /**
      * @codeCoverageIgnore
      */
-    protected static function getFacadeAccessor() { return 'oauth2.authorization-server'; }
+    protected static function getFacadeAccessor()
+    {
+        return 'oauth2.authorization-server';
+    }
 }
-
-

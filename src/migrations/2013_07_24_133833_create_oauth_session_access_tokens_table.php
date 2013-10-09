@@ -3,16 +3,17 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOAuthSessionAccessTokensTable extends Migration {
+class CreateOAuthSessionAccessTokensTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('oauth_session_access_tokens', function(Blueprint $table) {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('oauth_session_access_tokens', function (Blueprint $table) {
 
             $table->increments('id');
             $table->integer('session_id')->unsigned();
@@ -29,16 +30,15 @@ class CreateOAuthSessionAccessTokensTable extends Migration {
                     ->onDelete('cascade')
                     ->onUpdate('no action');
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('oauth_session_access_tokens');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('oauth_session_access_tokens');
+    }
 }

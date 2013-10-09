@@ -69,7 +69,7 @@ return array(
         'password' => array(
             'class'            => 'League\OAuth2\Server\Grant\Password',
             'access_token_ttl' => 604800,
-            'callback'         => function($username, $password){
+            'callback'         => function ($username, $password) {
                 
                 return Auth::validate(array(
                     'email'    => $username,

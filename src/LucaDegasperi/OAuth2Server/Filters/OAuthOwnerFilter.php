@@ -3,11 +3,12 @@
 use ResourceServer;
 use Response;
 
-class OAuthOwnerFilter {
+class OAuthOwnerFilter
+{
 
     public function filter($route, $request, $scope = null)
     {
-        if ( ! is_null($scope) and ResourceServer::getOwnerType() !== $scope){
+        if (! is_null($scope) and ResourceServer::getOwnerType() !== $scope) {
             return Response::json(array(
                 'status' => 403,
                 'error' => 'forbidden',
@@ -15,5 +16,4 @@ class OAuthOwnerFilter {
             ), 403);
         }
     }
-
 }

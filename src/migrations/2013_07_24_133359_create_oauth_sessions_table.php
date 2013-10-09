@@ -3,16 +3,17 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOAuthSessionsTable extends Migration {
+class CreateOAuthSessionsTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('oauth_sessions', function(Blueprint $table) {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('oauth_sessions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('client_id', 40);
             $table->enum('owner_type', array('client', 'user'))->default('user');
@@ -26,16 +27,15 @@ class CreateOAuthSessionsTable extends Migration {
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('oauth_sessions');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('oauth_sessions');
+    }
 }

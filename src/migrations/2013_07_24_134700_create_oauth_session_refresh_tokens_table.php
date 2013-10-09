@@ -17,7 +17,7 @@ class CreateOAuthSessionRefreshTokensTable extends Migration {
             $table->integer('session_access_token_id')->unsigned()->primary();
             $table->string('refresh_token', 40);
             $table->integer('refresh_token_expires');
-            $table->integer('client_id')->unsigned();
+            $table->string('client_id', 40);
 
             $table->timestamps();
 

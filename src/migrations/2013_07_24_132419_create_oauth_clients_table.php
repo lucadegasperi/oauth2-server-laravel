@@ -13,12 +13,13 @@ class CreateOAuthClientsTable extends Migration {
 	public function up()
 	{
 		Schema::create('oauth_clients', function(Blueprint $table) {
-            $table->increments('id');
+            $table->string('id', 40);
             $table->string('secret', 40);
             $table->string('name');
             $table->boolean('auto_approve')->default(false);
             $table->timestamps();
 
+            $table->unique('id');
             $table->unique(array('id', 'secret'));
         });
 	}

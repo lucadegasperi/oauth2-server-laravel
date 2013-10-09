@@ -14,7 +14,7 @@ class CreateOAuthClientScopesTable extends Migration {
 	{
 		Schema::create('oauth_client_scopes', function(Blueprint $table) {
 			$table->increments('id');
-			$table->integer('client_id')->unsigned();
+			$table->string('client_id', 40);
             $table->integer('scope_id')->unsigned();
 
 			$table->foreign('client_id')

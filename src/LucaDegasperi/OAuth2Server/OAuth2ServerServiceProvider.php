@@ -38,6 +38,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $app->bind('League\OAuth2\Server\Storage\ClientInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentClient');
         $app->bind('League\OAuth2\Server\Storage\ScopeInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentScope');
         $app->bind('League\OAuth2\Server\Storage\SessionInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
+        $app->bind('LucaDegasperi\OAuth2Server\Repositories\SessionManagementInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
 
         $app['oauth2.authorization-server'] = $app->share(function ($app) {
 
@@ -89,7 +90,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
         $app['oauth2.expired-tokens-command'] = $app->share(function($app)
         {
-            return new Commands\ExpiredTokensCommand();
+            return $app->make('LucaDegasperi\OAuth2Server\Commands\ExpiredTokensCommand');
         });
 
         $this->commands('oauth2.expired-tokens-command');

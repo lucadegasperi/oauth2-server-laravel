@@ -3,10 +3,10 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use LucaDegasperi\Repositories\SessionManagementInterface;
 
 class ExpiredTokensCommand extends Command
 {
-
 	/**
 	 * The console command name.
 	 *
@@ -21,14 +21,19 @@ class ExpiredTokensCommand extends Command
 	 */
 	protected $description = 'A command to delete the OAuth expired tokens';
 
+
+	protected $sessions;
+
 	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(SessionManagementInterface $sessions)
 	{
 		parent::__construct();
+
+		$this->sessions = $sessions;
 	}
 
 	/**
@@ -38,8 +43,14 @@ class ExpiredTokensCommand extends Command
 	 */
 	public function fire()
 	{
-		//
-		var_dump('fails');
+		$value = $this->option('delete');
+		if ($value === true) {
+			$result = $this->deleteExpiredTokens();
+			$this->info('Expired OAuth tokens were deleted');
+		}
+		else {
+			$this->info('use the --delete option to trigger the delete of the expired tokens');
+		}
 	}
 
 	/**
@@ -64,4 +75,8 @@ class ExpiredTokensCommand extends Command
 		);
 	}
 
+	protected function deleteExpiredTokens()
+	{
+		return $this->sessions->deleteExpired();
+	}
 }

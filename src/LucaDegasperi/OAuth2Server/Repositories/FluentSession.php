@@ -182,8 +182,8 @@ class FluentSession implements SessionInterface, SessionManagementInterface
         $expiredSessions = DB::table('oauth_sessions')
                             ->join('oauth_session_access_tokens', 'oauth_session_access_tokens.session_id', '=', 'oauth_sessions.id')
                             ->join('oauth_session_refresh_tokens', 'oauth_session_refresh_tokens.session_access_token_id', '=', 'oauth_session_access_tokens.id')
-                            ->where('oauth_session_refresh_tokens.refresh_token_expires', '<', $time)
-                            ->where('oauth_session_access_tokens.access_token_expires', '<', $time)
+                            //->where('oauth_session_refresh_tokens.refresh_token_expires', '<', $time)
+                            //->where('oauth_session_access_tokens.access_token_expires', '<', $time)
                             ->get();
         var_dump($expiredSessions);
     }

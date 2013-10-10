@@ -46,7 +46,7 @@ class ExpiredTokensCommand extends Command
 		$value = $this->option('delete');
 		if ($value === true) {
 			$result = $this->deleteExpiredTokens();
-			$this->info('Expired OAuth tokens were deleted');
+			$this->info($result . ' expired OAuth tokens were deleted');
 		}
 		else {
 			$this->info('use the --delete option to trigger the delete of the expired tokens');

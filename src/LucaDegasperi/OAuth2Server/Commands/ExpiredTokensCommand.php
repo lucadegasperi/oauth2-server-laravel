@@ -3,7 +3,7 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use LucaDegasperi\Repositories\SessionManagementInterface;
+use LucaDegasperi\OAuth2Server\Repositories\SessionManagementInterface;
 
 class ExpiredTokensCommand extends Command
 {

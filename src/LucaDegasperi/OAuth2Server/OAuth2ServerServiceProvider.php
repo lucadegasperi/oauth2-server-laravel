@@ -88,7 +88,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
         });
 
-        $app['oauth2.expired-tokens-command'] = $app->share(function($app)
+        $app['oauth2.expired-tokens-command'] = $app->share(function ($app)
         {
             return $app->make('LucaDegasperi\OAuth2Server\Commands\ExpiredTokensCommand');
         });

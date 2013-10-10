@@ -190,8 +190,7 @@ class FluentSession implements SessionInterface, SessionManagementInterface
                             ->get();
         if (count($expiredSessions) == 0) {
             return 0;
-        }
-        else {
+        } else {
             foreach ($expiredSessions as $session) {
                 DB::table('oauth_sessions')
                     ->where('id', '=', $session->id)

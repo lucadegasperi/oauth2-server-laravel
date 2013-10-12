@@ -42,7 +42,6 @@ class FluentClient implements ClientInterface
         return array(
             'client_id'     =>  $result->id,
             'client_secret' =>  $result->secret,
-            'auto_approve'  =>  $result->auto_approve,
             'redirect_uri'  =>  (isset($result->redirect_uri)) ? $result->redirect_uri : null,
             'name'          =>  $result->name
         );

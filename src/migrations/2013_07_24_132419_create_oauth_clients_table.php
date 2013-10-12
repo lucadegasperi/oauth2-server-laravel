@@ -17,7 +17,6 @@ class CreateOAuthClientsTable extends Migration
             $table->string('id', 40);
             $table->string('secret', 40);
             $table->string('name');
-            $table->boolean('auto_approve')->default(false);
             $table->timestamps();
 
             $table->unique('id');

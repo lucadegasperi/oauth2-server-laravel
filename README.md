@@ -99,7 +99,7 @@ Route::get('/oauth/authorize', array('before' => 'check-authorization-params|aut
 Route::post('/oauth/authorize', array('before' => 'check-authorization-params|auth|csrf', function()
 {
     // get the data from the check-authorization-params filter
-    $params = Session::get('authorize-params')
+    $params = Session::get('authorize-params');
 
     // get the user id
     $params['user_id'] = Auth::user()->id;

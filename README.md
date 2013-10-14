@@ -120,7 +120,7 @@ Route::post('/oauth/authorize', array('before' => 'check-authorization-params|au
 
         return Redirect::to(AuthorizationServer::makeRedirectWithError($params));
     }
-});
+}));
 ```
 
 If the authorization process is successful the client will be redirected to its ```redirect_uri``` parameter with an authorization code in the query string like in the example below

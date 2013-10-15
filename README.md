@@ -99,7 +99,7 @@ Route::get('/oauth/authorize', array('before' => 'check-authorization-params|aut
 Route::post('/oauth/authorize', array('before' => 'check-authorization-params|auth|csrf', function()
 {
     // get the data from the check-authorization-params filter
-    $params = Session::get('authorize-params')
+    $params = Session::get('authorize-params');
 
     // get the user id
     $params['user_id'] = Auth::user()->id;
@@ -120,7 +120,7 @@ Route::post('/oauth/authorize', array('before' => 'check-authorization-params|au
 
         return Redirect::to(AuthorizationServer::makeRedirectWithError($params));
     }
-});
+}));
 ```
 
 If the authorization process is successful the client will be redirected to its ```redirect_uri``` parameter with an authorization code in the query string like in the example below

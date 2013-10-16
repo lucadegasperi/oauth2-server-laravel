@@ -138,15 +138,19 @@ class FluentSession implements SessionInterface, SessionManagementInterface
 
     public function getScopes($accessToken)
     {
-        $scope_query = DB::table('oauth_session_token_scopes')
+        $scopeResults = DB::table('oauth_session_token_scopes')
+	    	->select('oauth_scopes.*')
             ->join('oauth_session_access_tokens', 'oauth_session_token_scopes.session_access_token_id', '=', 'oauth_session_access_tokens.id')
             ->join('oauth_scopes', 'oauth_session_token_scopes.scope_id', '=', 'oauth_scopes.id')
             ->where('access_token', $accessToken)
             ->get();
         
-		foreach($scope_query as $scope)
+        $scopes = array();
+        
+		foreach($scopeResults as $key=>$scope)
 		{
-			 $scopes[]['scope'] = $scope->scope;
+			$scopes[$key] = get_object_vars($scope);
+	
 		}
 		
         return $scopes;
@@ -164,16 +168,20 @@ class FluentSession implements SessionInterface, SessionManagementInterface
 
     public function getAuthCodeScopes($oauthSessionAuthCodeId)
     {
-        $result = DB::table('oauth_session_authcode_scopes')
+        $scopesResults = DB::table('oauth_session_authcode_scopes')
                 ->where('oauth_session_authcode_id', '=', $oauthSessionAuthCodeId)
                 ->get();
 
-        $toArray = array();
-        foreach ($result as $obj) {
-            $toArray[] = (array)$obj;
-        }
+        $scopes = array();
+
+        foreach($scopesResults as $key=>$scope)
+        {
+			$scopes[$key] = get_object_vars($scope);
+
+		}
         
-        return $toArray;
+        return $scopes;
+        
     }
 
     public function removeRefreshToken($refreshToken)

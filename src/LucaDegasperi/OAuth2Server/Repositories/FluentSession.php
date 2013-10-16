@@ -138,11 +138,18 @@ class FluentSession implements SessionInterface, SessionManagementInterface
 
     public function getScopes($accessToken)
     {
-        return DB::table('oauth_session_token_scopes')
-                ->join('oauth_session_access_tokens', 'oauth_session_token_scopes.session_access_token_id', '=', 'oauth_session_access_tokens.id')
-                ->join('oauth_scopes', 'oauth_session_token_scopes.session_access_token_id', '=', 'oauth_scopes.id')
-                ->where('access_token', $accessToken)
-                ->get();
+        $scope_query = DB::table('oauth_session_token_scopes')
+            ->join('oauth_session_access_tokens', 'oauth_session_token_scopes.session_access_token_id', '=', 'oauth_session_access_tokens.id')
+            ->join('oauth_scopes', 'oauth_session_token_scopes.scope_id', '=', 'oauth_scopes.id')
+            ->where('access_token', $accessToken)
+            ->get();
+        
+		foreach($scope_query as $scope)
+		{
+			 $scopes[]['scope'] = $scope->scope;
+		}
+		
+        return $scopes;
     }
 
     public function associateAuthCodeScope($authCodeId, $scopeId)

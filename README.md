@@ -239,13 +239,13 @@ Route::get('secure-route', array('before' => 'oauth:scope1,scope2', function(){
 An interesting addition is the possibility to limit an endpoint to a specific owner type when using the client credentials grant type. It can be achieved by adding the ```oauth-owner``` before filter to your route.
 
 ```php
-Route::get('secure-route', array('before' => 'oauth:scope1,scope2|oauth-owner:client, function(){
+Route::get('secure-route', array('before' => 'oauth:scope1,scope2|oauth-owner:client', function(){
     return "oauth secured route for clients only";
 }));
 ```
 
 
-The aim of this package is to make working with oauth2 server stuff in Laravel a breeze. You can still access all the undelying power of the league/oauth2-server package via the ```ResourceServer``` facade.
+The aim of this package is to make working with oauth2 server stuff in Laravel a breeze. You can still access all the undelying power of the league/oauth2-server package via the ```ResourceServer``` and ```AuthorizationServer``` facades.
 
 ## Support
 

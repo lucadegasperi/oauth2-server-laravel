@@ -29,7 +29,7 @@ Add this line of code to the ```providers``` array located in your ```app/config
 'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
 ```
 
-And this lines to the ```facades``` array:
+And this lines to the ```aliases``` array:
 ```php
 'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
 'ResourceServer' => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',

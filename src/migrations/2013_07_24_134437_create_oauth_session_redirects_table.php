@@ -36,6 +36,9 @@ class CreateOAuthSessionRedirectsTable extends Migration
      */
     public function down()
     {
+        Schema::table('oauth_session_redirects', function ($table) {
+            $table->dropForeign('oauth_session_redirects_session_id_foreign');
+        });
         Schema::drop('oauth_session_redirects');
     }
 }

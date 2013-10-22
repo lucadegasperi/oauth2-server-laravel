@@ -39,6 +39,9 @@ class CreateOAuthSessionAccessTokensTable extends Migration
      */
     public function down()
     {
+        Schema::table('oauth_session_access_tokens', function ($table) {
+            $table->dropForeign('oauth_session_access_tokens_session_id_foreign');
+        });
         Schema::drop('oauth_session_access_tokens');
     }
 }

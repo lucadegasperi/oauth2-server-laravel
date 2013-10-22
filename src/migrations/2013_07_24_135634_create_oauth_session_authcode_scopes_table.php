@@ -40,6 +40,10 @@ class CreateOAuthSessionAuthcodeScopesTable extends Migration
      */
     public function down()
     {
+        Schema::table('oauth_session_authcode_scopes', function ($table) {
+            $table->dropForeign('oauth_session_authcode_scopes_scope_id_foreign');
+            $table->dropForeign('oauth_session_authcode_scopes_oauth_session_authcode_id_foreign');
+        });
         Schema::drop('oauth_session_authcode_scopes');
     }
 }

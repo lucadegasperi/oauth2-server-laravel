@@ -36,6 +36,10 @@ class CreateOAuthSessionsTable extends Migration
      */
     public function down()
     {
+        Schema::table('oauth_sessions', function ($table) {
+            $table->dropForeign('oauth_sessions_client_id_foreign');
+        });
+        
         Schema::drop('oauth_sessions');
     }
 }

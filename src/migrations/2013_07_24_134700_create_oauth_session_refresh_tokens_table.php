@@ -44,6 +44,10 @@ class CreateOAuthSessionRefreshTokensTable extends Migration
      */
     public function down()
     {
+        Schema::table('oauth_session_refresh_tokens', function ($table) {
+            $table->dropForeign('oauth_session_refresh_tokens_client_id_foreign');
+            $table->dropForeign('oauth_session_refresh_tokens_session_access_token_id_foreign');
+        });
         Schema::drop('oauth_session_refresh_tokens');
     }
 }

@@ -37,6 +37,10 @@ class CreateOAuthClientScopesTable extends Migration
      */
     public function down()
     {
+        Schema::table('oauth_client_scopes', function ($table) {
+            $table->dropForeign('oauth_client_scopes_client_id_foreign');
+            $table->dropForeign('oauth_client_scopes_scope_id_foreign');
+        });
         Schema::drop('oauth_client_scopes');
     }
 }

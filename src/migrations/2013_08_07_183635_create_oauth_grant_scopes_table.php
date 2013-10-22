@@ -38,6 +38,10 @@ class CreateOAuthGrantScopesTable extends Migration
      */
     public function down()
     {
+        Schema::table('oauth_grant_scopes', function ($table) {
+            $table->dropForeign('oauth_grant_scopes_grant_id_foreign');
+            $table->dropForeign('oauth_grant_scopes_scope_id_foreign');
+        });
         Schema::drop('oauth_grant_scopes');
     }
 }

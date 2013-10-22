@@ -35,6 +35,10 @@ class CreateOAuthClientEndpointsTable extends Migration
      */
     public function down()
     {
+        Schema::table('oauth_client_endpoints', function ($table) {
+            $table->dropForeign('oauth_client_endpoints_client_id_foreign');
+        });
+        
         Schema::drop('oauth_client_endpoints');
     }
 }

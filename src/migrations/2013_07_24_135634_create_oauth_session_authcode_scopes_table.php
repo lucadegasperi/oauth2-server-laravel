@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOAuthSessionAuthcodeScopesTable extends Migration
+class CreateOauthSessionAuthcodeScopesTable extends Migration
 {
 
     /**

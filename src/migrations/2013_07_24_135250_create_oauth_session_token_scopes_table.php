@@ -21,7 +21,7 @@ class CreateOAuthSessionTokenScopesTable extends Migration
 
             $table->timestamps();
 
-            $table->unique(array('session_access_token_id', 'scope_id'));
+            $table->unique(array('session_access_token_id', 'scope_id'), 'oauth_session_token_scopes_satid_sid_unique');
 
             $table->index('scope_id');
 

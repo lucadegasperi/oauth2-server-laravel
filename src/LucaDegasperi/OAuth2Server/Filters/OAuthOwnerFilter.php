@@ -5,7 +5,14 @@ use Response;
 
 class OAuthOwnerFilter
 {
-
+    /**
+     * Run the oauth owner filter
+     *
+     * @param Route $route the route being called
+     * @param Request $request the request object
+     * @param string $scope the allowed owners (comma separated)
+     * @return Response|null a bad response in case the owner is not authorized
+     */
     public function filter($route, $request, $scope = null)
     {
         if (! is_null($scope) and ResourceServer::getOwnerType() !== $scope) {

@@ -8,14 +8,29 @@ use Response;
 
 class AuthorizationServerProxy
 {
-
+    /**
+     * The OAuth authorization server
+     * @var [type]
+     */
     protected $authServer;
 
+    /**
+     * Create a new AuthorizationServerProxy
+     * 
+     * @param Authorization $authServer the OAuth Authorization Server to use
+     */
     public function __construct(Authorization $authServer)
     {
         $this->authServer = $authServer;
     }
 
+    /**
+     * Pass the method call to the underlying Authorization Server
+     * 
+     * @param  string $method the method being called
+     * @param  array|null $args the arguments of the method being called
+     * @return mixed the underlying method retuned value
+     */
     public function __call($method, $args)
     {
         switch (count($args)) {
@@ -34,11 +49,25 @@ class AuthorizationServerProxy
         }
     }
 
+    /**
+     * Make a redirect to a client redirect URI
+     * @param  string $uri            the uri to redirect to
+     * @param  array  $params         the query string parameters
+     * @param  string $queryDelimeter the query string delimiter
+     * @return Redirect               a Redirect object
+     */
     public function makeRedirect($uri, $params = array(), $queryDelimeter = '?')
     {
         return RedirectUri::make($uri, $params, $queryDelimeter);
     }
 
+    /**
+     * Make a redirect with an authorization code
+     * 
+     * @param  string $code   the authorization code of the redirection
+     * @param  array  $params the redirection parameters
+     * @return Redirect       a Redirect object
+     */
     public function makeRedirectWithCode($code, $params = array())
     {
         return $this->makeRedirect($params['redirect_uri'], array(
@@ -47,6 +76,12 @@ class AuthorizationServerProxy
         ));
     }
 
+    /**
+     * Make a redirect with an error
+     * 
+     * @param  array  $params the redirection parameters
+     * @return Redirect       a Redirect object
+     */
     public function makeRedirectWithError($params = array())
     {
         return $this->makeRedirect($params['redirect_uri'], array(
@@ -56,16 +91,34 @@ class AuthorizationServerProxy
         ));
     }
 
+    /**
+     * Check the authorization code request parameters
+     * 
+     * @throws \OAuth2\Exception\ClientException
+     * @return array Authorize request parameters
+     */
     public function checkAuthorizeParams()
     {
         return $this->authServer->getGrantType('authorization_code')->checkAuthoriseParams();
     }
 
+    /**
+     * Authorize a new client
+     * @param  string $owner    The owner type
+     * @param  string $owner_id The owner id
+     * @param  array  $options  Additional options to issue an authorization code
+     * @return string           An authorization code
+     */
     public function newAuthorizeRequest($owner, $owner_id, $options)
     {
         return $this->authServer->getGrantType('authorization_code')->newAuthoriseRequest($owner, $owner_id, $options);
     }
 
+    /**
+     * Perform the access token flow
+     * 
+     * @return Response the appropriate response object
+     */
     public function performAccessTokenFlow()
     {
         try {

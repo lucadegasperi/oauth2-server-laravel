@@ -9,6 +9,14 @@ use Exception;
 class CheckAuthorizationParamsFilter
 {
 
+    /**
+     * Run the check authorization params filter
+     *
+     * @param Route $route the route being called
+     * @param Request $request the request object
+     * @param string $scope additional filter arguments
+     * @return Response|null a bad response in case the params are invalid
+     */
     public function filter($route, $request, $scope = null)
     {
         try {

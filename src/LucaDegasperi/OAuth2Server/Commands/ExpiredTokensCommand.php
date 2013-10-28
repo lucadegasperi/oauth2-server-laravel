@@ -27,6 +27,7 @@ class ExpiredTokensCommand extends Command
     /**
      * Create a new command instance.
      *
+     * @param SessionManagementInterface $sessions an implementation of the session management interface
      * @return void
      */
     public function __construct(SessionManagementInterface $sessions)
@@ -74,6 +75,11 @@ class ExpiredTokensCommand extends Command
         );
     }
 
+    /**
+     * Deletes the sessions with expired authorization and refresh tokens from the db
+     * 
+     * @return int the number of sessions deleted
+     */
     protected function deleteExpiredTokens()
     {
         return $this->sessions->deleteExpired();

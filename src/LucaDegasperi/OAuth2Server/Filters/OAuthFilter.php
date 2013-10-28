@@ -7,6 +7,14 @@ use Config;
 class OAuthFilter
 {
 
+    /**
+     * Run the oauth filter
+     *
+     * @param Route $route the route being called
+     * @param Request $request the request object
+     * @param string $scope additional filter arguments
+     * @return Response|null a bad response in case the request is invalid
+     */
     public function filter($route, $request, $scope = null)
     {
         try {

@@ -5,6 +5,7 @@ use League\OAuth2\Server\Util\RedirectUri;
 use League\OAuth2\Server\Exception\ClientException;
 use Exception;
 use Response;
+use Input;
 
 class AuthorizationServerProxy
 {
@@ -123,8 +124,11 @@ class AuthorizationServerProxy
     {
         try {
 
+            // Get user input
+            $input = Input::all();
+
             // Tell the auth server to issue an access token
-            $response = $this->authServer->issueAccessToken();
+            $response = $this->authServer->issueAccessToken($input);
 
         } catch (ClientException $e) {
 

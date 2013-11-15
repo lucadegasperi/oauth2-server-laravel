@@ -39,15 +39,7 @@ class FluentClient implements ClientInterface
             return false;
         }
 
-
-
-        $rawMetadata = DB::table('oauth_client_metadata')->where('client_id', '=', $result->id)->get();
-
-        $metadata = array();
-
-        foreach ($rawMetadata as $meta) {
-            $metadata[$meta->key] = $meta->value;
-        }
+        $metadata = DB::table('oauth_client_metadata')->where('client_id', '=', $result->id)->lists('value', 'key');
 
         return array(
             'client_id'     =>  $result->id,

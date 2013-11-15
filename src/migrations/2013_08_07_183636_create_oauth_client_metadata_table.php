@@ -15,7 +15,7 @@ class CreateOauthClientMetadataTable extends Migration
     {
         Schema::create('oauth_client_metadata', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('client_id')->unsigned();
+            $table->string('client_id', 40);
             $table->string('key', 40);
             $table->string('value');
             $table->timestamps();
@@ -24,7 +24,7 @@ class CreateOauthClientMetadataTable extends Migration
                     ->references('id')->on('oauth_clients')
                     ->onDelete('cascade');
 
-            $table->unique(array('client_id', 'key'));
+            $table->unique(array('client_id', 'key'), 'oauth_client_metadata_cid_key_unique');
             $table->index('client_id');
             
         });

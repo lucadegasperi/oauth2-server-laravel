@@ -201,7 +201,7 @@ class FluentSession implements SessionInterface, SessionManagementInterface
                             ->where('oauth_session_access_tokens.access_token_expires', '<', $time)
                             ->where(function ($query) use ($time) {
                                 $query->where('oauth_session_refresh_tokens.refresh_token_expires', '<', $time)
-                                      ->orWhereRaw('oauth_session_refresh_tokens.refresh_token_expires IS NULL');
+                                      ->orWhereNull('oauth_session_refresh_tokens.refresh_token_expires');
                             })
                             ->get();
         if (count($expiredSessions) == 0) {

@@ -100,7 +100,8 @@ class AuthorizationServerProxy
      */
     public function checkAuthorizeParams()
     {
-        return $this->authServer->getGrantType('authorization_code')->checkAuthoriseParams();
+        $input = Input::all();
+        return $this->authServer->getGrantType('authorization_code')->checkAuthoriseParams($input);
     }
 
     /**

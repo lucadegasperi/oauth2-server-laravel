@@ -9,6 +9,8 @@ class FluentClient implements ClientInterface
 
     public function getClient($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
+        $query = null;
+        
         if (! is_null($redirectUri) && is_null($clientSecret)) {
             $query = DB::table('oauth_clients')
                         ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
@@ -39,11 +41,14 @@ class FluentClient implements ClientInterface
             return false;
         }
 
+        $metadata = DB::table('oauth_client_metadata')->where('client_id', '=', $result->id)->lists('value', 'key');
+
         return array(
             'client_id'     =>  $result->id,
             'client_secret' =>  $result->secret,
             'redirect_uri'  =>  (isset($result->redirect_uri)) ? $result->redirect_uri : null,
-            'name'          =>  $result->name
+            'name'          =>  $result->name,
+            'metadata'      =>  $metadata
         );
     }
 }

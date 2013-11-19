@@ -44,7 +44,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             $server = $app->make('League\OAuth2\Server\Authorization');
 
-            $config = $app['config']->get('oauth2-server-laravel::oauth2');
+            $config = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2');
 
             // add the supported grant types to the authorization server
             foreach ($config['grant_types'] as $grantKey => $grantValue) {

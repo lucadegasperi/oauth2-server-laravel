@@ -101,13 +101,13 @@ class AuthorizationServerProxyTest extends TestCase {
     {
         $mock = $this->getServer();
         $mock->shouldReceive('issueAccessToken')->once()->andThrow(new League\OAuth2\Server\Exception\ClientException('client exception'));
-        $mock->shouldReceive('getExceptionType')->twice()->andReturn('foo');
+        $mock->shouldReceive('getExceptionType')->twice()->andReturn('invalid_request');
         $mock->shouldReceive('getExceptionHttpHeaders')->once()->andReturn(array());
 
         $response = $this->getProxy($mock)->performAccessTokenFlow();
 
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
-        $this->assertTrue($response->isOk());
+        $this->assertFalse($response->isOk());
         
     }
 

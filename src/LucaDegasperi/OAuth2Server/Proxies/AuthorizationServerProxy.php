@@ -16,6 +16,30 @@ class AuthorizationServerProxy
     protected $authServer;
 
     /**
+     * Exception error HTTP status codes
+     * @var array
+     *
+     * RFC 6749, section 4.1.2.1.:
+     * No 503 status code for 'temporarily_unavailable', because
+     * "a 503 Service Unavailable HTTP status code cannot be
+     * returned to the client via an HTTP redirect"
+     */
+    protected static $exceptionHttpStatusCodes = array(
+        'invalid_request'           =>  400,
+        'unauthorized_client'       =>  400,
+        'access_denied'             =>  401,
+        'unsupported_response_type' =>  400,
+        'invalid_scope'             =>  400,
+        'server_error'              =>  500,
+        'temporarily_unavailable'   =>  400,
+        'unsupported_grant_type'    =>  501,
+        'invalid_client'            =>  401,
+        'invalid_grant'             =>  400,
+        'invalid_credentials'       =>  400,
+        'invalid_refresh'           =>  400,
+    );
+
+    /**
      * Create a new AuthorizationServerProxy
      * 
      * @param Authorization $authServer the OAuth Authorization Server to use
@@ -100,7 +124,8 @@ class AuthorizationServerProxy
      */
     public function checkAuthorizeParams()
     {
-        return $this->authServer->getGrantType('authorization_code')->checkAuthoriseParams();
+        $input = Input::all();
+        return $this->authServer->getGrantType('authorization_code')->checkAuthoriseParams($input);
     }
 
     /**
@@ -139,12 +164,9 @@ class AuthorizationServerProxy
             );
 
             // make this better in order to return the correct headers via the response object
-            $headers = $this->authServer->getExceptionHttpHeaders($this->authServer->getExceptionType($e->getCode()));
-            foreach ($headers as $header) {
-                // @codeCoverageIgnoreStart
-                header($header);
-                // @codeCoverageIgnoreEnd
-            }
+            $error = $this->authServer->getExceptionType($e->getCode());
+            $headers = $this->authServer->getExceptionHttpHeaders($error);
+            return Response::json($response, self::$exceptionHttpStatusCodes[$error], $headers);
 
         } catch (Exception $e) {
 

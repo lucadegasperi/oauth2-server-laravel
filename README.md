@@ -21,7 +21,7 @@ php artisan package:install lucadegasperi/oauth2-server-laravel
 alternatively, you can manually install the package via composer. add the following line to your composer.json file:
 
 ```javascript
-"lucadegasperi/oauth2-server-laravel": "dev-master"
+"lucadegasperi/oauth2-server-laravel": "1.0.x"
 ```
 
 Add this line of code to the ```providers``` array located in your ```app/config/app.php``` file:

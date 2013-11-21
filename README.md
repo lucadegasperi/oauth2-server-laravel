@@ -150,10 +150,18 @@ This grant type is the easiest to use and is ideal for highly trusted clients. T
     'access_token_ttl' => 604800,
     'callback'         => function($username, $password){
         
-        return Auth::validate(array(
-            'email'    => $username,
+        $credentials = array(
+            'email' => $username,
             'password' => $password,
-        ));
+        );
+
+        $valid = Auth::validate($credentials);
+
+        if (!$valid) {
+            return false;
+        }
+
+        return Auth::getProvider()->retrieveByCredentials($credentials)->id;
     }
 ),
 ```

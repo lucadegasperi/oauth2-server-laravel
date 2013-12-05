@@ -38,7 +38,7 @@ class CreateOauthClientMetadataTable extends Migration
     public function down()
     {
         Schema::table('oauth_client_metadata', function ($table) {
-            $table->dropForeign('oauth_grant_scopes_client_id_foreign');
+            $table->dropForeign('oauth_client_metadata_client_id_foreign');
         });
         Schema::drop('oauth_client_metadata');
     }

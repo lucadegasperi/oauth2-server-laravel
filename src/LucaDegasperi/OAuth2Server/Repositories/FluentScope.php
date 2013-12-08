@@ -10,6 +10,7 @@ class FluentScope implements ScopeInterface
     public function getScope($scope, $clientId = null, $grantType = null)
     {
          $query = DB::table('oauth_scopes')
+                    ->select('oauth_scopes.id as id', 'oauth_scopes.scope as scope', 'oauth_scopes.name as name', 'oauth_scopes.description as description')
                     ->where('oauth_scopes.scope', $scope);
 
         if (Config::get('lucadegasperi/oauth2-server-laravel::oauth2.limit_clients_to_scopes') === true and ! is_null($clientId)) {

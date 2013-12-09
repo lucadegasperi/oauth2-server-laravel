@@ -252,6 +252,12 @@ Route::get('secure-route', array('before' => 'oauth:scope1,scope2|oauth-owner:cl
 }));
 ```
 
+## Accessing the API
+
+To access any api route, after issuing a token you must pass it as a parameter to the api call:
+
+```http://www.example.com/secure-route?access_token= 'valid_token'```
+
 ## Getting the token owner ID and type
 
 When accessing your API with an access token, you might want to know who's the owner of that token. The server makes it trivial.

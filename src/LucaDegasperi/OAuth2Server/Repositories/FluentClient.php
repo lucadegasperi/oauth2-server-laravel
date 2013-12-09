@@ -2,10 +2,24 @@
 
 use League\OAuth2\Server\Storage\ClientInterface;
 use DB;
-use Config;
 
 class FluentClient implements ClientInterface
 {
+    protected $limitClientsToGrants = false;
+
+    public function __construct($limitClientsToGrants) {
+        $this->limitClientsToGrants = $limitClientsToGrants;
+    }
+
+    public function areClientsLimitedToGrants()
+    {
+        return $this->limitClientsToGrants;
+    }
+
+    public function limitClientsToGrants($limit = false)
+    {
+        $this->limitClientsToGrants = $limit;
+    }
 
     public function getClient($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
@@ -28,7 +42,7 @@ class FluentClient implements ClientInterface
                         ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
         }
 
-        if (Config::get('lucadegasperi/oauth2-server-laravel::oauth2.limit_clients_to_grants') === true and ! is_null($grantType)) {
+        if ($this->limitClientsToGrants === true and ! is_null($grantType)) {
             $query = $query->join('oauth_client_grants', 'oauth_clients.id', '=', 'oauth_client_grants.client_id')
                            ->join('oauth_grants', 'oauth_grants.id', '=', 'oauth_client_grants.grant_id')
                            ->where('oauth_grants.grant', $grantType);

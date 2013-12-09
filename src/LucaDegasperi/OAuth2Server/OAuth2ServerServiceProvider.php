@@ -2,6 +2,9 @@
 
 use Illuminate\Support\ServiceProvider;
 use LucaDegasperi\OAuth2Server\Proxies\AuthorizationServerProxy;
+use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
+use LucaDegasperi\OAuth2Server\Repositories\FluentClient;
+use LucaDegasperi\OAuth2Server\Repositories\FluentScope;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -32,13 +35,63 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // let's bind the interfaces to the implementations
+        $this->registerRepositoryBindings();
+
+        $this->registerInterfaceBindings();
+
+        $this->registerAuthorizationServer();
+        
+        $this->registerResourceServer();
+
+        $this->registerFilterBindings();
+        
+        $this->registerExpiredTokensCommand();
+    }
+
+    /**
+     * Bind the repositories to the IoC container
+     * @return void
+     */
+    public function registerRepositoryBindings()
+    {
+        $app = $this->app;
+
+        $app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentClient', function ($app) {
+
+            $limitClientsToGrants = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2.limit_clients_to_grants');
+            return new FluentClient($limitClientsToGrants);
+        });
+
+        $app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentScope', function ($app) {
+
+            $limitClientsToScopes = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2.limit_clients_to_scopes');
+            $limitScopesToGrants = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2.limit_scopes_to_grants');
+
+            return new FluentScope($limitClientsToScopes, $limitScopesToGrants);
+        });
+    }
+
+    /**
+     * Bind the interfaces to their implementations
+     * @return void
+     */
+    public function registerInterfaceBindings()
+    {
         $app = $this->app;
 
         $app->bind('League\OAuth2\Server\Storage\ClientInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentClient');
         $app->bind('League\OAuth2\Server\Storage\ScopeInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentScope');
         $app->bind('League\OAuth2\Server\Storage\SessionInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
         $app->bind('LucaDegasperi\OAuth2Server\Repositories\SessionManagementInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
+    }
+
+    /**
+     * Register the Authorization server with the IoC container
+     * @return void
+     */
+    public function registerAuthorizationServer()
+    {
+        $app = $this->app;
 
         $app['oauth2.authorization-server'] = $app->share(function ($app) {
 
@@ -79,6 +132,15 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             return new AuthorizationServerProxy($server);
 
         });
+    }
+
+    /**
+     * Register the ResourceServer with the IoC container
+     * @return void
+     */
+    public function registerResourceServer()
+    {
+        $app = $this->app;
 
         $app['oauth2.resource-server'] = $app->share(function ($app) {
 
@@ -87,6 +149,30 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             return $server;
 
         });
+    }
+
+    /**
+     * Register the Filters to the IoC container because some filters need additional parameters
+     * @return void
+     */
+    public function registerFilterBindings()
+    {
+        $app = $this->app;
+
+        $app->bind('LucaDegasperi\OAuth2Server\Filters\OAuthFilter', function ($app) {
+            $httpHeadersOnly = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2.http_headers_only');
+
+            return new OAuthFilter($httpHeadersOnly);
+        });
+    }
+
+    /**
+     * Register the expired token commands to artisan
+     * @return void
+     */
+    public function registerExpiredTokensCommand()
+    {
+        $app = $this->app;
 
         $app['oauth2.expired-tokens-command'] = $app->share(function ($app) {
             return $app->make('LucaDegasperi\OAuth2Server\Commands\ExpiredTokensCommand');

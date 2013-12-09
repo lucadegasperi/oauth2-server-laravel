@@ -2,10 +2,26 @@
 
 use ResourceServer;
 use Response;
-use Config;
+use League\OAuth2\Server\Exception\InvalidAccessTokenException;
 
 class OAuthFilter
 {
+    protected $httpHeadersOnly = false;
+
+    public function __construct($httpHeadersOnly = false)
+    {
+        $this->httpHeadersOnly = $httpHeadersOnly;
+    }
+
+    public function isHttpHeadersOnly()
+    {
+        return $this->httpHeadersOnly;
+    }
+
+    public function setHttpHeadersOnly($httpHeadersOnly)
+    {
+        $this->httpHeadersOnly = $httpHeadersOnly;
+    }
 
     /**
      * Run the oauth filter
@@ -18,8 +34,8 @@ class OAuthFilter
     public function filter($route, $request, $scope = null)
     {
         try {
-            ResourceServer::isValid(Config::get('lucadegasperi/oauth2-server-laravel::oauth2.http_headers_only'));
-        } catch (\League\OAuth2\Server\Exception\InvalidAccessTokenException $e) {
+            ResourceServer::isValid($this->httpHeadersOnly);
+        } catch (InvalidAccessTokenException $e) {
             return Response::json(array(
                 'status' => 403,
                 'error' => 'forbidden',

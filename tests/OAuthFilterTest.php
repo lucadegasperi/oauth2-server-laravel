@@ -6,7 +6,7 @@ class OAuthFilterTest extends TestCase {
 
     public function getFilter()
     {
-        return new LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
+        return $this->app->make('LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
     }
 
     public function test_valid_filter_with_no_scope()
@@ -47,6 +47,20 @@ class OAuthFilterTest extends TestCase {
         $response = $this->getFilter()->filter('', '', 'scope1,scope2');
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
         $this->assertTrue($response->isForbidden());
+    }
+
+    public function test_http_headers_only_property_is_set()
+    {
+        $filter = $this->getFilter();
+
+        $filter->setHttpHeadersOnly(true);
+
+        $this->assertTrue($filter->isHttpHeadersOnly());
+
+        $filter->setHttpHeadersOnly(false);
+
+        $this->assertFalse($filter->isHttpHeadersOnly());
+
     }
 
     public function tearDown() {

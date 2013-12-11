@@ -36,6 +36,32 @@ class FluentScope implements ScopeInterface
     }
 
 
+    /**
+     * Return information about a scope
+     *
+     * Example SQL query:
+     *
+     * <code>
+     * SELECT * FROM oauth_scopes WHERE scope = :scope
+     * </code>
+     *
+     * Response:
+     *
+     * <code>
+     * Array
+     * (
+     *     [id] => (int) The scope's ID
+     *     [scope] => (string) The scope itself
+     *     [name] => (string) The scope's name
+     *     [description] => (string) The scope's description
+     * )
+     * </code>
+     *
+     * @param  string     $scope     The scope
+     * @param  string     $clientId  The client ID (default = "null")
+     * @param  string     $grantType The grant type used in the request (default = "null")
+     * @return bool|array If the scope doesn't exist return false
+     */
     public function getScope($scope, $clientId = null, $grantType = null)
     {
          $query = DB::table('oauth_scopes')

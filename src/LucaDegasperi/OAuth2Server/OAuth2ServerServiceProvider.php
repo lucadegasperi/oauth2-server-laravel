@@ -190,9 +190,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Get the services provided by the provider.
      *
      * @return array
+     * @codeCoverageIgnore
      */
     public function provides()
     {
+
         return array('oauth2.authorization-server', 'oauth2.resource-server');
     }
 }

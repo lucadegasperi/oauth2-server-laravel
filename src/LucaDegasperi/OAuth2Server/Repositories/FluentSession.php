@@ -83,7 +83,7 @@ class FluentSession implements SessionInterface, SessionManagementInterface
     public function validateAuthCode($clientId, $redirectUri, $authCode)
     {
         $result = DB::table('oauth_sessions')
-                    ->select(array('oauth_sessions.id as session_id', 'oauth_session_authcodes.id as authcode_id'))
+                    ->select('oauth_sessions.id as session_id', 'oauth_session_authcodes.id as authcode_id')
                     ->join('oauth_session_authcodes', 'oauth_sessions.id', '=', 'oauth_session_authcodes.session_id')
                     ->join('oauth_session_redirects', 'oauth_sessions.id', '=', 'oauth_session_redirects.session_id')
                     ->where('oauth_sessions.client_id', $clientId)
@@ -98,7 +98,10 @@ class FluentSession implements SessionInterface, SessionManagementInterface
     public function validateAccessToken($accessToken)
     {
         $result = DB::table('oauth_session_access_tokens')
-                    ->select('oauth_sessions.*')
+                    ->select('oauth_session_access_tokens.session_id as session_id',
+                            'oauth_sessions.client_id as client_id',
+                            'oauth_sessions.owner_id as owner_id',
+                            'oauth_sessions.owner_type as owner_type')
                     ->join('oauth_sessions', 'oauth_session_access_tokens.session_id', '=', 'oauth_sessions.id')
                     ->where('access_token', $accessToken)
                     ->where('access_token_expires', '>=', time())

@@ -173,7 +173,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
     /**
      * Register the expired token commands to artisan
+     * 
      * @return void
+     * @codeCoverageIgnore
      */
     public function registerExpiredTokensCommand()
     {

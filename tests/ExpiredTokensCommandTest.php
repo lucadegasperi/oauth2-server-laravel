@@ -13,7 +13,7 @@ class ExpiredTokensCommandTest extends TestCase
 
     public function getCommand($session)
     {
-        return $this->app['oauth2.expired-tokens-command'];
+        return new ExpiredTokensCommand($session);
     }
 
     public function testFiresWithDeleteOption()

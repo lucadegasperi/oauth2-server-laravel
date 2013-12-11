@@ -5,6 +5,7 @@ use LucaDegasperi\OAuth2Server\Proxies\AuthorizationServerProxy;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Repositories\FluentClient;
 use LucaDegasperi\OAuth2Server\Repositories\FluentScope;
+use LucaDegasperi\OAuth2Server\Util\LaravelRequest;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -129,6 +130,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             $server->setAccessTokenTTL($config['access_token_ttl']);
 
+            $server->setRequest(new LaravelRequest());
+
             return new AuthorizationServerProxy($server);
 
         });
@@ -145,6 +148,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $app['oauth2.resource-server'] = $app->share(function ($app) {
 
             $server = $app->make('League\OAuth2\Server\Resource');
+
+            $server->setRequest(new LaravelRequest());
 
             return $server;
 

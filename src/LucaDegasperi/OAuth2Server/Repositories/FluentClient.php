@@ -27,15 +27,29 @@ class FluentClient implements ClientInterface
         
         if (! is_null($redirectUri) && is_null($clientSecret)) {
             $query = DB::table('oauth_clients')
+                        ->select(
+                            'oauth_clients.id as id',
+                            'oauth_clients.secret as secret',
+                            'oauth_client_endpoints.redirect_uri as redirect_uri',
+                            'oauth_clients.name as name')
                         ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
                         ->where('oauth_clients.id', $clientId)
                         ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
         } elseif (! is_null($clientSecret) && is_null($redirectUri)) {
             $query = DB::table('oauth_clients')
+                        ->select(
+                            'oauth_clients.id as id',
+                            'oauth_clients.secret as secret',
+                            'oauth_clients.name as name')
                         ->where('oauth_clients.id', $clientId)
                         ->where('oauth_clients.secret', $clientSecret);
         } elseif (! is_null($clientSecret) && ! is_null($redirectUri)) {
             $query = DB::table('oauth_clients')
+                        ->select(
+                            'oauth_clients.id as id',
+                            'oauth_clients.secret as secret',
+                            'oauth_client_endpoints.redirect_uri as redirect_uri',
+                            'oauth_clients.name as name')
                         ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
                         ->where('oauth_clients.id', $clientId)
                         ->where('oauth_clients.secret', $clientSecret)

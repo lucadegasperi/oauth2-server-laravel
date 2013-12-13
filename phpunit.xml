@@ -24,7 +24,6 @@
                 <directory>./src/config</directory>
                 <directory>./src/lang</directory>
                 <directory>./src/views</directory>
-                <directory>./src/LucaDegasperi/OAuth2Server/Repositories</directory>
                 <directory>./composer</directory>
                 <directory>./tests</directory>
                 <directory>./travis</directory>

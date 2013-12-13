@@ -7,7 +7,7 @@ class FluentClient implements ClientInterface
 {
     protected $limitClientsToGrants = false;
 
-    public function __construct($limitClientsToGrants) {
+    public function __construct($limitClientsToGrants = false) {
         $this->limitClientsToGrants = $limitClientsToGrants;
     }
 

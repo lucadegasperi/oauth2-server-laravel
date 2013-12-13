@@ -24,7 +24,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('lucadegasperi/oauth2-server-laravel', 'lucadegasperi/oauth2-server-laravel');
+        $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel');
 
         require_once __DIR__.'/../../filters.php';
     }
@@ -59,14 +59,14 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
         $app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentClient', function ($app) {
 
-            $limitClientsToGrants = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2.limit_clients_to_grants');
+            $limitClientsToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_grants');
             return new FluentClient($limitClientsToGrants);
         });
 
         $app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentScope', function ($app) {
 
-            $limitClientsToScopes = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2.limit_clients_to_scopes');
-            $limitScopesToGrants = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2.limit_scopes_to_grants');
+            $limitClientsToScopes = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_scopes');
+            $limitScopesToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_scopes_to_grants');
 
             return new FluentScope($limitClientsToScopes, $limitScopesToGrants);
         });
@@ -98,7 +98,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             $server = $app->make('League\OAuth2\Server\Authorization');
 
-            $config = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2');
+            $config = $app['config']->get('oauth2-server-laravel::oauth2');
 
             // add the supported grant types to the authorization server
             foreach ($config['grant_types'] as $grantKey => $grantValue) {
@@ -165,7 +165,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $app = $this->app;
 
         $app->bind('LucaDegasperi\OAuth2Server\Filters\OAuthFilter', function ($app) {
-            $httpHeadersOnly = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2.http_headers_only');
+            $httpHeadersOnly = $app['config']->get('oauth2-server-laravel::oauth2.http_headers_only');
 
             return new OAuthFilter($httpHeadersOnly);
         });

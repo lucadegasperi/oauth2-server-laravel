@@ -98,7 +98,7 @@ class FluentSession implements SessionInterface, SessionManagementInterface
     public function validateAccessToken($accessToken)
     {
         $result = DB::table('oauth_session_access_tokens')
-                    ->select('oauth_sessions.*')
+                    ->select('oauth_session_access_tokens.session_id', 'oauth_sessions.*')
                     ->join('oauth_sessions', 'oauth_session_access_tokens.session_id', '=', 'oauth_sessions.id')
                     ->where('access_token', $accessToken)
                     ->where('access_token_expires', '>=', time())

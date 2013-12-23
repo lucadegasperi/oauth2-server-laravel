@@ -9,6 +9,12 @@ class DatabaseSeeder extends Seeder {
      */
     public function run()
     {
+        if (App::environment() === 'production') {
+            exit('I just stopped you getting fired. Love Luca');
+        }
+        
+        Eloquent::unguard();
+
         $this->call('ClientsTableSeeder');
         $this->call('GrantsTableSeeder');
         $this->call('ScopesTableSeeder');

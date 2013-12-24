@@ -35,6 +35,12 @@
             "LucaDegasperi\\OAuth2Server": "src/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev",
+            "dev-develop": "2.0.x-dev"
+        }
+    },
     "minimum-stability": "dev",
     "license": "MIT"
 }

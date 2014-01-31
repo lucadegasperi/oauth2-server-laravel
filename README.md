@@ -136,6 +136,8 @@ POST https://www.example.com/oauth/access_token?
 grant_type=authorization_code&
 client_id=the_client_id&
 client_secret=the_client_secret&
+redirect_uri=client_redirect_uri&
+code=the_authorization_code&
 scope=scope1,scope2&
 state=123456789
 ```

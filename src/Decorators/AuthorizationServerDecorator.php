@@ -1,77 +1,23 @@
-<?php namespace LucaDegasperi\OAuth2Server\Proxies;
+<?php namespace LucaDegasperi\OAuth2Server\Decorators;
 
-use League\OAuth2\Server\Authorization as Authorization;
+use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Util\RedirectUri;
 use League\OAuth2\Server\Exception\ClientException;
 use Exception;
 use Response;
 use Input;
 
-class AuthorizationServerProxy
+class AuthorizationServerDecorator extends AuthorizationServer
 {
-    /**
-     * The OAuth authorization server
-     * @var [type]
-     */
-    protected $authServer;
 
     /**
-     * Exception error HTTP status codes
-     * @var array
-     *
-     * RFC 6749, section 4.1.2.1.:
-     * No 503 status code for 'temporarily_unavailable', because
-     * "a 503 Service Unavailable HTTP status code cannot be
-     * returned to the client via an HTTP redirect"
-     */
-    protected static $exceptionHttpStatusCodes = array(
-        'invalid_request'           =>  400,
-        'unauthorized_client'       =>  400,
-        'access_denied'             =>  401,
-        'unsupported_response_type' =>  400,
-        'invalid_scope'             =>  400,
-        'server_error'              =>  500,
-        'temporarily_unavailable'   =>  400,
-        'unsupported_grant_type'    =>  501,
-        'invalid_client'            =>  401,
-        'invalid_grant'             =>  400,
-        'invalid_credentials'       =>  400,
-        'invalid_refresh'           =>  400,
-    );
-
-    /**
-     * Create a new AuthorizationServerProxy
+     * Create a new AuthorizationServerDecorator
      * 
      * @param Authorization $authServer the OAuth Authorization Server to use
      */
-    public function __construct(Authorization $authServer)
+    public function __construct(AuthorizationServer $authServer)
     {
         $this->authServer = $authServer;
-    }
-
-    /**
-     * Pass the method call to the underlying Authorization Server
-     * 
-     * @param  string $method the method being called
-     * @param  array|null $args the arguments of the method being called
-     * @return mixed the underlying method retuned value
-     */
-    public function __call($method, $args)
-    {
-        switch (count($args)) {
-            case 0:
-                return $this->authServer->$method();
-            case 1:
-                return $this->authServer->$method($args[0]);
-            case 2:
-                return $this->authServer->$method($args[0], $args[1]);
-            case 3:
-                return $this->authServer->$method($args[0], $args[1], $args[2]);
-            case 4:
-                return $this->authServer->$method($args[0], $args[1], $args[2], $args[3]);
-            default:
-                return call_user_func_array(array($this->authServer, $method), $args);
-        }
     }
 
     /**
@@ -124,20 +70,19 @@ class AuthorizationServerProxy
      */
     public function checkAuthorizeParams()
     {
-        $input = Input::all();
-        return $this->authServer->getGrantType('authorization_code')->checkAuthoriseParams($input);
+        return $this->authServer->getGrantType('authorization_code')->checkAuthoriseParams();
     }
 
     /**
      * Authorize a new client
-     * @param  string $owner    The owner type
-     * @param  string $owner_id The owner id
-     * @param  array  $options  Additional options to issue an authorization code
-     * @return string           An authorization code
+     * @param  string $ownerType The owner type
+     * @param  string $ownerId   The owner id
+     * @param  array  $options    Additional options to issue an authorization code
+     * @return string             An authorization code
      */
-    public function newAuthorizeRequest($owner, $owner_id, $options)
+    public function newAuthorizeRequest($ownerType, $ownerId, $options = array())
     {
-        return $this->authServer->getGrantType('authorization_code')->newAuthoriseRequest($owner, $owner_id, $options);
+        return $this->authServer->getGrantType('authorization_code')->newAuthoriseRequest($ownerType, $ownerId, $options);
     }
 
     /**

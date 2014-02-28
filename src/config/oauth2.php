@@ -133,7 +133,7 @@ return array(
     | The default scope to use if not present in the query string
     |
     */
-    'default_scope' => 'basic',
+    'default_scope' => null,
 
     /*
     |--------------------------------------------------------------------------

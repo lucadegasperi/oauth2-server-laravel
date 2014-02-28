@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "league/oauth2-server": "3.x"
+        "league/oauth2-server": "dev-v4.0.0-WIP"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.28",
@@ -31,8 +31,8 @@
             "src/seeds",
             "tests/TestCase.php"
         ],
-        "psr-0": {
-            "LucaDegasperi\\OAuth2Server": "src/"
+        "psr-4": {
+            "LucaDegasperi\\OAuth2Server\\": "src/"
         }
     },
     "extra": {

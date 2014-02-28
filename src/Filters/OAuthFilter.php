@@ -33,27 +33,23 @@ class OAuthFilter
      */
     public function filter($route, $request, $scope = null)
     {
-        try {
-            ResourceServer::isValid($this->httpHeadersOnly);
-        } catch (InvalidAccessTokenException $e) {
-            return Response::json(array(
+        if (!ResourceServer::isValid($this->httpHeadersOnly)) {
+            return Response::json([
                 'status' => 403,
                 'error' => 'forbidden',
-                'error_message' => $e->getMessage(),
-            ), 403);
+                'error_message' => 'Access token is missing or is expired',
+            ], 403);
         }
 
         if (! is_null($scope)) {
             $scopes = explode(',', $scope);
 
-            foreach ($scopes as $s) {
-                if (! ResourceServer::hasScope($s)) {
-                    return Response::json(array(
-                        'status' => 403,
-                        'error' => 'forbidden',
-                        'error_message' => 'Only access token with scope '.$s.' can use this endpoint',
-                    ), 403);
-                }
+            if (! ResourceServer::hasScope($scopes)) {
+                return Response::json([
+                    'status' => 403,
+                    'error' => 'forbidden',
+                    'error_message' => 'Only access token with scope(s) "'.$scope.'" can use this endpoint',
+                ], 403);
             }
         }
     }

@@ -26,7 +26,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel');
 
-        require_once __DIR__.'/../../filters.php';
+        require_once __DIR__.'filters.php';
     }
 
     /**
@@ -45,8 +45,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->registerResourceServer();
 
         $this->registerFilterBindings();
-        
-        $this->registerExpiredTokensCommand();
     }
 
     /**
@@ -80,10 +78,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $app = $this->app;
 
-        $app->bind('League\OAuth2\Server\Storage\ClientInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentClient');
-        $app->bind('League\OAuth2\Server\Storage\ScopeInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentScope');
-        $app->bind('League\OAuth2\Server\Storage\SessionInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
-        $app->bind('LucaDegasperi\OAuth2Server\Repositories\SessionManagementInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
+        $app->bind('League\OAuth2\Server\Storage\ClientInterface',       'LucaDegasperi\OAuth2Server\Repositories\FluentClient');
+        $app->bind('League\OAuth2\Server\Storage\ScopeInterface',        'LucaDegasperi\OAuth2Server\Repositories\FluentScope');
+        $app->bind('League\OAuth2\Server\Storage\SessionInterface',      'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
+        $app->bind('League\OAuth2\Server\Storage\AccessTokenInterface',  'LucaDegasperi\OAuth2Server\Repositories\FluentAccessToken');
+        $app->bind('League\OAuth2\Server\Storage\RefreshTokenInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentRefreshToken');
     }
 
     /**
@@ -94,45 +93,47 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $app = $this->app;
 
-        $app['oauth2.authorization-server'] = $app->share(function ($app) {
-
-            $server = $app->make('League\OAuth2\Server\Authorization');
+        $app['oauth2.authorization-server'] = $app->share(function ($app) {            
 
             $config = $app['config']->get('oauth2-server-laravel::oauth2');
 
+            // TODO: add authcode storage
+            $server = $app->make('League\OAuth2\Server\AuthorizationServer')
+                    ->setClientStorage($app->make('League\OAuth2\Server\Storage\ClientInterface'))
+                    ->setSessionStorage($app->make('League\OAuth2\Server\Storage\SessionInterface'))
+                    ->setAccessTokenStorage($app->make('League\OAuth2\Server\Storage\AccessTokenInterface'))
+                    ->setRefreshTokenStorage($app->make('League\OAuth2\Server\Storage\RefreshTokenInterface'))
+                    ->setScopeStorage($app->make('League\OAuth2\Server\Storage\ScopeInterface'))
+                    ->requireScopeParam($config['scope_param'])
+                    ->setDefaultScope($config['default_scope'])
+                    ->requireStateParam($config['state_param'])
+                    ->setScopeDelimeter($config['scope_delimiter'])
+                    ->setAccessTokenTTL($config['access_token_ttl']);
+
             // add the supported grant types to the authorization server
-            foreach ($config['grant_types'] as $grantKey => $grantValue) {
+            foreach ($config['grant_types'] as $grantIdentifier => $grantParams) {
 
-                $server->addGrantType(new $grantValue['class']);
-                $server->getGrantType($grantKey)->setAccessTokenTTL($grantValue['access_token_ttl']);
+                $grant = new $grantParams['class'];
+                $grant->setAccessTokenTTL($grantParams['access_token_ttl']);
 
-                if (array_key_exists('callback', $grantValue)) {
-                    $server->getGrantType($grantKey)->setVerifyCredentialsCallback($grantValue['callback']);
+                if (array_key_exists('callback', $grantParams)) {
+                    $grant->setVerifyCredentialsCallback($grantParams['callback']);
                 }
-                if (array_key_exists('auth_token_ttl', $grantValue)) {
-                    $server->getGrantType($grantKey)->setAuthTokenTTL($grantValue['auth_token_ttl']);
+                if (array_key_exists('auth_token_ttl', $grantParams)) {
+                    $grant->setAuthTokenTTL($grantParams['auth_token_ttl']);
                 }
-                if (array_key_exists('refresh_token_ttl', $grantValue)) {
-                    $server->getGrantType($grantKey)->setRefreshTokenTTL($grantValue['refresh_token_ttl']);
+                if (array_key_exists('refresh_token_ttl', $grantParams)) {
+                    $grant->setRefreshTokenTTL($grantParams['refresh_token_ttl']);
                 }
-                if (array_key_exists('rotate_refresh_tokens', $grantValue)) {
-                    $server->getGrantType($grantKey)->rotateRefreshTokens($grantValue['rotate_refresh_tokens']);
-                }
+
+                $server->addGrantType($grant);
             }
 
-            $server->requireStateParam($config['state_param']);
+            $server->setRequest($app['request']);
 
-            $server->requireScopeParam($config['scope_param']);
-
-            $server->setScopeDelimeter($config['scope_delimiter']);
-
-            $server->setDefaultScope($config['default_scope']);
-
-            $server->setAccessTokenTTL($config['access_token_ttl']);
-
-            $server->setRequest(new LaravelRequest());
-
-            return new AuthorizationServerProxy($server);
+            return new AuthorizationServerDecorator($server);
+            
+            return $server;
 
         });
     }
@@ -149,7 +150,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             $server = $app->make('League\OAuth2\Server\Resource');
 
-            $server->setRequest(new LaravelRequest());
+            $server->setRequest($app['request']);
 
             return $server;
 
@@ -172,23 +173,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the expired token commands to artisan
-     * 
-     * @return void
-     * @codeCoverageIgnore
-     */
-    public function registerExpiredTokensCommand()
-    {
-        $app = $this->app;
-
-        $app['oauth2.expired-tokens-command'] = $app->share(function ($app) {
-            return $app->make('LucaDegasperi\OAuth2Server\Commands\ExpiredTokensCommand');
-        });
-
-        $this->commands('oauth2.expired-tokens-command');
-    }
-
-    /**
      * Get the services provided by the provider.
      *
      * @return array
@@ -196,7 +180,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-
         return array('oauth2.authorization-server', 'oauth2.resource-server');
     }
 }

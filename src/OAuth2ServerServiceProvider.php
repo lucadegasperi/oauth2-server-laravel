@@ -1,7 +1,7 @@
 <?php namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Support\ServiceProvider;
-use LucaDegasperi\OAuth2Server\Proxies\AuthorizationServerProxy;
+use LucaDegasperi\OAuth2Server\Decorators\AuthorizationServerDecorator;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Repositories\FluentClient;
 use LucaDegasperi\OAuth2Server\Repositories\FluentScope;
@@ -24,9 +24,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel');
+        $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/../');
 
-        require_once __DIR__.'filters.php';
+        require_once __DIR__.'/filters.php';
     }
 
     /**
@@ -53,15 +53,13 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerRepositoryBindings()
     {
-        $app = $this->app;
-
-        $app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentClient', function ($app) {
+        $this->app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentClient', function ($app) {
 
             $limitClientsToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_grants');
             return new FluentClient($limitClientsToGrants);
         });
 
-        $app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentScope', function ($app) {
+        $this->app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentScope', function ($app) {
 
             $limitClientsToScopes = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_scopes');
             $limitScopesToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_scopes_to_grants');
@@ -76,13 +74,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerInterfaceBindings()
     {
-        $app = $this->app;
-
-        $app->bind('League\OAuth2\Server\Storage\ClientInterface',       'LucaDegasperi\OAuth2Server\Repositories\FluentClient');
-        $app->bind('League\OAuth2\Server\Storage\ScopeInterface',        'LucaDegasperi\OAuth2Server\Repositories\FluentScope');
-        $app->bind('League\OAuth2\Server\Storage\SessionInterface',      'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
-        $app->bind('League\OAuth2\Server\Storage\AccessTokenInterface',  'LucaDegasperi\OAuth2Server\Repositories\FluentAccessToken');
-        $app->bind('League\OAuth2\Server\Storage\RefreshTokenInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentRefreshToken');
+        $this->app->bind('League\OAuth2\Server\Storage\ClientInterface',       'LucaDegasperi\OAuth2Server\Repositories\FluentClient');
+        $this->app->bind('League\OAuth2\Server\Storage\ScopeInterface',        'LucaDegasperi\OAuth2Server\Repositories\FluentScope');
+        $this->app->bind('League\OAuth2\Server\Storage\SessionInterface',      'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
+        $this->app->bind('League\OAuth2\Server\Storage\AccessTokenInterface',  'LucaDegasperi\OAuth2Server\Repositories\FluentAccessToken');
+        $this->app->bind('League\OAuth2\Server\Storage\RefreshTokenInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentRefreshToken');
     }
 
     /**
@@ -91,9 +87,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerAuthorizationServer()
     {
-        $app = $this->app;
-
-        $app['oauth2.authorization-server'] = $app->share(function ($app) {            
+        $this->app['oauth2.authorization-server'] = $this->app->share(function ($app) {            
 
             $config = $app['config']->get('oauth2-server-laravel::oauth2');
 
@@ -144,11 +138,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerResourceServer()
     {
-        $app = $this->app;
+        $this->app['oauth2.resource-server'] = $this->app->share(function ($app) {
 
-        $app['oauth2.resource-server'] = $app->share(function ($app) {
-
-            $server = $app->make('League\OAuth2\Server\Resource');
+            $server = $app->make('League\OAuth2\Server\ResourceServer');
 
             $server->setRequest($app['request']);
 
@@ -163,9 +155,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerFilterBindings()
     {
-        $app = $this->app;
-
-        $app->bind('LucaDegasperi\OAuth2Server\Filters\OAuthFilter', function ($app) {
+        $this->app->bind('LucaDegasperi\OAuth2Server\Filters\OAuthFilter', function ($app) {
             $httpHeadersOnly = $app['config']->get('oauth2-server-laravel::oauth2.http_headers_only');
 
             return new OAuthFilter($httpHeadersOnly);

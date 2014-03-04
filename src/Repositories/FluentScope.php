@@ -75,7 +75,7 @@ class FluentScope extends Adapter implements ScopeInterface
             return null;
         }
 
-        return new Scope($this->getServer())
+        return (new Scope($this->getServer()))
                  ->setId($result->id)
                  ->setDescription($resut->description);
     }

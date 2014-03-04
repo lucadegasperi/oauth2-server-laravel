@@ -83,7 +83,7 @@ class FluentClient extends Adapter implements ClientInterface
         // TODO: extend client entity to include metadata
         //$metadata = DB::table('oauth_client_metadata')->where('client_id', '=', $result->id)->lists('value', 'key');
 
-        return new Client($this->getServer());
+        return (new Client($this->getServer()))
                ->setId($result->id)
                ->setSecret($result->secret)
                ->setName($result->name)

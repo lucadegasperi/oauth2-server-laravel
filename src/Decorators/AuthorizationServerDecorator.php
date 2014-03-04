@@ -93,12 +93,8 @@ class AuthorizationServerDecorator extends AuthorizationServer
     public function performAccessTokenFlow()
     {
         try {
-
-            // Get user input
-            $input = Input::all();
-
             // Tell the auth server to issue an access token
-            $response = $this->authServer->issueAccessToken($input);
+            $response = $this->authServer->issueAccessToken();
 
         } catch (ClientException $e) {
 

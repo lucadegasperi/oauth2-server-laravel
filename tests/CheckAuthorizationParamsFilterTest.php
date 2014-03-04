@@ -2,7 +2,8 @@
 
 use \Mockery as m;
 
-class CheckAuthorizationParamsFilterTest extends TestCase {
+class CheckAuthorizationParamsFilterTest extends TestCase
+{
 
     public function getFilter()
     {
@@ -11,14 +12,14 @@ class CheckAuthorizationParamsFilterTest extends TestCase {
 
     public function getStub()
     {
-        return array(
+        return [
             'client_id' => 1,
             'client_details' => 'foo',
             'redirect_uri' => 'http://www.example.com/',
             'response_type' => 'code',
             'scopes' => 'scope',
             'state' => '123456789',
-        );
+        ];
     }
 
     public function test_with_valid_params()
@@ -62,7 +63,8 @@ class CheckAuthorizationParamsFilterTest extends TestCase {
         $this->assertTrue($response->isServerError());
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         m::close();
     }
 

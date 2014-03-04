@@ -1,9 +1,9 @@
 <?php namespace LucaDegasperi\OAuth2Server\Filters;
 
+use League\OAuth2\Server\Exception\ClientException;
 use AuthorizationServer;
 use Response;
 use Session;
-use League\OAuth2\Server\Exception\ClientException;
 use Exception;
 
 class CheckAuthorizationParamsFilter
@@ -23,7 +23,7 @@ class CheckAuthorizationParamsFilter
 
             $params = AuthorizationServer::checkAuthorizeParams();
 
-            Session::put('authorize-params', $params);
+            Session::put('oauth2.authorize-params', $params);
 
 
         } catch (ClientException $e) {

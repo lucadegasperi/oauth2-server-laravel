@@ -1,18 +1,19 @@
 <?php
 
 use \Mockery as m;
-use LucaDegasperi\OAuth2Server\Proxies\AuthorizationServerProxy;
+use LucaDegasperi\OAuth2Server\Decorators\AuthorizationServerDecorator;
 
-class AuthorizationServerProxyTest extends TestCase {
+class AuthorizationServerDecoratorTest extends TestCase
+{
 
     public function getProxy($mock)
     {
-        return new AuthorizationServerProxy($mock);
+        return new AuthorizationServerDecorator($mock);
     }
 
     public function getServer()
     {
-        return m::mock('League\OAuth2\Server\Authorization');
+        return m::mock('League\OAuth2\Server\AuthorizationServer');
     }
 
     public function getStub()
@@ -121,26 +122,6 @@ class AuthorizationServerProxyTest extends TestCase {
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
         $this->assertTrue($response->isServerError());
         
-    }
-
-    public function test_calls_to_underlying_object()
-    {
-        $mock = $this->getServer();
-        $mock->shouldReceive('unexistingMethod')->times(6)->andReturn('baz');
-
-        $proxy = $this->getProxy($mock);
-        $responses = array();
-        $responses[] = $proxy->unexistingMethod();
-        $responses[] = $proxy->unexistingMethod('foo');
-        $responses[] = $proxy->unexistingMethod('foo', 'bar');
-        $responses[] = $proxy->unexistingMethod('foo', 'bar', 'foo');
-        $responses[] = $proxy->unexistingMethod('foo', 'bar', 'foo', 'bar');
-        $responses[] = $proxy->unexistingMethod('foo', 'bar', 'foo', 'bar', 'foo');
-
-        for($i = 0; $i < count($responses); $i++)
-        {
-            $this->assertEquals('baz', $responses[$i]);
-        }
     }
 
     public function tearDown() {

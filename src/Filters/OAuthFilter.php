@@ -1,8 +1,8 @@
 <?php namespace LucaDegasperi\OAuth2Server\Filters;
 
+use League\OAuth2\Server\Exception\InvalidAccessTokenException;
 use ResourceServer;
 use Response;
-use League\OAuth2\Server\Exception\InvalidAccessTokenException;
 
 class OAuthFilter
 {

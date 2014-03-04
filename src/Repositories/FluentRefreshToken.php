@@ -23,7 +23,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
             return null;
         }
 
-        return new RefreshToken($this->getServer())
+        return (new RefreshToken($this->getServer()))
                  ->setToken($result->token)
                  ->setExpireTime($result->expires);
     }
@@ -39,11 +39,11 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
     {
         DB::table('oauth_refresh_tokens')->insert([
             'token' => $token,
-            'expires' => $expireTime;
+            'expires' => $expireTime,
             'access_token' => $accessToken
         ]);
 
-        return new RefreshToken($this->getServer())
+        return (new RefreshToken($this->getServer()))
                  ->setToken($token)
                  ->setExpireTime($expireTime);
     }

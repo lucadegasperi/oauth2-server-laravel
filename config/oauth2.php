@@ -60,11 +60,11 @@ return array(
 
     'grant_types' => array(
 
-        'authorization_code' => array(
+        /*'authorization_code' => array(
             'class'            => 'League\OAuth2\Server\Grant\AuthCode',
             'access_token_ttl' => 3600,
             'auth_token_ttl'   => 3600,
-        ),
+        ),*/
 
         'password' => array(
             'class'            => 'League\OAuth2\Server\Grant\Password',

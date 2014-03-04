@@ -23,7 +23,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
             return null;
         }
 
-        return new AccessToken($this->getServer())
+        return (new AccessToken($this->getServer()))
                  ->setToken($result->token)
                  ->setExpireTime($result->expires);
     }
@@ -39,7 +39,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
             return null;
         }
 
-        return new AccessToken($this->getServer())
+        return (new AccessToken($this->getServer()))
                  ->setToken($result->token)
                  ->setExpireTime($result->expires);
     }
@@ -60,7 +60,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
         $scopes = [];
         
         foreach ($result as $scope) {
-            $scopes[] = new Scope($this->getServer())
+            $scopes[] = (new Scope($this->getServer()))
                           ->setId($scope->id)
                           ->setDescription($scope->description);
         }
@@ -83,7 +83,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
             'session_id' => $sessionId
         ]);
 
-        return new AccessToken($this->getServer())
+        return (new AccessToken($this->getServer()))
                  ->setToken($result->token)
                  ->setExpireTime($result->expires);
     }

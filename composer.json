@@ -26,19 +26,20 @@
         "squizlabs/php_codesniffer": "1.*"
     },
     "autoload": {
-        "classmap": [
-            "src/migrations",
-            "src/seeds",
-            "tests/TestCase.php"
-        ],
         "psr-4": {
-            "LucaDegasperi\\OAuth2Server\\": "src/"
-        }
+            "LucaDegasperi\\OAuth2Server\\": "src"
+        },
+        "classmap": [
+            "migrations",
+            "seeds",
+            "tests/TestCase.php"
+        ]
     },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev",
-            "dev-develop": "2.0.x-dev"
+            "dev-develop": "2.0.x-dev",
+            "dev-rewrite": "3.0.x-dev"
         }
     },
     "minimum-stability": "dev",

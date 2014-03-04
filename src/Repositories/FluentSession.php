@@ -24,7 +24,7 @@ class FluentSession extends Adapter implements SessionInterface
             return null;
         }
 
-        return new Session($this->getServer())
+        return (new Session($this->getServer()))
                  ->setId($result->id)
                  ->setOwner($result->owner_type, $result->owner_id);
     }
@@ -46,7 +46,7 @@ class FluentSession extends Adapter implements SessionInterface
             return null;
         }
 
-        return new Session($this->getServer())
+        return (new Session($this->getServer()))
                  ->setId($result->id)
                  ->setOwner($result->owner_type, $result->owner_id);
     }
@@ -68,7 +68,7 @@ class FluentSession extends Adapter implements SessionInterface
         $scopes = [];
         
         foreach ($result as $scope) {
-            $scopes[] = new Scope($this->getServer())
+            $scopes[] = (new Scope($this->getServer()))
                           ->setId($scope->id)
                           ->setDescription($scope->description);
         }

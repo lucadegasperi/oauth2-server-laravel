@@ -1,6 +1,8 @@
 <?php
 
-class TestCase extends Orchestra\Testbench\TestCase
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
+
+class TestCase extends OrchestraTestCase
 {
 
     protected $artisan;
@@ -9,10 +11,9 @@ class TestCase extends Orchestra\Testbench\TestCase
     {
         $this->artisan = $this->app->make('artisan');
 
-
         $this->artisan->call('migrate',  array(
             '--database' => 'testbench',
-            '--path' => 'migrations',
+            '--path' => '../migrations',
             
         ));
         $this->artisan->call('db:seed');
@@ -48,5 +49,4 @@ class TestCase extends Orchestra\Testbench\TestCase
             'ResourceServer'  => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
         );
     }
-
 }

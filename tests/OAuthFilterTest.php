@@ -13,7 +13,7 @@ class OAuthFilterTest extends TestCase {
     {
         ResourceServer::shouldReceive('isValid')->once()->andReturn(true);
 
-        $response = $this->getFilter()->filter('', '', null);
+        $response = $this->getFilter()->filter('', '');
         $this->assertNull($response);
     }
 
@@ -24,7 +24,7 @@ class OAuthFilterTest extends TestCase {
 
         ResourceServer::shouldReceive('isValid')->andThrow(new \League\OAuth2\Server\Exception\InvalidAccessTokenException('Access token is not valid'));
 
-        $response = $this->getFilter()->filter('', '', null);
+        $response = $this->getFilter()->filter('', '');
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
         $this->assertTrue($response->isForbidden());
 

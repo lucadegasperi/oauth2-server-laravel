@@ -15,7 +15,7 @@ class OAuthFilter
      * @param string $scope additional filter arguments
      * @return Response|null a bad response in case the request is invalid
      */
-    public function filter($route, $request, $scope = null)
+    public function filter()
     {
         try {
             ResourceServer::isValid(Config::get('lucadegasperi/oauth2-server-laravel::oauth2.http_headers_only'));
@@ -26,9 +26,10 @@ class OAuthFilter
                 'error_message' => $e->getMessage(),
             ), 403);
         }
-
-        if (! is_null($scope)) {
-            $scopes = explode(',', $scope);
+        
+        if (func_num_args() > 2) {
+            $args = func_get_args();
+            $scopes = array_slice($args, 2);
 
             foreach ($scopes as $s) {
                 if (! ResourceServer::hasScope($s)) {

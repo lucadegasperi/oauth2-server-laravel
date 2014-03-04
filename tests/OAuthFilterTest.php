@@ -35,7 +35,7 @@ class OAuthFilterTest extends TestCase {
         ResourceServer::shouldReceive('isValid')->once()->andReturn(true);
         ResourceServer::shouldReceive('hasScope')->twice()->andReturn(true);
 
-        $response = $this->getFilter()->filter('', '', 'scope1,scope2');
+        $response = $this->getFilter()->filter('', '', 'scope1', 'scope2');
         $this->assertNull($response);
     }
 
@@ -44,7 +44,7 @@ class OAuthFilterTest extends TestCase {
         ResourceServer::shouldReceive('isValid')->once()->andReturn(true);
         ResourceServer::shouldReceive('hasScope')->once()->andReturn(false);
 
-        $response = $this->getFilter()->filter('', '', 'scope1,scope2');
+        $response = $this->getFilter()->filter('', '', 'scope1', 'scope2');
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
         $this->assertTrue($response->isForbidden());
     }

@@ -5,7 +5,8 @@ use LucaDegasperi\OAuth2Server\Decorators\AuthorizationServerDecorator;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Repositories\FluentClient;
 use LucaDegasperi\OAuth2Server\Repositories\FluentScope;
-use LucaDegasperi\OAuth2Server\Util\LaravelRequest;
+use LucaDegasperi\OAuth2Server\Console\MigrationsCommand;
+use LucaDegasperi\OAuth2Server\Console\OAuthControllerCommand;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -45,6 +46,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->registerResourceServer();
 
         $this->registerFilterBindings();
+
+        $this->registerCommands();
     }
 
     /**
@@ -171,5 +174,22 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     public function provides()
     {
         return array('oauth2.authorization-server', 'oauth2.resource-server');
+    }
+
+    /**
+     * Registers some utility commands with artisan
+     * @return void
+     */
+    public function registerCommands()
+    {
+        $this->app->bindShared('command.oauth2-server.controller', function($app) {
+            return new OAuthControllerCommand($app['files']);
+        });
+
+        $this->app->bindShared('command.oauth2-server.migrations', function($app) {
+            return new MigrationsCommand($app['files']);
+        });
+
+        $this->commands('command.oauth2-server.controller', 'command.oauth2-server.migrations');
     }
 }

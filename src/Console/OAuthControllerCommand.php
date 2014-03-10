@@ -54,7 +54,9 @@ class OAuthControllerCommand extends Command
 
             $this->info('OAuth Server controller controller created successfully!');
 
-            $this->comment("Route: Route::controller('oauth', 'OAuthController');");
+            $this->comment("Routes:");
+            $this->comment("Route::post('oauth/access_token', 'OAuthController@accessToken');");
+            $this->comment("Route::post('oauth/access_token', 'OAuthController@accessToken');");
         }
         else {
             $this->error('OAuth Server controller already exists!');

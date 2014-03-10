@@ -28,6 +28,15 @@ class MigrationsCommand extends Command
     protected $files;
 
     /**
+     * The stubs names
+     *
+     * @var array
+     */
+    protected $stubs = [
+        'create_oauth_clients_table'
+    ];
+
+    /**
      * Create a new reminder table command instance.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
@@ -47,11 +56,14 @@ class MigrationsCommand extends Command
      */
     public function fire()
     {
-        $fullPath = $this->createBaseMigration();
+        $fullPaths = $this->createBaseMigrations();
 
-        $this->files->put($fullPath, $this->getMigrationStub());
+        foreach ($fullPaths as $stub => $fullPath) {
+            $this->files->put($fullPath, $this->getMigrationStub($stub));
+            $this->info('Migration '. $stub .' created');
+        }
 
-        $this->info('Migrations created successfully!');
+        $this->info('All Migrations created successfully!');
 
         $this->call('dump-autoload');
     }
@@ -61,34 +73,26 @@ class MigrationsCommand extends Command
      *
      * @return string
      */
-    /*protected function createBaseMigration()
+    protected function createBaseMigrations()
     {
-        $name = 'create_password_reminders_table';
+        $fullPaths = [];
 
         $path = $this->laravel['path'].'/database/migrations';
 
-        return $this->laravel['migration.creator']->create($name, $path);
+        foreach ($this->stubs as $stub) {
+            $fullPaths[$stub] = $this->laravel['migration.creator']->create($stub, $path);
+        }
+
+        return $fullPaths;
     }
 
     /**
-     * Get the contents of the reminder migration stub.
-     *
-     * @return string
+     * Get the stub's content
+     * @param  string $stub the stub name
+     * @return string       the stub's content
      */
-    /*protected function getMigrationStub()
+    protected function getMigrationStub($stub)
     {
-        $stub = $this->files->get(__DIR__.'/../../stubs/reminders.stub');
-
-        return str_replace('password_reminders', $this->getTable(), $stub);
+        return $this->files->get(__DIR__.'/../../stubs/migrations/'. $stub .'.stub');
     }
-
-    /**
-     * Get the password reminder table name.
-     *
-     * @return string
-     */
-    /*protected function getTable()
-    {
-        return $this->laravel['config']->get('auth.reminder.table');
-    }*/
 }

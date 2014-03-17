@@ -33,7 +33,16 @@ class MigrationsCommand extends Command
      * @var array
      */
     protected $stubs = [
-        'create_oauth_clients_table'
+        'create_oauth_clients_table',
+        'create_oauth_scopes_table',
+        'create_oauth_grants_table',
+        'create_oauth_sessions_table',
+        'create_oauth_client_endpoints_table',
+        'create_oauth_client_scopes_table',
+        'create_oauth_client_grants_table',
+        'create_oauth_authcodes_table',
+        'create_oauth_access_tokens_table',
+        'create_oauth_refresh_tokens_table',
     ];
 
     /**

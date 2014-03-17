@@ -2,20 +2,8 @@
 
 use LucaDegasperi\OAuth2Server\Repositories\FluentScope;
 
-class FluentScopeTest extends TestCase
+class FluentScopeTest extends DBTestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->setUpDb();   
-    }
-
-    public function teardown()
-    {
-        $this->teardownDb();
-    }
 
     public function test_get_unexisting_scope()
     {

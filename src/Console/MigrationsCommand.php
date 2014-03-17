@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputOption;
 
 class MigrationsCommand extends Command
 {
@@ -86,10 +87,11 @@ class MigrationsCommand extends Command
     {
         $fullPaths = [];
 
-        $path = $this->laravel['path'].'/database/migrations';
+        $path = $this->getMigrationsPath();
 
         foreach ($this->stubs as $stub) {
             $fullPaths[$stub] = $this->laravel['migration.creator']->create($stub, $path);
+            sleep(1);
         }
 
         return $fullPaths;
@@ -103,5 +105,32 @@ class MigrationsCommand extends Command
     protected function getMigrationStub($stub)
     {
         return $this->files->get(__DIR__.'/../../stubs/migrations/'. $stub .'.stub');
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['path', null, InputOption::VALUE_OPTIONAL, 'Where to store the migrations.', null],
+        ];
+    }
+
+    /**
+     * Get the migrations path
+     * @return string the path where to store migrations
+     */
+    protected function getMigrationsPath()
+    {
+        $path = $this->input->getOption('path');
+
+        if (! is_null($path)) {
+            return $this->laravel['path.base'].'/'.$path;
+        }
+
+        return $this->laravel['path'].'/database/migrations';
     }
 }

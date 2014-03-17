@@ -2,21 +2,8 @@
 
 use LucaDegasperi\OAuth2Server\Repositories\FluentSession;
 
-class FluentSessionTest extends TestCase
+class FluentSessionTest extends DbTestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->setUpDb();   
-    }
-
-    public function teardown()
-    {
-        $this->teardownDb();
-    }
-
     public function test_session_is_created()
     {
         $repo = new FluentSession();

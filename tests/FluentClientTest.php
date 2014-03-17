@@ -2,20 +2,8 @@
 
 use LucaDegasperi\OAuth2Server\Repositories\FluentClient;
 
-class FluentClientTest extends TestCase
+class FluentClientTest extends DBTestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->setUpDb();   
-    }
-
-    public function teardown()
-    {
-        $this->teardownDb();
-    }
 
     public function test_get_client_with_secret_only()
     {

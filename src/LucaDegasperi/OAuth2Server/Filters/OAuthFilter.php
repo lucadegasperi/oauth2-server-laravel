@@ -21,10 +21,10 @@ class OAuthFilter
             ResourceServer::isValid(Config::get('lucadegasperi/oauth2-server-laravel::oauth2.http_headers_only'));
         } catch (\League\OAuth2\Server\Exception\InvalidAccessTokenException $e) {
             return Response::json(array(
-                'status' => 403,
-                'error' => 'forbidden',
+                'status' => 401,
+                'error' => 'unauthorized',
                 'error_message' => $e->getMessage(),
-            ), 403);
+            ), 401);
         }
         
         if (func_num_args() > 2) {

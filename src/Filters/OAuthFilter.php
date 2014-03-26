@@ -31,7 +31,7 @@ class OAuthFilter
      * @param string $scope additional filter arguments
      * @return Response|null a bad response in case the request is invalid
      */
-    public function filter($route, $request, $scope = null)
+    public function filter()
     {
         if (!ResourceServer::isValid($this->httpHeadersOnly)) {
             return Response::json([
@@ -41,14 +41,15 @@ class OAuthFilter
             ], 401);
         }
 
-        if (! is_null($scope)) {
-            $scopes = explode(',', $scope);
+        if (func_num_args() > 2) {
+            $args = func_get_args();
+            $scopes = array_slice($args, 2);
 
-            if (! ResourceServer::hasScope($scopes)) {
+            if (!ResourceServer::hasScope($scopes)) {
                 return Response::json([
                     'status' => 403,
                     'error' => 'forbidden',
-                    'error_message' => 'Only access token with scope(s) "'.$scope.'" can use this endpoint',
+                    'error_message' => 'Only access token with scope(s) "' . implode(', ', $scopes) . '" can use this endpoint',
                 ], 403);
             }
         }

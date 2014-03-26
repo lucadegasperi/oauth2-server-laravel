@@ -35,10 +35,10 @@ class OAuthFilter
     {
         if (!ResourceServer::isValid($this->httpHeadersOnly)) {
             return Response::json([
-                'status' => 403,
-                'error' => 'forbidden',
+                'status' => 401,
+                'error' => 'unauthorized',
                 'error_message' => 'Access token is missing or is expired',
-            ], 403);
+            ], 401);
         }
 
         if (! is_null($scope)) {

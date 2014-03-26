@@ -23,7 +23,7 @@ class OAuthFilterTest extends TestCase {
 
         $response = $this->getFilter()->filter('', '', null);
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
-        $this->assertTrue($response->isForbidden());
+        $this->assertEquals('401', $response->getStatusCode());
 
     }
 

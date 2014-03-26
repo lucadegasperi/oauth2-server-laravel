@@ -24,8 +24,8 @@ class CreateOauthAuthCodesTable extends Migration
             $table->index('session_id');
 
             $table->foreign('session_id')
-                    ->references('id')->on('oauth_sessions')
-                    ->onDelete('cascade');
+                  ->references('id')->on('oauth_sessions')
+                  ->onDelete('cascade');
         });
     }
 
@@ -36,7 +36,7 @@ class CreateOauthAuthCodesTable extends Migration
      */
     public function down()
     {
-        Schema::table('oauth_auth_codes', function ($table) {
+        Schema::table('oauth_auth_codes', function (Blueprint $table) {
             $table->dropForeign('oauth_auth_codes_session_id_foreign');
         });
         Schema::drop('oauth_auth_codes');

@@ -96,16 +96,16 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             // TODO: add authcode storage
             $server = $app->make('League\OAuth2\Server\AuthorizationServer')
-                    ->setClientStorage($app->make('League\OAuth2\Server\Storage\ClientInterface'))
-                    ->setSessionStorage($app->make('League\OAuth2\Server\Storage\SessionInterface'))
-                    ->setAccessTokenStorage($app->make('League\OAuth2\Server\Storage\AccessTokenInterface'))
-                    ->setRefreshTokenStorage($app->make('League\OAuth2\Server\Storage\RefreshTokenInterface'))
-                    ->setScopeStorage($app->make('League\OAuth2\Server\Storage\ScopeInterface'))
-                    ->requireScopeParam($config['scope_param'])
-                    ->setDefaultScope($config['default_scope'])
-                    ->requireStateParam($config['state_param'])
-                    ->setScopeDelimeter($config['scope_delimiter'])
-                    ->setAccessTokenTTL($config['access_token_ttl']);
+                          ->setClientStorage($app->make('League\OAuth2\Server\Storage\ClientInterface'))
+                          ->setSessionStorage($app->make('League\OAuth2\Server\Storage\SessionInterface'))
+                          ->setAccessTokenStorage($app->make('League\OAuth2\Server\Storage\AccessTokenInterface'))
+                          ->setRefreshTokenStorage($app->make('League\OAuth2\Server\Storage\RefreshTokenInterface'))
+                          ->setScopeStorage($app->make('League\OAuth2\Server\Storage\ScopeInterface'))
+                          ->requireScopeParam($config['scope_param'])
+                          ->setDefaultScope($config['default_scope'])
+                          ->requireStateParam($config['state_param'])
+                          ->setScopeDelimeter($config['scope_delimiter'])
+                          ->setAccessTokenTTL($config['access_token_ttl']);
 
             // add the supported grant types to the authorization server
             foreach ($config['grant_types'] as $grantIdentifier => $grantParams) {
@@ -116,8 +116,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 if (array_key_exists('callback', $grantParams)) {
                     $grant->setVerifyCredentialsCallback($grantParams['callback']);
                 }
-                if (array_key_exists('auth_token_ttl', $grantParams)) {
-                    $grant->setAuthTokenTTL($grantParams['auth_token_ttl']);
+                if (array_key_exists('auth_code_ttl', $grantParams)) {
+                    $grant->setAuthCodeTTL($grantParams['auth_code_ttl']);
                 }
                 if (array_key_exists('refresh_token_ttl', $grantParams)) {
                     $grant->setRefreshTokenTTL($grantParams['refresh_token_ttl']);

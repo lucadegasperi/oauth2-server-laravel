@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -14,36 +14,36 @@ return array(
     |
     | Available grant types are:
     | 
-    | 'grant_types' => array(
+    | 'grant_types' => [
     |
-    |    'authorization_code' => array(
+    |    'authorization_code' => [
     |        'class'            => 'League\OAuth2\Server\Grant\AuthCode',
     |        'access_token_ttl' => 3600,
     |
     |        // the authorization code time to live
-    |        'auth_token_ttl'   => 3600,
-    |    ),
+    |        'auth_code_ttl'   => 3600,
+    |    ],
     |
-    |    'password' => array(
+    |    'password' => [
     |        'class'            => 'League\OAuth2\Server\Grant\Password',
     |        'access_token_ttl' => 604800,
     |
     |        // the code to run in order to verify the user's identity
     |        'callback'         => function($username, $password){
     |            
-    |            return Auth::validate(array(
+    |            return Auth::validate([
     |                'email'    => $username,
     |                'password' => $password,
     |            ));
     |        }
-    |    ),
+    |    ],
     |
-    |    'client_credentials' => array(
+    |    'client_credentials' => [
     |        'class'                 => 'League\OAuth2\Server\Grant\ClientCredentials',
     |        'access_token_ttl'      => 3600,
-    |    ),
+    |    ],
     |
-    |    'refresh_token' => array(
+    |    'refresh_token' => [
     |        'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
     |        'access_token_ttl'      => 3600,
     |
@@ -52,29 +52,29 @@ return array(
     |
     |        // whether or not to issue a new refresh token when a new access token is issued
     |        'rotate_refresh_tokens' => false,
-    |    ),
+    |    ],
     |    
-    | ),
+    | ],
     |
     */
 
-    'grant_types' => array(
+    'grant_types' => [
 
-        /*'authorization_code' => array(
+        /*'authorization_code' => [
             'class'            => 'League\OAuth2\Server\Grant\AuthCode',
             'access_token_ttl' => 3600,
-            'auth_token_ttl'   => 3600,
-        ),*/
+            'auth_code_ttl'   => 3600,
+        ],*/
 
-        'password' => array(
+        'password' => [
             'class'            => 'League\OAuth2\Server\Grant\Password',
             'access_token_ttl' => 604800,
             'callback'         => function ($username, $password) {
                 
-                $credentials = array(
+                $credentials = [
                     'email' => $username,
                     'password' => $password,
-                );
+                ];
 
                 $valid = Auth::validate($credentials);
 
@@ -84,16 +84,16 @@ return array(
 
                 return Auth::getProvider()->retrieveByCredentials($credentials)->id;
             }
-        ),
+        ],
 
-        'refresh_token' => array(
+        'refresh_token' => [
             'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
             'access_token_ttl'      => 3600,
             'refresh_token_ttl'     => 604800,
             'rotate_refresh_tokens' => false,
-        ),
+        ],
         
-    ),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -189,4 +189,4 @@ return array(
     |
     */
     'http_headers_only' => false,
-);
+];

@@ -13,21 +13,21 @@ class CreateOauthAuthCodeScopesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_auth_code_scopes', function (Blueprint $table) {
-            $table->integer('auth_code_id')->unsigned();
+        Schema::create('oauth_access_token_scopes', function (Blueprint $table) {
+            $table->integer('access_token_id')->unsigned();
             $table->string('scope_id', 40);
 
             $table->timestamps();
 
-            $table->index('auth_code_id');
+            $table->index('access_token_id');
             $table->index('scope_id');
 
             $table->foreign('scope_id')
                   ->references('scope')->on('oauth_scopes')
                   ->onDelete('cascade');
 
-            $table->foreign('auth_code_id')
-                  ->references('id')->on('oauth_auth_codes')
+            $table->foreign('access_token_id')
+                  ->references('id')->on('oauth_access_tokens')
                   ->onDelete('cascade');
         });
     }
@@ -39,10 +39,10 @@ class CreateOauthAuthCodeScopesTable extends Migration
      */
     public function down()
     {
-        Schema::table('oauth_auth_code_scopes', function (Blueprint $table) {
-            $table->dropForeign('oauth_auth_code_scopes_scope_id_foreign');
-            $table->dropForeign('oauth_auth_code_scopes_auth_code_id_foreign');
+        Schema::table('oauth_access_token_scopes', function (Blueprint $table) {
+            $table->dropForeign('oauth_access_token_scopes_scope_id_foreign');
+            $table->dropForeign('oauth_access_token_scopes_access_token_id_foreign');
         });
-        Schema::drop('oauth_auth_code_scopes');
+        Schema::drop('oauth_access_token_scopes');
     }
 }

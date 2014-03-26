@@ -14,7 +14,8 @@ class CreateOauthAccessTokensTable extends Migration
 	public function up()
 	{
 		Schema::create('oauth_access_tokens', function (Blueprint $table) {
-            $table->string('token', 40)->primary();
+            $table->increments('id');
+            $table->string('token', 40)->unique();
             $table->integer('session_id')->unsigned();
             $table->integer('expires');
 
@@ -37,10 +38,9 @@ class CreateOauthAccessTokensTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::table('oauth_access_tokens', function ($table) {
+		Schema::table('oauth_access_tokens', function (Blueprint $table) {
             $table->dropForeign('oauth_access_tokens_session_id_foreign');
         });
         Schema::drop('oauth_access_tokens');
 	}
-
 }

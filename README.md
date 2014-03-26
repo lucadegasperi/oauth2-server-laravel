@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/lucadegasperi/oauth2-server-laravel/v/stable.png)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel) [![Build Status](https://travis-ci.org/lucadegasperi/oauth2-server-laravel.png?branch=master)](https://travis-ci.org/lucadegasperi/oauth2-server-laravel) [![Coverage Status](https://coveralls.io/repos/lucadegasperi/oauth2-server-laravel/badge.png)](https://coveralls.io/r/lucadegasperi/oauth2-server-laravel)
 
-A wrapper package for the standards compliant OAuth 2.0 authorization server and resource server written in PHP by the [League of Extraordinary Packages](http://www.thephpleague.com).
+[OAuth 2.0](http://tools.ietf.org/wg/oauth/draft-ietf-oauth-v2/) authorization server and resource server for the Laravel framework. Standard compliant thanks to the amazing work by [The League of Extraordinary Packages](http://www.thephpleague.com) OAuth 2.0 authorization server and resource server.
 
 The package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 Specification](http://tools.ietf.org/html/rfc6749).
 
@@ -21,7 +21,7 @@ php artisan package:install lucadegasperi/oauth2-server-laravel
 alternatively, you can manually install the package via composer. add the following line to your composer.json file:
 
 ```javascript
-"lucadegasperi/oauth2-server-laravel": "1.0.x"
+"lucadegasperi/oauth2-server-laravel": "3.0.x"
 ```
 
 Add this line of code to the ```providers``` array located in your ```app/config/app.php``` file:
@@ -47,10 +47,18 @@ Afterwards edit the file ```app/config/packages/lucadegasperi/oauth2-server-lara
 
 ### Migrations
 
-This package comes with all the migrations you need to run a full featured oauth2 server. Run:
+This package comes with an artisan command to create migrations on the fly. Simply run
 
 ```
-php artisan migrate --package="lucadegasperi/oauth2-server-laravel"
+php artisan oauth2-server:migrations"
+```
+Optionally you can specify a ```--path``` option to set where you want the migrations to be created.
+
+### Controller
+To make the start process even quicker, a sample controller can be created for you by running
+
+```
+php artisan oauth2-server:controller"
 ```
 
 ## Issuing an access token

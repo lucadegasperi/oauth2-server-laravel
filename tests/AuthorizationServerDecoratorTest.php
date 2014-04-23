@@ -6,7 +6,7 @@ use LucaDegasperi\OAuth2Server\Decorators\AuthorizationServerDecorator;
 class AuthorizationServerDecoratorTest extends TestCase
 {
 
-    public function getProxy($mock)
+    public function getDecorator($mock)
     {
         return new AuthorizationServerDecorator($mock);
     }
@@ -30,69 +30,87 @@ class AuthorizationServerDecoratorTest extends TestCase
 
     public function test_make_redirect()
     {
-        $proxy = $this->getProxy($this->getServer());
+        // arrange
+        $decorator = $this->getDecorator($this->getServer());
 
-        $result = $proxy->makeRedirect('example');
+        // act
+        $result = $decorator->makeRedirect('example');
 
+        // assert
         $this->assertEquals('example?', $result);
     }
 
     public function test_make_redirect_with_code()
     {
-        $proxy = $this->getProxy($this->getServer());
+        // arrange
+        $decorator = $this->getDecorator($this->getServer());
 
-        $result = $proxy->makeRedirectWithCode('1234567890', array('redirect_uri' => 'example'));
+        // act
+        $result1 = $decorator->makeRedirectWithCode('1234567890', array('redirect_uri' => 'example'));
+        $result2 = $decorator->makeRedirectWithCode('1234567890', array('redirect_uri' => 'example', 'state' => 'random'));
 
-        $this->assertEquals('example?code=1234567890&state=', $result);
-
-        $result = $proxy->makeRedirectWithCode('1234567890', array('redirect_uri' => 'example', 'state' => 'random'));
-
-        $this->assertEquals('example?code=1234567890&state=random', $result);
+        // assert
+        $this->assertEquals('example?code=1234567890&state=', $result1);
+        $this->assertEquals('example?code=1234567890&state=random', $result2);
     }
 
     public function test_make_redirect_with_error()
     {
-        $mock = $this->getServer();
-        $mock->shouldReceive('getExceptionMessage')->twice()->andReturn('error_message');
+        // arrange
+        $server = $this->getServer();
+        $decorator = $this->getDecorator($server);
 
-        $proxy = $this->getProxy($mock);
+        // act
+        $result1 = $decorator->makeRedirectWithError(array('redirect_uri' => 'example'));
+        $result2 = $decorator->makeRedirectWithError(array('redirect_uri' => 'example', 'state' => 'random'));
 
-        $result = $proxy->makeRedirectWithError(array('redirect_uri' => 'example'));
-
-        $this->assertEquals('example?error=access_denied&error_message=error_message&state=', $result);
-
-        $result = $proxy->makeRedirectWithError(array('redirect_uri' => 'example', 'state' => 'random'));
-
-        $this->assertEquals('example?error=access_denied&error_message=error_message&state=random', $result);
+        // assert
+        $this->assertEquals('example?error=access_denied&error_message=The+resource+owner+or+authorization+server+denied+the+request.&state=', $result1);
+        $this->assertEquals('example?error=access_denied&error_message=The+resource+owner+or+authorization+server+denied+the+request.&state=random', $result2);
     }
 
     public function test_check_authorize_params()
     {
-        $mock = $this->getServer();
-        $mock->shouldReceive('getGrantType->checkAuthoriseParams')->andReturn($this->getStub());
+        // arrange
+        $grant = m::mock();
+        $grant->shouldReceive('checkAuthoriseParams')->once()->andReturn($this->getStub());
 
-        $response = $this->getProxy($mock)->checkAuthorizeParams();
+        $server = $this->getServer();
+        $server->shouldReceive('getGrantType')->once()->andReturn($grant);
 
+        // act
+        $response = $this->getDecorator($server)->checkAuthorizeParams();
+
+        // assert
         $this->assertEquals($this->getStub(), $response);
     }
 
     public function test_new_authorize_request()
     {
-        $mock = $this->getServer();
-        $mock->shouldReceive('getGrantType->newAuthoriseRequest')->andReturn('example_code');
+        // arrange
+        $grant = m::mock();
+        $grant->shouldReceive('newAuthoriseRequest')->once()->andReturn('example_code');
 
-        $response = $this->getProxy($mock)->newAuthorizeRequest('user', 1, $this->getStub());
+        $server = $this->getServer();
+        $server->shouldReceive('getGrantType')->with('authorization_code')->once()->andReturn($grant);
 
+        // act
+        $response = $this->getDecorator($server)->newAuthorizeRequest('user', 1, $this->getStub());
+
+        // assert
         $this->assertEquals('example_code', $response);
     }
 
     public function test_access_token_correctly_issued()
     {
+        // arrange
         $mock = $this->getServer();
         $mock->shouldReceive('issueAccessToken')->once()->andReturn(array('foo' => 'bar'));
 
-        $response = $this->getProxy($mock)->performAccessTokenFlow();
+        // act
+        $response = $this->getDecorator($mock)->performAccessTokenFlow();
 
+        // assert
         $this->assertEquals('{"foo":"bar"}', $response->getContent());
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
         $this->assertTrue($response->isOk());
@@ -100,28 +118,30 @@ class AuthorizationServerDecoratorTest extends TestCase
 
     public function test_access_token_with_client_error()
     {
-        $mock = $this->getServer();
-        $mock->shouldReceive('issueAccessToken')->once()->andThrow(new League\OAuth2\Server\Exception\ClientException('client exception'));
-        $mock->shouldReceive('getExceptionType')->twice()->andReturn('invalid_request');
-        $mock->shouldReceive('getExceptionHttpHeaders')->once()->andReturn(array());
+        // arrange
+        $server = $this->getServer();
+        $server->shouldReceive('issueAccessToken')->once()->andThrow(new League\OAuth2\Server\Exception\ClientException('client exception'));
 
-        $response = $this->getProxy($mock)->performAccessTokenFlow();
+        // act
+        $response = $this->getDecorator($server)->performAccessTokenFlow();
 
+        // assert
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
         $this->assertFalse($response->isOk());
-        
     }
 
     public function test_access_token_with_generic_error()
     {
+        // arrange
         $mock = $this->getServer();
         $mock->shouldReceive('issueAccessToken')->once()->andThrow(new Exception('internal server error'));
 
-        $response = $this->getProxy($mock)->performAccessTokenFlow();
+        // act
+        $response = $this->getDecorator($mock)->performAccessTokenFlow();
 
+        // assert
         $this->assertTrue($response instanceof Illuminate\Http\JsonResponse);
         $this->assertTrue($response->isServerError());
-        
     }
 
     public function tearDown() {

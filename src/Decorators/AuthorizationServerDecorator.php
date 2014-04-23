@@ -9,11 +9,15 @@ use Input;
 
 class AuthorizationServerDecorator extends AuthorizationServer
 {
+    /**
+     * @var \League\OAuth2\Server\AuthorizationServer
+     */
+    protected $authServer;
 
     /**
      * Create a new AuthorizationServerDecorator
-     * 
-     * @param Authorization $authServer the OAuth Authorization Server to use
+     *
+     * @param \League\OAuth2\Server\AuthorizationServer $authServer the OAuth Authorization Server to use
      */
     public function __construct(AuthorizationServer $authServer)
     {
@@ -24,12 +28,12 @@ class AuthorizationServerDecorator extends AuthorizationServer
      * Make a redirect to a client redirect URI
      * @param  string $uri            the uri to redirect to
      * @param  array  $params         the query string parameters
-     * @param  string $queryDelimeter the query string delimiter
+     * @param  string $queryDelimiter the query string delimiter
      * @return Redirect               a Redirect object
      */
-    public function makeRedirect($uri, $params = array(), $queryDelimeter = '?')
+    public function makeRedirect($uri, $params = array(), $queryDelimiter = '?')
     {
-        return RedirectUri::make($uri, $params, $queryDelimeter);
+        return RedirectUri::make($uri, $params, $queryDelimiter);
     }
 
     /**
@@ -55,11 +59,11 @@ class AuthorizationServerDecorator extends AuthorizationServer
      */
     public function makeRedirectWithError($params = array())
     {
-        return $this->makeRedirect($params['redirect_uri'], array(
+        return $this->makeRedirect($params['redirect_uri'], [
             'error' =>  'access_denied',
-            'error_message' =>  $this->authServer->getExceptionMessage('access_denied'),
+            'error_message' =>  self::getExceptionMessage('access_denied'),
             'state' =>  isset($params['state']) ? $params['state'] : ''
-        ));
+        ]);
     }
 
     /**
@@ -100,13 +104,13 @@ class AuthorizationServerDecorator extends AuthorizationServer
 
             // Throw an exception because there was a problem with the client's request
             $response = array(
-                'error' =>  $this->authServer->getExceptionType($e->getCode()),
+                'error' =>  self::getExceptionType($e->getCode()),
                 'error_description' => $e->getMessage()
             );
 
             // make this better in order to return the correct headers via the response object
-            $error = $this->authServer->getExceptionType($e->getCode());
-            $headers = $this->authServer->getExceptionHttpHeaders($error);
+            $error = self::getExceptionType($e->getCode());
+            $headers = self::getExceptionHttpHeaders($error);
             return Response::json($response, self::$exceptionHttpStatusCodes[$error], $headers);
 
         } catch (Exception $e) {

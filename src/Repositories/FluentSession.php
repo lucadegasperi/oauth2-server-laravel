@@ -25,8 +25,8 @@ class FluentSession extends Adapter implements SessionInterface
         }
 
         return (new Session($this->getServer()))
-                 ->setId($result->id)
-                 ->setOwner($result->owner_type, $result->owner_id);
+               ->setId($result->id)
+               ->setOwner($result->owner_type, $result->owner_id);
     }
 
     /**
@@ -36,7 +36,6 @@ class FluentSession extends Adapter implements SessionInterface
      */
     public function getByAccessToken($accessToken)
     {
-        // TODO: Implement this method
         $result = DB::table('oauth_sessions')
                 ->select('oauth_sessions.*')
                 ->join('oauth_access_tokens', 'oauth_session.id', '=', 'oauth_access_tokens.session_id')
@@ -60,17 +59,17 @@ class FluentSession extends Adapter implements SessionInterface
     {
         // TODO: Check this before pushing
         $result = DB::table('oauth_session_scopes')
-                        ->select('oauth_scopes.*')
-                        ->join('oauth_scopes', 'oauth_session_scopes.scope_id', '=', 'oauth_scopes.id')
-                        ->where('oauth_sessions.id', $sessionId)
-                        ->get();
+                  ->select('oauth_scopes.*')
+                  ->join('oauth_scopes', 'oauth_session_scopes.scope', '=', 'oauth_scopes.scope')
+                  ->where('oauth_sessions.id', $sessionId)
+                  ->get();
         
         $scopes = [];
         
         foreach ($result as $scope) {
             $scopes[] = (new Scope($this->getServer()))
-                          ->setId($scope->id)
-                          ->setDescription($scope->description);
+                      ->setId($scope->scope)
+                      ->setDescription($scope->description);
         }
         
         return $scopes;
@@ -106,7 +105,7 @@ class FluentSession extends Adapter implements SessionInterface
     {
         DB::table('oauth_session_scopes')->insert([
             'session_id' => $sessionId,
-            'scope_id'   => $scopeId,
+            'scope'   => $scopeId,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

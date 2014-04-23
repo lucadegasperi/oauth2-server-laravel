@@ -18,14 +18,15 @@ class CreateOauthSessionsTable extends Migration
             $table->string('client_id', 40);
             $table->enum('owner_type', array('client', 'user'))->default('user');
             $table->string('owner_id');
+            $table->string('client_redirect_uri')->nullable();
             $table->timestamps();
 
             $table->index(array('client_id', 'owner_type', 'owner_id'));
 
             $table->foreign('client_id')
-                    ->references('id')->on('oauth_clients')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                  ->references('id')->on('oauth_clients')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
 	}
 

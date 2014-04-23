@@ -25,7 +25,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
 
         return (new AccessToken($this->getServer()))
                  ->setToken($result->token)
-                 ->setExpireTime($result->expires);
+                 ->setExpireTime($result->expire_time);
     }
 
     public function getByRefreshToken($refreshToken)
@@ -41,7 +41,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
 
         return (new AccessToken($this->getServer()))
                  ->setToken($result->token)
-                 ->setExpireTime($result->expires);
+                 ->setExpireTime($result->expire_time);
     }
 
     /**
@@ -52,17 +52,17 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     public function getScopes($token)
     {
         $result = DB::table('oauth_access_token_scopes')
-                        ->select('oauth_scopes.*')
-                        ->join('oauth_scopes', 'oauth_access_token_scopes.scope_id', '=', 'oauth_scopes.id')
-                        ->where('oauth_access_token_scopes.token', $token)
-                        ->get();
+                ->select('oauth_scopes.*')
+                ->join('oauth_scopes', 'oauth_access_token_scopes.scope_id', '=', 'oauth_scopes.id')
+                ->where('oauth_access_token_scopes.token', $token)
+                ->get();
         
         $scopes = [];
         
         foreach ($result as $scope) {
             $scopes[] = (new Scope($this->getServer()))
-                          ->setId($scope->id)
-                          ->setDescription($scope->description);
+                      ->setId($scope->id)
+                      ->setDescription($scope->description);
         }
         
         return $scopes;
@@ -79,13 +79,13 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     {
         DB::table('oauth_access_tokens')->insert([
             'token' => $token,
-            'expires' => $expireTime,
+            'expire_time' => $expireTime,
             'session_id' => $sessionId
         ]);
 
         return (new AccessToken($this->getServer()))
-                 ->setToken($result->token)
-                 ->setExpireTime($result->expires);
+               ->setToken($token)
+               ->setExpireTime($expireTime);
     }
 
     /**
@@ -98,7 +98,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     {
         DB::table('oauth_access_token_scopes')->insert([
             'token'      => $token,
-            'scope_id'   => $scope,
+            'scope'      => $scope,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -112,7 +112,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     public function delete($token)
     {
         DB::table('oauth_access_tokens')
-                ->where('oauth_access_tokens.token', $token)
-                ->delete();
+        ->where('oauth_access_tokens.token', $token)
+        ->delete();
     }
 }

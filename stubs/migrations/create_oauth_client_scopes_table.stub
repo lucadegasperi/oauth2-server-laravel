@@ -27,9 +27,8 @@ class CreateOauthClientScopesTable extends Migration
                   ->onDelete('cascade');
 
             $table->foreign('scope_id')
-                  ->references('scope')->on('oauth_scopes')
+                  ->references('id')->on('oauth_scopes')
                   ->onDelete('cascade')
-                  ->onUpdate('no action');
         });
     }
 

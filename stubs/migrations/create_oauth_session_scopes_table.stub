@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOauthAuthCodeScopesTable extends Migration
+class CreateOauthSessionScopesTable extends Migration
 {
 
     /**
@@ -15,15 +15,15 @@ class CreateOauthAuthCodeScopesTable extends Migration
     {
         Schema::create('oauth_session_scopes', function (Blueprint $table) {
             $table->integer('session_id')->unsigned();
-            $table->string('scope', 40);
+            $table->string('scope_id', 40);
 
             $table->timestamps();
 
             $table->index('session_id');
-            $table->index('scope');
+            $table->index('scope_id');
 
-            $table->foreign('scope')
-                  ->references('scope')->on('oauth_scopes')
+            $table->foreign('scope_id')
+                  ->references('id')->on('oauth_scopes')
                   ->onDelete('cascade');
 
             $table->foreign('session_id')
@@ -40,7 +40,7 @@ class CreateOauthAuthCodeScopesTable extends Migration
     public function down()
     {
         Schema::table('oauth_session_scopes', function (Blueprint $table) {
-            $table->dropForeign('oauth_session_scopes_scope_foreign');
+            $table->dropForeign('oauth_session_scopes_scope_id_foreign');
             $table->dropForeign('oauth_session_scopes_session_id_foreign');
         });
         Schema::drop('oauth_session_scopes');

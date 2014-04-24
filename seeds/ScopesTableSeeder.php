@@ -13,14 +13,12 @@ class ScopesTableSeeder extends Seeder {
         $scopes = array(
             array(
                 'scope' => 'scope1',
-                'name' => 'scope1',
                 'description' => 'Scope 1 Description',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
             array(
                 'scope' => 'scope2',
-                'name' => 'scope1',
                 'description' => 'Scope 2 Description',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,

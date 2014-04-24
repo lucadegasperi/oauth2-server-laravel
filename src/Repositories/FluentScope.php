@@ -1,4 +1,15 @@
-<?php namespace LucaDegasperi\OAuth2Server\Repositories;
+<?php
+/**
+ * Fluent storage implementation for an OAuth 2.0 Scope
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+
+namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Storage\Adapter;
@@ -54,8 +65,8 @@ class FluentScope extends Adapter implements ScopeInterface
     public function get($scope, $grantType = null)
     {
          $query = DB::table('oauth_scopes')
-                    ->select('oauth_scopes.scope as scope', 'oauth_scopes.description as description')
-                    ->where('oauth_scopes.scope', $scope);
+                    ->select('oauth_scopes.id as id', 'oauth_scopes.description as description')
+                    ->where('oauth_scopes.id', $scope);
 
         // TODO: allow for client scopes limiting
         /*if ($this->limitClientsToScopes === true and ! is_null($clientId)) {
@@ -64,9 +75,9 @@ class FluentScope extends Adapter implements ScopeInterface
         }*/
 
         if ($this->limitScopesToGrants === true and ! is_null($grantType)) {
-            $query = $query->join('oauth_grant_scopes', 'oauth_scopes.scope', '=', 'oauth_grant_scopes.scope')
-                           ->join('oauth_grants', 'oauth_grants.grant', '=', 'oauth_grant_scopes.grant')
-                           ->where('oauth_grants.grant', $grantType);
+            $query = $query->join('oauth_grant_scopes', 'oauth_scopes.id', '=', 'oauth_grant_scopes.scope_id')
+                           ->join('oauth_grants', 'oauth_grants.id', '=', 'oauth_grant_scopes.grant_id')
+                           ->where('oauth_grants.id', $grantType);
         }
 
         $result = $query->first();
@@ -76,7 +87,7 @@ class FluentScope extends Adapter implements ScopeInterface
         }
 
         return (new Scope($this->getServer()))
-               ->setId($result->scope)
+               ->setId($result->id)
                ->setDescription($result->description);
     }
 }

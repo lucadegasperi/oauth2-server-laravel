@@ -1,4 +1,15 @@
-<?php namespace LucaDegasperi\OAuth2Server\Repositories;
+<?php
+/**
+ * Fluent storage implementation for an OAuth 2.0 Refresh Token
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+
+namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Storage\Adapter;
@@ -16,7 +27,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
     public function get($token)
     {
         $result = DB::table('oauth_refresh_tokens')
-                ->where('token', $token)
+                ->where('id', $token)
                 ->first();
 
         if (is_null($result)) {
@@ -24,7 +35,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
         }
 
         return (new RefreshToken($this->getServer()))
-               ->setToken($result->token)
+               ->setToken($result->id)
                ->setExpireTime($result->expire_time);
     }
 
@@ -38,14 +49,14 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
     public function create($token, $expireTime, $accessToken)
     {
         DB::table('oauth_refresh_tokens')->insert([
-            'token' => $token,
-            'expire_time' => $expireTime,
-            'access_token' => $accessToken
+            'id'              => $token,
+            'expire_time'     => $expireTime,
+            'access_token_id' => $accessToken
         ]);
 
         return (new RefreshToken($this->getServer()))
-                 ->setToken($token)
-                 ->setExpireTime($expireTime);
+               ->setToken($token)
+               ->setExpireTime($expireTime);
     }
 
     /**
@@ -56,7 +67,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
     public function delete($token)
     {
         DB::table('oauth_refresh_tokens')
-            ->where('token', $token)
-            ->delete();
+        ->where('id', $token)
+        ->delete();
     }
 }

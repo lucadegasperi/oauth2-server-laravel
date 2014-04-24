@@ -26,7 +26,7 @@ class CreateOauthClientGrantsTable extends Migration
                   ->onUpdate('no action');
 
             $table->foreign('grant_id')
-                  ->references('grant')->on('oauth_grants')
+                  ->references('id')->on('oauth_grants')
                   ->onDelete('cascade')
                   ->onUpdate('no action');
         });

@@ -1,4 +1,14 @@
-<?php namespace LucaDegasperi\OAuth2Server\Repositories;
+<?php
+/**
+ * Fluent storage implementation for an OAuth 2.0 Session
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\SessionInterface;
 use League\OAuth2\Server\Storage\Adapter;
@@ -39,15 +49,15 @@ class FluentSession extends Adapter implements SessionInterface
         $result = DB::table('oauth_sessions')
                 ->select('oauth_sessions.*')
                 ->join('oauth_access_tokens', 'oauth_session.id', '=', 'oauth_access_tokens.session_id')
-                ->where('oauth_access_tokens.token', $accessToken);
+                ->where('oauth_access_tokens.id', $accessToken);
 
         if (is_null($result)) {
             return null;
         }
 
         return (new Session($this->getServer()))
-                 ->setId($result->id)
-                 ->setOwner($result->owner_type, $result->owner_id);
+               ->setId($result->id)
+               ->setOwner($result->owner_type, $result->owner_id);
     }
 
     /**
@@ -60,7 +70,7 @@ class FluentSession extends Adapter implements SessionInterface
         // TODO: Check this before pushing
         $result = DB::table('oauth_session_scopes')
                   ->select('oauth_scopes.*')
-                  ->join('oauth_scopes', 'oauth_session_scopes.scope', '=', 'oauth_scopes.scope')
+                  ->join('oauth_scopes', 'oauth_session_scopes.scope_id', '=', 'oauth_scopes.id')
                   ->where('oauth_sessions.id', $sessionId)
                   ->get();
         
@@ -68,7 +78,7 @@ class FluentSession extends Adapter implements SessionInterface
         
         foreach ($result as $scope) {
             $scopes[] = (new Scope($this->getServer()))
-                      ->setId($scope->scope)
+                      ->setId($scope->id)
                       ->setDescription($scope->description);
         }
         
@@ -105,7 +115,7 @@ class FluentSession extends Adapter implements SessionInterface
     {
         DB::table('oauth_session_scopes')->insert([
             'session_id' => $sessionId,
-            'scope'   => $scopeId,
+            'scope_id'   => $scopeId,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

@@ -1,4 +1,15 @@
-<?php namespace LucaDegasperi\OAuth2Server\Repositories;
+<?php
+/**
+ * Fluent storage implementation for an OAuth 2.0 Access Token
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+
+namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\Adapter;
@@ -16,7 +27,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     public function get($token)
     {
         $result = DB::table('oauth_access_tokens')
-                ->where('oauth_access_tokens.token', $token)
+                ->where('oauth_access_tokens.id', $token)
                 ->first();
 
         if (is_null($result)) {
@@ -24,24 +35,24 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
         }
 
         return (new AccessToken($this->getServer()))
-                 ->setToken($result->token)
-                 ->setExpireTime($result->expire_time);
+               ->setToken($result->id)
+               ->setExpireTime($result->expire_time);
     }
 
     public function getByRefreshToken($refreshToken)
     {
         $result = DB::table('oauth_access_tokens')
                 ->select('oauth_access_tokens.*')
-                ->join('oauth_refresh_tokens', 'oauth_access_tokens.token', '=', 'oauth_refresh_tokens.access_token')
-                ->where('oauth_refresh_tokens.token', $refreshToken);
+                ->join('oauth_refresh_tokens', 'oauth_access_tokens.id', '=', 'oauth_refresh_tokens.access_token_id')
+                ->where('oauth_refresh_tokens.id', $refreshToken);
 
         if (is_null($result)) {
             return null;
         }
 
         return (new AccessToken($this->getServer()))
-                 ->setToken($result->token)
-                 ->setExpireTime($result->expire_time);
+               ->setToken($result->id)
+               ->setExpireTime($result->expire_time);
     }
 
     /**
@@ -54,7 +65,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
         $result = DB::table('oauth_access_token_scopes')
                 ->select('oauth_scopes.*')
                 ->join('oauth_scopes', 'oauth_access_token_scopes.scope_id', '=', 'oauth_scopes.id')
-                ->where('oauth_access_token_scopes.token', $token)
+                ->where('oauth_access_token_scopes.access_token_id', $token)
                 ->get();
         
         $scopes = [];
@@ -78,7 +89,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     public function create($token, $expireTime, $sessionId)
     {
         DB::table('oauth_access_tokens')->insert([
-            'token' => $token,
+            'id' => $token,
             'expire_time' => $expireTime,
             'session_id' => $sessionId
         ]);
@@ -89,7 +100,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     }
 
     /**
-     * Associate a scope with an acess token
+     * Associate a scope with an access token
      * @param  string $token The access token
      * @param  string $scope The scope
      * @return void
@@ -97,10 +108,10 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     public function associateScope($token, $scope)
     {
         DB::table('oauth_access_token_scopes')->insert([
-            'token'      => $token,
-            'scope'      => $scope,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'access_token_id' => $token,
+            'scope_id'        => $scope,
+            'created_at'      => Carbon::now(),
+            'updated_at'      => Carbon::now()
         ]);
     }
 
@@ -112,7 +123,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     public function delete($token)
     {
         DB::table('oauth_access_tokens')
-        ->where('oauth_access_tokens.token', $token)
+        ->where('oauth_access_tokens.id', $token)
         ->delete();
     }
 }

@@ -38,11 +38,14 @@ class MigrationsCommand extends Command
         'create_oauth_scopes_table',
         'create_oauth_grants_table',
         'create_oauth_sessions_table',
+        'create_oauth_session_scopes_table',
         'create_oauth_client_endpoints_table',
         'create_oauth_client_scopes_table',
         'create_oauth_client_grants_table',
-        'create_oauth_authcodes_table',
+        'create_oauth_auth_codes_table',
+        'create_oauth_auth_code_scopes_table',
         'create_oauth_access_tokens_table',
+        'create_oauth_access_token_scopes_table',
         'create_oauth_refresh_tokens_table',
     ];
 

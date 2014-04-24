@@ -1,4 +1,15 @@
-<?php namespace LucaDegasperi\OAuth2Server\Repositories;
+<?php
+/**
+ * Fluent storage implementation for an OAuth 2.0 Client
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+
+namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\ClientInterface;
 use League\OAuth2\Server\Storage\Adapter;
@@ -9,28 +20,32 @@ class FluentClient extends Adapter implements ClientInterface
 {
     protected $limitClientsToGrants = false;
 
+    /**
+     * @param bool $limitClientsToGrants
+     */
     public function __construct($limitClientsToGrants = false)
     {
         $this->limitClientsToGrants = $limitClientsToGrants;
     }
 
+    /**
+     * @return bool
+     */
     public function areClientsLimitedToGrants()
     {
         return $this->limitClientsToGrants;
     }
 
+    /**
+     * @param bool $limit whether or not to limit clients to grants
+     */
     public function limitClientsToGrants($limit = false)
     {
         $this->limitClientsToGrants = $limit;
     }
 
     /**
-     * Validate a client
-     * @param  string     $clientId     The client's ID
-     * @param  string     $clientSecret The client's secret (default = "null")
-     * @param  string     $redirectUri  The client's redirect URI (default = "null")
-     * @param  string     $grantType    The grant type used in the request (default = "null")
-     * @return League\OAuth2\Server\Entity\Client|null
+     * {@inheritdoc}
      */
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
@@ -70,7 +85,7 @@ class FluentClient extends Adapter implements ClientInterface
         if ($this->limitClientsToGrants === true and ! is_null($grantType)) {
             $query = $query->join('oauth_client_grants', 'oauth_clients.id', '=', 'oauth_client_grants.client_id')
                    ->join('oauth_grants', 'oauth_grants.id', '=', 'oauth_client_grants.grant_id')
-                   ->where('oauth_grants.grant', $grantType);
+                   ->where('oauth_grants.id', $grantType);
         }
 
         $result = $query->first();

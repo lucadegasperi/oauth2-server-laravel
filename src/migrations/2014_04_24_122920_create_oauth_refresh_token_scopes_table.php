@@ -41,8 +41,8 @@ class CreateOauthRefreshTokenScopesTable extends Migration
     public function down()
     {
         Schema::table('oauth_refresh_token_scopes', function (Blueprint $table) {
-            $table->dropForeign('oauth_access_token_scopes_scope_id_foreign');
-            $table->dropForeign('oauth_access_token_scopes_refresh_token_id_foreign');
+            $table->dropForeign('oauth_refresh_token_scopes_scope_id_foreign');
+            $table->dropForeign('oauth_refresh_token_scopes_refresh_token_id_foreign');
         });
         Schema::drop('oauth_refresh_token_scopes');
     }

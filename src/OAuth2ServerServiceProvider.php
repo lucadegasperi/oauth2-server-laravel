@@ -38,7 +38,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/../');
 
-        require_once __DIR__.'/filters.php';
+        $this->bootFilters();
     }
 
     /**
@@ -91,6 +91,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app->bind('League\OAuth2\Server\Storage\ClientInterface',       'LucaDegasperi\OAuth2Server\Repositories\FluentClient');
         $this->app->bind('League\OAuth2\Server\Storage\ScopeInterface',        'LucaDegasperi\OAuth2Server\Repositories\FluentScope');
         $this->app->bind('League\OAuth2\Server\Storage\SessionInterface',      'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
+        $this->app->bind('League\OAuth2\Server\Storage\AuthCodeInterface',     'LucaDegasperi\OAuth2Server\Repositories\FluentAuthCode');
         $this->app->bind('League\OAuth2\Server\Storage\AccessTokenInterface',  'LucaDegasperi\OAuth2Server\Repositories\FluentAccessToken');
         $this->app->bind('League\OAuth2\Server\Storage\RefreshTokenInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentRefreshToken');
     }
@@ -109,6 +110,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             $server = $app->make('League\OAuth2\Server\AuthorizationServer')
                           ->setClientStorage($app->make('League\OAuth2\Server\Storage\ClientInterface'))
                           ->setSessionStorage($app->make('League\OAuth2\Server\Storage\SessionInterface'))
+                          ->setAuthCodeStorage($app->make('League\OAuth2\Server\Storage\AuthCodeInterface'))
                           ->setAccessTokenStorage($app->make('League\OAuth2\Server\Storage\AccessTokenInterface'))
                           ->setRefreshTokenStorage($app->make('League\OAuth2\Server\Storage\RefreshTokenInterface'))
                           ->setScopeStorage($app->make('League\OAuth2\Server\Storage\ScopeInterface'))
@@ -198,9 +200,20 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         });
 
         $this->app->bindShared('command.oauth2-server.migrations', function($app) {
-            return new MigrationsCommand($app['files']);
+            return new MigrationsCommand();
         });
 
         $this->commands('command.oauth2-server.controller', 'command.oauth2-server.migrations');
+    }
+
+    /**
+     * Boot the filters
+     * @return void
+     */
+    private function bootFilters()
+    {
+        $this->app['router']->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthorizationParamsFilter');
+        $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
+        $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
     }
 }

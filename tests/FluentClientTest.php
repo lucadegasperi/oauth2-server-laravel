@@ -1,17 +1,26 @@
 <?php
 
 use LucaDegasperi\OAuth2Server\Repositories\FluentClient;
+use Mockery as m;
 
 class FluentClientTest extends DBTestCase
 {
+    public function getClientRepository()
+    {
+        $server = m::mock('League\OAuth2\Server\AbstractServer');
+        $repo = new FluentClient();
+        $repo->setServer($server);
+
+        return $repo;
+    }
 
     public function test_get_client_with_secret_only()
     {
         // arrange
-        $repo = new FluentClient();
+        $repo = $this->getClientRepository();
 
         // act
-        $client = $repo->getClient('client1id', 'client1secret');
+        $client = $repo->get('client1id', 'client1secret');
 
         // assert
         $this->assertIsClient($client, false);
@@ -19,28 +28,28 @@ class FluentClientTest extends DBTestCase
 
     public function test_get_client_with_redirect_uri_only()
     {
-        $repo = new FluentClient();
-        $client = $repo->getClient('client1id', null, 'http://example1.com/callback');
+        $repo = $this->getClientRepository();
+        $client = $repo->get('client1id', null, 'http://example1.com/callback');
 
         $this->assertIsClient($client);
     }
 
     public function test_get_client_with_secret_and_redirect_uri()
     {
-        $repo = new FluentClient();
+        $repo = $this->getClientRepository();
 
-        $client = $repo->getClient('client1id', 'client1secret', 'http://example1.com/callback');
+        $client = $repo->get('client1id', 'client1secret', 'http://example1.com/callback');
 
         $this->assertIsClient($client);
     }
 
     public function test_null_is_returned_with_unexisting_client()
     {
-        $repo = new FluentClient();
+        $repo = $this->getClientRepository();
 
-        $result1 = $repo->getClient("client3id", "client3secret");
-        $result2 = $repo->getClient('client3id', null, 'http://example3.com/callback');
-        $result3 = $repo->getClient('client3id', 'client3secret', 'http://example3.com/callback');
+        $result1 = $repo->get("client3id", "client3secret");
+        $result2 = $repo->get('client3id', null, 'http://example3.com/callback');
+        $result3 = $repo->get('client3id', 'client3secret', 'http://example3.com/callback');
 
         $this->assertNull($result1);
         $this->assertNull($result2);
@@ -49,10 +58,10 @@ class FluentClientTest extends DBTestCase
 
     public function test_false_is_returned_with_invalid_grant()
     {
-        $repo = new FluentClient();
+        $repo = $this->getClientRepository();
         $repo->limitClientsToGrants(true);
 
-        $result = $repo->getClient('client1id', 'client1secret', 'http://example1.com/callback', 'grant2');
+        $result = $repo->get('client1id', 'client1secret', 'http://example1.com/callback', 'grant2');
 
         $this->assertTrue($repo->areClientsLimitedToGrants());
         $this->assertNull($result);
@@ -60,10 +69,10 @@ class FluentClientTest extends DBTestCase
 
     public function test_client_is_returned_with_valid_grant()
     {
-        $repo = new FluentClient();
+        $repo = $this->getClientRepository();
         $repo->limitClientsToGrants(true);
 
-        $client = $repo->getClient('client1id', 'client1secret', 'http://example1.com/callback', 'grant1');
+        $client = $repo->get('client1id', 'client1secret', 'http://example1.com/callback', 'grant1');
 
         $this->assertTrue($repo->areClientsLimitedToGrants());
         $this->assertIsClient($client);

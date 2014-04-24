@@ -12,12 +12,12 @@ class GrantsTableSeeder extends Seeder {
 
         $grants = array(
             array(
-                'grant' => 'grant1',
+                'id' => 'grant1',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
             array(
-                'grant' => 'grant2',
+                'id' => 'grant2',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
@@ -30,13 +30,13 @@ class GrantsTableSeeder extends Seeder {
         $clientGrants = array(
             array(
                 'client_id' => 'client1id',
-                'grant_id' => 1,
+                'grant_id' => 'grant1',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
             array(
                 'client_id' => 'client2id',
-                'grant_id' => 2,
+                'grant_id' => 'grant2',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),

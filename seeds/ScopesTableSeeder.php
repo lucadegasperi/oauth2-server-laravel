@@ -12,13 +12,13 @@ class ScopesTableSeeder extends Seeder {
 
         $scopes = array(
             array(
-                'scope' => 'scope1',
+                'id' => 'scope1',
                 'description' => 'Scope 1 Description',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
             array(
-                'scope' => 'scope2',
+                'id' => 'scope2',
                 'description' => 'Scope 2 Description',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
@@ -32,13 +32,13 @@ class ScopesTableSeeder extends Seeder {
         $clientScopes = array(
             array(
                 'client_id' => 'client1id',
-                'scope_id' => 1,
+                'scope_id' => 'scope1',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
             array(
                 'client_id' => 'client2id',
-                'scope_id' => 2,
+                'scope_id' => 'scope2',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
@@ -50,14 +50,14 @@ class ScopesTableSeeder extends Seeder {
 
         $grantScopes = array(
             array(
-                'grant_id' => 1,
-                'scope_id' => 1,
+                'grant_id' => 'grant1',
+                'scope_id' => 'scope1',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
             array(
-                'grant_id' => 2,
-                'scope_id' => 2,
+                'grant_id' => 'grant2',
+                'scope_id' => 'scope2',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),

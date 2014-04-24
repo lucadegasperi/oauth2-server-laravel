@@ -3,9 +3,9 @@
 abstract class DBTestCase extends TestCase
 {
     protected $artisan;
-    protected $files;
+    //protected $files;
 
-    protected function createMigrationsFiles()
+    /*protected function createMigrationsFiles()
     {
         if ( ! $this->files->exists(__DIR__.'/../tmp')) {
 
@@ -20,20 +20,20 @@ abstract class DBTestCase extends TestCase
     protected function deleteMigrationsFiles()
     {
         $this->files->deleteDirectory(__DIR__.'/../tmp');
-    }
+    }*/
 
     public function setUp()
     {
         parent::setUp();
 
         $this->artisan = $this->app->make('artisan');
-        $this->files = $this->app->make('files');
+        //$this->files = $this->app->make('files');
 
-        $this->createMigrationsFiles();
+        //$this->createMigrationsFiles();
 
         $this->artisan->call('migrate', [
             '--database' => 'testbench',
-            '--path' => '../tmp'
+            '--path' => '../migrations'
         ]);
 
         $this->artisan->call('db:seed');
@@ -56,8 +56,8 @@ abstract class DBTestCase extends TestCase
         $this->artisan->call('migrate:reset');
     }
 
-    public function __destruct()
+    /*public function __destruct()
     {
         $this->deleteMigrationsFiles();
-    }
+    }*/
 }

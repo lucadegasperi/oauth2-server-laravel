@@ -15,7 +15,6 @@ use League\OAuth2\Server\Util\RedirectUri;
 use League\OAuth2\Server\Exception\ClientException;
 use Exception;
 use Response;
-use Input;
 
 class AuthorizationServerDecorator extends AuthorizationServer
 {
@@ -39,7 +38,7 @@ class AuthorizationServerDecorator extends AuthorizationServer
      * @param  string $uri            the uri to redirect to
      * @param  array  $params         the query string parameters
      * @param  string $queryDelimiter the query string delimiter
-     * @return Redirect               a Redirect object
+     * @return string                 a Redirect object
      */
     public function makeRedirect($uri, $params = array(), $queryDelimiter = '?')
     {
@@ -51,7 +50,7 @@ class AuthorizationServerDecorator extends AuthorizationServer
      * 
      * @param  string $code   the authorization code of the redirection
      * @param  array  $params the redirection parameters
-     * @return Redirect       a Redirect object
+     * @return string         a Redirect object
      */
     public function makeRedirectWithCode($code, $params = array())
     {

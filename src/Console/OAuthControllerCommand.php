@@ -1,4 +1,15 @@
-<?php namespace LucaDegasperi\OAuth2Server\Console;
+<?php
+/**
+ * Command to ease the creation of a sample Authorization Server controller
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+
+namespace LucaDegasperi\OAuth2Server\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -30,8 +41,8 @@ class OAuthControllerCommand extends Command
     /**
      * Create a new reminder table command instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @return void
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @return \LucaDegasperi\OAuth2Server\Console\OAuthControllerCommand
      */
     public function __construct(Filesystem $files)
     {

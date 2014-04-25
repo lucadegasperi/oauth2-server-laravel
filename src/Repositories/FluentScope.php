@@ -60,7 +60,7 @@ class FluentScope extends Adapter implements ScopeInterface
      *
      * @param  string     $scope     The scope
      * @param  string     $grantType The grant type used in the request (default = "null")
-     * @return bool|array If the scope doesn't exist return false
+     * @return null|Scope If the scope doesn't exist return false
      */
     public function get($scope, $grantType = null)
     {

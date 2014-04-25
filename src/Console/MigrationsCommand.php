@@ -1,8 +1,17 @@
-<?php namespace LucaDegasperi\OAuth2Server\Console;
+<?php
+/**
+ * Command to ease the migrations publishing
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+
+namespace LucaDegasperi\OAuth2Server\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Console\Input\InputOption;
 
 class MigrationsCommand extends Command
 {

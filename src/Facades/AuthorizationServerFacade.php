@@ -1,4 +1,15 @@
-<?php namespace LucaDegasperi\OAuth2Server\Facades;
+<?php
+/**
+ * Authorization Server Facade
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+
+namespace LucaDegasperi\OAuth2Server\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

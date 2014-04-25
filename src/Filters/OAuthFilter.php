@@ -1,6 +1,16 @@
-<?php namespace LucaDegasperi\OAuth2Server\Filters;
+<?php
+/**
+ * OAuth route filter
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
 
-use League\OAuth2\Server\Exception\InvalidAccessTokenException;
+namespace LucaDegasperi\OAuth2Server\Filters;
+
 use ResourceServer;
 use Response;
 
@@ -26,10 +36,8 @@ class OAuthFilter
     /**
      * Run the oauth filter
      *
-     * @param Route $route the route being called
-     * @param Request $request the request object
-     * @param string $scope additional filter arguments
-     * @return Response|null a bad response in case the request is invalid
+     * @internal param mixed $route, mixed $request, mixed $scope,...
+     * @return Response|void a bad response in case the request is invalid
      */
     public function filter()
     {

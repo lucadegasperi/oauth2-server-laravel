@@ -1,4 +1,15 @@
-<?php namespace LucaDegasperi\OAuth2Server\Filters;
+<?php
+/**
+ * OAuth owner route filter
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+
+namespace LucaDegasperi\OAuth2Server\Filters;
 
 use ResourceServer;
 use Response;
@@ -6,12 +17,10 @@ use Response;
 class OAuthOwnerFilter
 {
     /**
-     * Run the oauth owner filter
+     * Run the OAuth owner filter
      *
-     * @param Route $route the route being called
-     * @param Request $request the request object
-     * @param string $scope the allowed owners
-     * @return Response|null a bad response in case the owner is not authorized
+     * @internal param mixed $route, mixed $request, mixed $scope,...
+     * @return Response|void a bad response in case the request is invalid
      */
     public function filter()
     {

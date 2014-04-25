@@ -1,4 +1,14 @@
-<?php namespace LucaDegasperi\OAuth2Server\Decorators;
+<?php
+/**
+ * Sugar to work with an authorization server
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
+namespace LucaDegasperi\OAuth2Server\Decorators;
 
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Util\RedirectUri;

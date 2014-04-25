@@ -142,9 +142,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             $server->setRequest($app['request']);
 
             return new AuthorizationServerDecorator($server);
-            
-            return $server;
-
         });
     }
 
@@ -181,7 +178,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Get the services provided by the provider.
      *
-     * @return array
+     * @return string[]
      * @codeCoverageIgnore
      */
     public function provides()
@@ -199,7 +196,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             return new OAuthControllerCommand($app['files']);
         });
 
-        $this->app->bindShared('command.oauth2-server.migrations', function($app) {
+        $this->app->bindShared('command.oauth2-server.migrations', function() {
             return new MigrationsCommand();
         });
 

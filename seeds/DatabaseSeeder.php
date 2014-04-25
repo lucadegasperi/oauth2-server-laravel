@@ -1,4 +1,13 @@
 <?php
+/**
+ * Database Seeder
+ *
+ * @package   lucadegasperi/oauth2-server-laravel
+ * @author    Luca Degasperi <luca@lucadegasperi.com>
+ * @copyright Copyright (c) Luca Degasperi
+ * @licence   http://mit-license.org/
+ * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ */
 
 class DatabaseSeeder extends Seeder {
 

@@ -10,8 +10,14 @@ matrix:
   allow_failures:
     - php: hhvm
 
-before_script: composer install --prefer-source
-script: phpunit --configuration phpunit.xml.dist
+before_script:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction
+script:
+  - mkdir -p tmp
+  - phpunit --configuration phpunit.xml.dist
+after_script:
+  - php vendor/bin/coveralls
 
 cache:
   directories:

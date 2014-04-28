@@ -1,0 +1,5 @@
+repo_token: C3CHnRnyaPen5icheG7CYU1O4EDO9aHfu
+service_name: travis-ci
+src_dir: src
+coverage_clover: tmp/coverage.xml
+json_path: tmp/coveralls-upload.json

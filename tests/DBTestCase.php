@@ -33,7 +33,7 @@ abstract class DBTestCase extends TestCase
 
         $this->artisan->call('migrate', [
             '--database' => 'testbench',
-            '--path' => '../migrations'
+            '--path' => '../src/migrations'
         ]);
 
         $this->artisan->call('db:seed');

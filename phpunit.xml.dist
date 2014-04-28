@@ -21,10 +21,6 @@
             </exclude>
         </whitelist>
     </filter>
-    <logging>
-        <log type="coverage-clover" target="tmp/coverage.xml"/>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
-    </logging>
     <listeners>
         <listener class="League\PHPUnitCoverageListener\Listener">
             <arguments>
@@ -45,10 +41,14 @@
                         <string>https://coveralls.io/api/v1/jobs</string>
                     </element>
                     <element key="coverage_dir">
-                        <string>tmp</string>
+                        <string>/tmp</string>
                     </element>
                 </array>
             </arguments>
         </listener>
     </listeners>
+    <logging>
+        <log type="coverage-clover" target="/tmp/coverage.xml"/>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
+    </logging>
 </phpunit>

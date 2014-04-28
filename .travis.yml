@@ -13,11 +13,12 @@ matrix:
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --dev --no-interaction
+  - wget https://scrutinizer-ci.com/ocular.phar
 script:
   - mkdir -p tmp
   - phpunit --configuration phpunit.xml.dist
 after_script:
-  - php vendor/bin/coveralls
+  - php ocular.phar code-coverage:upload --format=php-clover tmp/coverage.clover
 
 cache:
   directories:

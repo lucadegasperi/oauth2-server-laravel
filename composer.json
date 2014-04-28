@@ -21,8 +21,6 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.28",
         "mockery/mockery": "0.8.*",
-        "league/phpunit-coverage-listener": "v1.1.2",
-        "satooshi/php-coveralls": "dev-master",
         "orchestra/testbench": "2.1.*",
         "squizlabs/php_codesniffer": "1.5.*"
     },

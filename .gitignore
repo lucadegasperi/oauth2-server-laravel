@@ -1,6 +1,4 @@
 /vendor
 composer.phar
-composer.lock
 .DS_Store
-oauth2-server-laravel.*
 /.idea/

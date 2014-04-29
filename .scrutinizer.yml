@@ -1,0 +1,16 @@
+# .scrutinizer.yml
+tools:
+  external_code_coverage: true
+filter:
+  excluded_paths:
+    - 'vendor/*'
+    - 'tests/*'
+    - 'app/*'
+    - 'bin/*'
+    - 'library/*'
+    - 'src/migrations/*'
+    - 'config/*'
+    - 'seeds/*'
+    - 'stubs/*'
+imports:
+  - php

@@ -38,7 +38,7 @@ class AuthorizationServerDecorator extends AuthorizationServer
      * @param  string $uri            the uri to redirect to
      * @param  array  $params         the query string parameters
      * @param  string $queryDelimiter the query string delimiter
-     * @return string                 a Redirect object
+     * @return string                 a redirect uri
      */
     public function makeRedirect($uri, $params = array(), $queryDelimiter = '?')
     {
@@ -50,7 +50,7 @@ class AuthorizationServerDecorator extends AuthorizationServer
      * 
      * @param  string $code   the authorization code of the redirection
      * @param  array  $params the redirection parameters
-     * @return string         a Redirect object
+     * @return string         a redirect uri
      */
     public function makeRedirectWithCode($code, $params = array())
     {
@@ -63,8 +63,8 @@ class AuthorizationServerDecorator extends AuthorizationServer
     /**
      * Make a redirect with an error
      * 
-     * @param  array  $params the redirection parameters
-     * @return Redirect       a Redirect object
+     * @param  array   $params the redirection parameters
+     * @return string  a redirect uri
      */
     public function makeRedirectWithError($params = array())
     {

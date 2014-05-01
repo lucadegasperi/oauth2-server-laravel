@@ -11,11 +11,18 @@
 
 namespace LucaDegasperi\OAuth2Server\Filters;
 
-use ResourceServer;
+use LucaDegasperi\OAuth2Server\Authorizer;
 use Response;
 
 class OAuthOwnerFilter
 {
+    protected $authorizer;
+
+    public function __construct(Authorizer $authorizer)
+    {
+        $this->authorizer = $authorizer;
+    }
+
     /**
      * Run the OAuth owner filter
      *
@@ -26,7 +33,7 @@ class OAuthOwnerFilter
     {
         if (func_num_args() > 2) {
             $ownerTypes = array_slice(func_get_args(), 2);
-            if (!in_array(ResourceServer::getOwnerType(), $ownerTypes)) {
+            if (!in_array($this->authorizer->getResourceOwnerType(), $ownerTypes)) {
                 return Response::json(array(
                     'status' => 403,
                     'error' => 'forbidden',

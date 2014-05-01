@@ -4,12 +4,8 @@
   ],
   "aliases": [
     {
-      "alias": "AuthorizationServer",
-      "facade": "LucaDegasperi\\OAuth2Server\\Facades\\AuthorizationServerFacade"
-    },
-    {
-      "alias": "ResourceServer",
-      "facade": "LucaDegasperi\\OAuth2Server\\Facades\\ResourceServerFacade"
+      "alias": "Authorizer",
+      "facade": "LucaDegasperi\\OAuth2Server\\Facades\\AuthorizerFacade"
     }
   ]
 }

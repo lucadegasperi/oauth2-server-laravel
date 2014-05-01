@@ -11,6 +11,9 @@
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
+use League\OAuth2\Server\Entity\AbstractToken;
+use League\OAuth2\Server\Entity\RefreshToken;
+use League\OAuth2\Server\Entity\Scope;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\Adapter;
 use League\OAuth2\Server\Entity\AccessToken;
@@ -20,7 +23,7 @@ use Carbon\Carbon;
 class FluentAccessToken extends Adapter implements AccessTokenInterface
 {
     /**
-     * Get an instance of Entites\AccessToken
+     * Get an instance of Entities\AccessToken
      * @param  string $token The access token
      * @return \League\OAuth2\Server\Entity\AccessToken
      */
@@ -39,12 +42,13 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
                ->setExpireTime($result->expire_time);
     }
 
-    public function getByRefreshToken($refreshToken)
+
+    public function getByRefreshToken(RefreshToken $refreshToken)
     {
         $result = DB::table('oauth_access_tokens')
                 ->select('oauth_access_tokens.*')
                 ->join('oauth_refresh_tokens', 'oauth_access_tokens.id', '=', 'oauth_refresh_tokens.access_token_id')
-                ->where('oauth_refresh_tokens.id', $refreshToken);
+                ->where('oauth_refresh_tokens.id', $refreshToken->getToken());
 
         if (is_null($result)) {
             return null;
@@ -57,15 +61,15 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
 
     /**
      * Get the scopes for an access token
-     * @param  string $token The access token
+     * @param \League\OAuth2\Server\Entity\AbstractToken $token The access token
      * @return array Array of \League\OAuth2\Server\Entity\Scope
      */
-    public function getScopes($token)
+    public function getScopes(AbstractToken $token)
     {
         $result = DB::table('oauth_access_token_scopes')
                 ->select('oauth_scopes.*')
                 ->join('oauth_scopes', 'oauth_access_token_scopes.scope_id', '=', 'oauth_scopes.id')
-                ->where('oauth_access_token_scopes.access_token_id', $token)
+                ->where('oauth_access_token_scopes.access_token_id', $token->getToken())
                 ->get();
         
         $scopes = [];
@@ -101,15 +105,15 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
 
     /**
      * Associate a scope with an access token
-     * @param  string $token The access token
-     * @param  string $scope The scope
+     * @param \League\OAuth2\Server\Entity\AbstractToken $token The access token
+     * @param \League\OAuth2\Server\Entity\Scope $scope The scope
      * @return void
      */
-    public function associateScope($token, $scope)
+    public function associateScope(AbstractToken $token, Scope $scope)
     {
         DB::table('oauth_access_token_scopes')->insert([
-            'access_token_id' => $token,
-            'scope_id'        => $scope,
+            'access_token_id' => $token->getToken(),
+            'scope_id'        => $scope->getId(),
             'created_at'      => Carbon::now(),
             'updated_at'      => Carbon::now()
         ]);
@@ -117,13 +121,13 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
 
     /**
      * Delete an access token
-     * @param  string $token The access token to delete
+     * @param \League\OAuth2\Server\Entity\AbstractToken $token The access token to delete
      * @return void
      */
-    public function delete($token)
+    public function delete(AbstractToken $token)
     {
         DB::table('oauth_access_tokens')
-        ->where('oauth_access_tokens.id', $token)
+        ->where('oauth_access_tokens.id', $token->getToken())
         ->delete();
     }
 }

@@ -11,15 +11,21 @@
 
 namespace LucaDegasperi\OAuth2Server\Filters;
 
-use ResourceServer;
+use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
+use LucaDegasperi\OAuth2Server\Authorizer;
 use Response;
 
-class OAuthFilter
+class OAuthFilter implements AccessTokenValidatorDelegate
 {
+    protected $authorizer;
+
     protected $httpHeadersOnly = false;
 
-    public function __construct($httpHeadersOnly = false)
+    protected $scopes = [];
+
+    public function __construct(Authorizer $authorizer, $httpHeadersOnly = false)
     {
+        $this->authorizer = $authorizer;
         $this->httpHeadersOnly = $httpHeadersOnly;
     }
 
@@ -41,25 +47,32 @@ class OAuthFilter
      */
     public function filter()
     {
-        if (!ResourceServer::isValid($this->httpHeadersOnly)) {
-            return Response::json([
-                'status' => 401,
-                'error' => 'unauthorized',
-                'error_message' => 'Access token is missing or is expired',
-            ], 401);
-        }
-
         if (func_num_args() > 2) {
             $args = func_get_args();
-            $scopes = array_slice($args, 2);
-
-            if (!ResourceServer::hasScope($scopes)) {
-                return Response::json([
-                    'status' => 403,
-                    'error' => 'forbidden',
-                    'error_message' => 'Only access token with scope(s) "' . implode(', ', $scopes) . '" can use this endpoint',
-                ], 403);
-            }
+            $this->scopes = array_slice($args, 2);
         }
+
+        return $this->authorizer->validateAccessToken($this, $this->httpHeadersOnly);
+    }
+
+    public function accessTokenValidated()
+    {
+        if (!empty($this->scopes) and !$this->authorizer->hasScope($this->scopes)) {
+            return Response::json([
+                'status' => 403,
+                'error' => 'forbidden',
+                'error_message' => 'Only access token with scope(s) "' . implode(', ', $this->scopes) . '" can use this endpoint',
+            ], 403);
+        }
+        return null;
+    }
+
+    public function accessTokenValidationFailed()
+    {
+        return Response::json([
+            'status' => 401,
+            'error' => 'unauthorized',
+            'error_message' => 'Access token is missing or is expired',
+        ], 401);
     }
 }

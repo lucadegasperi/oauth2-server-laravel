@@ -1,6 +1,6 @@
 <?php
 /**
- * Resource Server Facade
+ * Authorizer Facade
  *
  * @package   lucadegasperi/oauth2-server-laravel
  * @author    Luca Degasperi <luca@lucadegasperi.com>
@@ -13,7 +13,7 @@ namespace LucaDegasperi\OAuth2Server\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class ResourceServerFacade extends Facade
+class AuthorizerFacade extends Facade
 {
 
     /**
@@ -24,6 +24,6 @@ class ResourceServerFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'oauth2.resource-server';
+        return 'oauth2-server.authorizer';
     }
 }

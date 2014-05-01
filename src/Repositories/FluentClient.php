@@ -11,6 +11,7 @@
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
+use League\OAuth2\Server\Entity\Session;
 use League\OAuth2\Server\Storage\ClientInterface;
 use League\OAuth2\Server\Storage\Adapter;
 use League\OAuth2\Server\Entity\Client;
@@ -45,7 +46,11 @@ class FluentClient extends Adapter implements ClientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param string $redirectUri
+     * @param string $grantType
+     * @return \League\OAuth2\Server\Entity\Client|null
      */
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
@@ -94,10 +99,42 @@ class FluentClient extends Adapter implements ClientInterface
             return null;
         }
 
+        return $this->createClient($result);
+    }
+
+    /**
+     * Get the client associated with a session
+     * @param  \League\OAuth2\Server\Entity\Session $session The session
+     * @return \League\OAuth2\Server\Entity\Client|null
+     */
+    public function getBySession(Session $session)
+    {
+        $result = DB::table('oauth_clients')
+                ->select(
+                    'oauth_clients.id as id',
+                    'oauth_clients.secret as secret',
+                    'oauth_clients.name as name')
+                ->join('oauth_sessions', 'oauth_sessions.client_id', '=', 'oauth_clients.id')
+                ->where('oauth_sessions.id', '=', $session->getId())
+                ->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return $this->createClient($result);
+    }
+
+    /**
+     * @param $result
+     * @return \League\OAuth2\Server\Entity\Client
+     */
+    protected function createClient($result)
+    {
         return (new Client($this->getServer()))
-               ->setId($result->id)
-               ->setSecret($result->secret)
-               ->setName($result->name)
-               ->setRedirectUri(isset($result->redirect_uri) ? $result->redirect_uri : null);
+            ->setId($result->id)
+            ->setSecret($result->secret)
+            ->setName($result->name)
+            ->setRedirectUri(isset($result->redirect_uri) ? $result->redirect_uri : null);
     }
 }

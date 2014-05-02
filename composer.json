@@ -19,7 +19,9 @@
         "league/oauth2-server": "dev-v4.0.0-WIP"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.28",
+        "phpspec/phpspec": "2.0.*@dev",
+        "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
+        "phpunit/phpunit": "4.0.*",
         "mockery/mockery": "0.8.*",
         "orchestra/testbench": "2.1.*",
         "squizlabs/php_codesniffer": "1.5.*"

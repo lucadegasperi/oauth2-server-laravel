@@ -120,4 +120,14 @@ class FluentSession extends Adapter implements SessionInterface
             'updated_at' => Carbon::now()
         ]);
     }
+
+    /**
+     * Get a session from an auth code
+     * @param  \League\OAuth2\Server\Entity\AuthCode $authCode The auth code
+     * @return \League\OAuth2\Server\Entity\Session
+     */
+    public function getByAuthCode($authCode)
+    {
+        // TODO: Implement getByAuthCode() method.
+    }
 }

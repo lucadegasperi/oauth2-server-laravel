@@ -24,6 +24,7 @@ class CheckAuthCodeRequestFilter implements AuthCodeCheckerDelegate
     {
         $this->authorizer = $authorizer;
     }
+
     /**
      * Run the check authorization params filter
      *

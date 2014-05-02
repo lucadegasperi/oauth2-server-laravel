@@ -11,24 +11,38 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
-
 use League\OAuth2\Server\AuthorizationServer as Issuer;
-use League\OAuth2\Server\Exception\ClientException;
 use League\OAuth2\Server\ResourceServer as Checker;
-use Exception;
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenIssuerDelegate;
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
 use LucaDegasperi\OAuth2Server\Delegates\AuthCodeCheckerDelegate;
 use League\OAuth2\Server\Exception\OAuthException;
 
-class Authorizer {
-
+class Authorizer
+{
+    /**
+     * The authorization server (aka the issuer)
+     * @var \League\OAuth2\Server\AuthorizationServer
+     */
     protected $issuer;
 
+    /**
+     * The resource server (aka the checker)
+     * @var \League\OAuth2\Server\ResourceServer
+     */
     protected $checker;
 
+    /**
+     * The auth code request parameters
+     * @var array
+     */
     protected $authCodeRequestParams;
 
+    /**
+     * Create a new Authorizer instance
+     * @param Issuer $issuer
+     * @param Checker $checker
+     */
     public function __construct(Issuer $issuer, Checker $checker)
     {
         $this->issuer = $issuer;
@@ -36,6 +50,27 @@ class Authorizer {
         $this->authCodeRequestParams = [];
     }
 
+    /**
+     * @return \League\OAuth2\Server\AuthorizationServer
+     */
+    public function getIssuer()
+    {
+        return $this->issuer;
+    }
+
+    /**
+     * @return \League\OAuth2\Server\ResourceServer
+     */
+    public function getChecker()
+    {
+        return $this->checker;
+    }
+
+    /**
+     * Issue an access token if the request parameters are valid
+     * @param AccessTokenIssuerDelegate $delegate
+     * @return mixed|\Illuminate\Http\Response a response object for the protocol in use
+     */
     public function issueAccessToken(AccessTokenIssuerDelegate $delegate)
     {
         try {
@@ -46,29 +81,49 @@ class Authorizer {
         }
     }
 
+    /**
+     * Get the Auth Code request parameters
+     * @return array
+     */
     public function getAuthCodeRequestParams()
     {
         return $this->authCodeRequestParams;
     }
 
+    /**
+     * @param AuthCodeCheckerDelegate $delegate
+     * @return mixed|\Illuminate\Http\Response a response appropriate for the protocol in use
+     */
     public function checkAuthCodeRequest(AuthCodeCheckerDelegate $delegate)
     {
         try {
             $this->authCodeRequestParams = $this->issuer->getGrantType('authorization_code')->checkAuthoriseParams();
             return $delegate->checkSuccessful();
-        } catch(ClientException $e) {
-            return $delegate->checkFailed($e->getCode(), $e->getMessage());
-        } catch (Exception $e) {
-            return $delegate->checkFailed(5, $e->getMessage());
+        } catch(OAuthException $e) {
+            return $delegate->checkFailed($e);
         }
     }
 
+    /**
+     * Issue an auth code
+     * @param string $ownerType the auth code owner type
+     * @param string $ownerId the auth code owner id
+     * @param array $params additional parameters to merge
+     * @return string the auth code redirect url
+     */
     public function issueAuthCode($ownerType, $ownerId, $params = array())
     {
         $params = array_merge($this->authCodeRequestParams, $params);
         return $this->issuer->getGrantType('authorization_code')->newAuthoriseRequest($ownerType, $ownerId, $params);
     }
 
+    /**
+     * Validate a request with an access token in it
+     * @param AccessTokenValidatorDelegate $delegate the responsible for returning an appropriate response
+     * @param bool $httpHeadersOnly whether or not to check only the http headers of the request
+     * @param string|null $accessToken an access token to validate
+     * @return mixed
+     */
     public function validateAccessToken(AccessTokenValidatorDelegate $delegate, $httpHeadersOnly = false, $accessToken = null)
     {
         if ($this->checker->isValidRequest($httpHeadersOnly, $accessToken)) {
@@ -78,28 +133,49 @@ class Authorizer {
         }
     }
 
+    /**
+     * get the scopes associated with the current request
+     * @return array
+     */
     public function getScopes()
     {
-        $this->checker->getScopes();
+        return $this->checker->getScopes();
     }
 
+    /**
+     * Check if the current request has all the scopes passed
+     * @param string|array $scope the scope(s) to check for existence
+     * @return bool
+     */
     public function hasScope($scope)
     {
         return $this->checker->hasScope($scope);
     }
 
+    /**
+     * Get the resource owner ID of the current request
+     * @return string
+     */
     public function getResourceOwnerId()
     {
         return $this->checker->getOwnerId();
     }
 
+    /**
+     * Get the resource owner type of the current request (client or user)
+     * @return string
+     */
     public function getResourceOwnerType()
     {
         return $this->checker->getOwnerType();
     }
 
+    /**
+     * get the client id of the current request
+     * @return string
+     */
     public function getClientId()
     {
         return $this->checker->getClientId();
     }
-} 
+}

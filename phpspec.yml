@@ -1,0 +1,5 @@
+suites:
+  package_suite:
+    namespace: LucaDegasperi\OAuth2Server
+    src_path: src
+    spec_prefix: spec

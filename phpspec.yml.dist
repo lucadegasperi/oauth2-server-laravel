@@ -1,0 +1,12 @@
+suites:
+  package_suite:
+    namespace: LucaDegasperi\OAuth2Server
+    src_path: src
+    spec_prefix: spec
+extensions:
+  - PhpSpec\Extension\CodeCoverageExtension
+code_coverage:
+  whitelist:
+    - src
+  output: tmp/coverage.clover
+  format: clover

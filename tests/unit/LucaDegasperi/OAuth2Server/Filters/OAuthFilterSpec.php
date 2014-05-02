@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\LucaDegasperi\OAuth2Server\Filters;
+namespace unit\LucaDegasperi\OAuth2Server\Filters;
 
 use LucaDegasperi\OAuth2Server\Authorizer;
 use PhpSpec\ObjectBehavior;

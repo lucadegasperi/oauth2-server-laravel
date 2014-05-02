@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\LucaDegasperi\OAuth2Server;
+namespace unit\LucaDegasperi\OAuth2Server;
 
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthException;

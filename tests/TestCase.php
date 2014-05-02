@@ -23,8 +23,7 @@ abstract class TestCase extends OrchestraTestCase
     protected function getPackageAliases()
     {
         return array(
-            'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
-            'ResourceServer'  => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
+            'Authorizer' => 'LucaDegasperi\OAuth2Server\Facades\Authorizer',
         );
     }
 }

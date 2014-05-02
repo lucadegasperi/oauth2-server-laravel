@@ -13,7 +13,7 @@ namespace LucaDegasperi\OAuth2Server\Filters;
 
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
 use LucaDegasperi\OAuth2Server\Authorizer;
-use Response;
+use Illuminate\Support\Facades\Response;
 
 class OAuthFilter implements AccessTokenValidatorDelegate
 {
@@ -74,5 +74,10 @@ class OAuthFilter implements AccessTokenValidatorDelegate
             'error' => 'unauthorized',
             'error_message' => 'Access token is missing or is expired',
         ], 401);
+    }
+
+    public function setScopes(array $scopes)
+    {
+        $this->scopes = $scopes;
     }
 }

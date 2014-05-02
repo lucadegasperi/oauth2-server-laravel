@@ -12,7 +12,7 @@
 namespace LucaDegasperi\OAuth2Server\Filters;
 
 use LucaDegasperi\OAuth2Server\Authorizer;
-use Response;
+use Illuminate\Support\Facades\Response;
 
 class OAuthOwnerFilter
 {
@@ -41,5 +41,6 @@ class OAuthOwnerFilter
                 ), 403);
             }
         }
+        return null;
     }
 }

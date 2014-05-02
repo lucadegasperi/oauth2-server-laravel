@@ -12,9 +12,9 @@
 namespace LucaDegasperi\OAuth2Server\Filters;
 
 use League\OAuth2\Server\Exception\OAuthException;
+use Illuminate\Support\Facades\Response;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use LucaDegasperi\OAuth2Server\Delegates\AuthCodeCheckerDelegate;
-use Response;
 
 class CheckAuthCodeRequestFilter implements AuthCodeCheckerDelegate
 {

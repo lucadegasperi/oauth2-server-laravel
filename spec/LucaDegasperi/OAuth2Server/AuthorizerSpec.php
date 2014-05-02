@@ -117,4 +117,14 @@ class AuthorizerSpec extends ObjectBehavior
         $checker->getClientId()->willReturn('1')->shouldBeCalled();
         $this->getClientId()->shouldReturn('1');
     }
+
+    function it_returns_the_issuer(AuthorizationServer $issuer)
+    {
+        $this->getIssuer()->shouldReturn($issuer);
+    }
+
+    function it_returns_the_checker(ResourceServer $checker)
+    {
+        $this->getChecker()->shouldReturn($checker);
+    }
 }

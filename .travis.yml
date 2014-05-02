@@ -16,7 +16,7 @@ before_script:
   - wget https://scrutinizer-ci.com/ocular.phar
 script:
   - mkdir -p tmp
-  - vendor/bin/phpspec -c phpspec.yml.dist
+  - vendor/bin/phpspec run -c phpspec.yml.dist
 after_script:
   - php ocular.phar code-coverage:upload --format=php-clover tmp/coverage.clover
 

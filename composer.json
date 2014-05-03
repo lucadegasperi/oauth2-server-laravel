@@ -21,7 +21,6 @@
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev",
         "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
-        "phpunit/phpcov": "*",
         "phpunit/phpunit": "4.0.*",
         "mockery/mockery": "0.8.*",
         "orchestra/testbench": "2.1.*",

@@ -34,7 +34,7 @@
         "classmap": [
             "seeds",
             "tests/TestCase.php",
-            "tests/DBTestCase.php"
+            "tests/integration/DBTestCase.php"
         ]
     },
     "extra": {

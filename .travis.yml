@@ -18,10 +18,9 @@ before_script:
 script:
   - mkdir -p tmp
   - vendor/bin/phpspec run -c phpspec.yml.dist
-  - vendor/bin/phpunit --config phpunit.xml.dist
+  - vendor/bin/phpunit --configuration phpunit.xml.dist
 after_script:
   - php phpcov.phar merge --clover tmp/coverage.clover tmp
-  - ls tmp
   - php ocular.phar code-coverage:upload --format=php-clover tmp/coverage.clover
 
 cache:

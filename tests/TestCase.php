@@ -11,19 +11,18 @@ abstract class TestCase extends OrchestraTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        // reset base path to point to our package's src directory
         $app['path.base'] = __DIR__ . '/../src';
     }
 
     protected function getPackageProviders()
     {
-        return array('LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider');
+        return ['LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider'];
     }
 
     protected function getPackageAliases()
     {
-        return array(
+        return [
             'Authorizer' => 'LucaDegasperi\OAuth2Server\Facades\Authorizer',
-        );
+        ];
     }
 }

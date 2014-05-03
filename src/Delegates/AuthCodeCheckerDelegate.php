@@ -16,7 +16,14 @@ use League\OAuth2\Server\Exception\OAuthException;
 
 interface AuthCodeCheckerDelegate {
 
+    /**
+     * @return mixed
+     */
     public function checkSuccessful();
 
+    /**
+     * @param OAuthException $e an OAuth exception
+     * @return mixed
+     */
     public function checkFailed(OAuthException $e);
 } 

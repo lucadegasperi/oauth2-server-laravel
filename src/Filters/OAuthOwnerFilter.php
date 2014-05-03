@@ -27,7 +27,7 @@ class OAuthOwnerFilter
      * Run the OAuth owner filter
      *
      * @internal param mixed $route, mixed $request, mixed $scope,...
-     * @return Response|void a bad response in case the request is invalid
+     * @return \Illuminate\Http\JsonResponse|null a bad response in case the request is invalid
      */
     public function filter()
     {

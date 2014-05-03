@@ -9,5 +9,5 @@ extensions:
 code_coverage:
   whitelist:
     - src
-  output: tmp/coverage.clover
-  format: clover
+  output: tmp/unit-coverage.cov
+  format: php

@@ -13,7 +13,13 @@ namespace LucaDegasperi\OAuth2Server\Delegates;
 
 interface AccessTokenValidatorDelegate {
 
+    /**
+     * @return mixed
+     */
     public function accessTokenValidated();
 
+    /**
+     * @return mixed
+     */
     public function accessTokenValidationFailed();
 } 

@@ -15,7 +15,15 @@ use League\OAuth2\Server\Exception\OAuthException;
 
 interface AccessTokenIssuerDelegate {
 
+    /**
+     * @param array $responseMessage
+     * @return mixed
+     */
     public function accessTokenIssued($responseMessage);
 
+    /**
+     * @param OAuthException $e
+     * @return mixed
+     */
     public function accessTokenIssuingFailed(OAuthException $e);
 } 

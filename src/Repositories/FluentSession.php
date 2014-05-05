@@ -50,7 +50,7 @@ class FluentSession extends Adapter implements SessionInterface
     {
         $result = DB::table('oauth_sessions')
                 ->select('oauth_sessions.*')
-                ->join('oauth_access_tokens', 'oauth_session.id', '=', 'oauth_access_tokens.session_id')
+                ->join('oauth_access_tokens', 'oauth_sessions.id', '=', 'oauth_access_tokens.session_id')
                 ->where('oauth_access_tokens.id', $accessToken->getToken())
                 ->first();
 
@@ -74,7 +74,7 @@ class FluentSession extends Adapter implements SessionInterface
         $result = DB::table('oauth_session_scopes')
                   ->select('oauth_scopes.*')
                   ->join('oauth_scopes', 'oauth_session_scopes.scope_id', '=', 'oauth_scopes.id')
-                  ->where('oauth_sessions.id', $session->getId())
+                  ->where('oauth_session_scopes.session_id', $session->getId())
                   ->get();
         
         $scopes = [];
@@ -133,7 +133,7 @@ class FluentSession extends Adapter implements SessionInterface
     {
         $result = DB::table('oauth_sessions')
             ->select('oauth_sessions.*')
-            ->join('oauth_auth_codes', 'oauth_session.id', '=', 'oauth_auth_codes.session_id')
+            ->join('oauth_auth_codes', 'oauth_sessions.id', '=', 'oauth_auth_codes.session_id')
             ->where('oauth_auth_codes.id', $authCode->getToken())
             ->first();
 
@@ -142,7 +142,7 @@ class FluentSession extends Adapter implements SessionInterface
         }
 
         return (new SessionEntity($this->getServer()))
-            ->setId($result->id)
-            ->setOwner($result->owner_type, $result->owner_id);
+               ->setId($result->id)
+               ->setOwner($result->owner_type, $result->owner_id);
     }
 }

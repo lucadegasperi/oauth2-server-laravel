@@ -1,6 +1,6 @@
 <?php
 /**
- * Sessions Table Seeder
+ * Access Tokens Table Seeder
  *
  * @package   lucadegasperi/oauth2-server-laravel
  * @author    Luca Degasperi <luca@lucadegasperi.com>
@@ -11,32 +11,32 @@
 
 use Carbon\Carbon;
 
-class SessionsTableSeeder extends Seeder {
+class AccessTokensTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('oauth_sessions')->delete();
+        DB::table('oauth_access_tokens')->delete();
 
         $datetime = Carbon::now();
 
-        $sessions = array(
+        $tokens = array(
             array(
-                'client_id' => 'client1id',
-                'owner_id'  => '1',
-                'owner_type' => 'user',
+                'id' => 'totallyanaccesstoken1',
+                'session_id'  => 1,
+                'expire_time' => time() + 60,
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
             array(
-                'client_id' => 'client2id',
-                'owner_id'  => '2',
-                'owner_type' => 'user',
+                'id' => 'totallyanaccesstoken2',
+                'session_id'  => 2,
+                'expire_time' => time() + 120,
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ),
         );
 
-        DB::table('oauth_sessions')->insert($sessions);
+        DB::table('oauth_access_tokens')->insert($tokens);
 
 
     }

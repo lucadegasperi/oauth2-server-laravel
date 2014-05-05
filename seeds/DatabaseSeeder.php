@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder {
         $this->call('GrantsTableSeeder');
         $this->call('ScopesTableSeeder');
         $this->call('SessionsTableSeeder');
+        $this->call('AuthCodesTableSeeder');
+        $this->call('AccessTokensTableSeeder');
     }
 
 }

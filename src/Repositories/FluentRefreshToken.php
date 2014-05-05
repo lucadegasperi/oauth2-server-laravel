@@ -15,6 +15,7 @@ use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Storage\Adapter;
 use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use DB;
+use Carbon\Carbon;
 
 class FluentRefreshToken extends Adapter implements RefreshTokenInterface
 {

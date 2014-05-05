@@ -51,7 +51,8 @@ class FluentSession extends Adapter implements SessionInterface
         $result = DB::table('oauth_sessions')
                 ->select('oauth_sessions.*')
                 ->join('oauth_access_tokens', 'oauth_session.id', '=', 'oauth_access_tokens.session_id')
-                ->where('oauth_access_tokens.id', $accessToken->getToken());
+                ->where('oauth_access_tokens.id', $accessToken->getToken())
+                ->first();
 
         if (is_null($result)) {
             return null;
@@ -130,6 +131,18 @@ class FluentSession extends Adapter implements SessionInterface
      */
     public function getByAuthCode(AuthCodeEntity $authCode)
     {
-        // TODO: Implement getByAuthCode() method.
+        $result = DB::table('oauth_sessions')
+            ->select('oauth_sessions.*')
+            ->join('oauth_auth_codes', 'oauth_session.id', '=', 'oauth_auth_codes.session_id')
+            ->where('oauth_auth_codes.id', $authCode->getToken())
+            ->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return (new SessionEntity($this->getServer()))
+            ->setId($result->id)
+            ->setOwner($result->owner_type, $result->owner_id);
     }
 }

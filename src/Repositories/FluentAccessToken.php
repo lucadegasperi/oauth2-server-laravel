@@ -25,7 +25,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
     /**
      * Get an instance of Entities\AccessToken
      * @param  string $token The access token
-     * @return \League\OAuth2\Server\Entity\AccessTokenEntity
+     * @return \League\OAuth2\Server\Entity\AccessTokenEntity|null
      */
     public function get($token)
     {
@@ -48,7 +48,8 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
         $result = DB::table('oauth_access_tokens')
                 ->select('oauth_access_tokens.*')
                 ->join('oauth_refresh_tokens', 'oauth_access_tokens.id', '=', 'oauth_refresh_tokens.access_token_id')
-                ->where('oauth_refresh_tokens.id', $refreshToken->getToken());
+                ->where('oauth_refresh_tokens.id', $refreshToken->getToken())
+                ->first();
 
         if (is_null($result)) {
             return null;

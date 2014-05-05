@@ -25,7 +25,17 @@ class FluentAuthCode extends Adapter implements AuthCodeInterface {
      */
     public function get($code)
     {
-        // TODO: Implement get() method.
+        $result = DB::table('oauth_auth_codes')
+            ->where('oauth_auth_codes.id', $code)
+            ->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return (new AuthCodeEntity($this->getServer()))
+            ->setToken($result->id)
+            ->setExpireTime($result->expire_time);
     }
 
     /**
@@ -35,7 +45,21 @@ class FluentAuthCode extends Adapter implements AuthCodeInterface {
      */
     public function getScopes(AuthCodeEntity $token)
     {
-        // TODO: Implement getScopes() method.
+        $result = DB::table('oauth_auth_code_scopes')
+            ->select('oauth_scopes.*')
+            ->join('oauth_scopes', 'oauth_auth_code_scopes.scope_id', '=', 'oauth_scopes.id')
+            ->where('oauth_auth_code_scopes.auth_code_id', $token->getToken())
+            ->get();
+
+        $scopes = [];
+
+        foreach ($result as $scope) {
+            $scopes[] = (new ScopeEntity($this->getServer()))
+                ->setId($scope->id)
+                ->setDescription($scope->description);
+        }
+
+        return $scopes;
     }
 
     /**
@@ -46,7 +70,12 @@ class FluentAuthCode extends Adapter implements AuthCodeInterface {
      */
     public function associateScope(AuthCodeEntity $token, ScopeEntity $scope)
     {
-        // TODO: Implement associateScope() method.
+        DB::table('oauth_auth_code_scopes')->insert([
+            'auth_code_id'    => $token->getToken(),
+            'scope_id'        => $scope->getId(),
+            'created_at'      => Carbon::now(),
+            'updated_at'      => Carbon::now()
+        ]);
     }
 
     /**
@@ -56,6 +85,8 @@ class FluentAuthCode extends Adapter implements AuthCodeInterface {
      */
     public function delete(AuthCodeEntity $token)
     {
-        // TODO: Implement delete() method.
+        DB::table('oauth_auth_codes')
+        ->where('oauth_auth_codes.id', $token->getToken())
+        ->delete();
     }
 }

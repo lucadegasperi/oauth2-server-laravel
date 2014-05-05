@@ -17,7 +17,7 @@ return [
     | 'grant_types' => [
     |
     |    'authorization_code' => [
-    |        'class'            => 'League\OAuth2\Server\Grant\AuthCode',
+    |        'class'            => 'League\OAuth2\Server\Grant\AuthCodeGrant',
     |        'access_token_ttl' => 3600,
     |
     |        // the authorization code time to live
@@ -25,7 +25,7 @@ return [
     |    ],
     |
     |    'password' => [
-    |        'class'            => 'League\OAuth2\Server\Grant\Password',
+    |        'class'            => 'League\OAuth2\Server\Grant\PasswordGrant',
     |        'access_token_ttl' => 604800,
     |
     |        // the code to run in order to verify the user's identity
@@ -39,12 +39,12 @@ return [
     |    ],
     |
     |    'client_credentials' => [
-    |        'class'                 => 'League\OAuth2\Server\Grant\ClientCredentials',
+    |        'class'                 => 'League\OAuth2\Server\Grant\ClientCredentialsGrant',
     |        'access_token_ttl'      => 3600,
     |    ],
     |
     |    'refresh_token' => [
-    |        'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
+    |        'class'                 => 'League\OAuth2\Server\Grant\RefreshTokenGrant',
     |        'access_token_ttl'      => 3600,
     |
     |        // the refresh token time to live
@@ -61,13 +61,13 @@ return [
     'grant_types' => [
 
         /*'authorization_code' => [
-            'class'            => 'League\OAuth2\Server\Grant\AuthCode',
+            'class'            => 'League\OAuth2\Server\Grant\AuthCodeGrant',
             'access_token_ttl' => 3600,
             'auth_code_ttl'   => 3600,
         ],*/
 
         'password' => [
-            'class'            => 'League\OAuth2\Server\Grant\Password',
+            'class'            => 'League\OAuth2\Server\Grant\PasswordGrant',
             'access_token_ttl' => 604800,
             'callback'         => function ($username, $password) {
                 
@@ -87,7 +87,7 @@ return [
         ],
 
         'refresh_token' => [
-            'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
+            'class'                 => 'League\OAuth2\Server\Grant\RefreshTokenGrant',
             'access_token_ttl'      => 3600,
             'refresh_token_ttl'     => 604800,
             'rotate_refresh_tokens' => false,

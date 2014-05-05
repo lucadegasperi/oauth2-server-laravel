@@ -68,7 +68,7 @@ class FluentScopeTest extends DBTestCase
 
     public function assertIsScope($result)
     {
-        $this->assertInstanceOf('League\OAuth2\Server\Entity\Scope', $result);
+        $this->assertInstanceOf('League\OAuth2\Server\Entity\ScopeEntity', $result);
         $this->assertEquals('scope1', $result->getId());
         $this->assertEquals('Scope 1 Description', $result->getDescription());
     }

@@ -21,7 +21,7 @@ class FluentSessionTest extends DbTestCase
         $id = $repo->create('user', '1', 'client1');
         $session = $repo->get($id);
 
-        $this->assertInstanceOf('League\OAuth2\Server\Entity\Session', $session);
+        $this->assertInstanceOf('League\OAuth2\Server\Entity\SessionEntity', $session);
         $this->assertEquals('user', $session->getOwnerType());
         $this->assertEquals('1', $session->getOwnerId());
     }

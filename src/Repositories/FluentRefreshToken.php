@@ -13,15 +13,15 @@ namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Storage\Adapter;
-use League\OAuth2\Server\Entity\RefreshToken;
+use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use DB;
 
 class FluentRefreshToken extends Adapter implements RefreshTokenInterface
 {
     /**
-     * Return a new instance of \League\OAuth2\Server\Entity\RefreshToken
+     * Return a new instance of \League\OAuth2\Server\Entity\RefreshTokenEntity
      * @param  string $token
-     * @return \League\OAuth2\Server\Entity\RefreshToken
+     * @return \League\OAuth2\Server\Entity\RefreshTokenEntity
      */
     public function get($token)
     {
@@ -33,7 +33,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
             return null;
         }
 
-        return (new RefreshToken($this->getServer()))
+        return (new RefreshTokenEntity($this->getServer()))
                ->setToken($result->id)
                ->setExpireTime($result->expire_time);
     }
@@ -43,7 +43,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
      * @param  string $token
      * @param  integer $expireTime
      * @param  string $accessToken
-     * @return \League\OAuth2\Server\Entity\RefreshToken
+     * @return \League\OAuth2\Server\Entity\RefreshTokenEntity
      */
     public function create($token, $expireTime, $accessToken)
     {
@@ -53,20 +53,20 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
             'access_token_id' => $accessToken
         ]);
 
-        return (new RefreshToken($this->getServer()))
+        return (new RefreshTokenEntity($this->getServer()))
                ->setToken($token)
                ->setExpireTime($expireTime);
     }
 
     /**
      * Delete the refresh token
-     * @param  string $token
+     * @param  \League\OAuth2\Server\Entity\RefreshTokenEntity $token
      * @return void
      */
-    public function delete($token)
+    public function delete(RefreshTokenEntity $token)
     {
         DB::table('oauth_refresh_tokens')
-        ->where('id', $token)
+        ->where('id', $token->getToken())
         ->delete();
     }
 }

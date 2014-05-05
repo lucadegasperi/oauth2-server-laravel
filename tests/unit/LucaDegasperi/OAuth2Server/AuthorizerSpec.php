@@ -4,7 +4,7 @@ namespace unit\LucaDegasperi\OAuth2Server;
 
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthException;
-use League\OAuth2\Server\Grant\AuthCode;
+use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\ResourceServer;
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenIssuerDelegate;
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
@@ -40,7 +40,7 @@ class AuthorizerSpec extends ObjectBehavior
         $this->issueAccessToken($delegate)->shouldReturn('baz');
     }
 
-    function it_checks_the_auth_code_request_parameters(AuthCodeCheckerDelegate $delegate, AuthorizationServer $issuer, AuthCode $authCodeGrant)
+    function it_checks_the_auth_code_request_parameters(AuthCodeCheckerDelegate $delegate, AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
     {
         $authCodeGrant->checkAuthoriseParams()->willReturn(['foo' => 'bar'])->shouldBeCalled();
         $issuer->getGrantType('authorization_code')->willReturn($authCodeGrant)->shouldBeCalled();
@@ -50,7 +50,7 @@ class AuthorizerSpec extends ObjectBehavior
         $this->getAuthCodeRequestParams()->shouldBe(['foo' => 'bar']);
     }
 
-    function it_catches_an_exception_with_invalid_auth_code_request_parameters(AuthCodeCheckerDelegate $delegate, AuthorizationServer $issuer, AuthCode $authCodeGrant)
+    function it_catches_an_exception_with_invalid_auth_code_request_parameters(AuthCodeCheckerDelegate $delegate, AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
     {
         $exception = new OAuthException();
         $authCodeGrant->checkAuthoriseParams()->willThrow($exception);
@@ -61,7 +61,7 @@ class AuthorizerSpec extends ObjectBehavior
         $this->getAuthCodeRequestParams()->shouldBe([]);
     }
 
-    function it_issues_an_auth_code(AuthorizationServer $issuer, AuthCode $authCodeGrant)
+    function it_issues_an_auth_code(AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
     {
         $authCodeGrant->newAuthoriseRequest('user', '1', ['foo' => 'bar'])->willReturn('baz')->shouldBeCalled();
         $issuer->getGrantType('authorization_code')->willReturn($authCodeGrant)->shouldBeCalled();

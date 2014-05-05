@@ -11,10 +11,10 @@
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
-use League\OAuth2\Server\Entity\Session;
+use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\ClientInterface;
 use League\OAuth2\Server\Storage\Adapter;
-use League\OAuth2\Server\Entity\Client;
+use League\OAuth2\Server\Entity\ClientEntity;
 use DB;
 
 class FluentClient extends Adapter implements ClientInterface
@@ -50,7 +50,7 @@ class FluentClient extends Adapter implements ClientInterface
      * @param string $clientSecret
      * @param string $redirectUri
      * @param string $grantType
-     * @return \League\OAuth2\Server\Entity\Client|null
+     * @return \League\OAuth2\Server\Entity\ClientEntity|null
      */
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
@@ -104,10 +104,10 @@ class FluentClient extends Adapter implements ClientInterface
 
     /**
      * Get the client associated with a session
-     * @param  \League\OAuth2\Server\Entity\Session $session The session
-     * @return \League\OAuth2\Server\Entity\Client|null
+     * @param  \League\OAuth2\Server\Entity\SessionEntity $session The session
+     * @return \League\OAuth2\Server\Entity\ClientEntity|null
      */
-    public function getBySession(Session $session)
+    public function getBySession(SessionEntity $session)
     {
         $result = DB::table('oauth_clients')
                 ->select(
@@ -131,7 +131,7 @@ class FluentClient extends Adapter implements ClientInterface
      */
     protected function createClient($result)
     {
-        return (new Client($this->getServer()))
+        return (new ClientEntity($this->getServer()))
             ->setId($result->id)
             ->setSecret($result->secret)
             ->setName($result->name)

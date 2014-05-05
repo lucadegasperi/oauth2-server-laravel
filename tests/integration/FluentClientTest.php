@@ -80,7 +80,7 @@ class FluentClientTest extends DBTestCase
 
     public function assertIsClient($client, $redirectUri = true)
     {
-        $this->assertInstanceOf('League\OAuth2\Server\Entity\Client', $client);
+        $this->assertInstanceOf('League\OAuth2\Server\Entity\ClientEntity', $client);
         $this->assertEquals('client1id', $client->getId());
         $this->assertEquals('client1secret', $client->getSecret());
         $this->assertEquals('client1', $client->getName());

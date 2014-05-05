@@ -13,7 +13,7 @@ namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Storage\Adapter;
-use League\OAuth2\Server\Entity\Scope;
+use League\OAuth2\Server\Entity\ScopeEntity;
 use DB;
 
 class FluentScope extends Adapter implements ScopeInterface
@@ -60,7 +60,7 @@ class FluentScope extends Adapter implements ScopeInterface
      *
      * @param  string     $scope     The scope
      * @param  string     $grantType The grant type used in the request (default = "null")
-     * @return null|Scope If the scope doesn't exist return false
+     * @return \League\OAuth2\Server\Entity\ScopeEntity|null If the scope doesn't exist return false
      */
     public function get($scope, $grantType = null)
     {
@@ -86,7 +86,7 @@ class FluentScope extends Adapter implements ScopeInterface
             return null;
         }
 
-        return (new Scope($this->getServer()))
+        return (new ScopeEntity($this->getServer()))
                ->setId($result->id)
                ->setDescription($result->description);
     }

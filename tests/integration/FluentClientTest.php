@@ -78,6 +78,28 @@ class FluentClientTest extends DBTestCase
         $this->assertIsClient($client);
     }
 
+    public function test_it_returns_a_client_associated_with_a_valid_session()
+    {
+        $repo = $this->getClientRepository();
+
+        $session = m::mock('League\OAuth2\Server\Entity\SessionEntity');
+        $session->shouldReceive('getId')->once()->andReturn(1);
+
+        $result = $repo->getBySession($session);
+        $this->assertIsClient($result, false);
+    }
+
+    public function test_it_returns_null_with_an_invalid_session()
+    {
+        $repo = $this->getClientRepository();
+
+        $session = m::mock('League\OAuth2\Server\Entity\SessionEntity');
+        $session->shouldReceive('getId')->once()->andReturn(20);
+
+        $result = $repo->getBySession($session);
+        $this->assertNull($result);
+    }
+
     public function assertIsClient($client, $redirectUri = true)
     {
         $this->assertInstanceOf('League\OAuth2\Server\Entity\ClientEntity', $client);

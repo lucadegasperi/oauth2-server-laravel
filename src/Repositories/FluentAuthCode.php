@@ -15,13 +15,15 @@ use League\OAuth2\Server\Entity\AuthCodeEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Storage\Adapter;
 use League\OAuth2\Server\Storage\AuthCodeInterface;
+use DB;
+use Carbon\Carbon;
 
 class FluentAuthCode extends Adapter implements AuthCodeInterface {
 
     /**
      * Get the auth code
      * @param  string $code
-     * @return \League\OAuth2\Server\Entity\AuthCode
+     * @return \League\OAuth2\Server\Entity\AuthCodeEntity
      */
     public function get($code)
     {
@@ -35,7 +37,7 @@ class FluentAuthCode extends Adapter implements AuthCodeInterface {
 
         return (new AuthCodeEntity($this->getServer()))
             ->setToken($result->id)
-            ->setExpireTime($result->expire_time);
+            ->setExpireTime((int)$result->expire_time);
     }
 
     /**

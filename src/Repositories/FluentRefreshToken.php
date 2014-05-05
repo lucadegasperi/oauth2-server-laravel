@@ -35,7 +35,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
 
         return (new RefreshTokenEntity($this->getServer()))
                ->setToken($result->id)
-               ->setExpireTime($result->expire_time);
+               ->setExpireTime((int)$result->expire_time);
     }
 
     /**
@@ -50,12 +50,14 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
         DB::table('oauth_refresh_tokens')->insert([
             'id'              => $token,
             'expire_time'     => $expireTime,
-            'access_token_id' => $accessToken
+            'access_token_id' => $accessToken,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
 
         return (new RefreshTokenEntity($this->getServer()))
                ->setToken($token)
-               ->setExpireTime($expireTime);
+               ->setExpireTime((int)$expireTime);
     }
 
     /**

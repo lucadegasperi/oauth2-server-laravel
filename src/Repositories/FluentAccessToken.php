@@ -14,9 +14,10 @@ namespace LucaDegasperi\OAuth2Server\Repositories;
 use League\OAuth2\Server\Entity\AbstractTokenEntity;
 use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
+use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\Adapter;
-use League\OAuth2\Server\Entity\AccessToken;
+
 use DB;
 use Carbon\Carbon;
 
@@ -39,7 +40,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
 
         return (new AccessTokenEntity($this->getServer()))
                ->setToken($result->id)
-               ->setExpireTime($result->expire_time);
+               ->setExpireTime((int)$result->expire_time);
     }
 
 
@@ -57,7 +58,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
 
         return (new AccessTokenEntity($this->getServer()))
                ->setToken($result->id)
-               ->setExpireTime($result->expire_time);
+               ->setExpireTime((int)$result->expire_time);
     }
 
     /**
@@ -96,12 +97,14 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
         DB::table('oauth_access_tokens')->insert([
             'id' => $token,
             'expire_time' => $expireTime,
-            'session_id' => $sessionId
+            'session_id' => $sessionId,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
 
         return (new AccessTokenEntity($this->getServer()))
                ->setToken($token)
-               ->setExpireTime($expireTime);
+               ->setExpireTime((int)$expireTime);
     }
 
     /**

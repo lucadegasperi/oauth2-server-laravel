@@ -11,34 +11,31 @@
 
 use Carbon\Carbon;
 
-class AuthCodesTableSeeder extends Seeder {
-
+class AuthCodesTableSeeder extends Seeder
+{
     public function run()
     {
         DB::table('oauth_auth_codes')->delete();
 
         $datetime = Carbon::now();
 
-        $codes = array(
-            array(
+        $codes = [
+            [
                 'id' => 'totallyanauthcode1',
                 'session_id'  => 1,
                 'expire_time' => time() + 60,
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
-            ),
-            array(
+            ],
+            [
                 'id' => 'totallyanauthcode2',
                 'session_id'  => 2,
                 'expire_time' => time() + 120,
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
-            ),
-        );
+            ],
+        ];
 
         DB::table('oauth_auth_codes')->insert($codes);
-
-
     }
-
 }

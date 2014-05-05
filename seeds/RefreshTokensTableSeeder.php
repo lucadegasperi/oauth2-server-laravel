@@ -1,6 +1,6 @@
 <?php
 /**
- * Access Tokens Table Seeder
+ * Refresh Tokens Table Seeder
  *
  * @package   lucadegasperi/oauth2-server-laravel
  * @author    Luca Degasperi <luca@lucadegasperi.com>
@@ -11,31 +11,24 @@
 
 use Carbon\Carbon;
 
-class AccessTokensTableSeeder extends Seeder
+class RefreshTokensTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('oauth_access_tokens')->delete();
+        DB::table('oauth_refresh_tokens')->delete();
 
         $datetime = Carbon::now();
 
         $tokens = [
             [
-                'id' => 'totallyanaccesstoken1',
-                'session_id'  => 1,
+                'id' => 'totallyarefreshtoken1',
+                'access_token_id' => 'totallyanaccesstoken1',
                 'expire_time' => time() + 60,
-                'created_at' => $datetime,
-                'updated_at' => $datetime,
-            ],
-            [
-                'id' => 'totallyanaccesstoken2',
-                'session_id'  => 2,
-                'expire_time' => time() + 120,
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ],
         ];
 
-        DB::table('oauth_access_tokens')->insert($tokens);
+        DB::table('oauth_refresh_tokens')->insert($tokens);
     }
 }

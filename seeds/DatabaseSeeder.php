@@ -9,8 +9,8 @@
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
 
-class DatabaseSeeder extends Seeder {
-
+class DatabaseSeeder extends Seeder
+{
     /**
      * Run the database seeds.
      *
@@ -30,6 +30,6 @@ class DatabaseSeeder extends Seeder {
         $this->call('SessionsTableSeeder');
         $this->call('AuthCodesTableSeeder');
         $this->call('AccessTokensTableSeeder');
+        $this->call('RefreshTokensTableSeeder');
     }
-
 }

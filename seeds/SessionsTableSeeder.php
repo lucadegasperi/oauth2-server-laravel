@@ -11,34 +11,31 @@
 
 use Carbon\Carbon;
 
-class SessionsTableSeeder extends Seeder {
-
+class SessionsTableSeeder extends Seeder
+{
     public function run()
     {
         DB::table('oauth_sessions')->delete();
 
         $datetime = Carbon::now();
 
-        $sessions = array(
-            array(
+        $sessions = [
+            [
                 'client_id' => 'client1id',
                 'owner_id'  => '1',
                 'owner_type' => 'user',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
-            ),
-            array(
+            ],
+            [
                 'client_id' => 'client2id',
                 'owner_id'  => '2',
                 'owner_type' => 'user',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
-            ),
-        );
+            ],
+        ];
 
         DB::table('oauth_sessions')->insert($sessions);
-
-
     }
-
 }

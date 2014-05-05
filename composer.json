@@ -24,7 +24,8 @@
         "phpunit/phpunit": "4.0.*",
         "mockery/mockery": "0.8.*",
         "orchestra/testbench": "2.1.*",
-        "squizlabs/php_codesniffer": "1.5.*"
+        "behat/behat": "v2.5.2",
+        "lucadegasperi/laravel-feature-context": "1.0.*@dev"
     },
     "autoload": {
         "psr-4": {

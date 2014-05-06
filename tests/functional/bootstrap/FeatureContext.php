@@ -34,7 +34,7 @@ class FeatureContext extends LaravelFeatureContext
     public function anAuthorizationServerExistsThatSupportsTheGrantType($arg1)
     {
         $clientCredentialsGrant = new ClientCredentialsGrant();
-        Authorizer::getIssuer()->addGrantType($clientCredentialsGrant);
+        $this->app['oauth2-server.authorizer']->getIssuer()->addGrantType($clientCredentialsGrant);
 
         $this->app['router']->enableFilters();
         $this->app['router']->post('oauth/access_token', 'OAuthController@postAccessToken');

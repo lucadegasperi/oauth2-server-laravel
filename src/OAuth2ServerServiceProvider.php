@@ -12,6 +12,7 @@
 namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Support\ServiceProvider;
+use LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
@@ -40,8 +41,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/../');
 
         $this->bootFilters();
-
-        $this->bootAuthorizer();
     }
 
     /**
@@ -64,13 +63,13 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerRepositoryBindings()
     {
-        $this->app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentClient', function ($app) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Repositories\FluentClient', function ($app) {
 
             $limitClientsToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_grants');
             return new FluentClient($limitClientsToGrants);
         });
 
-        $this->app->bind('LucaDegasperi\OAuth2Server\Repositories\FluentScope', function ($app) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Repositories\FluentScope', function ($app) {
 
             $limitClientsToScopes = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_scopes');
             $limitScopesToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_scopes_to_grants');
@@ -99,10 +98,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerAuthorizer()
     {
-        $this->app['oauth2-server.authorizer'] = $this->app->share(function ($app) {
-
+        $this->app->bindShared('oauth2-server.authorizer', function ($app) {
             $config = $app['config']->get('oauth2-server-laravel::oauth2');
-
             $issuer = $app->make('League\OAuth2\Server\AuthorizationServer')
                           ->setClientStorage($app->make('League\OAuth2\Server\Storage\ClientInterface'))
                           ->setSessionStorage($app->make('League\OAuth2\Server\Storage\SessionInterface'))
@@ -118,7 +115,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             // add the supported grant types to the authorization server
             foreach ($config['grant_types'] as $grantIdentifier => $grantParams) {
-
                 $grant = new $grantParams['class'];
                 $grant->setAccessTokenTTL($grantParams['access_token_ttl']);
 
@@ -138,7 +134,15 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             $authorizer = new Authorizer($issuer, $checker);
             $authorizer->setRequest($app['request']);
+
+            $app->refresh('request', $authorizer, 'setRequest');
+
             return $authorizer;
+        });
+
+        $this->app->bind('LucaDegasperi\OAuth2Server\Authorizer', function($app)
+        {
+            return $app['oauth2-server.authorizer'];
         });
     }
 
@@ -148,16 +152,16 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerFilterBindings()
     {
-        $this->app->bind('LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter', function ($app) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter', function ($app) {
             return new CheckAuthCodeRequestFilter($app['oauth2-server.authorizer']);
         });
 
-        $this->app->bind('LucaDegasperi\OAuth2Server\Filters\OAuthFilter', function ($app) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Filters\OAuthFilter', function ($app) {
             $httpHeadersOnly = $app['config']->get('oauth2-server-laravel::oauth2.http_headers_only');
             return new OAuthFilter($app['oauth2-server.authorizer'], $httpHeadersOnly);
         });
 
-        $this->app->bind('LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter', function ($app) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter', function ($app) {
             return new OAuthOwnerFilter($app['oauth2-server.authorizer']);
         });
     }
@@ -199,17 +203,5 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app['router']->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter');
         $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
         $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
-    }
-
-    /**
-     * Booth the authorizer and set the correct request object
-     */
-    private function bootAuthorizer()
-    {
-        $this->app->bind('LucaDegasperi\OAuth2Server\Authorizer', function($app)
-        {
-            $app['oauth2-server.authorizer']->setRequest($app['request']);
-            return $app['oauth2-server.authorizer'];
-        });
     }
 }

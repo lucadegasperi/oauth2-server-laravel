@@ -17,6 +17,7 @@ use LucaDegasperi\OAuth2Server\Delegates\AccessTokenIssuerDelegate;
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
 use LucaDegasperi\OAuth2Server\Delegates\AuthCodeCheckerDelegate;
 use League\OAuth2\Server\Exception\OAuthException;
+use Symfony\Component\HttpFoundation\Request;
 
 class Authorizer
 {
@@ -177,5 +178,15 @@ class Authorizer
     public function getClientId()
     {
         return $this->checker->getClientId();
+    }
+
+    /**
+     * Set the request to use on the issuer and checker
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function setRequest(Request $request)
+    {
+        $this->issuer->setRequest($request);
+        $this->checker->setRequest($request);
     }
 }

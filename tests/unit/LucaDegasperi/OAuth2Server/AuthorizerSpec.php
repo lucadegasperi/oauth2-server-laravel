@@ -11,6 +11,7 @@ use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
 use LucaDegasperi\OAuth2Server\Delegates\AuthCodeCheckerDelegate;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\HttpFoundation\Request;
 
 class AuthorizerSpec extends ObjectBehavior
 {
@@ -126,5 +127,13 @@ class AuthorizerSpec extends ObjectBehavior
     function it_returns_the_checker(ResourceServer $checker)
     {
         $this->getChecker()->shouldReturn($checker);
+    }
+
+    function it_sets_the_request_to_the_issuer_and_checker(AuthorizationServer $issuer, ResourceServer $checker, Request $request)
+    {
+        $issuer->setRequest($request)->shouldBeCalled();
+        $checker->setRequest($request)->shouldBeCalled();
+
+        $this->setRequest($request);
     }
 }

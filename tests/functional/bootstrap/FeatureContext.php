@@ -58,11 +58,8 @@ class FeatureContext extends LaravelFeatureContext
             'client_id' => $clientId,
             'client_secret' => $clientSecret
         ];
-        //$this->app['request']->replace($params);
-        Authorizer::getIssuer()->getRequest()->request->add($params);
-        $response = $this->call('POST', $pageName, $params);
 
-        var_dump($response);
+        $this->call('POST', $pageName, $params);
     }
 
     /**

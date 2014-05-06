@@ -40,6 +40,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/../');
 
         $this->bootFilters();
+
+        $this->bootAuthorizer();
     }
 
     /**
@@ -132,18 +134,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 $issuer->addGrantType($grant);
             }
 
-            $issuer->setRequest($app['request']);
-
             $checker = $app->make('League\OAuth2\Server\ResourceServer');
 
-            $checker->setRequest($app['request']);
-
-            return new Authorizer($issuer, $checker);
-        });
-
-        $this->app->bind('LucaDegasperi\OAuth2Server\Authorizer', function($app)
-        {
-           return $app['oauth2-server.authorizer'];
+            $authorizer = new Authorizer($issuer, $checker);
+            $authorizer->setRequest($app['request']);
+            return $authorizer;
         });
     }
 
@@ -204,5 +199,17 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app['router']->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter');
         $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
         $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
+    }
+
+    /**
+     * Booth the authorizer and set the correct request object
+     */
+    private function bootAuthorizer()
+    {
+        $this->app->bind('LucaDegasperi\OAuth2Server\Authorizer', function($app)
+        {
+            $app['oauth2-server.authorizer']->setRequest($app['request']);
+            return $app['oauth2-server.authorizer'];
+        });
     }
 }

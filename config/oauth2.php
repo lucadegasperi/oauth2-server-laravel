@@ -59,39 +59,6 @@ return [
     */
 
     'grant_types' => [
-
-        /*'authorization_code' => [
-            'class'            => 'League\OAuth2\Server\Grant\AuthCodeGrant',
-            'access_token_ttl' => 3600,
-            'auth_code_ttl'   => 3600,
-        ],*/
-
-        'password' => [
-            'class'            => 'League\OAuth2\Server\Grant\PasswordGrant',
-            'access_token_ttl' => 604800,
-            'callback'         => function ($username, $password) {
-                
-                $credentials = [
-                    'email' => $username,
-                    'password' => $password,
-                ];
-
-                $valid = Auth::validate($credentials);
-
-                if (!$valid) {
-                    return false;
-                }
-
-                return Auth::getProvider()->retrieveByCredentials($credentials)->id;
-            }
-        ],
-
-        'refresh_token' => [
-            'class'                 => 'League\OAuth2\Server\Grant\RefreshTokenGrant',
-            'access_token_ttl'      => 3600,
-            'refresh_token_ttl'     => 604800,
-            'rotate_refresh_tokens' => false,
-        ],
         
     ],
 

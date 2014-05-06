@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "b8e2c5a3f825b10aad8fdded669fd48a5ee88402"
+                "reference": "54c2c48704ebc7464dabbcf7a753c118e6282b82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/b8e2c5a3f825b10aad8fdded669fd48a5ee88402",
-                "reference": "b8e2c5a3f825b10aad8fdded669fd48a5ee88402",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/54c2c48704ebc7464dabbcf7a753c118e6282b82",
+                "reference": "54c2c48704ebc7464dabbcf7a753c118e6282b82",
                 "shasum": ""
             },
             "require": {
@@ -73,7 +73,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2014-05-03 10:47:06"
+            "time": "2014-05-06 11:57:14"
         },
         {
             "name": "symfony/http-foundation",
@@ -1044,12 +1044,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "4fd72af3a288e21ab715bdde0277a1364279b132"
+                "reference": "3a309d36edd85451cf51b63adcbc6899c5211ae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/4fd72af3a288e21ab715bdde0277a1364279b132",
-                "reference": "4fd72af3a288e21ab715bdde0277a1364279b132",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/3a309d36edd85451cf51b63adcbc6899c5211ae2",
+                "reference": "3a309d36edd85451cf51b63adcbc6899c5211ae2",
                 "shasum": ""
             },
             "require": {
@@ -1133,7 +1133,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2014-05-05 09:34:16"
+            "time": "2014-05-05 22:49:44"
         },
         {
             "name": "phpspec/php-diff",

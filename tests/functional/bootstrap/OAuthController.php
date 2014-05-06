@@ -1,13 +1,12 @@
 <?php
 
-namespace LucaDegasperi\OAuth2Server;
-
-
+use Illuminate\Routing\Controller;
 use League\OAuth2\Server\Exception\OAuthException;
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenIssuerDelegate;
+use LucaDegasperi\OAuth2Server\Authorizer;
 
-class OAuthController implements AccessTokenIssuerDelegate {
-
+class OAuthController extends Controller implements AccessTokenIssuerDelegate
+{
     protected $authorizer;
 
     public function __construct(Authorizer $authorizer)
@@ -15,7 +14,7 @@ class OAuthController implements AccessTokenIssuerDelegate {
         $this->authorizer = $authorizer;
     }
 
-    public function accessToken()
+    public function postAccessToken()
     {
         return $this->authorizer->issueAccessToken($this);
     }

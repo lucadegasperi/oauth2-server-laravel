@@ -9,5 +9,7 @@ extensions:
 code_coverage:
   whitelist:
     - src
+  blacklist_files:
+    - src/OAuth2ServerServiceProvider.php
   output: tmp/unit-coverage.cov
   format: php

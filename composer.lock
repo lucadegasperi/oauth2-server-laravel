@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "54c2c48704ebc7464dabbcf7a753c118e6282b82"
+                "reference": "6a0596f40bf1227c4e20e14f057c312a66be87b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/54c2c48704ebc7464dabbcf7a753c118e6282b82",
-                "reference": "54c2c48704ebc7464dabbcf7a753c118e6282b82",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/6a0596f40bf1227c4e20e14f057c312a66be87b2",
+                "reference": "6a0596f40bf1227c4e20e14f057c312a66be87b2",
                 "shasum": ""
             },
             "require": {
@@ -73,7 +73,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2014-05-06 11:57:14"
+            "time": "2014-05-07 16:30:07"
         },
         {
             "name": "symfony/http-foundation",
@@ -940,16 +940,16 @@
         },
         {
             "name": "patchwork/utf8",
-            "version": "v1.1.21",
+            "version": "v1.1.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "f45ba8bc7962b7356847724989a6949b68d975a2"
+                "reference": "156e66249f48e439a31df2347290bb9ab1d3d242"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/f45ba8bc7962b7356847724989a6949b68d975a2",
-                "reference": "f45ba8bc7962b7356847724989a6949b68d975a2",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/156e66249f48e439a31df2347290bb9ab1d3d242",
+                "reference": "156e66249f48e439a31df2347290bb9ab1d3d242",
                 "shasum": ""
             },
             "require": {
@@ -987,7 +987,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-03-26 10:52:02"
+            "time": "2014-05-06 15:47:10"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1773,12 +1773,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "f5bfa131c5bc1b1c90f4936367678ff471ca1bf3"
+                "reference": "10a9cd901c6878378482b0191618faf50e701732"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/f5bfa131c5bc1b1c90f4936367678ff471ca1bf3",
-                "reference": "f5bfa131c5bc1b1c90f4936367678ff471ca1bf3",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/10a9cd901c6878378482b0191618faf50e701732",
+                "reference": "10a9cd901c6878378482b0191618faf50e701732",
                 "shasum": ""
             },
             "require": {
@@ -1815,7 +1815,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2014-05-05 08:34:35"
+            "time": "2014-05-07 06:57:00"
         },
         {
             "name": "sebastian/environment",

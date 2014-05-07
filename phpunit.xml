@@ -28,6 +28,9 @@
                 <directory>./tests</directory>
                 <directory>./travis</directory>
                 <directory>./vendor</directory>
+                <directory>./stubs</directory>
+                <directory>./seeds</directory>
+                <file>./src/OAuth2ServerServiceProvider.php</file>
             </exclude>
         </whitelist>
     </filter>

@@ -59,7 +59,7 @@ return [
     */
 
     'grant_types' => [
-        
+
     ],
 
     /*
@@ -87,7 +87,7 @@ return [
     | Scope Delimiter
     |--------------------------------------------------------------------------
     |
-    | Which caracter to use to split the scope parameter in the query string
+    | Which character to use to split the scope parameter in the query string
     |
     */
     'scope_delimiter' => ',',

@@ -15,8 +15,6 @@ use LucaDegasperi\LaravelFeatureContext\LaravelFeatureContext;
  */
 class FeatureContext extends LaravelFeatureContext
 {
-    protected $artisan;
-
     /** @BeforeScenario */
     public function setup()
     {
@@ -26,7 +24,7 @@ class FeatureContext extends LaravelFeatureContext
     /** @AfterScenario */
     public function teardown()
     {
-        $this->artisan->call('migrate:reset');
+        $this->resetMigrations();
     }
     /**
      * @Given /^An authorization server exists that supports the "([^"]*)" grant type$/
@@ -68,8 +66,12 @@ class FeatureContext extends LaravelFeatureContext
     public function iShouldGetAnError($arg1)
     {
         $this->assertResponseStatus(401);
-        //throw new PendingException();
+        $content = json_decode($this->client->getResponse()->getContent());
+        assertEquals('invalid_client', $content->error);
     }
+
+    protected $artisan;
+
     /**
      * Get package aliases.
      *
@@ -117,5 +119,10 @@ class FeatureContext extends LaravelFeatureContext
             '--path' => '../src/migrations'
         ]);
         $this->artisan->call('db:seed');
+    }
+
+    public function resetMigrations()
+    {
+        $this->artisan->call('migrate:reset');
     }
 }

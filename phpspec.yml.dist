@@ -11,5 +11,6 @@ code_coverage:
     - src
   blacklist_files:
     - src/OAuth2ServerServiceProvider.php
+    - src/Facades/AuthorizerFacade.php
   output: tmp/unit-coverage.cov
   format: php

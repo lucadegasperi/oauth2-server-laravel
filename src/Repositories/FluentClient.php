@@ -48,7 +48,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
      * @param string $clientSecret
      * @param string $redirectUri
      * @param string $grantType
-     * @return \League\OAuth2\Server\Entity\ClientEntity|null
+     * @return null|\League\OAuth2\Server\Entity\Client
      */
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
@@ -103,7 +103,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
     /**
      * Get the client associated with a session
      * @param  \League\OAuth2\Server\Entity\SessionEntity $session The session
-     * @return \League\OAuth2\Server\Entity\ClientEntity|null
+     * @return null|\League\OAuth2\Server\Entity\Client
      */
     public function getBySession(SessionEntity $session)
     {

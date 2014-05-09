@@ -13,8 +13,8 @@ namespace LucaDegasperi\OAuth2Server\Delegates;
 
 use League\OAuth2\Server\Exception\OAuthException;
 
-interface AccessTokenIssuerDelegate {
-
+interface AccessTokenIssuerDelegate
+{
     /**
      * @param array $responseMessage
      * @return mixed
@@ -26,4 +26,4 @@ interface AccessTokenIssuerDelegate {
      * @return mixed
      */
     public function accessTokenIssuingFailed(OAuthException $e);
-} 
+}

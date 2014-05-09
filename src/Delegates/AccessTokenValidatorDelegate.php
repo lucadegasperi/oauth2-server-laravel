@@ -11,15 +11,18 @@
 
 namespace LucaDegasperi\OAuth2Server\Delegates;
 
-interface AccessTokenValidatorDelegate {
+use League\OAuth2\Server\Exception\OAuthException;
 
+interface AccessTokenValidatorDelegate
+{
     /**
      * @return mixed
      */
     public function accessTokenValidated();
 
     /**
+     * @param \League\OAuth2\Server\Exception\OAuthException $e
      * @return mixed
      */
-    public function accessTokenValidationFailed();
-} 
+    public function accessTokenValidationFailed(OAuthException $e);
+}

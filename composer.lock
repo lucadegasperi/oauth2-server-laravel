@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "6a0596f40bf1227c4e20e14f057c312a66be87b2"
+                "reference": "d40ee11ef5313e20ee2bfc8d164c555bee46313d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/6a0596f40bf1227c4e20e14f057c312a66be87b2",
-                "reference": "6a0596f40bf1227c4e20e14f057c312a66be87b2",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/d40ee11ef5313e20ee2bfc8d164c555bee46313d",
+                "reference": "d40ee11ef5313e20ee2bfc8d164c555bee46313d",
                 "shasum": ""
             },
             "require": {
@@ -73,7 +73,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2014-05-07 16:30:07"
+            "time": "2014-05-08 10:55:04"
         },
         {
             "name": "symfony/http-foundation",
@@ -518,12 +518,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ff2f1fdc2ce49b83645ef045691c2514b9b6d5ed"
+                "reference": "1ae7be20bc5416fe7056979e0ec05f3f88e3d040"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ff2f1fdc2ce49b83645ef045691c2514b9b6d5ed",
-                "reference": "ff2f1fdc2ce49b83645ef045691c2514b9b6d5ed",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/1ae7be20bc5416fe7056979e0ec05f3f88e3d040",
+                "reference": "1ae7be20bc5416fe7056979e0ec05f3f88e3d040",
                 "shasum": ""
             },
             "require": {
@@ -626,7 +626,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-05-04 15:13:30"
+            "time": "2014-05-09 12:04:41"
         },
         {
             "name": "lucadegasperi/laravel-feature-context",
@@ -1626,12 +1626,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "35cb12737464ae75ce8970952005df2a63b2137b"
+                "reference": "3bf40987c4e3dc379970478bf372c7eecc7b6cfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/35cb12737464ae75ce8970952005df2a63b2137b",
-                "reference": "35cb12737464ae75ce8970952005df2a63b2137b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/3bf40987c4e3dc379970478bf372c7eecc7b6cfc",
+                "reference": "3bf40987c4e3dc379970478bf372c7eecc7b6cfc",
                 "shasum": ""
             },
             "require": {
@@ -1675,7 +1675,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2014-05-04 09:35:29"
+            "time": "2014-05-09 09:05:20"
         },
         {
             "name": "predis/predis",
@@ -2025,12 +2025,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "8443b5ca82b360a62c0c8ba04598e476076bbe2d"
+                "reference": "46d55baab96f943061de6712b38011db354eed78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/8443b5ca82b360a62c0c8ba04598e476076bbe2d",
-                "reference": "8443b5ca82b360a62c0c8ba04598e476076bbe2d",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/46d55baab96f943061de6712b38011db354eed78",
+                "reference": "46d55baab96f943061de6712b38011db354eed78",
                 "shasum": ""
             },
             "require": {
@@ -2071,7 +2071,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-05-05 09:37:46"
+            "time": "2014-05-08 08:35:11"
         },
         {
             "name": "symfony/browser-kit",
@@ -2352,12 +2352,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "84ed369a357869e0a25abf678d89d8132a7b63b2"
+                "reference": "ca0cdf8d0ec4bb22f36f5c32341892a4eb53ac3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/84ed369a357869e0a25abf678d89d8132a7b63b2",
-                "reference": "84ed369a357869e0a25abf678d89d8132a7b63b2",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/ca0cdf8d0ec4bb22f36f5c32341892a4eb53ac3d",
+                "reference": "ca0cdf8d0ec4bb22f36f5c32341892a4eb53ac3d",
                 "shasum": ""
             },
             "require": {
@@ -2402,7 +2402,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-18 20:40:13"
+            "time": "2014-05-09 14:22:29"
         },
         {
             "name": "symfony/dom-crawler",

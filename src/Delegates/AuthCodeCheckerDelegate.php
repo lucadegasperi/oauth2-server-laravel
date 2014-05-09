@@ -14,8 +14,8 @@ namespace LucaDegasperi\OAuth2Server\Delegates;
 
 use League\OAuth2\Server\Exception\OAuthException;
 
-interface AuthCodeCheckerDelegate {
-
+interface AuthCodeCheckerDelegate
+{
     /**
      * @return mixed
      */
@@ -26,4 +26,4 @@ interface AuthCodeCheckerDelegate {
      * @return mixed
      */
     public function checkFailed(OAuthException $e);
-} 
+}

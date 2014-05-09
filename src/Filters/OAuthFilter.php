@@ -11,6 +11,7 @@
 
 namespace LucaDegasperi\OAuth2Server\Filters;
 
+use League\OAuth2\Server\Exception\OAuthException;
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use Illuminate\Support\Facades\Response;
@@ -59,7 +60,6 @@ class OAuthFilter implements AccessTokenValidatorDelegate
     {
         if (!empty($this->scopes) and !$this->authorizer->hasScope($this->scopes)) {
             return Response::json([
-                'status' => 403,
                 'error' => 'forbidden',
                 'error_message' => 'Only access token with scope(s) "' . implode(', ', $this->scopes) . '" can use this endpoint',
             ], 403);
@@ -67,13 +67,16 @@ class OAuthFilter implements AccessTokenValidatorDelegate
         return null;
     }
 
-    public function accessTokenValidationFailed()
+    public function accessTokenValidationFailed(OAuthException $e)
     {
-        return Response::json([
-            'status' => 401,
-            'error' => 'unauthorized',
-            'error_message' => 'Access token is missing or is expired',
-        ], 401);
+        return Response::json(
+            [
+                'error' => $e->errorType,
+                'error_message' => $e->getMessage()
+            ],
+            $e->httpStatusCode,
+            $e->getHttpHeaders()
+        );
     }
 
     public function setScopes(array $scopes)

@@ -127,10 +127,11 @@ class Authorizer
      */
     public function validateAccessToken(AccessTokenValidatorDelegate $delegate, $httpHeadersOnly = false, $accessToken = null)
     {
-        if ($this->checker->isValidRequest($httpHeadersOnly, $accessToken)) {
+        try {
+            $this->checker->isValidRequest($httpHeadersOnly, $accessToken);
             return $delegate->accessTokenValidated();
-        } else {
-            return $delegate->accessTokenValidationFailed();
+        } catch (OAuthException $e) {
+            return $delegate->accessTokenValidationFailed($e);
         }
     }
 

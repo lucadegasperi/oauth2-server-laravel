@@ -80,8 +80,9 @@ class AuthorizerSpec extends ObjectBehavior
 
     function it_delegates_when_the_access_token_validation_fails(AccessTokenValidatorDelegate $delegate, ResourceServer $checker)
     {
-        $checker->isValidRequest(false, null)->willReturn(false)->shouldBeCalled();
-        $delegate->accessTokenValidationFailed()->willReturn('foo')->shouldBeCalled();
+        $exception = new OAuthException();
+        $checker->isValidRequest(false, null)->willThrow($exception)->shouldBeCalled();
+        $delegate->accessTokenValidationFailed($exception)->willReturn('foo')->shouldBeCalled();
 
         $this->validateAccessToken($delegate)->shouldReturn('foo');
     }

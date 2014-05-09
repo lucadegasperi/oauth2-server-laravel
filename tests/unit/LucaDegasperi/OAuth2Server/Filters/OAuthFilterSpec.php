@@ -2,6 +2,7 @@
 
 namespace unit\LucaDegasperi\OAuth2Server\Filters;
 
+use League\OAuth2\Server\Exception\AccessDeniedException;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -50,10 +51,11 @@ class OAuthFilterSpec extends ObjectBehavior
 
     function it_returns_a_json_response_when_access_token_validation_fails(Authorizer $authorizer)
     {
-        $this->accessTokenValidationFailed()->shouldReturnAnInstanceOf('Illuminate\Http\JsonResponse');
-        $this->accessTokenValidationFailed()->getData()->shouldHaveKey('error');
-        $this->accessTokenValidationFailed()->getData()->shouldHaveKey('error_message');
-        $this->accessTokenValidationFailed()->getStatusCode()->shouldBe(401);
+        $exception = new AccessDeniedException();
+        $this->accessTokenValidationFailed($exception)->shouldReturnAnInstanceOf('Illuminate\Http\JsonResponse');
+        $this->accessTokenValidationFailed($exception)->getData()->shouldHaveKey('error');
+        $this->accessTokenValidationFailed($exception)->getData()->shouldHaveKey('error_message');
+        $this->accessTokenValidationFailed($exception)->getStatusCode()->shouldBe(401);
     }
 
     function it_can_be_set_to_use_http_headers_only_to_check_the_access_token()

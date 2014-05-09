@@ -12,11 +12,9 @@
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\ScopeInterface;
-use League\OAuth2\Server\Storage\Adapter;
 use League\OAuth2\Server\Entity\ScopeEntity;
-use DB;
 
-class FluentScope extends Adapter implements ScopeInterface
+class FluentScope extends FluentAdapter implements ScopeInterface
 {
     protected $limitClientsToScopes = false;
 
@@ -64,7 +62,7 @@ class FluentScope extends Adapter implements ScopeInterface
      */
     public function get($scope, $grantType = null)
     {
-         $query = DB::table('oauth_scopes')
+         $query = $this->getConnection()->table('oauth_scopes')
                     ->select('oauth_scopes.id as id', 'oauth_scopes.description as description')
                     ->where('oauth_scopes.id', $scope);
 

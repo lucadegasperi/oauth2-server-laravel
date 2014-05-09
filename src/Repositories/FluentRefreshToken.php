@@ -12,12 +12,10 @@
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
-use League\OAuth2\Server\Storage\Adapter;
 use League\OAuth2\Server\Entity\RefreshTokenEntity;
-use DB;
 use Carbon\Carbon;
 
-class FluentRefreshToken extends Adapter implements RefreshTokenInterface
+class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
 {
     /**
      * Return a new instance of \League\OAuth2\Server\Entity\RefreshTokenEntity
@@ -26,7 +24,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
      */
     public function get($token)
     {
-        $result = DB::table('oauth_refresh_tokens')
+        $result = $this->getConnection()->table('oauth_refresh_tokens')
                 ->where('id', $token)
                 ->first();
 
@@ -48,7 +46,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
      */
     public function create($token, $expireTime, $accessToken)
     {
-        DB::table('oauth_refresh_tokens')->insert([
+        $this->getConnection()->table('oauth_refresh_tokens')->insert([
             'id'              => $token,
             'expire_time'     => $expireTime,
             'access_token_id' => $accessToken,
@@ -68,7 +66,7 @@ class FluentRefreshToken extends Adapter implements RefreshTokenInterface
      */
     public function delete(RefreshTokenEntity $token)
     {
-        DB::table('oauth_refresh_tokens')
+        $this->getConnection()->table('oauth_refresh_tokens')
         ->where('id', $token->getToken())
         ->delete();
     }

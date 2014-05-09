@@ -13,11 +13,9 @@ namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\ClientInterface;
-use League\OAuth2\Server\Storage\Adapter;
 use League\OAuth2\Server\Entity\ClientEntity;
-use DB;
 
-class FluentClient extends Adapter implements ClientInterface
+class FluentClient extends FluentAdapter implements ClientInterface
 {
     protected $limitClientsToGrants = false;
 
@@ -57,7 +55,7 @@ class FluentClient extends Adapter implements ClientInterface
         $query = null;
         
         if (! is_null($redirectUri) && is_null($clientSecret)) {
-            $query = DB::table('oauth_clients')
+            $query = $this->getConnection()->table('oauth_clients')
                    ->select(
                        'oauth_clients.id as id',
                        'oauth_clients.secret as secret',
@@ -67,7 +65,7 @@ class FluentClient extends Adapter implements ClientInterface
                    ->where('oauth_clients.id', $clientId)
                    ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
         } elseif (! is_null($clientSecret) && is_null($redirectUri)) {
-            $query = DB::table('oauth_clients')
+            $query = $this->getConnection()->table('oauth_clients')
                    ->select(
                        'oauth_clients.id as id',
                        'oauth_clients.secret as secret',
@@ -75,7 +73,7 @@ class FluentClient extends Adapter implements ClientInterface
                    ->where('oauth_clients.id', $clientId)
                    ->where('oauth_clients.secret', $clientSecret);
         } elseif (! is_null($clientSecret) && ! is_null($redirectUri)) {
-            $query = DB::table('oauth_clients')
+            $query = $this->getConnection()->table('oauth_clients')
                    ->select(
                        'oauth_clients.id as id',
                        'oauth_clients.secret as secret',
@@ -109,7 +107,7 @@ class FluentClient extends Adapter implements ClientInterface
      */
     public function getBySession(SessionEntity $session)
     {
-        $result = DB::table('oauth_clients')
+        $result = $this->getConnection()->table('oauth_clients')
                 ->select(
                     'oauth_clients.id as id',
                     'oauth_clients.secret as secret',

@@ -16,12 +16,10 @@ use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
-use League\OAuth2\Server\Storage\Adapter;
 
-use DB;
 use Carbon\Carbon;
 
-class FluentAccessToken extends Adapter implements AccessTokenInterface
+class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
 {
     /**
      * Get an instance of Entities\AccessToken
@@ -30,7 +28,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
      */
     public function get($token)
     {
-        $result = DB::table('oauth_access_tokens')
+        $result = $this->getConnection()->table('oauth_access_tokens')
                 ->where('oauth_access_tokens.id', $token)
                 ->first();
 
@@ -46,7 +44,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
 
     public function getByRefreshToken(RefreshTokenEntity $refreshToken)
     {
-        $result = DB::table('oauth_access_tokens')
+        $result = $this->getConnection()->table('oauth_access_tokens')
                 ->select('oauth_access_tokens.*')
                 ->join('oauth_refresh_tokens', 'oauth_access_tokens.id', '=', 'oauth_refresh_tokens.access_token_id')
                 ->where('oauth_refresh_tokens.id', $refreshToken->getToken())
@@ -68,7 +66,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
      */
     public function getScopes(AbstractTokenEntity $token)
     {
-        $result = DB::table('oauth_access_token_scopes')
+        $result = $this->getConnection()->table('oauth_access_token_scopes')
                 ->select('oauth_scopes.*')
                 ->join('oauth_scopes', 'oauth_access_token_scopes.scope_id', '=', 'oauth_scopes.id')
                 ->where('oauth_access_token_scopes.access_token_id', $token->getToken())
@@ -94,7 +92,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
      */
     public function create($token, $expireTime, $sessionId)
     {
-        DB::table('oauth_access_tokens')->insert([
+        $this->getConnection()->table('oauth_access_tokens')->insert([
             'id' => $token,
             'expire_time' => $expireTime,
             'session_id' => $sessionId,
@@ -115,7 +113,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
      */
     public function associateScope(AbstractTokenEntity $token, ScopeEntity $scope)
     {
-        DB::table('oauth_access_token_scopes')->insert([
+        $this->getConnection()->table('oauth_access_token_scopes')->insert([
             'access_token_id' => $token->getToken(),
             'scope_id'        => $scope->getId(),
             'created_at'      => Carbon::now(),
@@ -130,7 +128,7 @@ class FluentAccessToken extends Adapter implements AccessTokenInterface
      */
     public function delete(AbstractTokenEntity $token)
     {
-        DB::table('oauth_access_tokens')
+        $this->getConnection()->table('oauth_access_tokens')
         ->where('oauth_access_tokens.id', $token->getToken())
         ->delete();
     }

@@ -12,10 +12,10 @@
 namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Support\ServiceProvider;
-use LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
+use LucaDegasperi\OAuth2Server\Repositories\FluentAdapter;
 use LucaDegasperi\OAuth2Server\Repositories\FluentClient;
 use LucaDegasperi\OAuth2Server\Repositories\FluentScope;
 use LucaDegasperi\OAuth2Server\Console\MigrationsCommand;
@@ -55,6 +55,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->registerAuthorizer();
         $this->registerFilterBindings();
         $this->registerCommands();
+        $this->registerResolvers();
     }
 
     /**
@@ -194,6 +195,20 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->commands('command.oauth2-server.controller', 'command.oauth2-server.migrations');
     }
 
+    private function registerResolvers()
+    {
+        $app = $this->app;
+        $app->resolvingAny(function ($object) use ($app) {
+            if ($object instanceof FluentAdapter) {
+                $name = $app['config']->get('oauth2-server-laravel::oauth2.database');
+                if ($name === 'default') {
+                    $name = '';
+                }
+                $object->setConnection($name);
+            }
+        });
+    }
+
     /**
      * Boot the filters
      * @return void
@@ -204,4 +219,5 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
         $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
     }
+
 }

@@ -16,7 +16,6 @@ use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
-
 use Carbon\Carbon;
 
 class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
@@ -24,7 +23,7 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
     /**
      * Get an instance of Entities\AccessToken
      * @param  string $token The access token
-     * @return \League\OAuth2\Server\Entity\AccessTokenEntity|null
+     * @return null|AbstractTokenEntity
      */
     public function get($token)
     {

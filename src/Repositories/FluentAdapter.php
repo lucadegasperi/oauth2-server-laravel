@@ -13,7 +13,6 @@ namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\Adapter;
 use DB;
-use Config;
 
 abstract class FluentAdapter extends Adapter
 {

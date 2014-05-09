@@ -31,6 +31,7 @@
                 <directory>./stubs</directory>
                 <directory>./seeds</directory>
                 <file>./src/OAuth2ServerServiceProvider.php</file>
+                <file>./src/Repositories/FluentAdapter.php</file>
             </exclude>
         </whitelist>
     </filter>

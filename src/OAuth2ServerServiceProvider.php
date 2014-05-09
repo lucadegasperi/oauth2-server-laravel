@@ -202,7 +202,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             if ($object instanceof FluentAdapter) {
                 $name = $app['config']->get('oauth2-server-laravel::oauth2.database');
                 if ($name === 'default') {
-                    $name = '';
+                    $name = null;
                 }
                 $object->setConnection($name);
             }

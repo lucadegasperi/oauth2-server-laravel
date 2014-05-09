@@ -17,12 +17,13 @@ use Config;
 
 abstract class FluentAdapter extends Adapter
 {
-    protected $connectionName = '';
+    protected $connectionName = null;
 
-    public function setConnection($name = '')
+    public function setConnection($name = null)
     {
         $this->connectionName = $name;
     }
+
     protected function getConnection()
     {
         return DB::connection($this->connectionName);

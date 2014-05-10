@@ -1,6 +1,6 @@
 <?php
 /**
- * Fluent storage implementation for an OAuth 2.0 Access Token
+ * Fluent adapter for an OAuth 2.0 Server
  *
  * @package   lucadegasperi/oauth2-server-laravel
  * @author    Luca Degasperi <luca@lucadegasperi.com>
@@ -12,19 +12,24 @@
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\Adapter;
-use DB;
+use Illuminate\Database\Connection;
 
 abstract class FluentAdapter extends Adapter
 {
-    protected $connectionName = null;
+    protected $connection;
 
-    public function setConnection($name = null)
+    public function __construct(Connection $connection)
     {
-        $this->connectionName = $name;
+        $this->connection = $connection;
+    }
+
+    public function setConnection(Connection $connection)
+    {
+        $this->connection = $connection;
     }
 
     protected function getConnection()
     {
-        return DB::connection($this->connectionName);
+        return $this->connection;
     }
 } 

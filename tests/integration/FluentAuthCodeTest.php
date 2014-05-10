@@ -8,7 +8,7 @@ class FluentAuthCodeTest extends DBTestCase
     public function getAuthCodeRepository()
     {
         $server = m::mock('League\OAuth2\Server\AbstractServer');
-        $repo = new FluentAuthCode();
+        $repo = new FluentAuthCode($this->app['db']->connection());
         $repo->setServer($server);
 
         return $repo;

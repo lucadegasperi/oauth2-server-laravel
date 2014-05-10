@@ -11,6 +11,7 @@
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
+use Illuminate\Database\Connection;
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Entity\ScopeEntity;
 
@@ -20,8 +21,9 @@ class FluentScope extends FluentAdapter implements ScopeInterface
 
     protected $limitScopesToGrants = false;
 
-    public function __construct($limitClientsToScopes = false, $limitScopesToGrants = false)
+    public function __construct(Connection $connection, $limitClientsToScopes = false, $limitScopesToGrants = false)
     {
+        parent::__construct($connection);
         $this->limitClientsToScopes = $limitClientsToScopes;
         $this->limitScopesToGrants = $limitScopesToGrants;
     }

@@ -8,7 +8,7 @@ class FluentSessionTest extends DbTestCase
     public function getSessionRepository()
     {
         $server = m::mock('League\OAuth2\Server\AbstractServer');
-        $repo = new FluentSession();
+        $repo = new FluentSession($this->app['db']->connection());
         $repo->setServer($server);
 
         return $repo;

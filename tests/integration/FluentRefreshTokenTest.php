@@ -8,7 +8,7 @@ class FluentRefreshTokenTest extends DBTestCase
     public function getRefreshTokenRepository()
     {
         $server = m::mock('League\OAuth2\Server\AbstractServer');
-        $repo = new FluentRefreshToken();
+        $repo = new FluentRefreshToken($this->app['db']->connection());
         $repo->setServer($server);
 
         return $repo;

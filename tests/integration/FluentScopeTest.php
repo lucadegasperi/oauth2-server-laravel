@@ -8,7 +8,7 @@ class FluentScopeTest extends DBTestCase
     public function getScopeRepository()
     {
         $server = m::mock('League\OAuth2\Server\AbstractServer');
-        $repo = new FluentScope();
+        $repo = new FluentScope($this->app['db']->connection());
         $repo->setServer($server);
 
         return $repo;

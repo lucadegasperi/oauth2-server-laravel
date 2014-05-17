@@ -26,7 +26,6 @@ use LucaDegasperi\OAuth2Server\Console\OAuthControllerCommand;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -58,7 +57,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->registerAuthorizer();
         $this->registerFilterBindings();
         $this->registerCommands();
-        $this->registerResolvers();
     }
 
     /**
@@ -213,21 +211,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->commands('command.oauth2-server.controller', 'command.oauth2-server.migrations');
     }
 
-    private function registerResolvers()
-    {
-        $app = $this->app;
-        /*$app->resolvingAny(function ($object) use ($app) {
-            if ($object instanceof FluentAdapter) {
-                $name = $app['config']->get('oauth2-server-laravel::oauth2.database');
-                if ($name === 'default') {
-                    $name = null;
-                }
-                $object->setConnection($name);
-            }
-        });*/
-
-    }
-
     /**
      * Boot the filters
      * @return void
@@ -247,5 +230,4 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $connectionName = ($this->app['config']->get('oauth2-server-laravel::oauth2.database') !== 'default') ? $this->app['config']->get('oauth2-server-laravel::oauth2.database') : null;
         return $this->app['db']->connection($connectionName);
     }
-
 }

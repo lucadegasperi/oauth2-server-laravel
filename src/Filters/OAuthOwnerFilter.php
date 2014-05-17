@@ -14,7 +14,7 @@ namespace LucaDegasperi\OAuth2Server\Filters;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use Illuminate\Support\Facades\Response;
 
-class OAuthOwnerFilter
+class OAuthOwnerFilter extends BaseFilter
 {
     protected $authorizer;
 

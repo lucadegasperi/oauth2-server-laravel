@@ -16,7 +16,7 @@ use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use Illuminate\Support\Facades\Response;
 
-class OAuthFilter implements AccessTokenValidatorDelegate
+class OAuthFilter extends BaseFilter implements AccessTokenValidatorDelegate
 {
     protected $authorizer;
 
@@ -69,14 +69,7 @@ class OAuthFilter implements AccessTokenValidatorDelegate
 
     public function accessTokenValidationFailed(OAuthException $e)
     {
-        return Response::json(
-            [
-                'error' => $e->errorType,
-                'error_message' => $e->getMessage()
-            ],
-            $e->httpStatusCode,
-            $e->getHttpHeaders()
-        );
+        return $this->errorResponse($e);
     }
 
     public function setScopes(array $scopes)

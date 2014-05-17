@@ -12,11 +12,10 @@
 namespace LucaDegasperi\OAuth2Server\Filters;
 
 use League\OAuth2\Server\Exception\OAuthException;
-use Illuminate\Support\Facades\Response;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use LucaDegasperi\OAuth2Server\Delegates\AuthCodeCheckerDelegate;
 
-class CheckAuthCodeRequestFilter implements AuthCodeCheckerDelegate
+class CheckAuthCodeRequestFilter extends BaseFilter implements AuthCodeCheckerDelegate
 {
     protected $authorizer;
 
@@ -28,12 +27,10 @@ class CheckAuthCodeRequestFilter implements AuthCodeCheckerDelegate
     /**
      * Run the check authorization params filter
      *
-     * @param Route $route the route being called
-     * @param Request $request the request object
-     * @param string $scope additional filter arguments
+     * @internal param mixed $route, mixed $request, mixed $scope,...
      * @return Response|null a bad response in case the params are invalid
      */
-    public function filter($route, $request, $scope = null)
+    public function filter()
     {
         return $this->authorizer->checkAuthCodeRequest($this);
     }
@@ -45,13 +42,6 @@ class CheckAuthCodeRequestFilter implements AuthCodeCheckerDelegate
 
     public function checkFailed(OAuthException $e)
     {
-        return Response::json(
-            [
-                'error' => $e->errorType,
-                'error_message' => $e->getMessage()
-            ],
-            $e->httpStatusCode,
-            $e->getHttpHeaders()
-       );
+        return $this->errorResponse($e);
     }
 }

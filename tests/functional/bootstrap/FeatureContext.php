@@ -91,7 +91,10 @@ class FeatureContext extends LaravelFeatureContext
      */
     protected function getPackageProviders()
     {
-        return ['LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider'];
+        return [
+            'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
+            'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider'
+        ];
     }
 
     /**

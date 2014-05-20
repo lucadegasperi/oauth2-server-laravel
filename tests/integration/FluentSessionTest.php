@@ -1,6 +1,6 @@
 <?php
 
-use LucaDegasperi\OAuth2Server\Repositories\FluentSession;
+use LucaDegasperi\OAuth2Server\Storage\FluentSession;
 use Mockery as m;
 
 class FluentSessionTest extends DbTestCase

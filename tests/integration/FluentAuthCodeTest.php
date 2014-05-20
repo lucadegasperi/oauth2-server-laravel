@@ -1,6 +1,6 @@
 <?php
 
-use LucaDegasperi\OAuth2Server\Repositories\FluentAuthCode;
+use LucaDegasperi\OAuth2Server\Storage\FluentAuthCode;
 use Mockery as m;
 
 class FluentAuthCodeTest extends DBTestCase

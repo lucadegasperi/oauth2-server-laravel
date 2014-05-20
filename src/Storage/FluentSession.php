@@ -8,7 +8,7 @@
  * @licence   http://mit-license.org/
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
-namespace LucaDegasperi\OAuth2Server\Repositories;
+namespace LucaDegasperi\OAuth2Server\Storage;
 
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Entity\AuthCodeEntity;

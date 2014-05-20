@@ -9,7 +9,7 @@
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
 
-namespace LucaDegasperi\OAuth2Server\Repositories;
+namespace LucaDegasperi\OAuth2Server\Storage;
 
 use League\OAuth2\Server\Storage\Adapter;
 use Illuminate\Database\Connection;

@@ -1,6 +1,6 @@
 <?php
 
-use LucaDegasperi\OAuth2Server\Repositories\FluentScope;
+use LucaDegasperi\OAuth2Server\Storage\FluentScope;
 use Mockery as m;
 
 class FluentScopeTest extends DBTestCase

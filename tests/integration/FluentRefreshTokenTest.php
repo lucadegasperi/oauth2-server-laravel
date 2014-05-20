@@ -1,6 +1,6 @@
 <?php
 
-use LucaDegasperi\OAuth2Server\Repositories\FluentRefreshToken;
+use LucaDegasperi\OAuth2Server\Storage\FluentRefreshToken;
 use Mockery as m;
 
 class FluentRefreshTokenTest extends DBTestCase

@@ -1,6 +1,6 @@
 <?php
 
-use LucaDegasperi\OAuth2Server\Repositories\FluentAccessToken;
+use LucaDegasperi\OAuth2Server\Storage\FluentAccessToken;
 use Mockery as m;
 
 class FluentAccessTokenTest extends DBTestCase

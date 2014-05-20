@@ -1,6 +1,6 @@
 <?php
 /**
- * Laravel Service Provider for the OAuth 2.0 Server
+ * Service Provider for the OAuth 2.0 Server
  *
  * @package   lucadegasperi/oauth2-server-laravel
  * @author    Luca Degasperi <luca@lucadegasperi.com>
@@ -15,12 +15,6 @@ use Illuminate\Support\ServiceProvider;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
-use LucaDegasperi\OAuth2Server\Repositories\FluentClient;
-use LucaDegasperi\OAuth2Server\Repositories\FluentScope;
-use LucaDegasperi\OAuth2Server\Repositories\FluentAccessToken;
-use LucaDegasperi\OAuth2Server\Repositories\FluentAuthCode;
-use LucaDegasperi\OAuth2Server\Repositories\FluentRefreshToken;
-use LucaDegasperi\OAuth2Server\Repositories\FluentSession;
 use LucaDegasperi\OAuth2Server\Console\MigrationsCommand;
 use LucaDegasperi\OAuth2Server\Console\OAuthControllerCommand;
 
@@ -52,61 +46,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerRepositoryBindings();
-        $this->registerInterfaceBindings();
         $this->registerAuthorizer();
         $this->registerFilterBindings();
         $this->registerCommands();
-    }
-
-    /**
-     * Bind the repositories to the IoC container
-     * @return void
-     */
-    public function registerRepositoryBindings()
-    {
-        $provider = $this;
-
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Repositories\FluentAccessToken', function ($app) use ($provider) {
-            return new FluentAccessToken($provider->getConnection());
-        });
-
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Repositories\FluentAuthCode', function ($app) use ($provider) {
-            return new FluentAuthCode($provider->getConnection());
-        });
-
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Repositories\FluentClient', function ($app) use ($provider) {
-            $limitClientsToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_grants');
-            return new FluentClient($provider->getConnection(), $limitClientsToGrants);
-        });
-
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Repositories\FluentRefreshToken', function ($app) use ($provider) {
-            return new FluentRefreshToken($provider->getConnection());
-        });
-
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Repositories\FluentScope', function ($app) use ($provider) {
-            $limitClientsToScopes = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_scopes');
-            $limitScopesToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_scopes_to_grants');
-            return new FluentScope($provider->getConnection(), $limitClientsToScopes, $limitScopesToGrants);
-        });
-
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Repositories\FluentSession', function ($app) use ($provider) {
-            return new FluentSession($provider->getConnection());
-        });
-    }
-
-    /**
-     * Bind the interfaces to their implementations
-     * @return void
-     */
-    public function registerInterfaceBindings()
-    {
-        $this->app->bind('League\OAuth2\Server\Storage\ClientInterface',       'LucaDegasperi\OAuth2Server\Repositories\FluentClient');
-        $this->app->bind('League\OAuth2\Server\Storage\ScopeInterface',        'LucaDegasperi\OAuth2Server\Repositories\FluentScope');
-        $this->app->bind('League\OAuth2\Server\Storage\SessionInterface',      'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
-        $this->app->bind('League\OAuth2\Server\Storage\AuthCodeInterface',     'LucaDegasperi\OAuth2Server\Repositories\FluentAuthCode');
-        $this->app->bind('League\OAuth2\Server\Storage\AccessTokenInterface',  'LucaDegasperi\OAuth2Server\Repositories\FluentAccessToken');
-        $this->app->bind('League\OAuth2\Server\Storage\RefreshTokenInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentRefreshToken');
     }
 
     /**
@@ -220,14 +162,5 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app['router']->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter');
         $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
         $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
-    }
-
-    /**
-     * @return \Illuminate\Database\Connection
-     */
-    public function getConnection()
-    {
-        $connectionName = ($this->app['config']->get('oauth2-server-laravel::oauth2.database') !== 'default') ? $this->app['config']->get('oauth2-server-laravel::oauth2.database') : null;
-        return $this->app['db']->connection($connectionName);
     }
 }

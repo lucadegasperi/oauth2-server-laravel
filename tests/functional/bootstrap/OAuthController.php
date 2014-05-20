@@ -12,6 +12,10 @@ class OAuthController extends Controller implements AccessTokenIssuerDelegate
     public function __construct(Authorizer $authorizer)
     {
         $this->authorizer = $authorizer;
+
+        $this->beforeFilter('auth', ['only' => ['getAuthorize', 'postAuthorize']]);
+        $this->beforeFilter('csrf', ['only' => 'postAuthorize']);
+        $this->beforeFilter('check-authorization-params', ['only' => ['getAuthorize', 'postAuthorize']]);
     }
 
     public function postAccessToken()

@@ -22,7 +22,17 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $this->package('lucadegasperi/oauth2-server-laravel', 'lucadegasperi/oauth2-server-laravel');
 
-        require_once __DIR__.'/../../filters.php';
+        /** @var \Illuminate\Routing\Router $router */
+        $router = $this->app['router'];
+
+        // Bind a filter to check if the auth code grant type params are provided
+        $router->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthorizationParamsFilter');
+
+        // Bind a filter to make sure that an endpoint is accessible only by authorized members eventually with specific scopes
+        $router->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
+
+        // Bind a filter to make sure that an endpoint is accessible only by a specific owner
+        $router->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
     }
 
     /**

@@ -385,6 +385,7 @@ class FluentSession implements SessionInterface, SessionManagementInterface
         
 		foreach($scopeResults as $key=>$scope)
 		{
+            $scope = (object) $scope;
 			$scopes[$key] = get_object_vars($scope);
 	
 		}
@@ -452,6 +453,7 @@ class FluentSession implements SessionInterface, SessionManagementInterface
 
         foreach($scopesResults as $key=>$scope)
         {
+            $scope = (object) $scope;
 			$scopes[$key] = get_object_vars($scope);
 
 		}
@@ -497,6 +499,7 @@ class FluentSession implements SessionInterface, SessionManagementInterface
             return 0;
         } else {
             foreach ($expiredSessions as $session) {
+                $session = (object) $session;
                 DB::table('oauth_sessions')
                     ->where('id', '=', $session->session_id)
                     ->delete();

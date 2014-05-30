@@ -57,6 +57,8 @@ class FluentScope implements ScopeInterface
             return false;
         }
 
+        $result = (object) $result;
+
         return array(
             'id'          => $result->id,
             'scope'       => $result->scope,

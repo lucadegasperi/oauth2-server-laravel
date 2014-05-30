@@ -453,6 +453,7 @@ class FluentSession implements SessionInterface, SessionManagementInterface
 
         foreach($scopesResults as $key=>$scope)
         {
+            $scope = (object) $scope;
 			$scopes[$key] = get_object_vars($scope);
 
 		}

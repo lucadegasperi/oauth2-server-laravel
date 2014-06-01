@@ -78,4 +78,18 @@ class FluentAuthCodeTest extends DBTestCase
         $this->assertInstanceOf('League\OAuth2\Server\Entity\ScopeEntity', $first);
         $this->assertEquals('scope1', $first->getId());
     }
+
+    public function test_it_creates_an_auth_code()
+    {
+        $repo = $this->getAuthCodeRepository();
+
+        $time = time() + 120;
+        $repo->create('newauthcode', $time, 1);
+        $result = $repo->get('newauthcode');
+
+        $this->assertInstanceOf('League\OAuth2\Server\Entity\AuthCodeEntity', $result);
+        $this->assertEquals('newauthcode', $result->getToken());
+        $this->assertInternalType('int', $result->getExpireTime());
+        $this->assertEquals($time, $result->getExpireTime());
+    }
 }

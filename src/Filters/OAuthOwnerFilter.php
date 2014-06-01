@@ -34,11 +34,11 @@ class OAuthOwnerFilter extends BaseFilter
         if (func_num_args() > 2) {
             $ownerTypes = array_slice(func_get_args(), 2);
             if (!in_array($this->authorizer->getResourceOwnerType(), $ownerTypes)) {
-                return Response::json(array(
+                return Response::json([
                     'status' => 403,
                     'error' => 'forbidden',
                     'error_message' => 'Only access tokens owned by a ' . implode(', ', $ownerTypes) . ' can use this endpoint',
-                ), 403);
+                ], 403);
             }
         }
         return null;

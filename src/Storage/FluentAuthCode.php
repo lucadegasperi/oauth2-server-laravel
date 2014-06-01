@@ -89,4 +89,23 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
         ->where('oauth_auth_codes.id', $token->getToken())
         ->delete();
     }
+
+    /**
+     * Create an auth code.
+     * @param string $token The token ID
+     * @param integer $expireTime Token expire time
+     * @param integer $sessionId Session identifier
+     *
+     * @return void
+     */
+    public function create($token, $expireTime, $sessionId)
+    {
+        $this->getConnection()->table('oauth_auth_codes')->insert([
+            'id'              => $token,
+            'session_id'      => $sessionId,
+            'expire_time'     => $expireTime,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+    }
 }

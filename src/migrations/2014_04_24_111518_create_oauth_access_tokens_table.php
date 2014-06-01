@@ -5,7 +5,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateOauthAccessTokensTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -20,7 +19,7 @@ class CreateOauthAccessTokensTable extends Migration
 
             $table->timestamps();
 
-            $table->unique(array('id', 'session_id'));
+            $table->unique(['id', 'session_id']);
             $table->index('session_id');
 
             $table->foreign('session_id')

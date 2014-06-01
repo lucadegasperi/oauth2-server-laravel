@@ -34,7 +34,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/../');
+        $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/');
 
         $this->bootFilters();
     }

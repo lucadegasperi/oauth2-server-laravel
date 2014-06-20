@@ -8,21 +8,22 @@ use Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use League\OAuth2\Server\Grant\ClientCredentialsGrant;
-use LucaDegasperi\LaravelFeatureContext\LaravelFeatureContext;
+use Orchestra\Testbench\BehatFeatureContext;
+use PHPUnit_Framework_Assert as PHPUnit;
 
 /**
  * Features context.
  */
-class FeatureContext extends LaravelFeatureContext
+class FeatureContext extends BehatFeatureContext
 {
     /** @BeforeScenario */
-    public function setup()
+    public function up()
     {
         $this->migrateAndSeed();
     }
 
     /** @AfterScenario */
-    public function teardown()
+    public function down()
     {
         $this->resetMigrations();
     }
@@ -67,7 +68,7 @@ class FeatureContext extends LaravelFeatureContext
     {
         $this->assertResponseStatus(401);
         $content = json_decode($this->client->getResponse()->getContent());
-        assertEquals('invalid_client', $content->error);
+        PHPUnit::assertEquals('invalid_client', $content->error);
     }
 
     protected $artisan;

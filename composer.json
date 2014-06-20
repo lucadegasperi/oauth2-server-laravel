@@ -23,9 +23,8 @@
         "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
         "phpunit/phpunit": "4.0.*",
         "mockery/mockery": "0.8.*",
-        "orchestra/testbench": "2.1.*",
-        "behat/behat": "v2.5.2",
-        "lucadegasperi/laravel-feature-context": "1.0.*@dev"
+        "orchestra/testbench": "2.2.*@dev",
+        "behat/behat": "2.5.*"
     },
     "autoload": {
         "psr-4": {

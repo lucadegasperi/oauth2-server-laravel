@@ -13,9 +13,7 @@ class CreateOauthClientMetadataTable extends Migration
      */
     public function up()
     {
-        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
-
-        Schema::connection($dbConnection)->create('oauth_client_metadata', function (Blueprint $table) {
+        Schema::create('oauth_client_metadata', function (Blueprint $table) {
             $table->increments('id');
             $table->string('client_id', 40);
             $table->string('key', 40);
@@ -28,7 +26,7 @@ class CreateOauthClientMetadataTable extends Migration
 
             $table->unique(array('client_id', 'key'), 'oauth_client_metadata_cid_key_unique');
             $table->index('client_id');
-
+            
         });
     }
 
@@ -39,11 +37,9 @@ class CreateOauthClientMetadataTable extends Migration
      */
     public function down()
     {
-        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
-
-        Schema::connection($dbConnection)->table('oauth_client_metadata', function ($table) {
+        Schema::table('oauth_client_metadata', function ($table) {
             $table->dropForeign('oauth_client_metadata_client_id_foreign');
         });
-        Schema::connection($dbConnection)->drop('oauth_client_metadata');
+        Schema::drop('oauth_client_metadata');
     }
 }

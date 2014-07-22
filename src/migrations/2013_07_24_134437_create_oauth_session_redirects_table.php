@@ -13,9 +13,7 @@ class CreateOauthSessionRedirectsTable extends Migration
      */
     public function up()
     {
-        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
-
-        Schema::connection($dbConnection)->create('oauth_session_redirects', function (Blueprint $table) {
+        Schema::create('oauth_session_redirects', function (Blueprint $table) {
 
             $table->integer('session_id')->unsigned();
             $table->string('redirect_uri');
@@ -38,11 +36,9 @@ class CreateOauthSessionRedirectsTable extends Migration
      */
     public function down()
     {
-        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
-
-        Schema::connection($dbConnection)->table('oauth_session_redirects', function ($table) {
+        Schema::table('oauth_session_redirects', function ($table) {
             $table->dropForeign('oauth_session_redirects_session_id_foreign');
         });
-        Schema::connection($dbConnection)->drop('oauth_session_redirects');
+        Schema::drop('oauth_session_redirects');
     }
 }

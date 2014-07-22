@@ -13,9 +13,7 @@ class CreateOauthSessionAccessTokensTable extends Migration
      */
     public function up()
     {
-        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
-
-        Schema::connection($dbConnection)->create('oauth_session_access_tokens', function (Blueprint $table) {
+        Schema::create('oauth_session_access_tokens', function (Blueprint $table) {
 
             $table->increments('id');
             $table->integer('session_id')->unsigned();
@@ -41,11 +39,9 @@ class CreateOauthSessionAccessTokensTable extends Migration
      */
     public function down()
     {
-        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
-
-        Schema::connection($dbConnection)->table('oauth_session_access_tokens', function ($table) {
+        Schema::table('oauth_session_access_tokens', function ($table) {
             $table->dropForeign('oauth_session_access_tokens_session_id_foreign');
         });
-        Schema::connection($dbConnection)->drop('oauth_session_access_tokens');
+        Schema::drop('oauth_session_access_tokens');
     }
 }

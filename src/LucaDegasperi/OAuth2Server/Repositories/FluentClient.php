@@ -49,9 +49,11 @@ class FluentClient implements ClientInterface
     public function getClient($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
         $query = null;
-        
+
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
         if (! is_null($redirectUri) && is_null($clientSecret)) {
-            $query = DB::table('oauth_clients')
+            $query = DB::connection($dbConnection)->table('oauth_clients')
                         ->select(
                             'oauth_clients.id as id',
                             'oauth_clients.secret as secret',
@@ -61,7 +63,7 @@ class FluentClient implements ClientInterface
                         ->where('oauth_clients.id', $clientId)
                         ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
         } elseif (! is_null($clientSecret) && is_null($redirectUri)) {
-            $query = DB::table('oauth_clients')
+            $query = DB::connection($dbConnection)->table('oauth_clients')
                         ->select(
                             'oauth_clients.id as id',
                             'oauth_clients.secret as secret',
@@ -69,7 +71,7 @@ class FluentClient implements ClientInterface
                         ->where('oauth_clients.id', $clientId)
                         ->where('oauth_clients.secret', $clientSecret);
         } elseif (! is_null($clientSecret) && ! is_null($redirectUri)) {
-            $query = DB::table('oauth_clients')
+            $query = DB::connection($dbConnection)->table('oauth_clients')
                         ->select(
                             'oauth_clients.id as id',
                             'oauth_clients.secret as secret',
@@ -96,7 +98,7 @@ class FluentClient implements ClientInterface
 
         $result = (object) $result;
 
-        $metadata = DB::table('oauth_client_metadata')->where('client_id', '=', $result->id)->lists('value', 'key');
+        $metadata = DB::connection($dbConnection)->table('oauth_client_metadata')->where('client_id', '=', $result->id)->lists('value', 'key');
 
         return array(
             'client_id'     =>  $result->id,

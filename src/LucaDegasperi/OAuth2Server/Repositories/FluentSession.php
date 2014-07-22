@@ -3,6 +3,7 @@
 use League\OAuth2\Server\Storage\SessionInterface;
 use DB;
 use Carbon\Carbon;
+use Config;
 
 class FluentSession implements SessionInterface, SessionManagementInterface
 {

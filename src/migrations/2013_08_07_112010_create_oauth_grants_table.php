@@ -13,7 +13,9 @@ class CreateOauthGrantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_grants', function (Blueprint $table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->create('oauth_grants', function (Blueprint $table) {
             $table->increments('id');
             $table->string('grant')->unique();
             $table->timestamps();
@@ -27,6 +29,8 @@ class CreateOauthGrantsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('oauth_grants');
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->drop('oauth_grants');
     }
 }

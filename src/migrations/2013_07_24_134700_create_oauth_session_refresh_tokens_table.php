@@ -13,7 +13,9 @@ class CreateOauthSessionRefreshTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_session_refresh_tokens', function (Blueprint $table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->create('oauth_session_refresh_tokens', function (Blueprint $table) {
 
             $table->integer('session_access_token_id')->unsigned()->primary();
             $table->string('refresh_token', 40);
@@ -34,7 +36,7 @@ class CreateOauthSessionRefreshTokensTable extends Migration
                     ->onUpdate('no action');
         });
 
-        
+
     }
 
     /**
@@ -44,10 +46,12 @@ class CreateOauthSessionRefreshTokensTable extends Migration
      */
     public function down()
     {
-        Schema::table('oauth_session_refresh_tokens', function ($table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->table('oauth_session_refresh_tokens', function ($table) {
             $table->dropForeign('oauth_session_refresh_tokens_client_id_foreign');
             $table->dropForeign('oauth_session_refresh_tokens_session_access_token_id_foreign');
         });
-        Schema::drop('oauth_session_refresh_tokens');
+        Schema::connection($dbConnection)->drop('oauth_session_refresh_tokens');
     }
 }

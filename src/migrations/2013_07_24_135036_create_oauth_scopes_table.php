@@ -13,7 +13,9 @@ class CreateOauthScopesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_scopes', function (Blueprint $table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->create('oauth_scopes', function (Blueprint $table) {
 
             $table->increments('id');
             $table->string('scope')->unique();
@@ -31,6 +33,8 @@ class CreateOauthScopesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('oauth_scopes');
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->drop('oauth_scopes');
     }
 }

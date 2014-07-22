@@ -13,7 +13,9 @@ class CreateOauthSessionAuthcodeScopesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_session_authcode_scopes', function (Blueprint $table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->create('oauth_session_authcode_scopes', function (Blueprint $table) {
 
             $table->integer('oauth_session_authcode_id')->unsigned();
             $table->integer('scope_id')->unsigned();
@@ -40,10 +42,12 @@ class CreateOauthSessionAuthcodeScopesTable extends Migration
      */
     public function down()
     {
-        Schema::table('oauth_session_authcode_scopes', function ($table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->table('oauth_session_authcode_scopes', function ($table) {
             $table->dropForeign('oauth_session_authcode_scopes_scope_id_foreign');
             $table->dropForeign('oauth_session_authcode_scopes_oauth_session_authcode_id_foreign');
         });
-        Schema::drop('oauth_session_authcode_scopes');
+        Schema::connection($dbConnection)->drop('oauth_session_authcode_scopes');
     }
 }

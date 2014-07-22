@@ -13,7 +13,9 @@ class CreateOauthGrantScopesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_grant_scopes', function (Blueprint $table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->create('oauth_grant_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('grant_id')->unsigned();
             $table->integer('scope_id')->unsigned();
@@ -26,7 +28,7 @@ class CreateOauthGrantScopesTable extends Migration
                     ->references('id')->on('oauth_scopes')
                     ->onDelete('cascade')
                     ->onUpdate('no action');
-                    
+
             $table->timestamps();
         });
     }
@@ -38,10 +40,12 @@ class CreateOauthGrantScopesTable extends Migration
      */
     public function down()
     {
-        Schema::table('oauth_grant_scopes', function ($table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->table('oauth_grant_scopes', function ($table) {
             $table->dropForeign('oauth_grant_scopes_grant_id_foreign');
             $table->dropForeign('oauth_grant_scopes_scope_id_foreign');
         });
-        Schema::drop('oauth_grant_scopes');
+        Schema::connection($dbConnection)->drop('oauth_grant_scopes');
     }
 }

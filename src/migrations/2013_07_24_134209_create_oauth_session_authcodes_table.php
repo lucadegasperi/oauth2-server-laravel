@@ -13,7 +13,9 @@ class CreateOauthSessionAuthcodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_session_authcodes', function (Blueprint $table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->create('oauth_session_authcodes', function (Blueprint $table) {
 
             $table->increments('id');
             $table->integer('session_id')->unsigned();
@@ -37,9 +39,11 @@ class CreateOauthSessionAuthcodesTable extends Migration
      */
     public function down()
     {
-        Schema::table('oauth_session_authcodes', function ($table) {
+        $dbConnection = Config::get('lucadegasperi/oauth2-server-laravel::oauth2.db_connection') ?: Config::get('database.default');
+
+        Schema::connection($dbConnection)->table('oauth_session_authcodes', function ($table) {
             $table->dropForeign('oauth_session_authcodes_session_id_foreign');
         });
-        Schema::drop('oauth_session_authcodes');
+        Schema::connection($dbConnection)->drop('oauth_session_authcodes');
     }
 }

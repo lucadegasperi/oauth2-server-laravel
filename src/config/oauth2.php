@@ -13,7 +13,7 @@ return array(
     | https://github.com/php-loep/oauth2-server/wiki/Which-OAuth-2.0-grant-should-I-use%3F
     |
     | Available grant types are:
-    | 
+    |
     | 'grant_types' => array(
     |
     |    'authorization_code' => array(
@@ -30,7 +30,7 @@ return array(
     |
     |        // the code to run in order to verify the user's identity
     |        'callback'         => function($username, $password){
-    |            
+    |
     |            return Auth::validate(array(
     |                'email'    => $username,
     |                'password' => $password,
@@ -53,7 +53,7 @@ return array(
     |        // whether or not to issue a new refresh token when a new access token is issued
     |        'rotate_refresh_tokens' => false,
     |    ),
-    |    
+    |
     | ),
     |
     */
@@ -70,7 +70,7 @@ return array(
             'class'            => 'League\OAuth2\Server\Grant\Password',
             'access_token_ttl' => 604800,
             'callback'         => function ($username, $password) {
-                
+
                 $credentials = array(
                     'email' => $username,
                     'password' => $password,
@@ -92,7 +92,7 @@ return array(
             'refresh_token_ttl'     => 604800,
             'rotate_refresh_tokens' => false,
         ),
-        
+
     ),
 
     /*
@@ -189,4 +189,18 @@ return array(
     |
     */
     'http_headers_only' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | DB connection name
+    |--------------------------------------------------------------------------
+    |
+    | Set this if you use other DB connection for your oauth server other
+    | than default
+    | By default it is null this will use the default database connection set
+    | in your config/database.php
+    |
+    */
+    'db_connection' => null
+
 );

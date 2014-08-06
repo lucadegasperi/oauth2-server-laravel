@@ -36,7 +36,7 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
         }
 
         return (new AccessTokenEntity($this->getServer()))
-               ->setToken($result->id)
+               ->setId($result->id)
                ->setExpireTime((int)$result->expire_time);
     }
 
@@ -46,7 +46,7 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
         $result = $this->getConnection()->table('oauth_access_tokens')
                 ->select('oauth_access_tokens.*')
                 ->join('oauth_refresh_tokens', 'oauth_access_tokens.id', '=', 'oauth_refresh_tokens.access_token_id')
-                ->where('oauth_refresh_tokens.id', $refreshToken->getToken())
+                ->where('oauth_refresh_tokens.id', $refreshToken->getId())
                 ->first();
 
         if (is_null($result)) {
@@ -54,7 +54,7 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
         }
 
         return (new AccessTokenEntity($this->getServer()))
-               ->setToken($result->id)
+               ->setId($result->id)
                ->setExpireTime((int)$result->expire_time);
     }
 
@@ -68,15 +68,16 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
         $result = $this->getConnection()->table('oauth_access_token_scopes')
                 ->select('oauth_scopes.*')
                 ->join('oauth_scopes', 'oauth_access_token_scopes.scope_id', '=', 'oauth_scopes.id')
-                ->where('oauth_access_token_scopes.access_token_id', $token->getToken())
+                ->where('oauth_access_token_scopes.access_token_id', $token->getId())
                 ->get();
         
         $scopes = [];
         
         foreach ($result as $scope) {
-            $scopes[] = (new ScopeEntity($this->getServer()))
-                      ->setId($scope->id)
-                      ->setDescription($scope->description);
+            $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
+               'id' => $scope->id,
+                'description' => $scope->description
+            ]);
         }
         
         return $scopes;
@@ -100,7 +101,7 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
         ]);
 
         return (new AccessTokenEntity($this->getServer()))
-               ->setToken($token)
+               ->setId($token)
                ->setExpireTime((int)$expireTime);
     }
 
@@ -113,7 +114,7 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
     public function associateScope(AbstractTokenEntity $token, ScopeEntity $scope)
     {
         $this->getConnection()->table('oauth_access_token_scopes')->insert([
-            'access_token_id' => $token->getToken(),
+            'access_token_id' => $token->getId(),
             'scope_id'        => $scope->getId(),
             'created_at'      => Carbon::now(),
             'updated_at'      => Carbon::now()
@@ -128,7 +129,7 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
     public function delete(AbstractTokenEntity $token)
     {
         $this->getConnection()->table('oauth_access_tokens')
-        ->where('oauth_access_tokens.id', $token->getToken())
+        ->where('oauth_access_tokens.id', $token->getId())
         ->delete();
     }
 }

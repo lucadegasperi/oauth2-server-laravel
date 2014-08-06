@@ -33,7 +33,7 @@ class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
         }
 
         return (new RefreshTokenEntity($this->getServer()))
-               ->setToken($result->id)
+               ->setId($result->id)
                ->setExpireTime((int)$result->expire_time);
     }
 
@@ -55,7 +55,7 @@ class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
         ]);
 
         return (new RefreshTokenEntity($this->getServer()))
-               ->setToken($token)
+               ->setId($token)
                ->setExpireTime((int)$expireTime);
     }
 
@@ -67,7 +67,7 @@ class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
     public function delete(RefreshTokenEntity $token)
     {
         $this->getConnection()->table('oauth_refresh_tokens')
-        ->where('id', $token->getToken())
+        ->where('id', $token->getId())
         ->delete();
     }
 }

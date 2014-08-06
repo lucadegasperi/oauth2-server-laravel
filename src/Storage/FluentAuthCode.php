@@ -34,7 +34,8 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
         }
 
         return (new AuthCodeEntity($this->getServer()))
-            ->setToken($result->id)
+            ->setId($result->id)
+            ->setRedirectUri($result->redirect_uri)
             ->setExpireTime((int)$result->expire_time);
     }
 
@@ -48,15 +49,16 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
         $result = $this->getConnection()->table('oauth_auth_code_scopes')
             ->select('oauth_scopes.*')
             ->join('oauth_scopes', 'oauth_auth_code_scopes.scope_id', '=', 'oauth_scopes.id')
-            ->where('oauth_auth_code_scopes.auth_code_id', $token->getToken())
+            ->where('oauth_auth_code_scopes.auth_code_id', $token->getId())
             ->get();
 
         $scopes = [];
 
         foreach ($result as $scope) {
-            $scopes[] = (new ScopeEntity($this->getServer()))
-                ->setId($scope->id)
-                ->setDescription($scope->description);
+            $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
+               'id' => $scope->id,
+                'description' => $scope->description
+            ]);
         }
 
         return $scopes;
@@ -71,7 +73,7 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
     public function associateScope(AuthCodeEntity $token, ScopeEntity $scope)
     {
         $this->getConnection()->table('oauth_auth_code_scopes')->insert([
-            'auth_code_id'    => $token->getToken(),
+            'auth_code_id'    => $token->getId(),
             'scope_id'        => $scope->getId(),
             'created_at'      => Carbon::now(),
             'updated_at'      => Carbon::now()
@@ -86,23 +88,26 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
     public function delete(AuthCodeEntity $token)
     {
         $this->getConnection()->table('oauth_auth_codes')
-        ->where('oauth_auth_codes.id', $token->getToken())
+        ->where('oauth_auth_codes.id', $token->getId())
         ->delete();
     }
+
 
     /**
      * Create an auth code.
      * @param string $token The token ID
      * @param integer $expireTime Token expire time
      * @param integer $sessionId Session identifier
+     * @param string $redirectUri Client redirect uri
      *
      * @return void
      */
-    public function create($token, $expireTime, $sessionId)
+    public function create($token, $expireTime, $sessionId, $redirectUri)
     {
         $this->getConnection()->table('oauth_auth_codes')->insert([
             'id'              => $token,
             'session_id'      => $sessionId,
+            'redirect_uri'    => $redirectUri,
             'expire_time'     => $expireTime,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "league/oauth2-server": "dev-v4.0.0-WIP"
+        "league/oauth2-server": "4.0.*"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev",

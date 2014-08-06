@@ -131,10 +131,13 @@ class FluentClient extends FluentAdapter implements ClientInterface
      */
     protected function createClient($result)
     {
-        return (new ClientEntity($this->getServer()))
-            ->setId($result->id)
-            ->setSecret($result->secret)
-            ->setName($result->name)
-            ->setRedirectUri(isset($result->redirect_uri) ? $result->redirect_uri : null);
+        $client = new ClientEntity($this->getServer());
+        $client->hydrate([
+            'id' => $result->id,
+            'name' => $result->name,
+            'secret' => $result->secret,
+            'redirectUri' => (isset($result->redirect_uri) ? $result->redirect_uri : null)
+        ]);
+        return $client;
     }
 }

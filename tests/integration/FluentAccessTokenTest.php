@@ -21,7 +21,7 @@ class FluentAccessTokenTest extends DBTestCase
         $result = $repo->get('totallyanaccesstoken1');
 
         $this->assertInstanceOf('League\OAuth2\Server\Entity\AccessTokenEntity', $result);
-        $this->assertEquals('totallyanaccesstoken1', $result->getToken());
+        $this->assertEquals('totallyanaccesstoken1', $result->getId());
         $this->assertInternalType('int', $result->getExpireTime());
     }
 
@@ -37,21 +37,21 @@ class FluentAccessTokenTest extends DBTestCase
     public function test_it_fetches_an_access_token_object_with_a_valid_refresh_token()
     {
         $token = m::mock('League\OAuth2\Server\Entity\RefreshTokenEntity');
-        $token->shouldReceive('getToken')->once()->andReturn('totallyarefreshtoken1');
+        $token->shouldReceive('getId')->once()->andReturn('totallyarefreshtoken1');
 
         $repo = $this->getAccessTokenRepository();
 
         $result = $repo->getByRefreshToken($token);
 
         $this->assertInstanceOf('League\OAuth2\Server\Entity\AccessTokenEntity', $result);
-        $this->assertEquals('totallyanaccesstoken1', $result->getToken());
+        $this->assertEquals('totallyanaccesstoken1', $result->getId());
         $this->assertInternalType('int', $result->getExpireTime());
     }
 
     public function test_it_returns_null_with_an_invalid_refresh_token()
     {
         $token = m::mock('League\OAuth2\Server\Entity\RefreshTokenEntity');
-        $token->shouldReceive('getToken')->once()->andReturn('notarefreshtoken');
+        $token->shouldReceive('getId')->once()->andReturn('notarefreshtoken');
 
         $repo = $this->getAccessTokenRepository();
 
@@ -63,7 +63,7 @@ class FluentAccessTokenTest extends DBTestCase
     public function test_it_deletes_an_access_token()
     {
         $token = m::mock('League\OAuth2\Server\Entity\AccessTokenEntity');
-        $token->shouldReceive('getToken')->once()->andReturn('totallyanaccesstoken1');
+        $token->shouldReceive('getId')->once()->andReturn('totallyanaccesstoken1');
 
         $repo = $this->getAccessTokenRepository();
 
@@ -76,7 +76,7 @@ class FluentAccessTokenTest extends DBTestCase
     public function test_it_associates_scopes()
     {
         $token = m::mock('League\OAuth2\Server\Entity\AccessTokenEntity');
-        $token->shouldReceive('getToken')->times(4)->andReturn('totallyanaccesstoken1');
+        $token->shouldReceive('getId')->times(4)->andReturn('totallyanaccesstoken1');
 
         $scope1 = m::mock('League\OAuth2\Server\Entity\ScopeEntity');
         $scope1->shouldReceive('getId')->once()->andReturn('scope1');
@@ -113,7 +113,7 @@ class FluentAccessTokenTest extends DBTestCase
         $result = $repo->create('accesstoken', $time, 1);
 
         $this->assertInstanceOf('League\OAuth2\Server\Entity\AccessTokenEntity', $result);
-        $this->assertEquals('accesstoken', $result->getToken());
+        $this->assertEquals('accesstoken', $result->getId());
         $this->assertInternalType('int', $result->getExpireTime());
         $this->assertEquals($time, $result->getExpireTime());
     }

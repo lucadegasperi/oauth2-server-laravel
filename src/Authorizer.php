@@ -98,7 +98,7 @@ class Authorizer
     public function checkAuthCodeRequest(AuthCodeCheckerDelegate $delegate)
     {
         try {
-            $this->authCodeRequestParams = $this->issuer->getGrantType('authorization_code')->checkAuthoriseParams();
+            $this->authCodeRequestParams = $this->issuer->getGrantType('authorization_code')->checkAuthorizeParams();
             return $delegate->checkSuccessful();
         } catch(OAuthException $e) {
             return $delegate->checkFailed($e);
@@ -115,7 +115,7 @@ class Authorizer
     public function issueAuthCode($ownerType, $ownerId, $params = array())
     {
         $params = array_merge($this->authCodeRequestParams, $params);
-        return $this->issuer->getGrantType('authorization_code')->newAuthoriseRequest($ownerType, $ownerId, $params);
+        return $this->issuer->getGrantType('authorization_code')->newAuthorizeRequest($ownerType, $ownerId, $params);
     }
 
     /**

@@ -43,7 +43,7 @@ class AuthorizerSpec extends ObjectBehavior
 
     function it_checks_the_auth_code_request_parameters(AuthCodeCheckerDelegate $delegate, AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
     {
-        $authCodeGrant->checkAuthoriseParams()->willReturn(['foo' => 'bar'])->shouldBeCalled();
+        $authCodeGrant->checkAuthorizeParams()->willReturn(['foo' => 'bar'])->shouldBeCalled();
         $issuer->getGrantType('authorization_code')->willReturn($authCodeGrant)->shouldBeCalled();
         $delegate->checkSuccessful()->willReturn('baz')->shouldBeCalled();
 
@@ -54,7 +54,7 @@ class AuthorizerSpec extends ObjectBehavior
     function it_catches_an_exception_with_invalid_auth_code_request_parameters(AuthCodeCheckerDelegate $delegate, AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
     {
         $exception = new OAuthException();
-        $authCodeGrant->checkAuthoriseParams()->willThrow($exception);
+        $authCodeGrant->checkAuthorizeParams()->willThrow($exception);
         $issuer->getGrantType('authorization_code')->willReturn($authCodeGrant)->shouldBeCalled();
         $delegate->checkFailed($exception)->willReturn('baz')->shouldBeCalled();
 
@@ -64,7 +64,7 @@ class AuthorizerSpec extends ObjectBehavior
 
     function it_issues_an_auth_code(AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
     {
-        $authCodeGrant->newAuthoriseRequest('user', '1', ['foo' => 'bar'])->willReturn('baz')->shouldBeCalled();
+        $authCodeGrant->newAuthorizeRequest('user', '1', ['foo' => 'bar'])->willReturn('baz')->shouldBeCalled();
         $issuer->getGrantType('authorization_code')->willReturn($authCodeGrant)->shouldBeCalled();
 
         $this->issueAuthCode('user', '1', ['foo' => 'bar'])->shouldReturn('baz');

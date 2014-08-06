@@ -78,9 +78,10 @@ class FluentSession extends FluentAdapter implements SessionInterface
         $scopes = [];
         
         foreach ($result as $scope) {
-            $scopes[] = (new ScopeEntity($this->getServer()))
-                      ->setId($scope->id)
-                      ->setDescription($scope->description);
+            $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
+                'id' => $scope->id,
+                'description' => $scope->description,
+            ]);
         }
         
         return $scopes;

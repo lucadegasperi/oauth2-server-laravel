@@ -21,7 +21,7 @@ class FluentAuthCodeTest extends DBTestCase
         $result = $repo->get('totallyanauthcode1');
 
         $this->assertInstanceOf('League\OAuth2\Server\Entity\AuthCodeEntity', $result);
-        $this->assertEquals('totallyanauthcode1', $result->getToken());
+        $this->assertEquals('totallyanauthcode1', $result->getId());
         $this->assertInternalType('int', $result->getExpireTime());
     }
 
@@ -37,7 +37,7 @@ class FluentAuthCodeTest extends DBTestCase
     public function test_it_deletes_an_auth_code()
     {
         $code = m::mock('League\OAuth2\Server\Entity\AuthCodeEntity');
-        $code->shouldReceive('getToken')->once()->andReturn('totallyanauthcode1');
+        $code->shouldReceive('getId')->once()->andReturn('totallyanauthcode1');
 
         $repo = $this->getAuthCodeRepository();
 
@@ -50,7 +50,7 @@ class FluentAuthCodeTest extends DBTestCase
     public function test_it_associates_scopes()
     {
         $code = m::mock('League\OAuth2\Server\Entity\AuthCodeEntity');
-        $code->shouldReceive('getToken')->times(4)->andReturn('totallyanauthcode1');
+        $code->shouldReceive('getId')->times(4)->andReturn('totallyanauthcode1');
 
         $scope1 = m::mock('League\OAuth2\Server\Entity\ScopeEntity');
         $scope1->shouldReceive('getId')->once()->andReturn('scope1');
@@ -84,12 +84,13 @@ class FluentAuthCodeTest extends DBTestCase
         $repo = $this->getAuthCodeRepository();
 
         $time = time() + 120;
-        $repo->create('newauthcode', $time, 1);
+        $repo->create('newauthcode', $time, 1, 'http://example1.com');
         $result = $repo->get('newauthcode');
 
         $this->assertInstanceOf('League\OAuth2\Server\Entity\AuthCodeEntity', $result);
-        $this->assertEquals('newauthcode', $result->getToken());
+        $this->assertEquals('newauthcode', $result->getId());
         $this->assertInternalType('int', $result->getExpireTime());
         $this->assertEquals($time, $result->getExpireTime());
+        $this->assertEquals('http://example1.com', $result->getRedirectUri());
     }
 }

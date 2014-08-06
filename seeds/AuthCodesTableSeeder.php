@@ -23,6 +23,7 @@ class AuthCodesTableSeeder extends Seeder
             [
                 'id' => 'totallyanauthcode1',
                 'session_id'  => 1,
+                'redirect_uri' => 'https://example1.com/',
                 'expire_time' => time() + 60,
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
@@ -30,6 +31,7 @@ class AuthCodesTableSeeder extends Seeder
             [
                 'id' => 'totallyanauthcode2',
                 'session_id'  => 2,
+                'redirect_uri' => 'https://example2.com/',
                 'expire_time' => time() + 120,
                 'created_at' => $datetime,
                 'updated_at' => $datetime,

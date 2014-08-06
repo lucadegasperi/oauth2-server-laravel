@@ -16,15 +16,15 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "league/oauth2-server": "4.0.*"
+        "league/oauth2-server": "~4.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "2.0.*@dev",
-        "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
-        "phpunit/phpunit": "4.0.*",
-        "mockery/mockery": "0.8.*",
-        "orchestra/testbench": "2.2.*@dev",
-        "behat/behat": "2.5.*"
+        "phpspec/phpspec": "~2.0",
+        "henrikbjorn/phpspec-code-coverage": "~1.0",
+        "phpunit/phpunit": "~4.0",
+        "mockery/mockery": "~0.8",
+        "orchestra/testbench": "2.2.*",
+        "behat/behat": "~2.5"
     },
     "autoload": {
         "psr-4": {

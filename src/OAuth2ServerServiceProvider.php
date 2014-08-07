@@ -93,6 +93,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             $authorizer = new Authorizer($issuer, $checker);
             $authorizer->setRequest($app['request']);
+            $authorizer->setTokenType($app->make($config['token_type']));
 
             $app->refresh('request', $authorizer, 'setRequest');
 

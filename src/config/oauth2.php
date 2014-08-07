@@ -75,6 +75,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Output Token Type
+    |--------------------------------------------------------------------------
+    |
+    | This will tell the authorization server the output format for the access token
+    | and will tell the resource server how to parse the access token used.
+    |
+    | Default value is League\OAuth2\Server\TokenType\Bearer
+    |
+    */
+    'token_type' => 'League\OAuth2\Server\TokenType\Bearer',
+
+    /*
+    |--------------------------------------------------------------------------
     | State Parameter
     |--------------------------------------------------------------------------
     |

@@ -13,6 +13,7 @@ namespace LucaDegasperi\OAuth2Server;
 
 use League\OAuth2\Server\AuthorizationServer as Issuer;
 use League\OAuth2\Server\ResourceServer as Checker;
+use League\OAuth2\Server\TokenType\TokenTypeInterface;
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenIssuerDelegate;
 use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
 use LucaDegasperi\OAuth2Server\Delegates\AuthCodeCheckerDelegate;
@@ -189,5 +190,15 @@ class Authorizer
     {
         $this->issuer->setRequest($request);
         $this->checker->setRequest($request);
+    }
+
+    /**
+     * Set the token type to use
+     * @param \League\OAuth2\Server\TokenType\TokenTypeInterface $tokenType
+     */
+    public function setTokenType(TokenTypeInterface $tokenType)
+    {
+        $this->issuer->setIdType($tokenType);
+        $this->checker->setIdType($tokenType);
     }
 }

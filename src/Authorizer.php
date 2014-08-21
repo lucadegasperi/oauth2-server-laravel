@@ -39,6 +39,11 @@ class Authorizer
     protected $authCodeRequestParams;
 
     /**
+     * The redirect uri generator
+     */
+    protected $redirectUri = null;
+
+    /**
      * Create a new Authorizer instance
      * @param Issuer $issuer
      * @param Checker $checker
@@ -121,13 +126,24 @@ class Authorizer
     public function authCodeRequestDeniedRedirectUri()
     {
         $error = new AccessDeniedException;
-        return (new RedirectUri())->make(
-            $this->getAuthCodeRequestParam('redirect_uri'),
-            [
+        return $this->getRedirectUri()->make($this->getAuthCodeRequestParam('redirect_uri'), [
                 'error' =>  $error->errorType,
                 'message'   =>  $error->getMessage()
             ]
         );
+    }
+
+    public function getRedirectUri()
+    {
+        if(is_null($this->redirectUri)) {
+            $this->redirectUri = new RedirectUri();
+        }
+        return $this->redirectUri;
+    }
+
+    public function setRedirectUri($redirectUri)
+    {
+        $this->redirectUri = $redirectUri;
     }
 
     /**

@@ -51,12 +51,9 @@ class OAuthFilterSpec extends ObjectBehavior
         $this->isHttpHeadersOnly()->shouldReturn(false);
     }
 
-    public function getMatchers()
+    public function it_is_possible_to_set_the_scopes_to_check()
     {
-        return [
-            'haveKey' => function($subject, $key) {
-                    return array_key_exists($key, $subject);
-                },
-        ];
+        $this->setScopes(['foo', 'bar']);
+        $this->getScopes()->shouldReturn(['foo', 'bar']);
     }
 }

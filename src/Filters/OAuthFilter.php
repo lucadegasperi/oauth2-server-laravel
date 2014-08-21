@@ -59,6 +59,11 @@ class OAuthFilter
         $this->scopes = $scopes;
     }
 
+    public function getScopes()
+    {
+        return $this->scopes;
+    }
+
     public function validateScopes()
     {
         if (!empty($this->scopes) and !$this->authorizer->hasScope($this->scopes)) {

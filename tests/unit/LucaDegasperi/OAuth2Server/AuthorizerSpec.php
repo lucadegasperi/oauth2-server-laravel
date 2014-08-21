@@ -5,6 +5,8 @@ namespace unit\LucaDegasperi\OAuth2Server;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\ResourceServer;
+use League\OAuth2\Server\TokenType\TokenTypeInterface;
+use League\OAuth2\Server\Util\RedirectUri;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +36,7 @@ class AuthorizerSpec extends ObjectBehavior
 
         $this->checkAuthCodeRequest()->shouldReturn(null);
         $this->getAuthCodeRequestParams()->shouldBe(['foo' => 'bar']);
+        $this->getAuthCodeRequestParam('foo')->shouldBe('bar');
     }
 
     function it_issues_an_auth_code(AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
@@ -93,5 +96,32 @@ class AuthorizerSpec extends ObjectBehavior
         $checker->setRequest($request)->shouldBeCalled();
 
         $this->setRequest($request);
+    }
+
+    function it_validates_an_access_token(ResourceServer $checker)
+    {
+        $checker->isValidRequest(false, null)->shouldBeCalled();
+
+        $this->validateAccessToken(false, null);
+    }
+
+    function it_generates_a_redirect_uri_when_the_user_denies_the_auth_code()
+    {
+        $this->authCodeRequestDeniedRedirectUri()->shouldReturn('?error=access_denied&message=The+resource+owner+or+authorization+server+denied+the+request.');
+    }
+
+    function it_sets_a_redirect_uri_generator(RedirectUri $redirectUri)
+    {
+        $this->setRedirectUri($redirectUri);
+
+        $this->getRedirectUri()->shouldReturn($redirectUri);
+    }
+
+    function it_sets_a_custom_token_type(AuthorizationServer $issuer, ResourceServer $checker, TokenTypeInterface $tokenType)
+    {
+        $issuer->setIdType($tokenType)->shouldBeCalled();
+        $checker->setIdType($tokenType)->shouldBeCalled();
+
+        $this->setTokenType($tokenType);
     }
 }

@@ -112,9 +112,9 @@ class AuthorizerSpec extends ObjectBehavior
 
     function it_sets_a_redirect_uri_generator(RedirectUri $redirectUri)
     {
-        $this->setRedirectUri($redirectUri);
+        $this->setRedirectUriGenerator($redirectUri);
 
-        $this->getRedirectUri()->shouldReturn($redirectUri);
+        $this->getRedirectUriGenerator()->shouldReturn($redirectUri);
     }
 
     function it_sets_a_custom_token_type(AuthorizationServer $issuer, ResourceServer $checker, TokenTypeInterface $tokenType)

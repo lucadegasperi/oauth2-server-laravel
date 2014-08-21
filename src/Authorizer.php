@@ -41,7 +41,7 @@ class Authorizer
     /**
      * The redirect uri generator
      */
-    protected $redirectUri = null;
+    protected $redirectUriGenerator = null;
 
     /**
      * Create a new Authorizer instance
@@ -90,6 +90,7 @@ class Authorizer
     }
 
     /**
+     * Get a single parameter from the auth code request parameters
      * @param $key
      * @param null $default
      * @return mixed
@@ -103,6 +104,7 @@ class Authorizer
     }
 
     /**
+     * Check the validity of the auth code request
      * @return null a response appropriate for the protocol in use
      */
     public function checkAuthCodeRequest()
@@ -123,27 +125,39 @@ class Authorizer
         return $this->issuer->getGrantType('authorization_code')->newAuthorizeRequest($ownerType, $ownerId, $params);
     }
 
+    /**
+     * Generate a redirect uri when the auth code request is denied by the user
+     * @return string a correctly formed url to redirect back to
+     */
     public function authCodeRequestDeniedRedirectUri()
     {
         $error = new AccessDeniedException;
-        return $this->getRedirectUri()->make($this->getAuthCodeRequestParam('redirect_uri'), [
+        return $this->getRedirectUriGenerator()->make($this->getAuthCodeRequestParam('redirect_uri'), [
                 'error' =>  $error->errorType,
                 'message'   =>  $error->getMessage()
             ]
         );
     }
 
-    public function getRedirectUri()
+    /**
+     * get the RedirectUri generator instance
+     * @return RedirectUri
+     */
+    public function getRedirectUriGenerator()
     {
-        if(is_null($this->redirectUri)) {
-            $this->redirectUri = new RedirectUri();
+        if(is_null($this->redirectUriGenerator)) {
+            $this->redirectUriGenerator = new RedirectUri();
         }
-        return $this->redirectUri;
+        return $this->redirectUriGenerator;
     }
 
-    public function setRedirectUri($redirectUri)
+    /**
+     * Set the RedirectUri generator instance
+     * @param $redirectUri
+     */
+    public function setRedirectUriGenerator($redirectUri)
     {
-        $this->redirectUri = $redirectUri;
+        $this->redirectUriGenerator = $redirectUri;
     }
 
     /**

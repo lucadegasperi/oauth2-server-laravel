@@ -16,6 +16,7 @@ use LucaDegasperi\OAuth2Server\Authorizer;
 class CheckAuthCodeRequestFilter
 {
     /**
+     * The authorizer instance
      * @var \LucaDegasperi\OAuth2Server\Authorizer
      */
     protected $authorizer;

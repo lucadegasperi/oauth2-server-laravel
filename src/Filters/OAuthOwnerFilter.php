@@ -16,6 +16,10 @@ use LucaDegasperi\OAuth2Server\Authorizer;
 
 class OAuthOwnerFilter
 {
+    /**
+     * The Authorizer instance
+     * @var \LucaDegasperi\OAuth2Server\Authorizer
+     */
     protected $authorizer;
 
     /**
@@ -27,6 +31,7 @@ class OAuthOwnerFilter
     }
 
     /**
+     * The main filter method
      * @internal param mixed $route, mixed $request, mixed $owners,...
      * @return null
      * @throws \League\OAuth2\Server\Exception\AccessDeniedException

@@ -24,14 +24,12 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
-     *
      * @var bool
      */
     protected $defer = false;
 
     /**
      * Bootstrap the application events.
-     *
      * @return void
      */
     public function boot()
@@ -43,7 +41,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
      * @return void
      */
     public function register()
@@ -131,7 +128,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
-     *
      * @return string[]
      * @codeCoverageIgnore
      */
@@ -168,6 +164,10 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
     }
 
+    /**
+     * Register the OAuth error handlers
+     * @return void
+     */
     private function registerErrorHandlers()
     {
         $this->app->error(function(OAuthException $e) {

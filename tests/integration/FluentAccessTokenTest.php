@@ -9,6 +9,7 @@ class FluentAccessTokenTest extends DBTestCase
     {
         $server = m::mock('League\OAuth2\Server\AbstractServer');
         $repo = new FluentAccessToken($this->app['db']->connection());
+        $repo->setConnection($this->app['db']->connection());
         $repo->setServer($server);
 
         return $repo;

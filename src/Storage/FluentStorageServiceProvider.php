@@ -51,11 +51,11 @@ class FluentStorageServiceProvider extends ServiceProvider
     {
         $provider = $this;
 
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentAccessToken', function ($app) use ($provider) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentAccessToken', function () use ($provider) {
             return new FluentAccessToken($provider->getConnection());
         });
 
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentAuthCode', function ($app) use ($provider) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentAuthCode', function () use ($provider) {
             return new FluentAuthCode($provider->getConnection());
         });
 
@@ -64,7 +64,7 @@ class FluentStorageServiceProvider extends ServiceProvider
             return new FluentClient($provider->getConnection(), $limitClientsToGrants);
         });
 
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentRefreshToken', function ($app) use ($provider) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentRefreshToken', function () use ($provider) {
             return new FluentRefreshToken($provider->getConnection());
         });
 
@@ -74,7 +74,7 @@ class FluentStorageServiceProvider extends ServiceProvider
             return new FluentScope($provider->getConnection(), $limitClientsToScopes, $limitScopesToGrants);
         });
 
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentSession', function ($app) use ($provider) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentSession', function () use ($provider) {
             return new FluentSession($provider->getConnection());
         });
     }

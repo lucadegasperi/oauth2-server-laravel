@@ -11,34 +11,32 @@
 
 namespace LucaDegasperi\OAuth2Server\Filters;
 
+use League\OAuth2\Server\Exception\AccessDeniedException;
 use LucaDegasperi\OAuth2Server\Authorizer;
-use Illuminate\Support\Facades\Response;
 
-class OAuthOwnerFilter extends BaseFilter
+class OAuthOwnerFilter
 {
     protected $authorizer;
 
+    /**
+     * @param Authorizer $authorizer
+     */
     public function __construct(Authorizer $authorizer)
     {
         $this->authorizer = $authorizer;
     }
 
     /**
-     * Run the OAuth owner filter
-     *
-     * @internal param mixed $route, mixed $request, mixed $scope,...
-     * @return \Illuminate\Http\JsonResponse|null a bad response in case the request is invalid
+     * @internal param mixed $route, mixed $request, mixed $owners,...
+     * @return null
+     * @throws \League\OAuth2\Server\Exception\AccessDeniedException
      */
     public function filter()
     {
         if (func_num_args() > 2) {
             $ownerTypes = array_slice(func_get_args(), 2);
             if (!in_array($this->authorizer->getResourceOwnerType(), $ownerTypes)) {
-                return Response::json([
-                    'status' => 403,
-                    'error' => 'forbidden',
-                    'error_message' => 'Only access tokens owned by a ' . implode(', ', $ownerTypes) . ' can use this endpoint',
-                ], 403);
+                throw new AccessDeniedException();
             }
         }
         return null;

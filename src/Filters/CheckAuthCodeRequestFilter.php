@@ -11,14 +11,18 @@
 
 namespace LucaDegasperi\OAuth2Server\Filters;
 
-use League\OAuth2\Server\Exception\OAuthException;
 use LucaDegasperi\OAuth2Server\Authorizer;
-use LucaDegasperi\OAuth2Server\Delegates\AuthCodeCheckerDelegate;
 
-class CheckAuthCodeRequestFilter extends BaseFilter implements AuthCodeCheckerDelegate
+class CheckAuthCodeRequestFilter
 {
+    /**
+     * @var \LucaDegasperi\OAuth2Server\Authorizer
+     */
     protected $authorizer;
 
+    /**
+     * @param Authorizer $authorizer
+     */
     public function __construct(Authorizer $authorizer)
     {
         $this->authorizer = $authorizer;
@@ -32,16 +36,6 @@ class CheckAuthCodeRequestFilter extends BaseFilter implements AuthCodeCheckerDe
      */
     public function filter()
     {
-        return $this->authorizer->checkAuthCodeRequest($this);
-    }
-
-    public function checkSuccessful()
-    {
-        return null;
-    }
-
-    public function checkFailed(OAuthException $e)
-    {
-        return $this->errorResponse($e);
+        $this->authorizer->checkAuthCodeRequest();
     }
 }

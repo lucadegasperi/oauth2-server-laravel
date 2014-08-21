@@ -12,12 +12,10 @@
 namespace LucaDegasperi\OAuth2Server;
 
 use League\OAuth2\Server\AuthorizationServer as Issuer;
+use League\OAuth2\Server\Exception\AccessDeniedException;
 use League\OAuth2\Server\ResourceServer as Checker;
 use League\OAuth2\Server\TokenType\TokenTypeInterface;
-use LucaDegasperi\OAuth2Server\Delegates\AccessTokenIssuerDelegate;
-use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
-use LucaDegasperi\OAuth2Server\Delegates\AuthCodeCheckerDelegate;
-use League\OAuth2\Server\Exception\OAuthException;
+use League\OAuth2\Server\Util\RedirectUri;
 use Symfony\Component\HttpFoundation\Request;
 
 class Authorizer
@@ -70,17 +68,11 @@ class Authorizer
 
     /**
      * Issue an access token if the request parameters are valid
-     * @param AccessTokenIssuerDelegate $delegate
-     * @return mixed|\Illuminate\Http\Response a response object for the protocol in use
+     * @return array a response object for the protocol in use
      */
-    public function issueAccessToken(AccessTokenIssuerDelegate $delegate)
+    public function issueAccessToken()
     {
-        try {
-            $responseMessage = $this->issuer->issueAccessToken();
-            return $delegate->accessTokenIssued($responseMessage);
-        } catch (OAuthException $e) {
-            return $delegate->accessTokenIssuingFailed($e);
-        }
+        return $this->issuer->issueAccessToken();
     }
 
     /**
@@ -93,17 +85,24 @@ class Authorizer
     }
 
     /**
-     * @param AuthCodeCheckerDelegate $delegate
-     * @return mixed|\Illuminate\Http\Response a response appropriate for the protocol in use
+     * @param $key
+     * @param null $default
+     * @return mixed
      */
-    public function checkAuthCodeRequest(AuthCodeCheckerDelegate $delegate)
+    public function getAuthCodeRequestParam($key, $default = null)
     {
-        try {
-            $this->authCodeRequestParams = $this->issuer->getGrantType('authorization_code')->checkAuthorizeParams();
-            return $delegate->checkSuccessful();
-        } catch(OAuthException $e) {
-            return $delegate->checkFailed($e);
+        if(array_key_exists($key, $this->authCodeRequestParams)) {
+            return $this->authCodeRequestParams[$key];
         }
+        return $default;
+    }
+
+    /**
+     * @return null a response appropriate for the protocol in use
+     */
+    public function checkAuthCodeRequest()
+    {
+        $this->authCodeRequestParams = $this->issuer->getGrantType('authorization_code')->checkAuthorizeParams();
     }
 
     /**
@@ -119,21 +118,27 @@ class Authorizer
         return $this->issuer->getGrantType('authorization_code')->newAuthorizeRequest($ownerType, $ownerId, $params);
     }
 
+    public function authCodeRequestDeniedRedirectUri()
+    {
+        $error = new AccessDeniedException;
+        return (new RedirectUri())->make(
+            $this->getAuthCodeRequestParam('redirect_uri'),
+            [
+                'error' =>  $error->errorType,
+                'message'   =>  $error->getMessage()
+            ]
+        );
+    }
+
     /**
      * Validate a request with an access token in it
-     * @param AccessTokenValidatorDelegate $delegate the responsible for returning an appropriate response
      * @param bool $httpHeadersOnly whether or not to check only the http headers of the request
      * @param string|null $accessToken an access token to validate
      * @return mixed
      */
-    public function validateAccessToken(AccessTokenValidatorDelegate $delegate, $httpHeadersOnly = false, $accessToken = null)
+    public function validateAccessToken($httpHeadersOnly = false, $accessToken = null)
     {
-        try {
-            $this->checker->isValidRequest($httpHeadersOnly, $accessToken);
-            return $delegate->accessTokenValidated();
-        } catch (OAuthException $e) {
-            return $delegate->accessTokenValidationFailed($e);
-        }
+        $this->checker->isValidRequest($httpHeadersOnly, $accessToken);
     }
 
     /**

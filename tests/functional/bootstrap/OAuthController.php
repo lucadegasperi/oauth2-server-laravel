@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Routing\Controller;
-use League\OAuth2\Server\Exception\OAuthException;
-use LucaDegasperi\OAuth2Server\Delegates\AccessTokenIssuerDelegate;
 use LucaDegasperi\OAuth2Server\Authorizer;
 
-class OAuthController extends Controller implements AccessTokenIssuerDelegate
+class OAuthController extends Controller
 {
     protected $authorizer;
 
@@ -20,24 +18,7 @@ class OAuthController extends Controller implements AccessTokenIssuerDelegate
 
     public function postAccessToken()
     {
-        return $this->authorizer->issueAccessToken($this);
-    }
-
-    public function accessTokenIssued($responseMessage)
-    {
-        return Response::json($responseMessage);
-    }
-
-    public function accessTokenIssuingFailed(OAuthException $e)
-    {
-        return Response::json(
-            [
-                'error' => $e->errorType,
-                'error_message' => $e->getMessage()
-            ],
-            $e->httpStatusCode,
-            $e->getHttpHeaders()
-        );
+         return Response::json($this->authorizer->issueAccessToken());
     }
 
     public function getAuthorize()
@@ -50,14 +31,16 @@ class OAuthController extends Controller implements AccessTokenIssuerDelegate
         // get the user id
         $params['user_id'] = Auth::user()->id;
 
-        // check if the user approved or denied the authorization request
+        $redirectUri = '';
+
         if (Input::get('approve') !== null) {
-            $redirectUrl = $this->authorizer->issueAuthCode('user', $params['user_id'], $params);
-            return Redirect::to($redirectUrl);
+            $redirectUri = $this->authorizer->issueAuthCode('user', $params['user_id'], $params);
         }
 
         if (Input::get('deny') !== null) {
-            //return Redirect::to(AuthorizationServer::makeRedirectWithError($params));
+            $redirectUri = $this->authorizer->authCodeRequestDeniedRedirectUri();
         }
+
+        return Redirect::to($redirectUri);
     }
 }

@@ -3,12 +3,8 @@
 namespace unit\LucaDegasperi\OAuth2Server;
 
 use League\OAuth2\Server\AuthorizationServer;
-use League\OAuth2\Server\Exception\OAuthException;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\ResourceServer;
-use LucaDegasperi\OAuth2Server\Delegates\AccessTokenIssuerDelegate;
-use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
-use LucaDegasperi\OAuth2Server\Delegates\AuthCodeCheckerDelegate;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,42 +20,20 @@ class AuthorizerSpec extends ObjectBehavior
         $this->shouldHaveType('LucaDegasperi\OAuth2Server\Authorizer');
     }
 
-    function it_issues_an_access_token(AccessTokenIssuerDelegate $delegate, AuthorizationServer $issuer)
+    function it_issues_an_access_token(AuthorizationServer $issuer)
     {
         $issuer->issueAccessToken()->willReturn('foo')->shouldBeCalled();
-        $delegate->accessTokenIssued('foo')->willReturn('bar')->shouldBeCalled();
 
-        $this->issueAccessToken($delegate)->shouldReturn('bar');
+        $this->issueAccessToken()->shouldReturn('foo');
     }
 
-    function it_catches_an_exception_when_issuing_an_access_token_fails(AccessTokenIssuerDelegate $delegate, AuthorizationServer $issuer)
-    {
-        $exception = new OAuthException();
-        $issuer->issueAccessToken()->willThrow($exception);
-        $delegate->accessTokenIssuingFailed($exception)->willReturn('baz')->shouldBeCalled();
-
-        $this->issueAccessToken($delegate)->shouldReturn('baz');
-    }
-
-    function it_checks_the_auth_code_request_parameters(AuthCodeCheckerDelegate $delegate, AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
+    function it_checks_the_auth_code_request_parameters(AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
     {
         $authCodeGrant->checkAuthorizeParams()->willReturn(['foo' => 'bar'])->shouldBeCalled();
         $issuer->getGrantType('authorization_code')->willReturn($authCodeGrant)->shouldBeCalled();
-        $delegate->checkSuccessful()->willReturn('baz')->shouldBeCalled();
 
-        $this->checkAuthCodeRequest($delegate)->shouldReturn('baz');
+        $this->checkAuthCodeRequest()->shouldReturn(null);
         $this->getAuthCodeRequestParams()->shouldBe(['foo' => 'bar']);
-    }
-
-    function it_catches_an_exception_with_invalid_auth_code_request_parameters(AuthCodeCheckerDelegate $delegate, AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
-    {
-        $exception = new OAuthException();
-        $authCodeGrant->checkAuthorizeParams()->willThrow($exception);
-        $issuer->getGrantType('authorization_code')->willReturn($authCodeGrant)->shouldBeCalled();
-        $delegate->checkFailed($exception)->willReturn('baz')->shouldBeCalled();
-
-        $this->checkAuthCodeRequest($delegate)->shouldReturn('baz');
-        $this->getAuthCodeRequestParams()->shouldBe([]);
     }
 
     function it_issues_an_auth_code(AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)
@@ -68,23 +42,6 @@ class AuthorizerSpec extends ObjectBehavior
         $issuer->getGrantType('authorization_code')->willReturn($authCodeGrant)->shouldBeCalled();
 
         $this->issueAuthCode('user', '1', ['foo' => 'bar'])->shouldReturn('baz');
-    }
-
-    function it_delegates_when_the_access_token_validation_succeeds(AccessTokenValidatorDelegate $delegate, ResourceServer $checker)
-    {
-        $checker->isValidRequest(false, null)->willReturn(true)->shouldBeCalled();
-        $delegate->accessTokenValidated()->willReturn('foo')->shouldBeCalled();
-
-        $this->validateAccessToken($delegate)->shouldReturn('foo');
-    }
-
-    function it_delegates_when_the_access_token_validation_fails(AccessTokenValidatorDelegate $delegate, ResourceServer $checker)
-    {
-        $exception = new OAuthException();
-        $checker->isValidRequest(false, null)->willThrow($exception)->shouldBeCalled();
-        $delegate->accessTokenValidationFailed($exception)->willReturn('foo')->shouldBeCalled();
-
-        $this->validateAccessToken($delegate)->shouldReturn('foo');
     }
 
     function it_returns_the_current_scopes(ResourceServer $checker)

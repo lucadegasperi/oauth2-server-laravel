@@ -11,7 +11,9 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\ServiceProvider;
+use League\OAuth2\Server\Exception\OAuthException;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
@@ -46,6 +48,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerErrorHandlers();
         $this->registerAuthorizer();
         $this->registerFilterBindings();
         $this->registerCommands();
@@ -163,5 +166,18 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app['router']->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter');
         $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
         $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
+    }
+
+    private function registerErrorHandlers()
+    {
+        $this->app->error(function(OAuthException $e, $code, $fromConsole) {
+            return new JsonResponse([
+                    'error' => $e->errorType,
+                    'error_message' => $e->getMessage()
+                ],
+                $e->httpStatusCode,
+                $e->getHttpHeaders()
+            );
+        });
     }
 }

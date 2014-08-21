@@ -2,7 +2,6 @@
 
 namespace unit\LucaDegasperi\OAuth2Server\Filters;
 
-use League\OAuth2\Server\Exception\AccessDeniedException;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -17,45 +16,30 @@ class OAuthFilterSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType('LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
-        $this->shouldImplement('LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate');
     }
 
     function it_filters_against_invalid_access_tokens(Authorizer $authorizer)
     {
-        $authorizer->validateAccessToken($this, false)->willReturn('foo')->shouldBeCalled();
+        $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
 
-        $this->filter('foo', 'bar', 'baz')->shouldReturn('foo');
+        $this->filter('foo', 'bar')->shouldReturn(null);
     }
 
-    function it_returns_null_when_no_scopes_have_to_be_validated(Authorizer $authorizer)
+    function it_filters_against_invalid_scopes(Authorizer $authorizer)
     {
-        $this->accessTokenValidated()->shouldReturn(null);
+        $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
+        $authorizer->hasScope(['baz'])->willReturn(false)->shouldBeCalled();
+
+        $this->shouldThrow('\League\OAuth2\Server\Exception\InvalidScopeException')
+            ->duringFilter('foo', 'bar', 'baz');
     }
 
-    function it_returns_null_when_scopes_are_valid(Authorizer $authorizer)
+    function it_passes_with_valud_scopes(Authorizer $authorizer)
     {
-        $authorizer->hasScope(['foo'])->willReturn(true)->shouldBeCalled();
-        $this->setScopes(['foo']);
-        $this->accessTokenValidated()->shouldReturn(null);
-    }
+        $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
+        $authorizer->hasScope(['baz'])->willReturn(true)->shouldBeCalled();
 
-    function it_returns_a_json_response_when_scopes_are_invalid(Authorizer $authorizer)
-    {
-        $authorizer->hasScope(['bar'])->willReturn(false)->shouldBeCalled();
-        $this->setScopes(['bar']);
-        $this->accessTokenValidated()->shouldReturnAnInstanceOf('Illuminate\Http\JsonResponse');
-        $this->accessTokenValidated()->getData()->shouldHaveKey('error');
-        $this->accessTokenValidated()->getData()->shouldHaveKey('error_message');
-        $this->accessTokenValidated()->getStatusCode()->shouldBe(403);
-    }
-
-    function it_returns_a_json_response_when_access_token_validation_fails(Authorizer $authorizer)
-    {
-        $exception = new AccessDeniedException();
-        $this->accessTokenValidationFailed($exception)->shouldReturnAnInstanceOf('Illuminate\Http\JsonResponse');
-        $this->accessTokenValidationFailed($exception)->getData()->shouldHaveKey('error');
-        $this->accessTokenValidationFailed($exception)->getData()->shouldHaveKey('error_message');
-        $this->accessTokenValidationFailed($exception)->getStatusCode()->shouldBe(401);
+        $this->filter('foo', 'bar', 'baz')->shouldReturn(null);
     }
 
     function it_can_be_set_to_use_http_headers_only_to_check_the_access_token()

@@ -57,7 +57,7 @@ class FeatureContext extends BehatFeatureContext
             'client_id' => $clientId,
             'client_secret' => $clientSecret
         ];
-
+        $this->app['env'] = 'functional';
         $this->call('POST', $pageName, $params);
     }
 

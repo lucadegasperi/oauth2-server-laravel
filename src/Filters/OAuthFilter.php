@@ -11,12 +11,10 @@
 
 namespace LucaDegasperi\OAuth2Server\Filters;
 
-use League\OAuth2\Server\Exception\OAuthException;
-use LucaDegasperi\OAuth2Server\Delegates\AccessTokenValidatorDelegate;
+use League\OAuth2\Server\Exception\InvalidScopeException;
 use LucaDegasperi\OAuth2Server\Authorizer;
-use Illuminate\Support\Facades\Response;
 
-class OAuthFilter extends BaseFilter implements AccessTokenValidatorDelegate
+class OAuthFilter
 {
     protected $authorizer;
 
@@ -44,7 +42,7 @@ class OAuthFilter extends BaseFilter implements AccessTokenValidatorDelegate
      * Run the oauth filter
      *
      * @internal param mixed $route, mixed $request, mixed $scope,...
-     * @return Response|void a bad response in case the request is invalid
+     * @return void a bad response in case the request is invalid
      */
     public function filter()
     {
@@ -52,28 +50,19 @@ class OAuthFilter extends BaseFilter implements AccessTokenValidatorDelegate
             $args = func_get_args();
             $this->scopes = array_slice($args, 2);
         }
-
-        return $this->authorizer->validateAccessToken($this, $this->httpHeadersOnly);
-    }
-
-    public function accessTokenValidated()
-    {
-        if (!empty($this->scopes) and !$this->authorizer->hasScope($this->scopes)) {
-            return Response::json([
-                'error' => 'forbidden',
-                'error_message' => 'Only access token with scope(s) "' . implode(', ', $this->scopes) . '" can use this endpoint',
-            ], 403);
-        }
-        return null;
-    }
-
-    public function accessTokenValidationFailed(OAuthException $e)
-    {
-        return $this->errorResponse($e);
+        $this->authorizer->validateAccessToken($this->httpHeadersOnly);
+        $this->validateScopes();
     }
 
     public function setScopes(array $scopes)
     {
         $this->scopes = $scopes;
+    }
+
+    public function validateScopes()
+    {
+        if (!empty($this->scopes) and !$this->authorizer->hasScope($this->scopes)) {
+            throw new InvalidScopeException(implode(',', $this->scopes));
+        }
     }
 }

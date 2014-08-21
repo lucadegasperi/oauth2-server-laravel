@@ -28,10 +28,7 @@ class OAuthOwnerFilterSpec extends ObjectBehavior
     function it_filters_if_resource_owners_are_not_allowed(Authorizer $authorizer)
     {
         $authorizer->getResourceOwnerType()->willReturn('user')->shouldBeCalled();
-        $this->filter('foo', 'bar', 'client')->shouldReturnAnInstanceOf('Illuminate\Http\JsonResponse');
-        $this->filter('foo', 'bar', 'client')->getData()->shouldHaveKey('error');
-        $this->filter('foo', 'bar', 'client')->getData()->shouldHaveKey('error_message');
-        $this->filter('foo', 'bar', 'client')->getStatusCode()->shouldBe(403);
+        $this->shouldThrow('\League\OAuth2\Server\Exception\AccessDeniedException')->duringFilter('foo', 'bar', 'client');
     }
 
     public function getMatchers()

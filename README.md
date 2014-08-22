@@ -27,7 +27,7 @@ And this lines to the ```aliases``` array:
 
 ## Documentation
 
-This package features an (extensive wiki)[https://github.com/lucadegasperi/oauth2-server-laravel/wiki] to help you getting started implementing an OAuth 2.0 Server in your Laravel app.
+This package features an [extensive wiki](https://github.com/lucadegasperi/oauth2-server-laravel/wiki) to help you getting started implementing an OAuth 2.0 Server in your Laravel app.
 
 ## Support
 

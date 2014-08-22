@@ -35,7 +35,7 @@ class FluentAccessTokenTest extends DBTestCase
         $this->assertNull($result);
     }
 
-    public function test_it_fetches_an_access_token_object_with_a_valid_refresh_token()
+    /*public function test_it_fetches_an_access_token_object_with_a_valid_refresh_token()
     {
         $token = m::mock('League\OAuth2\Server\Entity\RefreshTokenEntity');
         $token->shouldReceive('getId')->once()->andReturn('totallyarefreshtoken1');
@@ -59,7 +59,7 @@ class FluentAccessTokenTest extends DBTestCase
         $result = $repo->getByRefreshToken($token);
 
         $this->assertNull($result);
-    }
+    }*/
 
     public function test_it_deletes_an_access_token()
     {

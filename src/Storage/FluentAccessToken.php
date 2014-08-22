@@ -12,7 +12,6 @@
 namespace LucaDegasperi\OAuth2Server\Storage;
 
 use League\OAuth2\Server\Entity\AbstractTokenEntity;
-use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
@@ -41,7 +40,7 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
     }
 
 
-    public function getByRefreshToken(RefreshTokenEntity $refreshToken)
+    /*public function getByRefreshToken(RefreshTokenEntity $refreshToken)
     {
         $result = $this->getConnection()->table('oauth_access_tokens')
                 ->select('oauth_access_tokens.*')
@@ -56,7 +55,7 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
         return (new AccessTokenEntity($this->getServer()))
                ->setId($result->id)
                ->setExpireTime((int)$result->expire_time);
-    }
+    }*/
 
     /**
      * Get the scopes for an access token

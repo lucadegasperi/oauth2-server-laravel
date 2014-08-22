@@ -1,59 +1,46 @@
 <?php
 
+use Illuminate\Routing\Controller;
+use LucaDegasperi\OAuth2Server\Authorizer;
+
 class OAuthController extends Controller
 {
-    /**
-     * Perform the steps necessary to get an access token
-     * @return \Illuminate\Http\JsonResponse a json response containing an access token on success
-     */
+    protected $authorizer;
+
+    public function __construct(Authorizer $authorizer)
+    {
+        $this->authorizer = $authorizer;
+
+        $this->beforeFilter('auth', ['only' => ['getAuthorize', 'postAuthorize']]);
+        $this->beforeFilter('csrf', ['only' => 'postAuthorize']);
+        $this->beforeFilter('check-authorization-params', ['only' => ['getAuthorize', 'postAuthorize']]);
+    }
+
     public function postAccessToken()
     {
-        return AuthorizationServer::performAccessTokenFlow();
+         return Response::json($this->authorizer->issueAccessToken());
     }
 
-    /**
-     * Shows the form to authorize a client when using the authorization_code grant type
-     * @return \Illuminate\View\View the authorization form
-     */
-    public function getAuthorization()
+    public function getAuthorize()
     {
-        // get the data from the check-authorization-params filter
-        $params = Session::get('authorize-params');
+        return View::make('authorization-form', $this->authorizer->getAuthCodeRequestParams());
+    }
 
+    public function postAuthorize()
+    {
         // get the user id
         $params['user_id'] = Auth::user()->id;
 
-        // display the authorization form
-        return View::make('authorization-form', array('params' => $params));
-    }
+        $redirectUri = '';
 
-    /**
-     * Issues an authorization_code if the resource owner accepts to share its data with the client, error otherwise
-     * @return \Illuminate\Http\RedirectResponse a redirect back to the client
-     */
-    public function postAuthorization()
-    {
-        // get the data from the check-authorization-params filter
-        $params = Session::get('authorize-params');
-
-        // get the user id
-        $params['user_id'] = Auth::user()->id;
-
-        // check if the user approved or denied the authorization request
         if (Input::get('approve') !== null) {
-
-            $code = AuthorizationServer::newAuthorizeRequest('user', $params['user_id'], $params);
-
-            Session::forget('authorize-params');
-
-            return Redirect::to(AuthorizationServer::makeRedirectWithCode($code, $params));
+            $redirectUri = $this->authorizer->issueAuthCode('user', $params['user_id'], $params);
         }
 
         if (Input::get('deny') !== null) {
-
-            Session::forget('authorize-params');
-
-            return Redirect::to(AuthorizationServer::makeRedirectWithError($params));
+            $redirectUri = $this->authorizer->authCodeRequestDeniedRedirectUri();
         }
+
+        return Redirect::to($redirectUri);
     }
 }

@@ -14,3 +14,12 @@ Feature: Client Credentials Authorization
     Examples:
       | grant_type           | client_id | client_secret |
       | "client_credentials" | "invalid" | "invalid"     |
+
+  Scenario Outline: With valid client credentials I should get an access token
+    Given I have valid client credentials
+    When I post to the "oauth/access_token" page <grant_type> <client_id> <client_secret>
+    Then I should get an access token.
+
+    Examples:
+      | grant_type           | client_id     | client_secret         |
+      | "client_credentials" | "client1id"   | "client1secret"       |

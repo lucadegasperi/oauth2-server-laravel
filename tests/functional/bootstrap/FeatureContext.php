@@ -71,6 +71,27 @@ class FeatureContext extends BehatFeatureContext
         PHPUnit::assertEquals('invalid_client', $content->error);
     }
 
+    /**
+     * @Given /^I have valid client credentials$/
+     */
+    public function iHaveValidClientCredentials()
+    {
+        //throw new PendingException();
+    }
+
+    /**
+     * @Then /^I should get an access token\.$/
+     */
+    public function iShouldGetAnAccessToken()
+    {
+        $this->assertResponseStatus(200);
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        PHPUnit::assertArrayHasKey('access_token', $content);
+        PHPUnit::assertArrayHasKey('expires_in', $content);
+        PHPUnit::assertArrayHasKey('token_type', $content);
+        PHPUnit::assertEquals('Bearer', $content['token_type']);
+    }
+
     protected $artisan;
 
     /**

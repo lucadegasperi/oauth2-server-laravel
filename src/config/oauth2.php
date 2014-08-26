@@ -24,7 +24,7 @@ return [
     | https://github.com/php-loep/oauth2-server/wiki/Which-OAuth-2.0-grant-should-I-use%3F
     |
     | Available grant types are:
-    | 
+    |
     | 'grant_types' => [
     |
     |    'authorization_code' => [
@@ -32,7 +32,7 @@ return [
     |        'access_token_ttl' => 3600,
     |
     |        // the authorization code time to live
-    |        'auth_code_ttl'   => 3600,
+    |        'auth_token_ttl'   => 3600,
     |    ],
     |
     |    'password' => [
@@ -41,7 +41,7 @@ return [
     |
     |        // the code to run in order to verify the user's identity
     |        'callback'         => function($username, $password){
-    |            
+    |
     |            return Auth::validate([
     |                'email'    => $username,
     |                'password' => $password,
@@ -64,7 +64,7 @@ return [
     |        // whether or not to issue a new refresh token when a new access token is issued
     |        'rotate_refresh_tokens' => false,
     |    ],
-    |    
+    |
     | ],
     |
     */

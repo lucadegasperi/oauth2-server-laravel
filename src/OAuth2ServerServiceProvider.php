@@ -80,8 +80,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 if (array_key_exists('callback', $grantParams)) {
                     $grant->setVerifyCredentialsCallback($grantParams['callback']);
                 }
-                if (array_key_exists('auth_code_ttl', $grantParams)) {
-                    $grant->setAuthTokenTTL($grantParams['auth_code_ttl']);
+                if (array_key_exists('auth_token_ttl', $grantParams)) {
+                    $grant->setAuthTokenTTL($grantParams['auth_token_ttl']);
                 }
                 if (array_key_exists('refresh_token_ttl', $grantParams)) {
                     $grant->setRefreshTokenTTL($grantParams['refresh_token_ttl']);

@@ -63,7 +63,7 @@ class FluentSessionTest extends DbTestCase
     public function test_null_is_returned_when_session_is_requested_by_invalid_auth_code()
     {
         $authCode = m::mock('League\OAuth2\Server\Entity\AuthCodeEntity');
-        $authCode->shouldReceive('getToken')->once()->andReturn('unexistingcode');
+        $authCode->shouldReceive('getId')->once()->andReturn('unexistingcode');
 
         $repo = $this->getSessionRepository();
 
@@ -75,7 +75,7 @@ class FluentSessionTest extends DbTestCase
     public function test_a_session_is_returned_when_session_is_requested_by_valid_auth_code()
     {
         $authCode = m::mock('League\OAuth2\Server\Entity\AuthCodeEntity');
-        $authCode->shouldReceive('getToken')->once()->andReturn('totallyanauthcode1');
+        $authCode->shouldReceive('getId')->once()->andReturn('totallyanauthcode1');
 
         $repo = $this->getSessionRepository();
 
@@ -89,7 +89,7 @@ class FluentSessionTest extends DbTestCase
     public function test_null_is_returned_when_session_is_requested_by_invalid_access_token()
     {
         $accessToken = m::mock('League\OAuth2\Server\Entity\AccessTokenEntity');
-        $accessToken->shouldReceive('getToken')->once()->andReturn('unexistingaccesstoken');
+        $accessToken->shouldReceive('getId')->once()->andReturn('unexistingaccesstoken');
 
         $repo = $this->getSessionRepository();
 
@@ -101,7 +101,7 @@ class FluentSessionTest extends DbTestCase
     public function test_a_session_is_returned_when_session_is_requested_by_valid_access_token()
     {
         $accessToken = m::mock('League\OAuth2\Server\Entity\AccessTokenEntity');
-        $accessToken->shouldReceive('getToken')->once()->andReturn('totallyanaccesstoken1');
+        $accessToken->shouldReceive('getId')->once()->andReturn('totallyanaccesstoken1');
 
         $repo = $this->getSessionRepository();
 

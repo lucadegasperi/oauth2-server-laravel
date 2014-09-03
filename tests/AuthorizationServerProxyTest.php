@@ -58,11 +58,11 @@ class AuthorizationServerProxyTest extends TestCase {
 
         $result = $proxy->makeRedirectWithError(array('redirect_uri' => 'example'));
 
-        $this->assertEquals('example?error=access_denied&error_message=error_message&state=', $result);
+        $this->assertEquals('example?error=access_denied&error_description=error_message&state=', $result);
 
         $result = $proxy->makeRedirectWithError(array('redirect_uri' => 'example', 'state' => 'random'));
 
-        $this->assertEquals('example?error=access_denied&error_message=error_message&state=random', $result);
+        $this->assertEquals('example?error=access_denied&error_description=error_message&state=random', $result);
     }
 
     public function test_check_authorize_params()

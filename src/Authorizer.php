@@ -134,7 +134,7 @@ class Authorizer
         $error = new AccessDeniedException;
         return $this->getRedirectUriGenerator()->make($this->getAuthCodeRequestParam('redirect_uri'), [
                 'error' =>  $error->errorType,
-                'message'   =>  $error->getMessage()
+                'error_description' =>  $error->getMessage()
             ]
         );
     }

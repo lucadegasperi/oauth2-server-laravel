@@ -107,7 +107,7 @@ class AuthorizerSpec extends ObjectBehavior
 
     function it_generates_a_redirect_uri_when_the_user_denies_the_auth_code()
     {
-        $this->authCodeRequestDeniedRedirectUri()->shouldReturn('?error=access_denied&message=The+resource+owner+or+authorization+server+denied+the+request.');
+        $this->authCodeRequestDeniedRedirectUri()->shouldReturn('?error=access_denied&error_description=The+resource+owner+or+authorization+server+denied+the+request.');
     }
 
     function it_sets_a_redirect_uri_generator(RedirectUri $redirectUri)

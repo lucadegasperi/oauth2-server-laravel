@@ -173,7 +173,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app->error(function(OAuthException $e) {
             return new JsonResponse([
                     'error' => $e->errorType,
-                    'error_message' => $e->getMessage()
+                    'error_description' => $e->getMessage()
                 ],
                 $e->httpStatusCode,
                 $e->getHttpHeaders()

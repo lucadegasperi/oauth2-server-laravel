@@ -13,7 +13,9 @@ class CreateOauthClientGrantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_client_grants', function (Blueprint $table) {
+        $connection = Config::get('oauth2-server-laravel::oauth2.database');
+
+        Schema::connection($connection)->create('oauth_client_grants', function (Blueprint $table) {
             $table->increments('id');
             $table->string('client_id', 40);
             $table->string('grant_id', 40);

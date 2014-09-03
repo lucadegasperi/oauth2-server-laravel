@@ -12,7 +12,9 @@ class CreateOauthGrantScopesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_grant_scopes', function (Blueprint $table) {
+        $connection = Config::get('oauth2-server-laravel::oauth2.database');
+
+        Schema::connection($connection)->create('oauth_grant_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('grant_id', 40);
             $table->string('scope_id', 40);

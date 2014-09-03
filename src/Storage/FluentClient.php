@@ -18,9 +18,13 @@ use League\OAuth2\Server\Entity\ClientEntity;
 
 class FluentClient extends FluentAdapter implements ClientInterface
 {
+    /**
+     * @var bool
+     */
     protected $limitClientsToGrants = false;
 
     /**
+     * @param Connection $connection
      * @param bool $limitClientsToGrants
      */
     public function __construct(Connection $connection, $limitClientsToGrants = false)
@@ -50,7 +54,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
      * @param string $clientSecret
      * @param string $redirectUri
      * @param string $grantType
-     * @return null|\League\OAuth2\Server\Entity\Client
+     * @return null|\League\OAuth2\Server\Entity\ClientEntity
      */
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
@@ -99,13 +103,13 @@ class FluentClient extends FluentAdapter implements ClientInterface
             return null;
         }
 
-        return $this->createClient($result);
+        return $this->hydrateEntity($result);
     }
 
     /**
      * Get the client associated with a session
      * @param  \League\OAuth2\Server\Entity\SessionEntity $session The session
-     * @return null|\League\OAuth2\Server\Entity\Client
+     * @return null|\League\OAuth2\Server\Entity\ClientEntity
      */
     public function getBySession(SessionEntity $session)
     {
@@ -122,14 +126,31 @@ class FluentClient extends FluentAdapter implements ClientInterface
             return null;
         }
 
-        return $this->createClient($result);
+        return $this->hydrateEntity($result);
+    }
+
+    /**
+     * @param string $name The client's unique name
+     * @param string $id The client's unique id
+     * @param string $secret The clients' unique secret
+     * @return int
+     */
+    public function create($name, $id, $secret)
+    {
+        return $this->getConnection()->table('oauth_clients')->insertGetId([
+            'id'  => $id,
+            'name' => $name,
+            'secret'   => $secret,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
     }
 
     /**
      * @param $result
-     * @return \League\OAuth2\Server\Entity\Client
+     * @return \League\OAuth2\Server\Entity\ClientEntity
      */
-    protected function createClient($result)
+    protected function hydrateEntity($result)
     {
         $client = new ClientEntity($this->getServer());
         $client->hydrate([

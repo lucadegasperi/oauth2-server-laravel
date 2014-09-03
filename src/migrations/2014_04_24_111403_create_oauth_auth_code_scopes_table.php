@@ -13,7 +13,9 @@ class CreateOauthAuthCodeScopesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_auth_code_scopes', function (Blueprint $table) {
+        $connection = Config::get('oauth2-server-laravel::oauth2.database');
+
+        Schema::connection($connection)->create('oauth_auth_code_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('auth_code_id', 40);
             $table->string('scope_id', 40);

@@ -13,7 +13,9 @@ class CreateOauthAccessTokenScopesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_access_token_scopes', function (Blueprint $table) {
+        $connection = Config::get('oauth2-server-laravel::oauth2.database');
+
+        Schema::connection($connection)->create('oauth_access_token_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('access_token_id', 40);
             $table->string('scope_id', 40);

@@ -13,7 +13,9 @@ class CreateOauthSessionScopesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_session_scopes', function (Blueprint $table) {
+        $connection = Config::get('oauth2-server-laravel::oauth2.database');
+
+        Schema::connection($connection)->create('oauth_session_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('session_id')->unsigned();
             $table->string('scope_id', 40);

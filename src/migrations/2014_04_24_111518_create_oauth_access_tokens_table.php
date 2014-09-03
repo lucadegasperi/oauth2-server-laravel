@@ -12,7 +12,9 @@ class CreateOauthAccessTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_access_tokens', function (Blueprint $table) {
+        $connection = Config::get('oauth2-server-laravel::oauth2.database');
+
+        Schema::connection($connection)->create('oauth_access_tokens', function (Blueprint $table) {
             $table->string('id', 40)->primary();
             $table->integer('session_id')->unsigned();
             $table->integer('expire_time');

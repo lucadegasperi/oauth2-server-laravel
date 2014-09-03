@@ -111,7 +111,7 @@ class AuthorizationServerProxy
     {
         return $this->makeRedirect($params['redirect_uri'], array(
             'error' =>  'access_denied',
-            'error_message' =>  $this->authServer->getExceptionMessage('access_denied'),
+            'error_description' =>  $this->authServer->getExceptionMessage('access_denied'),
             'state' =>  isset($params['state']) ? $params['state'] : ''
         ));
     }

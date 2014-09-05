@@ -18,7 +18,7 @@ abstract class Migration extends BaseMigration {
      */
     public function __construct()
     {
-        $this->connection = Config::get('oauth2-server-laravel::oauth2.data');
+        $this->connection = Config::get('oauth2-server-laravel::oauth2.database');
     }
 
 }

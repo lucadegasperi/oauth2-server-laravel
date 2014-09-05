@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use LucaDegasperi\OAuth2Server\Support\Migration;
 
 class CreateOauthSessionsTable extends Migration
 {
@@ -13,7 +13,7 @@ class CreateOauthSessionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_sessions', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('oauth_sessions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('client_id', 40);
             $table->enum('owner_type', ['client', 'user'])->default('user');
@@ -37,9 +37,10 @@ class CreateOauthSessionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('oauth_sessions', function (Blueprint $table) {
+        Schema::connection($this->connection)->table('oauth_sessions', function (Blueprint $table) {
             $table->dropForeign('oauth_sessions_client_id_foreign');
         });
-        Schema::drop('oauth_sessions');
+
+        Schema::connection($this->connection)->drop('oauth_sessions');
     }
 }

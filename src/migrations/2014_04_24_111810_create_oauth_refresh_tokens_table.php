@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use LucaDegasperi\OAuth2Server\Support\Migration;
 
 class CreateOauthRefreshTokensTable extends Migration
 {
@@ -13,7 +13,7 @@ class CreateOauthRefreshTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_refresh_tokens', function (Blueprint $table) {
+        Schema::connection($this->connection)->create('oauth_refresh_tokens', function (Blueprint $table) {
             $table->string('id', 40)->unique();
             $table->string('access_token_id', 40)->primary();
             $table->integer('expire_time');
@@ -33,9 +33,10 @@ class CreateOauthRefreshTokensTable extends Migration
      */
     public function down()
     {
-        Schema::table('oauth_refresh_tokens', function (Blueprint $table) {
+        Schema::connection($this->connection)->table('oauth_refresh_tokens', function (Blueprint $table) {
             $table->dropForeign('oauth_refresh_tokens_access_token_id_foreign');
         });
-        Schema::drop('oauth_refresh_tokens');
+
+        Schema::connection($this->connection)->drop('oauth_refresh_tokens');
     }
 }

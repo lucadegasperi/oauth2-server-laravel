@@ -24,9 +24,9 @@ class AuthorizerSpec extends ObjectBehavior
 
     function it_issues_an_access_token(AuthorizationServer $issuer)
     {
-        $issuer->issueAccessToken()->willReturn('foo')->shouldBeCalled();
+        $issuer->issueAccessToken([])->willReturn('foo')->shouldBeCalled();
 
-        $this->issueAccessToken()->shouldReturn('foo');
+        $this->issueAccessToken([])->shouldReturn('foo');
     }
 
     function it_checks_the_auth_code_request_parameters(AuthorizationServer $issuer, AuthCodeGrant $authCodeGrant)

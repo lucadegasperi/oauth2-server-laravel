@@ -41,11 +41,16 @@ return [
     |
     |        // the code to run in order to verify the user's identity
     |        'callback'         => function($username, $password){
-    |
-    |            return Auth::validate([
+    |            $credentials = [
     |                'email'    => $username,
     |                'password' => $password,
-    |            ));
+    |            ];
+    |
+    |            if (Auth::once($credentials)) {
+    |                return Auth::user()->id;
+    |            } else {
+    |                return false;
+    |            }
     |        }
     |    ],
     |

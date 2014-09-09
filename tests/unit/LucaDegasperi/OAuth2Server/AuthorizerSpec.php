@@ -119,8 +119,8 @@ class AuthorizerSpec extends ObjectBehavior
 
     function it_sets_a_custom_token_type(AuthorizationServer $issuer, ResourceServer $checker, TokenTypeInterface $tokenType)
     {
-        $issuer->setIdType($tokenType)->shouldBeCalled();
-        $checker->setIdType($tokenType)->shouldBeCalled();
+        $issuer->setTokenType($tokenType)->shouldBeCalled();
+        $checker->setTokenType($tokenType)->shouldBeCalled();
 
         $this->setTokenType($tokenType);
     }

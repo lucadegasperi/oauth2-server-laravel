@@ -14,12 +14,9 @@ namespace LucaDegasperi\OAuth2Server;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\Exception\OAuthException;
-use LucaDegasperi\OAuth2Server\Console\ClientCreatorCommand;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
-use LucaDegasperi\OAuth2Server\Console\MigrationsCommand;
-use LucaDegasperi\OAuth2Server\Console\OAuthControllerCommand;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -143,17 +140,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerCommands()
     {
-        $this->app->bindShared('command.oauth2-server.controller', function($app) {
-            return new OAuthControllerCommand($app['files']);
-        });
-
-        $this->app->bindShared('command.oauth2-server.migrations', function() {
-            return new MigrationsCommand();
-        });
-
-        $this->app->bindShared('command.oauth2-server.client.create', function($app) {
-            return new ClientCreatorCommand($app->make('League\OAuth2\Server\Storage\ClientInterface'));
-        });
+        $this->app->bind('command.oauth2-server.controller', 'LucaDegasperi\OAuth2Server\Console\OAuthControllerCommand');
+        $this->app->bind('command.oauth2-server.migrations', 'LucaDegasperi\OAuth2Server\Console\MigrationsCommand');
+        $this->app->bind('command.oauth2-server.client.create', 'LucaDegasperi\OAuth2Server\Console\ClientCreatorCommand');
 
         $this->commands('command.oauth2-server.controller', 'command.oauth2-server.migrations', 'command.oauth2-server.client.create');
     }

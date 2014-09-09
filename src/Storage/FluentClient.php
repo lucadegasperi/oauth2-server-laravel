@@ -11,7 +11,7 @@
 
 namespace LucaDegasperi\OAuth2Server\Storage;
 
-use Illuminate\Database\Connection;
+use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\ClientInterface;
 use League\OAuth2\Server\Entity\ClientEntity;
@@ -24,12 +24,12 @@ class FluentClient extends FluentAdapter implements ClientInterface
     protected $limitClientsToGrants = false;
 
     /**
-     * @param Connection $connection
+     * @param Resolver $connection
      * @param bool $limitClientsToGrants
      */
-    public function __construct(Connection $connection, $limitClientsToGrants = false)
+    public function __construct(Resolver $resolver, $limitClientsToGrants = false)
     {
-        parent::__construct($connection);
+        parent::__construct($resolver);
         $this->limitClientsToGrants = $limitClientsToGrants;
     }
 

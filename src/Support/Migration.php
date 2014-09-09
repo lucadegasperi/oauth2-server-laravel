@@ -12,25 +12,28 @@
 namespace LucaDegasperi\OAuth2Server\Support;
 
 use Config;
+use Schema;
 use Illuminate\Database\Migrations\Migration as BaseMigration;
 
-abstract class Migration extends BaseMigration {
-
+abstract class Migration extends BaseMigration
+{
     /**
      * The OAuth2 server database connection name.
      * 
      * @var string
      */
-    protected $connection;
-  
+    protected $connectionName;
+
     /**
-     * Create a OAuthMigration instance.
-     * 
-     * @return void
+     *
      */
     public function __construct()
     {
-        $this->connection = Config::get('oauth2-server-laravel::oauth2.database');
+        $this->connectionName = (Config::get('oauth2-server-laravel::oauth2.database') !== 'default') ? Config::get('oauth2-server-laravel::oauth2.database') : null;
     }
 
+    public function schema()
+    {
+        return Schema::connection($this->connectionName);
+    }
 }

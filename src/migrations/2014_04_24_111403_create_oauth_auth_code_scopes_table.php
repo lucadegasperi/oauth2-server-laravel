@@ -13,7 +13,7 @@ class CreateOauthAuthCodeScopesTable extends Migration
      */
     public function up()
     {
-        Schema::connection($this->connection)->create('oauth_auth_code_scopes', function (Blueprint $table) {
+        $this->schema()->create('oauth_auth_code_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('auth_code_id', 40);
             $table->string('scope_id', 40);
@@ -40,10 +40,10 @@ class CreateOauthAuthCodeScopesTable extends Migration
      */
     public function down()
     {
-        Schema::connection($this->connection)->table('oauth_auth_code_scopes', function (Blueprint $table) {
+        $this->schema()->table('oauth_auth_code_scopes', function (Blueprint $table) {
             $table->dropForeign('oauth_auth_code_scopes_auth_code_id_foreign');
             $table->dropForeign('oauth_auth_code_scopes_scope_id_foreign');
         });
-        Schema::connection($this->connection)->drop('oauth_auth_code_scopes');
+        $this->schema()->drop('oauth_auth_code_scopes');
     }
 }

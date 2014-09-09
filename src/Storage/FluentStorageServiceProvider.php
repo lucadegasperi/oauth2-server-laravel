@@ -52,30 +52,42 @@ class FluentStorageServiceProvider extends ServiceProvider
         $provider = $this;
 
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentAccessToken', function () use ($provider) {
-            return new FluentAccessToken($provider->getConnection());
+            $storage = new FluentAccessToken($provider->app['db']);
+            $storage->setConnectionName($provider->getConnectionName());
+            return $storage;
         });
 
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentAuthCode', function () use ($provider) {
-            return new FluentAuthCode($provider->getConnection());
+            $storage = new FluentAuthCode($provider->app['db']);
+            $storage->setConnectionName($provider->getConnectionName());
+            return $storage;
         });
 
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentClient', function ($app) use ($provider) {
             $limitClientsToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_grants');
-            return new FluentClient($provider->getConnection(), $limitClientsToGrants);
+            $storage = new FluentClient($provider->app['db'], $limitClientsToGrants);
+            $storage->setConnectionName($provider->getConnectionName());
+            return $storage;
         });
 
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentRefreshToken', function () use ($provider) {
-            return new FluentRefreshToken($provider->getConnection());
+            $storage = new FluentRefreshToken($provider->app['db']);
+            $storage->setConnectionName($provider->getConnectionName());
+            return $storage;
         });
 
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentScope', function ($app) use ($provider) {
             $limitClientsToScopes = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_scopes');
             $limitScopesToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_scopes_to_grants');
-            return new FluentScope($provider->getConnection(), $limitClientsToScopes, $limitScopesToGrants);
+            $storage = new FluentScope($provider->app['db'], $limitClientsToScopes, $limitScopesToGrants);
+            $storage->setConnectionName($provider->getConnectionName());
+            return $storage;
         });
 
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentSession', function () use ($provider) {
-            return new FluentSession($provider->getConnection());
+            $storage = new FluentSession($provider->app['db']);
+            $storage->setConnectionName($provider->getConnectionName());
+            return $storage;
         });
     }
 
@@ -94,12 +106,11 @@ class FluentStorageServiceProvider extends ServiceProvider
     }
 
     /**
-     * @return \Illuminate\Database\Connection
+     * @return string
      */
-    public function getConnection()
+    public function getConnectionName()
     {
-        $connectionName = ($this->app['config']->get('oauth2-server-laravel::oauth2.database') !== 'default') ? $this->app['config']->get('oauth2-server-laravel::oauth2.database') : null;
-        return $this->app['db']->connection($connectionName);
+        return ($this->app['config']->get('oauth2-server-laravel::oauth2.database') !== 'default') ? $this->app['config']->get('oauth2-server-laravel::oauth2.database') : null;
     }
 }
  

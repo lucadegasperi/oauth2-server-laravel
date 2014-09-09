@@ -13,7 +13,7 @@ class CreateOauthSessionsTable extends Migration
      */
     public function up()
     {
-        Schema::connection($this->connection)->create('oauth_sessions', function (Blueprint $table) {
+        $this->schema()->create('oauth_sessions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('client_id', 40);
             $table->enum('owner_type', ['client', 'user'])->default('user');
@@ -37,9 +37,9 @@ class CreateOauthSessionsTable extends Migration
      */
     public function down()
     {
-        Schema::connection($this->connection)->table('oauth_sessions', function (Blueprint $table) {
+        $this->schema()->table('oauth_sessions', function (Blueprint $table) {
             $table->dropForeign('oauth_sessions_client_id_foreign');
         });
-        Schema::connection($this->connection)->drop('oauth_sessions');
+        $this->schema()->drop('oauth_sessions');
     }
 }

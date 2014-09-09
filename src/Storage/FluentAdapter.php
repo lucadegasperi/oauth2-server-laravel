@@ -12,24 +12,43 @@
 namespace LucaDegasperi\OAuth2Server\Storage;
 
 use League\OAuth2\Server\Storage\Adapter;
-use Illuminate\Database\Connection;
+use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 abstract class FluentAdapter extends Adapter
 {
-    protected $connection;
+    /**
+     * @var \Illuminate\Database\ConnectionResolverInterface
+     */
+    protected $resolver;
 
-    public function __construct(Connection $connection)
+    /**
+     * @var string
+     */
+    protected $connectionName;
+
+    public function __construct(Resolver $resolver)
     {
-        $this->connection = $connection;
+        $this->resolver = $resolver;
+        $this->connectionName = null;
     }
 
-    public function setConnection(Connection $connection)
+    public function setResolver(Resolver $resolver)
     {
-        $this->connection = $connection;
+        $this->resolver = $resolver;
+    }
+
+    public function getResolver()
+    {
+        return $this->resolver;
+    }
+
+    public function setConnectionName($connectionName)
+    {
+        $this->connectionName = $connectionName;
     }
 
     protected function getConnection()
     {
-        return $this->connection;
+        return $this->resolver->connection($this->connectionName);
     }
 } 

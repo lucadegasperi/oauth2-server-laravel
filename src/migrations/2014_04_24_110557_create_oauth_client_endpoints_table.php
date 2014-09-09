@@ -13,7 +13,7 @@ class CreateOauthClientEndpointsTable extends Migration
      */
     public function up()
     {
-        Schema::connection($this->connection)->create('oauth_client_endpoints', function (Blueprint $table) {
+        $this->schema()->create('oauth_client_endpoints', function (Blueprint $table) {
             $table->increments('id');
             $table->string('client_id', 40);
             $table->string('redirect_uri');
@@ -36,10 +36,10 @@ class CreateOauthClientEndpointsTable extends Migration
      */
     public function down()
     {
-        Schema::connection($this->connection)->table('oauth_client_endpoints', function (Blueprint $table) {
+        $this->schema()->table('oauth_client_endpoints', function (Blueprint $table) {
             $table->dropForeign('oauth_client_endpoints_client_id_foreign');
         });
 
-        Schema::connection($this->connection)->drop('oauth_client_endpoints');
+        $this->schema()->drop('oauth_client_endpoints');
     }
 }

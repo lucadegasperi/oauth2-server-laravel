@@ -13,7 +13,7 @@ class CreateOauthAccessTokenScopesTable extends Migration
      */
     public function up()
     {
-        Schema::connection($this->connection)->create('oauth_access_token_scopes', function (Blueprint $table) {
+        $this->schema()->create('oauth_access_token_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('access_token_id', 40);
             $table->string('scope_id', 40);
@@ -40,10 +40,10 @@ class CreateOauthAccessTokenScopesTable extends Migration
      */
     public function down()
     {
-        Schema::connection($this->connection)->table('oauth_access_token_scopes', function (Blueprint $table) {
+        $this->schema()->table('oauth_access_token_scopes', function (Blueprint $table) {
             $table->dropForeign('oauth_access_token_scopes_scope_id_foreign');
             $table->dropForeign('oauth_access_token_scopes_access_token_id_foreign');
         });
-        Schema::connection($this->connection)->drop('oauth_access_token_scopes');
+        $this->schema()->drop('oauth_access_token_scopes');
     }
 }

@@ -8,7 +8,7 @@ class FluentClientTest extends DBTestCase
     public function getClientRepository()
     {
         $server = m::mock('League\OAuth2\Server\AbstractServer');
-        $repo = new FluentClient($this->app['db']->connection());
+        $repo = new FluentClient($this->app['db']);
         $repo->setServer($server);
 
         return $repo;

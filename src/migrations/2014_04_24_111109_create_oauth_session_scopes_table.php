@@ -13,7 +13,7 @@ class CreateOauthSessionScopesTable extends Migration
      */
     public function up()
     {
-        Schema::connection($this->connection)->create('oauth_session_scopes', function (Blueprint $table) {
+        $this->schema()->create('oauth_session_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('session_id')->unsigned();
             $table->string('scope_id', 40);
@@ -40,10 +40,10 @@ class CreateOauthSessionScopesTable extends Migration
      */
     public function down()
     {
-        Schema::connection($this->connection)->table('oauth_session_scopes', function (Blueprint $table) {
+        $this->schema()->table('oauth_session_scopes', function (Blueprint $table) {
             $table->dropForeign('oauth_session_scopes_session_id_foreign');
             $table->dropForeign('oauth_session_scopes_scope_id_foreign');
         });
-        Schema::connection($this->connection)->drop('oauth_session_scopes');
+        $this->schema()->drop('oauth_session_scopes');
     }
 }

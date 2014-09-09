@@ -12,7 +12,7 @@ class CreateOauthAccessTokensTable extends Migration
      */
     public function up()
     {
-        Schema::connection($this->connection)->create('oauth_access_tokens', function (Blueprint $table) {
+        $this->schema()->create('oauth_access_tokens', function (Blueprint $table) {
             $table->string('id', 40)->primary();
             $table->integer('session_id')->unsigned();
             $table->integer('expire_time');
@@ -35,9 +35,9 @@ class CreateOauthAccessTokensTable extends Migration
      */
     public function down()
     {
-        Schema::connection($this->connection)->table('oauth_access_tokens', function (Blueprint $table) {
+        $this->schema()->table('oauth_access_tokens', function (Blueprint $table) {
             $table->dropForeign('oauth_access_tokens_session_id_foreign');
         });
-        Schema::connection($this->connection)->drop('oauth_access_tokens');
+        $this->schema()->drop('oauth_access_tokens');
     }
 }

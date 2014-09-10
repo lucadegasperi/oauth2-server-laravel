@@ -234,7 +234,7 @@ class Authorizer
      */
     public function setTokenType(TokenTypeInterface $tokenType)
     {
-        $this->issuer->setIdType($tokenType);
-        $this->checker->setIdType($tokenType);
+        $this->issuer->setTokenType($tokenType);
+        $this->checker->setTokenType($tokenType);
     }
 }

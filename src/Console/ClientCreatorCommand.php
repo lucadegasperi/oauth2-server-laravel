@@ -57,15 +57,11 @@ class ClientCreatorCommand extends Command
         $clientId = $this->argument('clientId');
         $clientSecret = $this->argument('clientSecret');
 
-        try {
-            $this->clientRepo->create($clientName, $clientId, $clientSecret);
-            $this->info('Client created successfully');
-            $this->info('Client Name: '.$clientName);
-            $this->info('Client ID: '.$clientId);
-            $this->info('Client Secret: '.$clientSecret);
-        } catch(\Exception $e) {
-            $this->error('A client with the same Name, Id or Secret already exists. Try again.');
-        }
+        $this->clientRepo->create($clientName, $clientId, $clientSecret);
+        $this->info('Client created successfully');
+        $this->info('Client Name: '.$clientName);
+        $this->info('Client ID: '.$clientId);
+        $this->info('Client Secret: '.$clientSecret);
     }
 
     /**

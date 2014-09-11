@@ -23,7 +23,7 @@ class ClientCreatorCommand extends Command
      *
      * @var string
      */
-    protected $name = 'oauth2-server:client:create';
+    protected $name = 'oauth2-server:create-client';
 
     /**
      * The console command description.

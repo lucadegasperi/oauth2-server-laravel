@@ -23,7 +23,7 @@ class ClientCreatorCommand extends Command
      *
      * @var string
      */
-    protected $name = 'oauth2-server:client:create';
+    protected $name = 'oauth2-server:create-client';
 
     /**
      * The console command description.
@@ -58,7 +58,7 @@ class ClientCreatorCommand extends Command
         $clientSecret = $this->argument('clientSecret');
 
         try {
-            $this->clientRepo->create($clientId, $clientName, $clientSecret);
+            $this->clientRepo->create($clientName, $clientId, $clientSecret);
             $this->info('Client created successfully');
             $this->info('Client Name: '.$clientName);
             $this->info('Client ID: '.$clientId);

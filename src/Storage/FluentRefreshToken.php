@@ -25,7 +25,8 @@ class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
     public function get($token)
     {
         $result = $this->getConnection()->table('oauth_refresh_tokens')
-                ->where('id', $token)
+                ->where('oauth_refresh_tokens.id', $token)
+                ->where('oauth_refresh_tokens.expire_time', '>=', time())
                 ->first();
 
         if (is_null($result)) {

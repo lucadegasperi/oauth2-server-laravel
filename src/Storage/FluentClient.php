@@ -15,6 +15,7 @@ use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\ClientInterface;
 use League\OAuth2\Server\Entity\ClientEntity;
+use Carbon\Carbon;
 
 class FluentClient extends FluentAdapter implements ClientInterface
 {

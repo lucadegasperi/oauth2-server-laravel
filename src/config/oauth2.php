@@ -10,7 +10,7 @@ return array(
     | Your OAuth2 Server can issue an access token based on different grant types
     | you can even provide your own grant type.
     | To choose which grant type suits your scenario, see
-    | https://github.com/php-loep/oauth2-server/wiki/Which-OAuth-2.0-grant-should-I-use%3F
+    | http://oauth2.thephpleague.com/authorization-server/which-grant/
     |
     | Available grant types are:
     | 

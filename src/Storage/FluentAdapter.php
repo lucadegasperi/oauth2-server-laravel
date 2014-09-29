@@ -49,6 +49,10 @@ abstract class FluentAdapter extends Adapter
 
     protected function getConnection()
     {
-        return $this->resolver->connection($this->connectionName);
+        $conn = $this->resolver->connection($this->connectionName);
+        // maybe others have the database config for fetch mode to PDO::FETCH_ASSOC
+        // u'd better force it back here, or all your data fetching result will be unusable.
+        $conn->setFetchMode(\PDO::FETCH_OBJ);
+        return $conn;
     }
 } 

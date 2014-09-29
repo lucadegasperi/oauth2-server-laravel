@@ -117,11 +117,11 @@ class AuthorizerSpec extends ObjectBehavior
         $this->getRedirectUriGenerator()->shouldReturn($redirectUri);
     }
 
-    function it_sets_a_custom_token_type(AuthorizationServer $issuer, ResourceServer $checker, TokenTypeInterface $tokenType)
+    /*function it_sets_a_custom_token_type(AuthorizationServer $issuer, ResourceServer $checker, TokenTypeInterface $tokenType)
     {
         $issuer->setTokenType($tokenType)->shouldBeCalled();
         $checker->setTokenType($tokenType)->shouldBeCalled();
 
         $this->setTokenType($tokenType);
-    }
+    }*/
 }

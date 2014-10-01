@@ -20,33 +20,33 @@ class FluentScopeTest extends DBTestCase
         $repo->limitClientsToScopes(true);
         $repo->limitScopesToGrants(true);
 
-        $result = $repo->get('scope3', 'grant3');
+        $result = $repo->get('scope3', 'grant3', 'client3id');
 
         $this->assertTrue($repo->areClientsLimitedToScopes());
         $this->assertTrue($repo->areScopesLimitedToGrants());
         $this->assertNull($result);
     }
 
-    /*public function test_get_scope_with_grant()
+    public function test_get_scope_with_client_only()
     {
         $repo = $this->getScopeRepository();
         $repo->limitClientsToScopes(true);
-        $repo->limitScopesToGrants(true);
 
-        $result = $repo->get('scope1', 'grant1');
-
-        $this->resultAssertions($result); 
-    }*/
-
-    /*public function test_get_scope_with_client_only()
-    {
-        $repo = new FluentScope();
-        $repo->limitClientsToScopes(true);
-
-        $result = $repo->get('scope1', 'client1id');
+        $result = $repo->get('scope1', null, 'client1id');
 
         $this->assertIsScope($result);
-    }*/
+    }
+
+    public function test_get_scope_with_invalid_client_only()
+    {
+        $repo = $this->getScopeRepository();
+        $repo->limitClientsToScopes(true);
+
+        $result = $repo->get('scope1', null, 'invalidclientid');
+
+        $this->assertTrue($repo->areClientsLimitedToScopes());
+        $this->assertNull($result);
+    }
 
     public function test_get_scope_with_grant_only()
     {
@@ -55,6 +55,30 @@ class FluentScopeTest extends DBTestCase
 
         $result = $repo->get('scope1', 'grant1');
 
+        $this->assertIsScope($result);
+    }
+
+    public function test_get_scope_with_invalid_grant_only()
+    {
+        $repo = $this->getScopeRepository();
+        $repo->limitScopesToGrants(true);
+
+        $result = $repo->get('scope1', 'invalidgrant');
+
+        $this->assertTrue($repo->areScopesLimitedToGrants());
+        $this->assertNull($result);
+    }
+
+    public function test_get_scope_with_client_and_grant()
+    {
+        $repo = $this->getScopeRepository();
+        $repo->limitClientsToScopes(true);
+        $repo->limitScopesToGrants(true);
+
+        $result = $repo->get('scope1', 'grant1', 'client1id');
+
+        $this->assertTrue($repo->areClientsLimitedToScopes());
+        $this->assertTrue($repo->areScopesLimitedToGrants());
         $this->assertIsScope($result);
     }
 

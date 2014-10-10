@@ -55,7 +55,7 @@ php artisan migrate --package="lucadegasperi/oauth2-server-laravel"
 
 ## Issuing an access token
 
-You can use different grant types to issue an access token depending on which suits your use cases. A detailed description of the different grant types can be found [here](https://github.com/php-loep/oauth2-server/wiki/Which-OAuth-2.0-grant-should-I-use%3F)
+You can use different grant types to issue an access token depending on which suits your use cases. A detailed description of the different grant types can be found [here](http://oauth2.thephpleague.com/authorization-server/which-grant/)
 
 A client should make a ```POST``` request with the appropriate parameters (depending on the grant type used) to an access token endpoint like the one defined here. This package will take care of all the fuss for you.
 

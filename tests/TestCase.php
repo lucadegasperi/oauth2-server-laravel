@@ -1,18 +1,31 @@
 <?php
 
-class TestCase extends Orchestra\Testbench\TestCase {
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
+
+abstract class TestCase extends OrchestraTestCase
+{
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['path.base'] = __DIR__ . '/../src';
+    }
 
     protected function getPackageProviders()
     {
-        return array('LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider');
+        return [
+            'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
+            'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider'
+        ];
     }
 
     protected function getPackageAliases()
     {
-        return array(
-            'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
-            'ResourceServer'  => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
-        );
+        return [
+            'Authorizer' => 'LucaDegasperi\OAuth2Server\Facades\Authorizer',
+        ];
     }
-
 }

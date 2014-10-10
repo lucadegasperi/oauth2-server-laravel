@@ -1,0 +1,16 @@
+suites:
+  package_suite:
+    namespace: LucaDegasperi\OAuth2Server
+    src_path: src
+    spec_path: tests
+    spec_prefix: unit
+extensions:
+  - PhpSpec\Extension\CodeCoverageExtension
+code_coverage:
+  whitelist:
+    - src
+  blacklist_files:
+    - src/OAuth2ServerServiceProvider.php
+    - src/Facades/AuthorizerFacade.php
+  output: tmp/unit-coverage.cov
+  format: php

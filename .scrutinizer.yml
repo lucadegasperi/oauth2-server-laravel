@@ -5,6 +5,7 @@ filter:
   excluded_paths:
     - 'vendor/*'
     - 'tests/*'
+    - 'spec/*'
     - 'app/*'
     - 'bin/*'
     - 'library/*'

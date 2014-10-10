@@ -12,16 +12,27 @@
 >
     <testsuites>
         <testsuite name="Package Test Suite">
-            <directory suffix=".php">./tests/</directory>
+            <directory suffix=".php">./tests/integration</directory>
         </testsuite>
     </testsuites>
     <filter>
-        <blacklist>
-            <directory suffix=".php">PEAR_INSTALL_DIR</directory>
-            <directory suffix=".php">PHP_LIBDIR</directory>
-            <directory suffix=".php">vendor</directory>
-            <directory suffix=".php">tests</directory>
-            <directory suffix=".php">testing</directory>
-        </blacklist>
+        <whitelist>
+            <directory>./src</directory>
+            <exclude>
+                <directory>./build</directory>
+                <directory>./src/migrations</directory>
+                <directory>./src/config</directory>
+                <directory>./src/lang</directory>
+                <directory>./src/views</directory>
+                <directory>./composer</directory>
+                <directory>./tests</directory>
+                <directory>./travis</directory>
+                <directory>./vendor</directory>
+                <directory>./stubs</directory>
+                <directory>./seeds</directory>
+                <file>./src/OAuth2ServerServiceProvider.php</file>
+                <file>./src/Repositories/FluentAdapter.php</file>
+            </exclude>
+        </whitelist>
     </filter>
 </phpunit>

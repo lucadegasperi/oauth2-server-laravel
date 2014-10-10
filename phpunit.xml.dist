@@ -2,7 +2,7 @@
 <phpunit colors="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="Package Test Suite">
-            <directory suffix=".php">./tests/</directory>
+            <directory suffix=".php">./tests/integration</directory>
         </testsuite>
     </testsuites>
     <filter>
@@ -14,16 +14,19 @@
                 <directory>./src/config</directory>
                 <directory>./src/lang</directory>
                 <directory>./src/views</directory>
-                <directory>./src/LucaDegasperi/OAuth2Server/Repositories</directory>
                 <directory>./composer</directory>
                 <directory>./tests</directory>
                 <directory>./travis</directory>
                 <directory>./vendor</directory>
+                <directory>./stubs</directory>
+                <directory>./seeds</directory>
+                <file>./src/OAuth2ServerServiceProvider.php</file>
+                <file>./src/Repositories/FluentAdapter.php</file>
             </exclude>
         </whitelist>
     </filter>
     <logging>
-        <log type="coverage-clover" target="tmp/coverage.clover"/>
+        <log type="coverage-php" target="tmp/integration-coverage.cov"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
     </logging>
 </phpunit>

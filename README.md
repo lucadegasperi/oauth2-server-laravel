@@ -6,6 +6,15 @@
 
 The package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 Specification](http://tools.ietf.org/html/rfc6749).
 
+## Version Compability
+
+ Laravel  | OAuth Server | PHP 
+:---------|:-------------|:----
+ 4.0.x    | 1.0.x        |>= 5.3
+ 4.1.x    | 1.0.x        |>= 5.3
+ 4.2.x    | 3.0.x        |>= 5.4
+ 5.0.x    | 4.0.x@dev    |>= 5.4
+
 ## Package Installation
 
 You can install the package via composer. add the following line to your composer.json file:

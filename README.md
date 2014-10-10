@@ -6,24 +6,14 @@
 
 The package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 Specification](http://tools.ietf.org/html/rfc6749).
 
-## Package Installation
+## Version Compability
 
-You can install the package via composer. add the following line to your composer.json file:
-
-```javascript
-"lucadegasperi/oauth2-server-laravel": "3.0.x"
-```
-
-Add this line of code to the ```providers``` array located in your ```app/config/app.php``` file:
-```php
-'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
-'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
-```
-
-And this lines to the ```aliases``` array:
-```php
-'Authorizer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade',
-```
+ Laravel  | OAuth Server | PHP 
+:---------|:-------------|:----
+ 4.0.x    | 1.0.x        |>= 5.3
+ 4.1.x    | 1.0.x        |>= 5.3
+ 4.2.x    | 3.0.x        |>= 5.4
+ 5.0.x    | 4.0.x@dev    |>= 5.4
 
 ## Documentation
 

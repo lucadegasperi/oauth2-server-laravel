@@ -17,6 +17,7 @@ use League\OAuth2\Server\Exception\OAuthException;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
+use Illuminate\Contracts\Exception\Handler;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -30,10 +31,10 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Bootstrap the application events.
      * @return void
      */
-    public function boot()
+    public function boot(Handler $handler)
     {
         $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/');
-
+        $this->registerErrorHandlers($handler);
         $this->bootFilters();
     }
 
@@ -43,7 +44,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerErrorHandlers();
         $this->registerAuthorizer();
         $this->registerFilterBindings();
         $this->registerCommands();
@@ -162,9 +162,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Register the OAuth error handlers
      * @return void
      */
-    private function registerErrorHandlers()
+    private function registerErrorHandlers(Handler $handler)
     {
-        $this->app->error(function(OAuthException $e) {
+        $handler->error(function(OAuthException $e) {
             return new JsonResponse([
                     'error' => $e->errorType,
                     'error_description' => $e->getMessage()

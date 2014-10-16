@@ -47,7 +47,7 @@ class MigrationsCommand extends Command
      */
     public function fire()
     {
-        $this->call('migrate:publish', ['package' => 'lucadegasperi/oauth2-server-laravel']);
+        $this->call('publish:migration', ['package' => 'lucadegasperi/oauth2-server-laravel']);
         $this->call('dump-autoload');
     }
 }

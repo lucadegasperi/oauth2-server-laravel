@@ -13,7 +13,9 @@ class OAuthController extends Controller
 
         $this->beforeFilter('auth', ['only' => ['getAuthorize', 'postAuthorize']]);
         $this->beforeFilter('csrf', ['only' => 'postAuthorize']);
-        $this->beforeFilter('check-authorization-params', ['only' => ['getAuthorize', 'postAuthorize']]);
+
+        $this->middleware('oauth2.error');
+        $this->middleware('oauth2.check-authorization-params', ['only' => ['getAuthorize', 'postAuthorize']]);
     }
 
     public function postAccessToken()

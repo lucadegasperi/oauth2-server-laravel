@@ -9,11 +9,13 @@
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
 
-namespace LucaDegasperi\OAuth2Server\Filters;
+namespace LucaDegasperi\OAuth2Server\Middleware;
 
+use Closure;
+use Illuminate\Contracts\Routing\Middleware;
 use LucaDegasperi\OAuth2Server\Authorizer;
 
-class CheckAuthCodeRequestFilter
+class CheckAuthCodeRequestMiddleware implements Middleware
 {
     /**
      * The authorizer instance
@@ -35,8 +37,10 @@ class CheckAuthCodeRequestFilter
      * @internal param mixed $route, mixed $request, mixed $scope,...
      * @return Response|null a bad response in case the params are invalid
      */
-    public function filter()
+    public function handle($request, Closure $next)
     {
         $this->authorizer->checkAuthCodeRequest();
+
+        return $next($request);
     }
 }

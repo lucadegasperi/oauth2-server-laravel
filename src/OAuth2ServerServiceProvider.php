@@ -17,7 +17,6 @@ use League\OAuth2\Server\Exception\OAuthException;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
-use Illuminate\Contracts\Exception\Handler;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -31,10 +30,10 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Bootstrap the application events.
      * @return void
      */
-    public function boot(Handler $handler)
+    public function boot()
     {
         $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/');
-        $this->registerErrorHandlers($handler);
+        $this->registerMiddlewares();
         $this->bootFilters();
     }
 
@@ -153,7 +152,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     private function bootFilters()
     {
-        $this->app['router']->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter');
         $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
         $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
     }
@@ -162,16 +160,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Register the OAuth error handlers
      * @return void
      */
-    private function registerErrorHandlers(Handler $handler)
+    private function registerMiddlewares()
     {
-        $handler->error(function(OAuthException $e) {
-            return new JsonResponse([
-                    'error' => $e->errorType,
-                    'error_description' => $e->getMessage()
-                ],
-                $e->httpStatusCode,
-                $e->getHttpHeaders()
-            );
-        });
+        $this->app['router']->middleware('oauth2.error', 'LucaDegasperi\OAuth2Server\Middleware\JSONErrorHandlerMiddleware');
+        $this->app['router']->middleware('oauth2.check-authorization-params', 'LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware');
     }
 }

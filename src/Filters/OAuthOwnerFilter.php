@@ -33,10 +33,10 @@ class OAuthOwnerFilter
     /**
      * The main filter method
      * @internal param mixed $route, mixed $request, mixed $owners,...
-     * @return null
+     * @return \Closure
      * @throws \League\OAuth2\Server\Exception\AccessDeniedException
      */
-    public function filter()
+    public function handle($request, \Closure $next)
     {
         if (func_num_args() > 2) {
             $ownerTypes = array_slice(func_get_args(), 2);
@@ -44,6 +44,6 @@ class OAuthOwnerFilter
                 throw new AccessDeniedException();
             }
         }
-        return null;
+       return $next();
     }
 }

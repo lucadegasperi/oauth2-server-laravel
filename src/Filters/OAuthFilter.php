@@ -68,7 +68,7 @@ class OAuthFilter
      * @internal param mixed $route, mixed $request, mixed $scope,...
      * @return void a bad response in case the request is invalid
      */
-    public function filter()
+   public function handle($request, \Closure $next)
     {
         if (func_num_args() > 2) {
             $args = func_get_args();
@@ -76,6 +76,8 @@ class OAuthFilter
         }
         $this->authorizer->validateAccessToken($this->httpHeadersOnly);
         $this->validateScopes();
+
+        return $next();
     }
 
     /**

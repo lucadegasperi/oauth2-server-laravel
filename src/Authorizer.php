@@ -73,12 +73,11 @@ class Authorizer
 
     /**
      * Issue an access token if the request parameters are valid
-     * @param array $params optional array of parsed $_POST keys
      * @return array a response object for the protocol in use
      */
-    public function issueAccessToken($params = [])
+    public function issueAccessToken()
     {
-        return $this->issuer->issueAccessToken($params);
+        return $this->issuer->issueAccessToken();
     }
 
     /**

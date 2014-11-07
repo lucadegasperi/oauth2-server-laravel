@@ -31,10 +31,10 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Bootstrap the application events.
      * @return void
      */
-    public function boot(Handler $handler)
+    public function boot()
     {
         $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/');
-        $this->registerErrorHandlers($handler);
+        // $this->registerErrorHandlers($handler);
         $this->bootFilters();
     }
 

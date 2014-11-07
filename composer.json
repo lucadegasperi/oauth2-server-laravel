@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "league/oauth2-server": "4.0.*@dev"
+        "mobelio/oauth2-server": "4.0.*@dev"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0",

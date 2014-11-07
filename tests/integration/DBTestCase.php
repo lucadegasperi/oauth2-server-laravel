@@ -11,7 +11,7 @@ abstract class DBTestCase extends TestCase
         $this->artisan = $this->app->make('artisan');
         $this->artisan->call('migrate', [
             '--database' => 'testbench',
-            '--path' => '../src/migrations'
+            '--path' => '../../../../../src/migrations'
         ]);
         $this->artisan->call('db:seed');
     }

@@ -16,6 +16,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "laravel/framework": "5.0.*",
         "league/oauth2-server": "4.0.*@dev"
     },
     "require-dev": {
@@ -23,8 +24,8 @@
         "henrikbjorn/phpspec-code-coverage": "~1.0",
         "phpunit/phpunit": "~4.0",
         "mockery/mockery": "~0.8",
-        "orchestra/testbench": "2.2.*",
-        "behat/behat": "~2.5"
+        "orchestra/testbench": "3.0.*",
+        "behat/behat": "~3.0"
     },
     "autoload": {
         "psr-4": {

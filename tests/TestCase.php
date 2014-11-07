@@ -11,7 +11,7 @@ abstract class TestCase extends OrchestraTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['path.base'] = __DIR__ . '/../src';
+        $app['path.base'] = __DIR__ . '/../vendor/orchestra/testbench/src/fixture';
     }
 
     protected function getPackageProviders()

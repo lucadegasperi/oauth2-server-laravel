@@ -11,7 +11,7 @@
 
 namespace LucaDegasperi\OAuth2Server\Storage;
 
-use League\OAuth2\Server\Storage\Adapter;
+use League\OAuth2\Server\Storage\AbstractStorage as Adapter;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 abstract class FluentAdapter extends Adapter
@@ -51,4 +51,4 @@ abstract class FluentAdapter extends Adapter
     {
         return $this->resolver->connection($this->connectionName);
     }
-} 
+}

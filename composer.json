@@ -16,7 +16,12 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "laravel/framework": "4.2.*",
+        "illuminate/database": "4.2.*",
+        "illuminate/support": "4.2.*",
+        "illuminate/filesystem": "4.2.*",
+        "illuminate/console": "4.2.*",
+        "illuminate/http": "4.2.*",
+        "nesbot/carbon": "1.*",
         "league/oauth2-server": "4.0.*@dev"
     },
     "require-dev": {

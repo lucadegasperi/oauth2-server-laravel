@@ -12,6 +12,7 @@
 namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\Exception\OAuthException;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
@@ -165,13 +166,17 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     private function registerErrorHandlers()
     {
         $this->app->error(function(OAuthException $e) {
-            return new JsonResponse([
-                    'error' => $e->errorType,
-                    'error_description' => $e->getMessage()
-                ],
-                $e->httpStatusCode,
-                $e->getHttpHeaders()
-            );
+            if($e->shouldRedirect()) {
+                return new RedirectResponse($e->getRedirectUri());
+            } else {
+                return new JsonResponse([
+                                'error' => $e->errorType,
+                                'error_description' => $e->getMessage()
+                        ],
+                        $e->httpStatusCode,
+                        $e->getHttpHeaders()
+                );
+            }
         });
     }
 }

@@ -27,7 +27,6 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
     {
         $result = $this->getConnection()->table('oauth_auth_codes')
             ->where('oauth_auth_codes.id', $code)
-            ->where('oauth_auth_codes.expire_time', '>=', time())
             ->first();
 
         if (is_null($result)) {

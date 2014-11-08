@@ -177,7 +177,7 @@ class Authorizer
      */
     public function getScopes()
     {
-        return $this->checker->getScopes();
+        return $this->checker->getAccessToken()->getScopes();
     }
 
     /**
@@ -187,7 +187,7 @@ class Authorizer
      */
     public function hasScope($scope)
     {
-        return $this->checker->hasScope($scope);
+        return $this->checker->getAccessToken()->hasScope($scope);
     }
 
     /**
@@ -196,7 +196,7 @@ class Authorizer
      */
     public function getResourceOwnerId()
     {
-        return $this->checker->getOwnerId();
+        return $this->checker->getAccessToken()->getSession()->getOwnerId();
     }
 
     /**
@@ -205,7 +205,7 @@ class Authorizer
      */
     public function getResourceOwnerType()
     {
-        return $this->checker->getOwnerType();
+        return $this->checker->getAccessToken()->getSession()->getOwnerType();
     }
 
     /**
@@ -214,7 +214,7 @@ class Authorizer
      */
     public function getClientId()
     {
-        return $this->checker->getClientId();
+        return $this->checker->getAccessToken()->getSession()->getClient()->getId();
     }
 
     /**

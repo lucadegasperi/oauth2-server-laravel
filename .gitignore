@@ -2,3 +2,4 @@
 composer.phar
 .DS_Store
 /.idea/
+composer.lock

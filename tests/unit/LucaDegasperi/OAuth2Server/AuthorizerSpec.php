@@ -3,6 +3,9 @@
 namespace unit\LucaDegasperi\OAuth2Server;
 
 use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Entity\AccessTokenEntity;
+use League\OAuth2\Server\Entity\ClientEntity;
+use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\TokenType\TokenTypeInterface;
@@ -47,36 +50,46 @@ class AuthorizerSpec extends ObjectBehavior
         $this->issueAuthCode('user', '1', ['foo' => 'bar'])->shouldReturn('baz');
     }
 
-    function it_returns_the_current_scopes(ResourceServer $checker)
+    function it_returns_the_current_scopes(ResourceServer $checker, AccessTokenEntity $accessTokenEntity)
     {
-        $checker->getScopes()->willReturn(['foo', 'bar'])->shouldBeCalled();
+        $accessTokenEntity->getScopes()->willReturn(['foo','bar']);
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->getScopes()->shouldReturn(['foo', 'bar']);
     }
 
-    function it_checks_if_a_scope_is_included_into_the_current_ones(ResourceServer $checker)
+    function it_checks_if_a_scope_is_included_into_the_current_ones(ResourceServer $checker, AccessTokenEntity $accessTokenEntity)
     {
-        $checker->hasScope('foo')->willReturn(true)->shouldBeCalled();
+        $accessTokenEntity->hasScope('foo')->willReturn(true)->shouldBeCalled();
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->hasScope('foo')->shouldReturn(true);
 
-        $checker->hasScope(['foo', 'bar'])->willReturn(false)->shouldBeCalled();
+        $accessTokenEntity->hasScope(['foo', 'bar'])->willReturn(false)->shouldBecalled();
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->hasScope(['foo', 'bar'])->shouldReturn(false);
     }
 
-    function it_returns_the_resource_owner_id(ResourceServer $checker)
+    function it_returns_the_resource_owner_id(ResourceServer $checker, AccessTokenEntity $accessTokenEntity, SessionEntity $sessionEntity)
     {
-        $checker->getOwnerId()->willReturn('1')->shouldBeCalled();
+        $sessionEntity->getOwnerId()->willReturn('1')->shouldBeCalled();
+        $accessTokenEntity->getSession()->willReturn($sessionEntity)->shouldBeCalled();
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->getResourceOwnerId()->shouldReturn('1');
     }
 
-    function it_returns_the_resource_owner_type(ResourceServer $checker)
+    function it_returns_the_resource_owner_type(ResourceServer $checker, AccessTokenEntity $accessTokenEntity, SessionEntity $sessionEntity)
     {
-        $checker->getOwnerType()->willReturn('user')->shouldBeCalled();
+        $sessionEntity->getOwnerType()->willReturn('user')->shouldBeCalled();
+        $accessTokenEntity->getSession()->willReturn($sessionEntity)->shouldBeCalled();
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->getResourceOwnerType()->shouldReturn('user');
     }
 
-    function it_returns_the_client_id(ResourceServer $checker)
+    function it_returns_the_client_id(ResourceServer $checker, AccessTokenEntity $accessTokenEntity, SessionEntity $sessionEntity, ClientEntity $clientEntity)
     {
-        $checker->getClientId()->willReturn('1')->shouldBeCalled();
+        $clientEntity->getId()->willReturn('1')->shouldBeCalled();
+        $sessionEntity->getClient()->willReturn($clientEntity)->shouldBeCalled();
+        $accessTokenEntity->getSession()->willReturn($sessionEntity)->shouldBeCalled();
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->getClientId()->shouldReturn('1');
     }
 

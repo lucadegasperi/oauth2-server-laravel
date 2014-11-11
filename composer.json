@@ -22,7 +22,7 @@
         "illuminate/console": "4.2.*",
         "illuminate/http": "4.2.*",
         "nesbot/carbon": "1.*",
-        "league/oauth2-server": "~4.0.*"
+        "league/oauth2-server": "~4.0.1"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0",

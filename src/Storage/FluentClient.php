@@ -25,8 +25,9 @@ class FluentClient extends FluentAdapter implements ClientInterface
     protected $limitClientsToGrants = false;
 
     /**
-     * @param Resolver $connection
+     * @param Resolver $resolver
      * @param bool $limitClientsToGrants
+     * @internal param Resolver $connection
      */
     public function __construct(Resolver $resolver, $limitClientsToGrants = false)
     {

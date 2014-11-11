@@ -62,10 +62,6 @@ class AuthorizerSpec extends ObjectBehavior
         $accessTokenEntity->hasScope('foo')->willReturn(true)->shouldBeCalled();
         $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->hasScope('foo')->shouldReturn(true);
-
-        $accessTokenEntity->hasScope(['foo', 'bar'])->willReturn(false)->shouldBecalled();
-        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
-        $this->hasScope(['foo', 'bar'])->shouldReturn(false);
     }
 
     function it_returns_the_resource_owner_id(ResourceServer $checker, AccessTokenEntity $accessTokenEntity, SessionEntity $sessionEntity)

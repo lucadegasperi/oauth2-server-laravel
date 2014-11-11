@@ -182,7 +182,7 @@ class Authorizer
 
     /**
      * Check if the current request has all the scopes passed
-     * @param string|array $scope the scope(s) to check for existence
+     * @param string $scope the scope to check for existence
      * @return bool
      */
     public function hasScope($scope)

@@ -28,16 +28,16 @@ class OAuthFilterSpec extends ObjectBehavior
     function it_filters_against_invalid_scopes(Authorizer $authorizer)
     {
         $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
-        $authorizer->hasScope(['baz'])->willReturn(false)->shouldBeCalled();
+        $authorizer->hasScope('baz')->willReturn(false)->shouldBeCalled();
 
         $this->shouldThrow('\League\OAuth2\Server\Exception\InvalidScopeException')
             ->duringFilter('foo', 'bar', 'baz');
     }
 
-    function it_passes_with_valud_scopes(Authorizer $authorizer)
+    function it_passes_with_valid_scopes(Authorizer $authorizer)
     {
         $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
-        $authorizer->hasScope(['baz'])->willReturn(true)->shouldBeCalled();
+        $authorizer->hasScope('baz')->willReturn(true)->shouldBeCalled();
 
         $this->filter('foo', 'bar', 'baz')->shouldReturn(null);
     }

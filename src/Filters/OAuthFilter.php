@@ -104,7 +104,7 @@ class OAuthFilter
     {
         foreach($this->scopes as $scope) {
             if(!$this->authorizer->hasScope($scope)) {
-                throw new InvalidScopeException(implode(',', $this->scopes));
+                throw new InvalidScopeException($scope);
             }
         }
     }

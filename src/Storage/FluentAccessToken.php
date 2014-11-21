@@ -20,10 +20,8 @@ use Carbon\Carbon;
 class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
 {
     /**
-     * Get an instance of Entities\AccessToken
-     * @param  string $token The access token
-     * @return null|AbstractTokenEntity
-     */
+      * {@inheritdoc}
+      */
     public function get($token)
     {
         $result = $this->getConnection()->table('oauth_access_tokens')
@@ -40,11 +38,9 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
     }
 
     /**
-     * Get the scopes for an access token
-     * @param \League\OAuth2\Server\Entity\AbstractTokenEntity $token The access token
-     * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
-     */
-    public function getScopes(AbstractTokenEntity $token)
+      * {@inheritdoc}
+      */
+    public function getScopes(AccessTokenEntity $token)
     {
         $result = $this->getConnection()->table('oauth_access_token_scopes')
                 ->select('oauth_scopes.*')
@@ -65,12 +61,8 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
     }
 
     /**
-     * Creates a new access token
-     * @param  string $token The access token
-     * @param  integer $expireTime The expire time expressed as a unix timestamp
-     * @param  string|integer $sessionId The session ID
-     * @return \League\OAuth2\Server\Entity\AccessTokenEntity
-     */
+      * {@inheritdoc}
+      */
     public function create($token, $expireTime, $sessionId)
     {
         $this->getConnection()->table('oauth_access_tokens')->insert([
@@ -87,12 +79,9 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
     }
 
     /**
-     * Associate a scope with an access token
-     * @param \League\OAuth2\Server\Entity\AbstractTokenEntity $token The access token
-     * @param \League\OAuth2\Server\Entity\ScopeEntity $scope The scope
-     * @return void
-     */
-    public function associateScope(AbstractTokenEntity $token, ScopeEntity $scope)
+      * {@inheritdoc}
+      */
+    public function associateScope(AccessTokenEntity $token, ScopeEntity $scope)
     {
         $this->getConnection()->table('oauth_access_token_scopes')->insert([
             'access_token_id' => $token->getId(),
@@ -103,11 +92,9 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
     }
 
     /**
-     * Delete an access token
-     * @param \League\OAuth2\Server\Entity\AbstractTokenEntity $token The access token to delete
-     * @return void
-     */
-    public function delete(AbstractTokenEntity $token)
+      * {@inheritdoc}
+      */
+    public function delete(AccessTokenEntity $token)
     {
         $this->getConnection()->table('oauth_access_tokens')
         ->where('oauth_access_tokens.id', $token->getId())

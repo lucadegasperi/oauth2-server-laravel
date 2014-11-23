@@ -1,6 +1,6 @@
 # PHP OAuth 2.0 Server for Laravel
 
-[![Latest Version](http://img.shields.io/packagist/v/lucadegasperi/oauth2-server-laravel.svg?style=flat-square)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)
+[![Latest Version]http://img.shields.io/github/release/lucadegasperi/oauth2-server-laravel.svg?style=flat-square)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/lucadegasperi/oauth2-server-laravel/3.x.svg?style=flat-square)](https://travis-ci.org/lucadegasperi/oauth2-server-laravel)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/lucadegasperi/oauth2-server-laravel.svg?style=flat-square)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel/code-structure)

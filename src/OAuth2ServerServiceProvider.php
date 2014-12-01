@@ -67,7 +67,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                           ->requireScopeParam($config['scope_param'])
                           ->setDefaultScope($config['default_scope'])
                           ->requireStateParam($config['state_param'])
-                          ->setScopeDelimeter($config['scope_delimiter'])
+                          ->setScopeDelimiter($config['scope_delimiter'])
                           ->setAccessTokenTTL($config['access_token_ttl']);
 
             // add the supported grant types to the authorization server

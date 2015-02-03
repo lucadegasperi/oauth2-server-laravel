@@ -168,7 +168,7 @@ class Authorizer
      */
     public function validateAccessToken($httpHeadersOnly = false, $accessToken = null)
     {
-        $this->checker->isValidRequest($httpHeadersOnly, $accessToken);
+        return $this->checker->isValidRequest($httpHeadersOnly, $accessToken);
     }
 
     /**

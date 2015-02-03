@@ -38,7 +38,7 @@ class CheckAuthorizationParamsFilter
             return Response::json(array(
                 'status' => 500,
                 'error' => 'internal_server_error',
-                'error_message' => 'Internal Server Error',
+                'error_message' => $e->getMessage(),
             ), 500);
         }
     }

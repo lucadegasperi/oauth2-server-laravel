@@ -33,7 +33,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot(Handler $handler)
     {
-        $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/');
         $this->registerErrorHandlers($handler);
         $this->bootFilters();
     }
@@ -44,9 +43,23 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerAssets();
         $this->registerAuthorizer();
         $this->registerFilterBindings();
         $this->registerCommands();
+    }
+
+    public function registerAssets()
+    {
+        $configPath = __DIR__ . '/config/oauth2.php';
+        $migrationsPath = __DIR__ . '/migrations';
+
+        $this->mergeConfigFrom($configPath, 'oauth2');
+
+        $this->publishes([
+            $configPath => config_path('oauth2.php'),
+            $migrationsPath => $this->app['path.database'] . '/migrations'
+        ]);
     }
 
     /**

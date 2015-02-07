@@ -43,7 +43,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->registerAssets();
         $this->registerAuthorizer();
         $this->registerFilterBindings();
-        $this->registerCommands();
     }
 
     /**
@@ -53,10 +52,30 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     public function registerAssets()
     {
         $configPath = __DIR__ . '/../config/oauth2.php';
-        $migrationsPath = __DIR__ . '/../migrations';
+        $mFrom = __DIR__ . '/../migrations/';
+        $mTo = $this->app['path.database'] . '/migrations/';
         $this->mergeConfigFrom($configPath, 'oauth2');
         $this->publishes([$configPath => config_path('oauth2.php')], 'config');
-        $this->publishes([$migrationsPath => $this->app['path.database'] . '/migrations'], 'migrations');
+        $this->publishes([
+            $mFrom . '2014_04_24_110304_create_oauth_grants_table.php'              => $mTo . $this->ts(1) . 'create_oauth_grants_table.php',
+            $mFrom . '2014_04_24_110403_create_oauth_grant_scopes_table.php'        => $mTo . $this->ts(2) . 'create_oauth_grant_scopes_table.php',
+            $mFrom . '2014_04_24_110459_create_oauth_clients_table.php'             => $mTo . $this->ts(3) . 'create_oauth_clients_table.php',
+            $mFrom . '2014_04_24_110557_create_oauth_client_endpoints_table.php'    => $mTo . $this->ts(4) . 'create_oauth_client_endpoints_table.php',
+            $mFrom . '2014_04_24_110705_create_oauth_client_scopes_table.php'       => $mTo . $this->ts(5) . 'create_oauth_client_scopes_table.php',
+            $mFrom . '2014_04_24_110817_create_oauth_client_grants_table.php'       => $mTo . $this->ts(6) . 'create_oauth_client_grants_table.php',
+            $mFrom . '2014_04_24_111002_create_oauth_sessions_table.php'            => $mTo . $this->ts(7) . 'create_oauth_sessions_table.php',
+            $mFrom . '2014_04_24_111109_create_oauth_session_scopes_table.php'      => $mTo . $this->ts(8) . 'create_oauth_session_scopes_table.php',
+            $mFrom . '2014_04_24_111254_create_oauth_auth_codes_table.php'          => $mTo . $this->ts(9) . 'create_oauth_auth_codes_table.php',
+            $mFrom . '2014_04_24_111403_create_oauth_auth_code_scopes_table.php'    => $mTo . $this->ts(10) . 'create_oauth_auth_code_scopes_table.php',
+            $mFrom . '2014_04_24_111518_create_oauth_access_tokens_table.php'       => $mTo . $this->ts(11) . 'create_oauth_access_tokens_table.php',
+            $mFrom . '2014_04_24_111657_create_oauth_access_token_scopes_table.php' => $mTo . $this->ts(12) . 'create_oauth_access_token_scopes_table.php',
+            $mFrom . '2014_04_24_111810_create_oauth_refresh_tokens_table.php'      => $mTo . $this->ts(13) . 'create_oauth_refresh_tokens_table.php',
+        ], 'migrations');
+    }
+
+    protected function ts($seconds)
+    {
+        return Carbon::now()->addSecond($seconds)->toDateString()->format('Y_m_d_His').'_';
     }
 
     /**
@@ -145,19 +164,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Registers some utility commands with artisan
-     * @return void
-     */
-    public function registerCommands()
-    {
-        $this->app->bind('command.oauth2-server.controller', 'LucaDegasperi\OAuth2Server\Console\OAuthControllerCommand');
-        $this->app->bind('command.oauth2-server.migrations', 'LucaDegasperi\OAuth2Server\Console\MigrationsCommand');
-        $this->app->bind('command.oauth2-server.client.create', 'LucaDegasperi\OAuth2Server\Console\ClientCreatorCommand');
-
-        $this->commands('command.oauth2-server.controller', 'command.oauth2-server.migrations', 'command.oauth2-server.client.create');
-    }
-
-    /**
      * Boot the filters
      * @return void
      */
@@ -166,6 +172,5 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app['router']->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter');
         $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
         $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
-        $this->app['router']->middleware('LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware');
     }
 }

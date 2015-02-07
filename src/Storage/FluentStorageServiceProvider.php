@@ -110,7 +110,7 @@ class FluentStorageServiceProvider extends ServiceProvider
      */
     public function getConnectionName()
     {
-        return ($this->app['config']->get('oauth2-server-laravel::oauth2.database') !== 'default') ? $this->app['config']->get('oauth2-server-laravel::oauth2.database') : null;
+        return ($this->app['config']->get('oauth2.database') !== 'default') ? $this->app['config']->get('oauth2.database') : null;
     }
 }
  

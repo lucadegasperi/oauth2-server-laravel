@@ -11,13 +11,11 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
-use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
-use League\OAuth2\Server\Exception\OAuthException;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
-use Illuminate\Contracts\Exception\Handler;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -31,10 +29,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Bootstrap the application events.
      * @return void
      */
-    public function boot(Handler $handler)
+    public function boot()
     {
-        $this->package('lucadegasperi/oauth2-server-laravel', 'oauth2-server-laravel', __DIR__.'/');
-        $this->registerErrorHandlers($handler);
         $this->bootFilters();
     }
 
@@ -44,9 +40,23 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerAssets();
         $this->registerAuthorizer();
         $this->registerFilterBindings();
         $this->registerCommands();
+    }
+
+    /**
+     * Register the assets to be published
+     * @return void
+     */
+    public function registerAssets()
+    {
+        $configPath = __DIR__ . '/../config/oauth2.php';
+        $migrationsPath = __DIR__ . '/../migrations';
+        $this->mergeConfigFrom($configPath, 'oauth2');
+        $this->publishes([$configPath => config_path('oauth2.php')], 'config');
+        $this->publishes([$migrationsPath => $this->app['path.database'] . '/migrations'], 'migrations');
     }
 
     /**
@@ -56,7 +66,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     public function registerAuthorizer()
     {
         $this->app->bindShared('oauth2-server.authorizer', function ($app) {
-            $config = $app['config']->get('oauth2-server-laravel::oauth2');
+            $config = $app['config']->get('oauth2');
             $issuer = $app->make('League\OAuth2\Server\AuthorizationServer')
                           ->setClientStorage($app->make('League\OAuth2\Server\Storage\ClientInterface'))
                           ->setSessionStorage($app->make('League\OAuth2\Server\Storage\SessionInterface'))
@@ -115,7 +125,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         });
 
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Filters\OAuthFilter', function ($app) {
-            $httpHeadersOnly = $app['config']->get('oauth2-server-laravel::oauth2.http_headers_only');
+            $httpHeadersOnly = $app['config']->get('oauth2.http_headers_only');
             return new OAuthFilter($app['oauth2-server.authorizer'], $httpHeadersOnly);
         });
 
@@ -156,22 +166,5 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app['router']->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter');
         $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
         $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
-    }
-
-    /**
-     * Register the OAuth error handlers
-     * @return void
-     */
-    private function registerErrorHandlers(Handler $handler)
-    {
-        $handler->error(function(OAuthException $e) {
-            return new JsonResponse([
-                    'error' => $e->errorType,
-                    'error_description' => $e->getMessage()
-                ],
-                $e->httpStatusCode,
-                $e->getHttpHeaders()
-            );
-        });
     }
 }

@@ -11,6 +11,7 @@
 
 
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class ClientsTableSeeder extends Seeder
 {

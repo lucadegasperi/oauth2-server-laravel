@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Database Seeder
  *
@@ -8,6 +9,8 @@
  * @licence   http://mit-license.org/
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
+
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {

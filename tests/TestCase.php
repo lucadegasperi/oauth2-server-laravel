@@ -9,12 +9,18 @@ abstract class TestCase extends OrchestraTestCase
         parent::setUp();
     }
 
-    protected function getEnvironmentSetUp($app)
+    /**
+     * Get base path.
+     *
+     * @return string
+     */
+    protected function getBasePath()
     {
-        $app['path.base'] = __DIR__ . '/../vendor/orchestra/testbench/src/fixture';
+        // reset base path to point to our package's src directory
+        return __DIR__ . '/../vendor/orchestra/testbench/fixture';
     }
 
-    protected function getPackageProviders()
+    protected function getPackageProviders($app)
     {
         return [
             'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
@@ -22,7 +28,7 @@ abstract class TestCase extends OrchestraTestCase
         ];
     }
 
-    protected function getPackageAliases()
+    protected function getPackageAliases($app)
     {
         return [
             'Authorizer' => 'LucaDegasperi\OAuth2Server\Facades\Authorizer',

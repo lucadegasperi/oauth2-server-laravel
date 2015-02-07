@@ -1,6 +1,6 @@
 <?php
 /**
- * OAuth parameters check route filter
+ * OAuth parameters check route middleware
  *
  * @package   lucadegasperi/oauth2-server-laravel
  * @author    Luca Degasperi <luca@lucadegasperi.com>
@@ -29,12 +29,6 @@ class CheckAuthCodeRequestFilter
         $this->authorizer = $authorizer;
     }
 
-    /**
-     * Run the check authorization params filter
-     *
-     * @internal param mixed $route, mixed $request, mixed $scope,...
-     * @return Response|null a bad response in case the params are invalid
-     */
     public function filter()
     {
         $this->authorizer->checkAuthCodeRequest();

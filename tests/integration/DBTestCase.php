@@ -8,10 +8,10 @@ abstract class DBTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->artisan = $this->app->make('artisan');
+        $this->artisan = $this->app->make('Illuminate\Contracts\Console\Kernel');
         $this->artisan->call('migrate', [
             '--database' => 'testbench',
-            '--path' => '../../../../../src/migrations'
+            '--path' => '../../../../migrations'
         ]);
         $this->artisan->call('db:seed');
     }
@@ -28,18 +28,8 @@ abstract class DBTestCase extends TestCase
         ]);
     }
 
-    protected function getPackageProviders()
+    public function tearDown()
     {
-        return [];
-    }
-
-    protected function getPackageAliases()
-    {
-        return [];
-    }
-
-    public function teardown()
-    {
-        $this->artisan->call('migrate:reset');
+        //$this->artisan->call('migrate:reset');
     }
 }

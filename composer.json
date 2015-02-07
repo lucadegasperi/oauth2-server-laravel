@@ -17,15 +17,14 @@
     "require": {
         "php": ">=5.4.0",
         "laravel/framework": "5.0.*",
-        "league/oauth2-server": "4.0.*@dev"
+        "league/oauth2-server": "4.1.*"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.0",
-        "henrikbjorn/phpspec-code-coverage": "~1.0",
-        "phpunit/phpunit": "~4.0",
-        "mockery/mockery": "~0.8",
         "orchestra/testbench": "3.0.*",
-        "behat/behat": "~3.0"
+        "phpunit/phpunit": "~4.0",
+        "phpspec/phpspec": "~2.0",
+        "mockery/mockery": "~0.8",
+        "henrikbjorn/phpspec-code-coverage": "~1.0"
     },
     "autoload": {
         "psr-4": {
@@ -39,8 +38,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0.x-dev",
-            "dev-3.x": "3.0.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     },
     "minimum-stability": "dev",

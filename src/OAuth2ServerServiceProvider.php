@@ -75,7 +75,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
     protected function ts($seconds)
     {
-        return Carbon::now()->addSecond($seconds)->format('Y_m_d_His').'_';
+        return Carbon::now()->addSeconds($seconds)->format('Y_m_d_His').'_';
     }
 
     /**

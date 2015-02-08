@@ -62,6 +62,34 @@ class AuthorizerSpec extends ObjectBehavior
         $accessTokenEntity->hasScope('foo')->willReturn(true)->shouldBeCalled();
         $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->hasScope('foo')->shouldReturn(true);
+
+        $accessTokenEntity->hasScope('foo')->willReturn(false)->shouldBeCalled();
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
+        $this->hasScope('foo')->shouldReturn(false);
+    }
+
+    function it_checks_if_multiple_invalid_scopes_are_included_into_the_current_ones(ResourceServer $checker, AccessTokenEntity $accessTokenEntity)
+    {
+        $accessTokenEntity->hasScope('foo')->willReturn(false)->shouldBecalled();
+        $accessTokenEntity->hasScope('bar')->willReturn(false)->shouldNotBeCalled();
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
+        $this->hasScope(['foo', 'bar'])->shouldReturn(false);
+    }
+
+    function it_checks_if_multiple_mixed_scopes_are_included_into_the_current_ones(ResourceServer $checker, AccessTokenEntity $accessTokenEntity)
+    {
+        $accessTokenEntity->hasScope('foo')->willReturn(true)->shouldBecalled();
+        $accessTokenEntity->hasScope('bar')->willReturn(false)->shouldBeCalled();
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalledTimes(2);
+        $this->hasScope(['foo', 'bar'])->shouldReturn(false);
+    }
+
+    function it_checks_if_multiple_valid_scopes_are_included_into_the_current_ones(ResourceServer $checker, AccessTokenEntity $accessTokenEntity)
+    {
+        $accessTokenEntity->hasScope('foo')->willReturn(true)->shouldBecalled();
+        $accessTokenEntity->hasScope('bar')->willReturn(true)->shouldBeCalled();
+        $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalledTimes(2);
+        $this->hasScope(['foo', 'bar'])->shouldReturn(true);
     }
 
     function it_returns_the_resource_owner_id(ResourceServer $checker, AccessTokenEntity $accessTokenEntity, SessionEntity $sessionEntity)

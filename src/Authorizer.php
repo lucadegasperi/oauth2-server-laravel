@@ -187,7 +187,20 @@ class Authorizer
      */
     public function hasScope($scope)
     {
-        return $this->checker->getAccessToken()->hasScope($scope);
+        if(is_array($scope)) {
+            
+            foreach ($scope as $scopeId) {
+
+                if(!$this->checker->getAccessToken()->hasScope($scopeId)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else {
+
+            return $this->checker->getAccessToken()->hasScope($scope);
+        }
     }
 
     /**

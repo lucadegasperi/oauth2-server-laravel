@@ -27,7 +27,6 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
     {
         $result = $this->getConnection()->table('oauth_access_tokens')
                 ->where('oauth_access_tokens.id', $token)
-                ->where('oauth_access_tokens.expire_time', '>=', time())
                 ->first();
 
         if (is_null($result)) {

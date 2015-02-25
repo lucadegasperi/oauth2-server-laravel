@@ -64,7 +64,7 @@ class FluentStorageServiceProvider extends ServiceProvider
         });
 
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentClient', function ($app) use ($provider) {
-            $limitClientsToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_grants');
+            $limitClientsToGrants = $app['config']->get('oauth2.limit_clients_to_grants');
             $storage = new FluentClient($provider->app['db'], $limitClientsToGrants);
             $storage->setConnectionName($provider->getConnectionName());
             return $storage;
@@ -77,8 +77,8 @@ class FluentStorageServiceProvider extends ServiceProvider
         });
 
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Storage\FluentScope', function ($app) use ($provider) {
-            $limitClientsToScopes = $app['config']->get('oauth2-server-laravel::oauth2.limit_clients_to_scopes');
-            $limitScopesToGrants = $app['config']->get('oauth2-server-laravel::oauth2.limit_scopes_to_grants');
+            $limitClientsToScopes = $app['config']->get('oauth2.limit_clients_to_scopes');
+            $limitScopesToGrants = $app['config']->get('oauth2.limit_scopes_to_grants');
             $storage = new FluentScope($provider->app['db'], $limitClientsToScopes, $limitScopesToGrants);
             $storage->setConnectionName($provider->getConnectionName());
             return $storage;

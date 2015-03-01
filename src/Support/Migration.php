@@ -29,7 +29,7 @@ abstract class Migration extends BaseMigration
      */
     public function __construct()
     {
-        $this->connectionName = (Config::get('oauth2-server-laravel::oauth2.database') !== 'default') ? Config::get('oauth2-server-laravel::oauth2.database') : null;
+        $this->connectionName = (Config::get('oauth2.database') !== 'default') ? Config::get('oauth2.database') : null;
     }
 
     public function schema()

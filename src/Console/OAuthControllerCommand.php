@@ -58,7 +58,7 @@ class OAuthControllerCommand extends Command
      */
     public function fire()
     {
-        $destination = $this->laravel['path'].'/controllers/OAuthController.php';
+        $destination = $this->laravel['path'].'/Http/Controllers/OAuthController.php';
 
         if (!$this->files->exists($destination)) {
             $this->files->copy(__DIR__.'/../../stubs/controller.stub', $destination);

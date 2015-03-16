@@ -24,6 +24,19 @@ class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
      */
     public function get($token)
     {
+        if($this->isMongo)
+            return $this->getCompat($token);
+        else
+            return $this->getNormal($token);
+    }
+
+    /**
+     * Return a new instance of \League\OAuth2\Server\Entity\RefreshTokenEntity - Normal version
+     * @param  string $token
+     * @return \League\OAuth2\Server\Entity\RefreshTokenEntity
+     */
+    public function getNormal($token)
+    {
         $result = $this->getConnection()->table('oauth_refresh_tokens')
                 ->where('oauth_refresh_tokens.id', $token)
                 ->where('oauth_refresh_tokens.expire_time', '>=', time())
@@ -37,6 +50,28 @@ class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
                ->setId($result->id)
                ->setAccessTokenId($result->access_token_id)
                ->setExpireTime((int)$result->expire_time);
+    }
+
+    /**
+     * Return a new instance of \League\OAuth2\Server\Entity\RefreshTokenEntity - MongoDB Compatible version
+     * @param  string $token
+     * @return \League\OAuth2\Server\Entity\RefreshTokenEntity
+     */
+    public function getCompat($token)
+    {
+        $result = $this->getConnection()->table('oauth_refresh_tokens')
+                ->where('id', $token)
+                ->where('expire_time', '>=', time())
+                ->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return (new RefreshTokenEntity($this->getServer()))
+               ->setId($result['id'])
+               ->setAccessTokenId($result['access_token_id'])
+               ->setExpireTime((int)$result['expire_time']);
     }
 
     /**
@@ -68,6 +103,31 @@ class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
      * @return void
      */
     public function delete(RefreshTokenEntity $token)
+    {
+        if($this->isMongo)
+            $this->deleteCompat($token);
+        else
+            $this->deleteNormal($token);
+    }
+
+    /**
+     * Delete the refresh token - Normal version
+     * @param  \League\OAuth2\Server\Entity\RefreshTokenEntity $token
+     * @return void
+     */
+    public function deleteNormal(RefreshTokenEntity $token)
+    {
+        $this->getConnection()->table('oauth_refresh_tokens')
+        ->where('id', $token->getId())
+        ->delete();
+    }
+
+    /**
+     * Delete the refresh token - MongoDB Compatible version
+     * @param  \League\OAuth2\Server\Entity\RefreshTokenEntity $token
+     * @return void
+     */
+    public function deleteCompat(RefreshTokenEntity $token)
     {
         $this->getConnection()->table('oauth_refresh_tokens')
         ->where('id', $token->getId())

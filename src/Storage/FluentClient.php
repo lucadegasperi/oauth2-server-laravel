@@ -51,6 +51,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
     }
 
     /**
+     * Get the client
      * @param string $clientId
      * @param string $clientSecret
      * @param string $redirectUri
@@ -58,6 +59,22 @@ class FluentClient extends FluentAdapter implements ClientInterface
      * @return null|\League\OAuth2\Server\Entity\ClientEntity
      */
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
+    {
+        if($this->isMongo)
+            return $this->getCompat($clientId, $clientSecret, $redirectUri, $grantType);
+        else
+            return $this->getNormal($clientId, $clientSecret, $redirectUri, $grantType);
+    }
+
+    /**
+     * Get the client - Normal version
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param string $redirectUri
+     * @param string $grantType
+     * @return null|\League\OAuth2\Server\Entity\ClientEntity
+     */
+    public function getNormal($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
         $query = null;
         
@@ -108,11 +125,86 @@ class FluentClient extends FluentAdapter implements ClientInterface
     }
 
     /**
+     * Get the client - MongoDB Compatible version
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param string $redirectUri
+     * @param string $grantType
+     * @return null|\League\OAuth2\Server\Entity\ClientEntity
+     */
+    public function getCompat($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
+    {
+        $query = null;
+        
+        if (! is_null($redirectUri) && is_null($clientSecret)) {
+
+            $allowedClientIds = $this->getConnection()->table('oauth_client_endpoints')
+                   ->where('redirect_uri', $redirectUri)
+                   ->pluck('client_id');
+
+            $query = $this->getConnection()->table('oauth_clients')
+                   ->whereIn('id', $allowedClientIds)
+                   ->where('id', $clientId);
+
+        } elseif (! is_null($clientSecret) && is_null($redirectUri)) {
+
+            $query = $this->getConnection()->table('oauth_clients')
+                   ->where('id', $clientId)
+                   ->where('secret', $clientSecret);
+
+        } elseif (! is_null($clientSecret) && ! is_null($redirectUri)) {
+
+            $allowedClientIds = $this->getConnection()->table('oauth_client_endpoints')
+                   ->where('redirect_uri', $redirectUri)
+                   ->pluck('client_id');
+
+            $query = $this->getConnection()->table('oauth_clients')
+                   ->whereIn('id', $allowedClientIds)
+                   ->where('id', $clientId)
+                   ->where('secret', $clientSecret);
+        }
+
+        if ($this->limitClientsToGrants === true and ! is_null($grantType)) {
+
+            $allowedGrantIds = $this->getConnection()->table('oauth_grants')
+                   ->where('id', $grantType)
+                   ->pluck('id');
+
+            $allowedClientIds = $this->getConnection()->table('oauth_client_grants')
+                   ->whereIn('grant_id', $allowedGrantIds)
+                   ->pluck('client_id');
+
+            $query = $query->whereIn('id', $allowedClientIds);
+        }
+
+        $result = $query->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return $this->hydrateEntity($result);
+    }
+
+    /**
      * Get the client associated with a session
      * @param  \League\OAuth2\Server\Entity\SessionEntity $session The session
      * @return null|\League\OAuth2\Server\Entity\ClientEntity
      */
     public function getBySession(SessionEntity $session)
+    {
+        if($this->isMongo)
+            return $this->getBySessionCompat($session);
+        else
+            return $this->getBySessionNormal($session);
+    }
+
+    /**
+     * Get the client associated with a session - Normal version
+     * @param  \League\OAuth2\Server\Entity\SessionEntity $session The session
+     * @return null|\League\OAuth2\Server\Entity\ClientEntity
+     */
+    public function getBySessionNormal(SessionEntity $session)
     {
         $result = $this->getConnection()->table('oauth_clients')
                 ->select(
@@ -121,6 +213,29 @@ class FluentClient extends FluentAdapter implements ClientInterface
                     'oauth_clients.name as name')
                 ->join('oauth_sessions', 'oauth_sessions.client_id', '=', 'oauth_clients.id')
                 ->where('oauth_sessions.id', '=', $session->getId())
+                ->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return $this->hydrateEntity($result);
+    }
+
+    /**
+     * Get the client associated with a session - MongoDB Compatible version
+     * @param  \League\OAuth2\Server\Entity\SessionEntity $session The session
+     * @return null|\League\OAuth2\Server\Entity\ClientEntity
+     */
+    public function getBySessionCompat(SessionEntity $session)
+    {
+        $allowedClientIds = $this->getConnection()->table('oauth_sessions')
+                   ->where('id', $session->getId())
+                   ->pluck('client_id');
+
+
+        $result = $this->getConnection()->table('oauth_clients')
+                ->whereIn('id', '=', $allowedClientIds)
                 ->first();
 
         if (is_null($result)) {
@@ -153,12 +268,42 @@ class FluentClient extends FluentAdapter implements ClientInterface
      */
     protected function hydrateEntity($result)
     {
+        if($this->isMongo)
+            return $this->hydrateEntityCompat($result);
+        else
+            return $this->hydrateEntityNormal($result);
+    }
+
+    /**
+     * - Normal version 
+     * @param $result
+     * @return \League\OAuth2\Server\Entity\ClientEntity
+     */
+    protected function hydrateEntityNormal($result)
+    {
         $client = new ClientEntity($this->getServer());
         $client->hydrate([
             'id' => $result->id,
             'name' => $result->name,
             'secret' => $result->secret,
             'redirectUri' => (isset($result->redirect_uri) ? $result->redirect_uri : null)
+        ]);
+        return $client;
+    }
+
+    /**
+     * - MongoDB Compatible version
+     * @param $result
+     * @return \League\OAuth2\Server\Entity\ClientEntity
+     */
+    protected function hydrateEntityCompat($result)
+    {
+        $client = new ClientEntity($this->getServer());
+        $client->hydrate([
+            'id' => $result['id'],
+            'name' => $result['name'],
+            'secret' => $result['secret'],
+            'redirectUri' => (isset($result['redirect_uri']) ? $result['redirect_uri'] : null)
         ]);
         return $client;
     }

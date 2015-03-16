@@ -26,10 +26,16 @@ abstract class FluentAdapter extends AbstractStorage
      */
     protected $connectionName;
 
+    /**
+     * @var bool
+     */
+    protected $isMongo;
+
     public function __construct(Resolver $resolver)
     {
         $this->resolver = $resolver;
         $this->connectionName = null;
+        $this->isMongo = ($this->getConnection()->getConfig(null)['driver'] === 'mongodb');
     }
 
     public function setResolver(Resolver $resolver)

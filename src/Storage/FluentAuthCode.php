@@ -25,6 +25,19 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
      */
     public function get($code)
     {
+        if($this->isMongo)
+            return $this->getCompat($code);
+        else
+            return $this->getNormal($code);
+    }
+
+    /**
+     * Get the auth code - Normal version
+     * @param  string $code
+     * @return \League\OAuth2\Server\Entity\AuthCodeEntity
+     */
+    public function getNormal($code)
+    {
         $result = $this->getConnection()->table('oauth_auth_codes')
             ->where('oauth_auth_codes.id', $code)
             ->where('oauth_auth_codes.expire_time', '>=', time())
@@ -41,11 +54,46 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
     }
 
     /**
+     * Get the auth code - MongoDB Compatible version
+     * @param  string $code
+     * @return \League\OAuth2\Server\Entity\AuthCodeEntity
+     */
+    public function getCompat($code)
+    {
+        $result = $this->getConnection()->table('oauth_auth_codes')
+            ->where('id', $code)
+            ->where('expire_time', '>=', time())
+            ->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return (new AuthCodeEntity($this->getServer()))
+            ->setId($result['id'])
+            ->setRedirectUri($result['redirect_uri'])
+            ->setExpireTime((int)$result['expire_time']);
+    }
+
+    /**
      * Get the scopes for an access token
      * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
      * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
      */
     public function getScopes(AuthCodeEntity $token)
+    {
+        if($this->isMongo)
+            return $this->getScopesCompat($token);
+        else
+            return $this->getScopesNormal($token);
+    }
+
+    /**
+     * Get the scopes for an access token - Normal version
+     * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
+     * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
+     */
+    public function getScopesNormal(AuthCodeEntity $token)
     {
         $result = $this->getConnection()->table('oauth_auth_code_scopes')
             ->select('oauth_scopes.*')
@@ -59,6 +107,34 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
                'id' => $scope->id,
                 'description' => $scope->description
+            ]);
+        }
+
+        return $scopes;
+    }
+
+    /**
+     * Get the scopes for an access token - MongoDB Compatible version
+     * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
+     * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
+     */
+    public function getScopesCompat(AuthCodeEntity $token)
+    {
+        $result = $this->getConnection()->table('oauth_auth_code_scopes')
+            ->where('auth_code_id', $token->getId())
+            ->get();
+
+        $scopes = [];
+
+        foreach ($result as $authCodeScope) {
+
+            $scope = $this->getConnection()->table('oauth_scopes')
+                ->where('id', $authCodeScope['scope_id'])
+                ->get();
+
+            $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
+               'id' => $scope['id'],
+                'description' => $scope['description']
             ]);
         }
 
@@ -88,8 +164,33 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
      */
     public function delete(AuthCodeEntity $token)
     {
+        if($this->isMongo)
+            $this->deleteCompat($token);
+        else
+            $this->deleteNormal($token);
+    }
+
+    /**
+     * Delete an access token - Normal version
+     * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $token The access token to delete
+     * @return void
+     */
+    public function deleteNormal(AuthCodeEntity $token)
+    {
         $this->getConnection()->table('oauth_auth_codes')
         ->where('oauth_auth_codes.id', $token->getId())
+        ->delete();
+    }
+
+    /**
+     * Delete an access token - MongoDB Compatible version
+     * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $token The access token to delete
+     * @return void
+     */
+    public function deleteCompat(AuthCodeEntity $token)
+    {
+        $this->getConnection()->table('oauth_auth_codes')
+        ->where('id', $token->getId())
         ->delete();
     }
 

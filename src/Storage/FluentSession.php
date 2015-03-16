@@ -26,6 +26,19 @@ class FluentSession extends FluentAdapter implements SessionInterface
      */
     public function get($sessionId)
     {
+        if($this->isMongo)
+            return $this->getCompat($sessionId);
+        else
+            return $this->getNormal($sessionId);
+    }
+
+    /**
+     * Get a session from it's identifier - Normal version
+     * @param string $sessionId
+     * @return \League\OAuth2\Server\Entity\SessionEntity
+     */
+    public function getNormal($sessionId)
+    {
         $result = $this->getConnection()->table('oauth_sessions')
                     ->where('oauth_sessions.id', $sessionId)
                     ->first();
@@ -40,11 +53,44 @@ class FluentSession extends FluentAdapter implements SessionInterface
     }
 
     /**
+     * Get a session from it's identifier - MongoDB Compatible version
+     * @param string $sessionId
+     * @return \League\OAuth2\Server\Entity\SessionEntity
+     */
+    public function getCompat($sessionId)
+    {
+        $result = $this->getConnection()->table('oauth_sessions')
+                    ->where('id', $sessionId)
+                    ->first();
+
+        if(is_null($result)) {
+            return null;
+        }
+
+        return (new SessionEntity($this->getServer()))
+               ->setId($result['id'])
+               ->setOwner($result['owner_type'], $result['owner_id']);
+    }
+
+    /**
      * Get a session from an access token
      * @param  \League\OAuth2\Server\Entity\AccessTokenEntity $accessToken The access token
      * @return \League\OAuth2\Server\Entity\SessionEntity
      */
     public function getByAccessToken(AccessTokenEntity $accessToken)
+    {
+        if($this->isMongo)
+            return $this->getByAccessTokenCompat($accessToken);
+        else
+            return $this->getByAccessTokenNormal($accessToken);
+    }
+
+    /**
+     * Get a session from an access token - Normal version
+     * @param  \League\OAuth2\Server\Entity\AccessTokenEntity $accessToken The access token
+     * @return \League\OAuth2\Server\Entity\SessionEntity
+     */
+    public function getByAccessTokenNormal(AccessTokenEntity $accessToken)
     {
         $result = $this->getConnection()->table('oauth_sessions')
                 ->select('oauth_sessions.*')
@@ -62,11 +108,48 @@ class FluentSession extends FluentAdapter implements SessionInterface
     }
 
     /**
+     * Get a session from an access token - MongoDB Compatible version
+     * @param  \League\OAuth2\Server\Entity\AccessTokenEntity $accessToken The access token
+     * @return \League\OAuth2\Server\Entity\SessionEntity
+     */
+    public function getByAccessTokenCompat(AccessTokenEntity $accessToken)
+    {
+        $allowedSessionIds = $this->getConnection()->table('oauth_access_tokens')
+                   ->where('id', $accessToken->getId())
+                   ->pluck('session_id');
+
+        $result = $this->getConnection()->table('oauth_sessions')
+                ->whereIn('id', $allowedSessionIds)
+                ->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return (new SessionEntity($this->getServer()))
+               ->setId($result['id'])
+               ->setOwner($result['owner_type'], $result['owner_id']);
+    }
+
+    /**
      * Get a session's scopes
      * @param  \League\OAuth2\Server\Entity\SessionEntity
      * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
      */
     public function getScopes(SessionEntity $session)
+    {
+        if($this->isMongo)
+            return $this->getScopesCompat($session);
+        else
+            return $this->getScopesNormal($session);
+    }
+
+    /**
+     * Get a session's scopes - Normal version
+     * @param  \League\OAuth2\Server\Entity\SessionEntity
+     * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
+     */
+    public function getScopesNormal(SessionEntity $session)
     {
         // TODO: Check this before pushing
         $result = $this->getConnection()->table('oauth_session_scopes')
@@ -81,6 +164,35 @@ class FluentSession extends FluentAdapter implements SessionInterface
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
                 'id' => $scope->id,
                 'description' => $scope->description,
+            ]);
+        }
+        
+        return $scopes;
+    }
+
+    /**
+     * Get a session's scopes - MongoDB Compatible version
+     * @param  \League\OAuth2\Server\Entity\SessionEntity
+     * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
+     */
+    public function getScopesCompat(SessionEntity $session)
+    {
+        // TODO: Check this before pushing
+        $result = $this->getConnection()->table('oauth_session_scopes')
+                  ->where('session_id', $session->getId())
+                  ->get();
+        
+        $scopes = [];
+        
+        foreach ($result as $sessionScope) {
+
+            $scope = $this->getConnection()->table('oauth_scopes')
+                ->where('id', $accessTokenScope['scope_id'])
+                ->get();
+
+            $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
+                'id' => $scope['id'],
+                'description' => $scope['description'],
             ]);
         }
         
@@ -130,6 +242,19 @@ class FluentSession extends FluentAdapter implements SessionInterface
      */
     public function getByAuthCode(AuthCodeEntity $authCode)
     {
+        if($this->isMongo)
+            return $this->getByAuthCodeCompat($authCode);
+        else
+            return $this->getByAuthCodeNormal($authCode);
+    }
+
+    /**
+     * Get a session from an auth code - Normal version
+     * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $authCode The auth code
+     * @return \League\OAuth2\Server\Entity\SessionEntity
+     */
+    public function getByAuthCodeNormal(AuthCodeEntity $authCode)
+    {
         $result = $this->getConnection()->table('oauth_sessions')
             ->select('oauth_sessions.*')
             ->join('oauth_auth_codes', 'oauth_sessions.id', '=', 'oauth_auth_codes.session_id')
@@ -143,5 +268,29 @@ class FluentSession extends FluentAdapter implements SessionInterface
         return (new SessionEntity($this->getServer()))
                ->setId($result->id)
                ->setOwner($result->owner_type, $result->owner_id);
+    }
+
+    /**
+     * Get a session from an auth code - MongoDB Compatible version
+     * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $authCode The auth code
+     * @return \League\OAuth2\Server\Entity\SessionEntity
+     */
+    public function getByAuthCodeCompat(AuthCodeEntity $authCode)
+    {
+        $allowedSessionIds = $this->getConnection()->table('oauth_auth_codes')
+                   ->where('id', $authCode->getId())
+                   ->pluck('session_id');
+
+        $result = $this->getConnection()->table('oauth_sessions')
+            ->whereIn('id', $allowedSessionIds)
+            ->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return (new SessionEntity($this->getServer()))
+               ->setId($result['id'])
+               ->setOwner($result['owner_type'], $result['owner_id']);
     }
 }

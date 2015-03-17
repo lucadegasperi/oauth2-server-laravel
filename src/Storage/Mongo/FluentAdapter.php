@@ -9,7 +9,7 @@
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
 
-namespace LucaDegasperi\OAuth2Server\Storage;
+namespace LucaDegasperi\OAuth2Server\Storage\Mongo;
 
 use League\OAuth2\Server\Storage\AbstractStorage;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;

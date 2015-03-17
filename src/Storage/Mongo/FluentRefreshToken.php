@@ -9,7 +9,7 @@
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
 
-namespace LucaDegasperi\OAuth2Server\Storage;
+namespace LucaDegasperi\OAuth2Server\Storage\Mongo;
 
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Entity\RefreshTokenEntity;
@@ -25,7 +25,8 @@ class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
     public function get($token)
     {
         $result = $this->getConnection()->table('oauth_refresh_tokens')
-                ->where('oauth_refresh_tokens.id', $token)
+                ->where('id', $token)
+                ->where('expire_time', '>=', time())
                 ->first();
 
         if (is_null($result)) {
@@ -33,9 +34,9 @@ class FluentRefreshToken extends FluentAdapter implements RefreshTokenInterface
         }
 
         return (new RefreshTokenEntity($this->getServer()))
-               ->setId($result->id)
-               ->setAccessTokenId($result->access_token_id)
-               ->setExpireTime((int)$result->expire_time);
+               ->setId($result['id'])
+               ->setAccessTokenId($result['access_token_id'])
+               ->setExpireTime((int)$result['expire_time']);
     }
 
     /**

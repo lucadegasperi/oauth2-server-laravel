@@ -9,7 +9,7 @@
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
 
-namespace LucaDegasperi\OAuth2Server\Storage;
+namespace LucaDegasperi\OAuth2Server\Storage\Mongo;
 
 use League\OAuth2\Server\Entity\AuthCodeEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
@@ -26,7 +26,8 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
     public function get($code)
     {
         $result = $this->getConnection()->table('oauth_auth_codes')
-            ->where('oauth_auth_codes.id', $code)
+            ->where('id', $code)
+            ->where('expire_time', '>=', time())
             ->first();
 
         if (is_null($result)) {
@@ -34,9 +35,9 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
         }
 
         return (new AuthCodeEntity($this->getServer()))
-            ->setId($result->id)
-            ->setRedirectUri($result->redirect_uri)
-            ->setExpireTime((int)$result->expire_time);
+            ->setId($result['id'])
+            ->setRedirectUri($result['redirect_uri'])
+            ->setExpireTime((int)$result['expire_time']);
     }
 
     /**
@@ -47,17 +48,20 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
     public function getScopes(AuthCodeEntity $token)
     {
         $result = $this->getConnection()->table('oauth_auth_code_scopes')
-            ->select('oauth_scopes.*')
-            ->join('oauth_scopes', 'oauth_auth_code_scopes.scope_id', '=', 'oauth_scopes.id')
-            ->where('oauth_auth_code_scopes.auth_code_id', $token->getId())
+            ->where('auth_code_id', $token->getId())
             ->get();
 
         $scopes = [];
 
-        foreach ($result as $scope) {
+        foreach ($result as $authCodeScope) {
+
+            $scope = $this->getConnection()->table('oauth_scopes')
+                ->where('id', $authCodeScope['scope_id'])
+                ->get();
+
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
-               'id' => $scope->id,
-                'description' => $scope->description
+               'id' => $scope['id'],
+                'description' => $scope['description']
             ]);
         }
 
@@ -88,7 +92,7 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
     public function delete(AuthCodeEntity $token)
     {
         $this->getConnection()->table('oauth_auth_codes')
-        ->where('oauth_auth_codes.id', $token->getId())
+        ->where('id', $token->getId())
         ->delete();
     }
 

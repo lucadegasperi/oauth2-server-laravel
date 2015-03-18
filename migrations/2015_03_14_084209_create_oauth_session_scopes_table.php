@@ -20,8 +20,8 @@ class CreateOauthSessionScopesTable extends Migration
 
             $table->timestamps();
 
-            $table->index('session_id');
-            $table->index('scope_id');
+            $table->index('session_id', 'oauth_session_scopes_idx');
+            $table->index('scope_id', 'oauth_session_scopes_idx2');
 
             $table->foreign('session_id')
                   ->references('id')->on('oauth_sessions')

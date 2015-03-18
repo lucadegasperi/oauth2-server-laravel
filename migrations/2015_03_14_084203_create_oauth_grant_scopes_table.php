@@ -19,8 +19,8 @@ class CreateOauthGrantScopesTable extends Migration
 
             $table->timestamps();
 
-            $table->index('grant_id');
-            $table->index('scope_id');
+            $table->index('grant_id', 'oauth_grant_scopes_idx');
+            $table->index('scope_id', 'oauth_grant_scopes_idx2');
 
             $table->foreign('grant_id')
                 ->references('id')->on('oauth_grants')

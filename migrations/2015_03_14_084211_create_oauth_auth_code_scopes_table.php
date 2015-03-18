@@ -20,8 +20,8 @@ class CreateOauthAuthCodeScopesTable extends Migration
 
             $table->timestamps();
 
-            $table->index('auth_code_id');
-            $table->index('scope_id');
+            $table->index('auth_code_id', 'oauth_auth_code_scopes_idx');
+            $table->index('scope_id', 'oauth_auth_code_scopes_idx2');
 
             $table->foreign('auth_code_id')
                   ->references('id')->on('oauth_auth_codes')

@@ -15,7 +15,7 @@ class CreateOauthRefreshTokensTable extends Migration
     {
         $this->schema()->create('oauth_refresh_tokens', function (Blueprint $table) {
             $table->string('id', 40)->unique();
-            $table->string('access_token_id', 40)->primary();
+            $table->string('access_token_id', 40)->primary('oauth_refresh_tokens_primary');
             $table->integer('expire_time');
 
             $table->timestamps();

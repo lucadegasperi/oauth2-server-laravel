@@ -20,8 +20,8 @@ class CreateOauthClientScopesTable extends Migration
 
             $table->timestamps();
 
-            $table->index('client_id');
-            $table->index('scope_id');
+            $table->index('client_id', 'oauth_client_scopes_idx');
+            $table->index('scope_id', 'oauth_client_scopes_idx2');
 
             $table->foreign('client_id')
                   ->references('id')->on('oauth_clients')

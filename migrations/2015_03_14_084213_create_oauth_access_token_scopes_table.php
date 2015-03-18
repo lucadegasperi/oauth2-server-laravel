@@ -20,8 +20,8 @@ class CreateOauthAccessTokenScopesTable extends Migration
 
             $table->timestamps();
 
-            $table->index('access_token_id');
-            $table->index('scope_id');
+            $table->index('access_token_id', 'oauth_access_token_scopes_idx');
+            $table->index('scope_id', 'oauth_access_token_scopes_idx2');
 
             $table->foreign('access_token_id')
                   ->references('id')->on('oauth_access_tokens')

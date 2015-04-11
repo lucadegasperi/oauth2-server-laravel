@@ -224,6 +224,15 @@ class Authorizer
     {
         return $this->checker->getAccessToken()->getSession()->getClient()->getId();
     }
+    
+    /**
+     * get the client name of the current request
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->checker->getAccessToken()->getSession()->getClient()->getName();
+    }
 
     /**
      * Set the request to use on the issuer and checker

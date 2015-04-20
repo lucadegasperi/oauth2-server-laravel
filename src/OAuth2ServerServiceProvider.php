@@ -57,26 +57,21 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom($configPath, 'oauth2');
         $this->publishes([$configPath => config_path('oauth2.php')], 'config');
         $this->publishes([
-            $mFrom . '2014_04_24_110151_create_oauth_scopes_table.php'              => $mTo . $this->ts(1) . 'create_oauth_scopes_table.php',
-            $mFrom . '2014_04_24_110304_create_oauth_grants_table.php'              => $mTo . $this->ts(2) . 'create_oauth_grants_table.php',
-            $mFrom . '2014_04_24_110403_create_oauth_grant_scopes_table.php'        => $mTo . $this->ts(3) . 'create_oauth_grant_scopes_table.php',
-            $mFrom . '2014_04_24_110459_create_oauth_clients_table.php'             => $mTo . $this->ts(4) . 'create_oauth_clients_table.php',
-            $mFrom . '2014_04_24_110557_create_oauth_client_endpoints_table.php'    => $mTo . $this->ts(5) . 'create_oauth_client_endpoints_table.php',
-            $mFrom . '2014_04_24_110705_create_oauth_client_scopes_table.php'       => $mTo . $this->ts(6) . 'create_oauth_client_scopes_table.php',
-            $mFrom . '2014_04_24_110817_create_oauth_client_grants_table.php'       => $mTo . $this->ts(7) . 'create_oauth_client_grants_table.php',
-            $mFrom . '2014_04_24_111002_create_oauth_sessions_table.php'            => $mTo . $this->ts(8) . 'create_oauth_sessions_table.php',
-            $mFrom . '2014_04_24_111109_create_oauth_session_scopes_table.php'      => $mTo . $this->ts(9) . 'create_oauth_session_scopes_table.php',
-            $mFrom . '2014_04_24_111254_create_oauth_auth_codes_table.php'          => $mTo . $this->ts(10) . 'create_oauth_auth_codes_table.php',
-            $mFrom . '2014_04_24_111403_create_oauth_auth_code_scopes_table.php'    => $mTo . $this->ts(11) . 'create_oauth_auth_code_scopes_table.php',
-            $mFrom . '2014_04_24_111518_create_oauth_access_tokens_table.php'       => $mTo . $this->ts(12) . 'create_oauth_access_tokens_table.php',
-            $mFrom . '2014_04_24_111657_create_oauth_access_token_scopes_table.php' => $mTo . $this->ts(13) . 'create_oauth_access_token_scopes_table.php',
-            $mFrom . '2014_04_24_111810_create_oauth_refresh_tokens_table.php'      => $mTo . $this->ts(14) . 'create_oauth_refresh_tokens_table.php',
+            $mFrom . '2014_04_24_110151_create_oauth_scopes_table.php'              => $mTo . '2015_01_01_000001_create_oauth_scopes_table.php',
+            $mFrom . '2014_04_24_110304_create_oauth_grants_table.php'              => $mTo . '2015_01_01_000002_create_oauth_grants_table.php',
+            $mFrom . '2014_04_24_110403_create_oauth_grant_scopes_table.php'        => $mTo . '2015_01_01_000003_create_oauth_grant_scopes_table.php',
+            $mFrom . '2014_04_24_110459_create_oauth_clients_table.php'             => $mTo . '2015_01_01_000004_create_oauth_clients_table.php',
+            $mFrom . '2014_04_24_110557_create_oauth_client_endpoints_table.php'    => $mTo . '2015_01_01_000005_create_oauth_client_endpoints_table.php',
+            $mFrom . '2014_04_24_110705_create_oauth_client_scopes_table.php'       => $mTo . '2015_01_01_000006_create_oauth_client_scopes_table.php',
+            $mFrom . '2014_04_24_110817_create_oauth_client_grants_table.php'       => $mTo . '2015_01_01_000007_create_oauth_client_grants_table.php',
+            $mFrom . '2014_04_24_111002_create_oauth_sessions_table.php'            => $mTo . '2015_01_01_000008_create_oauth_sessions_table.php',
+            $mFrom . '2014_04_24_111109_create_oauth_session_scopes_table.php'      => $mTo . '2015_01_01_000009_create_oauth_session_scopes_table.php',
+            $mFrom . '2014_04_24_111254_create_oauth_auth_codes_table.php'          => $mTo . '2015_01_01_000010_create_oauth_auth_codes_table.php',
+            $mFrom . '2014_04_24_111403_create_oauth_auth_code_scopes_table.php'    => $mTo . '2015_01_01_000011_create_oauth_auth_code_scopes_table.php',
+            $mFrom . '2014_04_24_111518_create_oauth_access_tokens_table.php'       => $mTo . '2015_01_01_000012_create_oauth_access_tokens_table.php',
+            $mFrom . '2014_04_24_111657_create_oauth_access_token_scopes_table.php' => $mTo . '2015_01_01_000013_create_oauth_access_token_scopes_table.php',
+            $mFrom . '2014_04_24_111810_create_oauth_refresh_tokens_table.php'      => $mTo . '2015_01_01_000014_create_oauth_refresh_tokens_table.php',
         ], 'migrations');
-    }
-
-    protected function ts($seconds)
-    {
-        return Carbon::now()->addSeconds($seconds)->format('Y_m_d_His').'_';
     }
 
     /**

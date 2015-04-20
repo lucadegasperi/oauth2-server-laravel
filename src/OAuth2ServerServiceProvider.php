@@ -11,7 +11,6 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
-use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
@@ -43,13 +42,14 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->registerAssets();
         $this->registerAuthorizer();
         $this->registerFilterBindings();
+        $this->registerCommands();
     }
 
     /**
      * Register the assets to be published
      * @return void
      */
-    public function registerAssets()
+    protected function registerAssets()
     {
         $configPath = __DIR__ . '/../config/oauth2.php';
         $mFrom = __DIR__ . '/../migrations/';
@@ -78,7 +78,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Register the Authorization server with the IoC container
      * @return void
      */
-    public function registerAuthorizer()
+    protected function registerAuthorizer()
     {
         $this->app->bindShared('oauth2-server.authorizer', function ($app) {
             $config = $app['config']->get('oauth2');
@@ -147,6 +147,15 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app->bindShared('LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter', function ($app) {
             return new OAuthOwnerFilter($app['oauth2-server.authorizer']);
         });
+    }
+
+    /**
+     * Register commands.
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        $this->commands(['LucaDegasperi\OAuth2Server\Console\ClientCreatorCommand']);
     }
 
     /**

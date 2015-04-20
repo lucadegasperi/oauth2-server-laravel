@@ -22,7 +22,6 @@
         "illuminate/http": "5.0.*",
         "illuminate/support": "5.0.*",
         "illuminate/config": "5.0.*",
-        "laravel/framework": "5.0.*",
         "league/oauth2-server": "4.1.*"
     },
     "require-dev": {

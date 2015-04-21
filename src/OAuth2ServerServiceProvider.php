@@ -11,7 +11,6 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
-use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
 use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;

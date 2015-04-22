@@ -74,16 +74,16 @@ class FluentSession extends FluentAdapter implements SessionInterface
                   ->join('oauth_scopes', 'oauth_session_scopes.scope_id', '=', 'oauth_scopes.id')
                   ->where('oauth_session_scopes.session_id', $session->getId())
                   ->get();
-        
+
         $scopes = [];
-        
+
         foreach ($result as $scope) {
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
                 'id' => $scope->id,
                 'description' => $scope->description,
             ]);
         }
-        
+
         return $scopes;
     }
 
@@ -143,5 +143,28 @@ class FluentSession extends FluentAdapter implements SessionInterface
         return (new SessionEntity($this->getServer()))
                ->setId($result->id)
                ->setOwner($result->owner_type, $result->owner_id);
+    }
+
+    /**
+     * Revoke all access token for a given owner type and ID.
+     * Useful for banning users and resetting passwords.
+     * @param string $ownerType The owner type for the access tokens' sessions.
+     * @param string $ownerId   The owner ID for the access tokens' sessions.
+     * @return void
+     */
+    public function revokeForOwnerTypeAndId($ownerType, $ownerId)
+    {
+        $accessTokens = $this->getConnection()->table('oauth_sessions')
+        ->select('oauth_access_tokens.id')
+        ->join('oauth_access_tokens', 'oauth_access_tokens.session_id', '=', 'oauth_sessions.id')
+        ->where('oauth_sessions.owner_type', $ownerType)
+        ->where('oauth_sessions.owner_id', $ownerId)
+        ->get();
+
+        foreach ($accessTokens as $accessToken) {
+            (new AccessTokenEntity($this->getServer()))
+                ->setId($accessToken->id)
+                ->expire();
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 [![Latest Version](http://img.shields.io/github/release/lucadegasperi/oauth2-server-laravel.svg?style=flat-square)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/lucadegasperi/oauth2-server-laravel/3.x.svg?style=flat-square)](https://travis-ci.org/lucadegasperi/oauth2-server-laravel)
+[![Build Status](https://img.shields.io/travis/lucadegasperi/oauth2-server-laravel/master.svg?style=flat-square)](https://travis-ci.org/lucadegasperi/oauth2-server-laravel)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/lucadegasperi/oauth2-server-laravel/3.x.svg?style=flat-square)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/lucadegasperi/oauth2-server-laravel/3.x.svg?style=flat-square)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel)
 [![Total Downloads](https://img.shields.io/packagist/dt/lucadegasperi/oauth2-server-laravel.svg?style=flat-square)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel)
@@ -18,7 +18,7 @@ The package assumes you have a good-enough knowledge of the principles behind th
  4.0.x    | 1.0.x        |>= 5.3
  4.1.x    | 1.0.x        |>= 5.3
  4.2.x    | 3.0.x        |>= 5.4
- 5.0.x    | 4.0.x@dev    |>= 5.4
+ 5.0.x    | 4.0.x        |>= 5.4
 
 ## Documentation
 

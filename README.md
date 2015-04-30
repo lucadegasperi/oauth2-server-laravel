@@ -30,7 +30,7 @@ Bugs and feature request are tracked on [GitHub](https://github.com/lucadegasper
 
 ## License
 
-This package is released under the MIT License.
+This package is released under [the MIT License](LICENSE).
 
 ## Credits
 

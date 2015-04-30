@@ -7,10 +7,12 @@ return [
     | Database Connection to use
     |--------------------------------------------------------------------------
     |
-    | Set the default database connection to use for the repositories,
-    | when set to default, it uses whatever connection you specified in your laravel db config.
+    | Set the default database connection to use for the repositories, when
+    | set to default, it uses whatever connection you specified in your
+    | laravel database config.
     |
     */
+
     'database' => 'default',
 
     /*
@@ -18,59 +20,14 @@ return [
     | Supported Grant Types
     |--------------------------------------------------------------------------
     |
-    | Your OAuth2 Server can issue an access token based on different grant types
-    | you can even provide your own grant type.
+    | Your OAuth2 Server can issue an access token based on different grant
+    | types you can even provide your own grant type.
+    |
     | To choose which grant type suits your scenario, see
-    | https://github.com/php-loep/oauth2-server/wiki/Which-OAuth-2.0-grant-should-I-use%3F
+    | http://oauth2.thephpleague.com/authorization-server/which-grant
     |
-    | Available grant types are:
-    |
-    | 'grant_types' => [
-    |
-    |    'authorization_code' => [
-    |        'class'            => 'League\OAuth2\Server\Grant\AuthCodeGrant',
-    |        'access_token_ttl' => 3600,
-    |
-    |        // the authorization code time to live
-    |        'auth_token_ttl'   => 3600,
-    |    ],
-    |
-    |    'password' => [
-    |        'class'            => 'League\OAuth2\Server\Grant\PasswordGrant',
-    |        'access_token_ttl' => 604800,
-    |
-    |        // the code to run in order to verify the user's identity
-    |        'callback'         => function($username, $password){
-    |            $credentials = [
-    |                'email'    => $username,
-    |                'password' => $password,
-    |            ];
-    |
-    |            if (Auth::once($credentials)) {
-    |                return Auth::user()->id;
-    |            } else {
-    |                return false;
-    |            }
-    |        }
-    |    ],
-    |
-    |    'client_credentials' => [
-    |        'class'                 => 'League\OAuth2\Server\Grant\ClientCredentialsGrant',
-    |        'access_token_ttl'      => 3600,
-    |    ],
-    |
-    |    'refresh_token' => [
-    |        'class'                 => 'League\OAuth2\Server\Grant\RefreshTokenGrant',
-    |        'access_token_ttl'      => 3600,
-    |
-    |        // the refresh token time to live
-    |        'refresh_token_ttl'     => 604800,
-    |
-    |        // whether or not to issue a new refresh token when a new access token is issued
-    |        'rotate_refresh_tokens' => false,
-    |    ],
-    |
-    | ],
+    | Please see this link to find available grant types
+    | http://git.io/vJLAv
     |
     */
 
@@ -83,12 +40,13 @@ return [
     | Output Token Type
     |--------------------------------------------------------------------------
     |
-    | This will tell the authorization server the output format for the access token
-    | and will tell the resource server how to parse the access token used.
+    | This will tell the authorization server the output format for the access
+    | token and the resource server how to parse the access token used.
     |
     | Default value is League\OAuth2\Server\TokenType\Bearer
     |
     */
+
     'token_type' => 'League\OAuth2\Server\TokenType\Bearer',
 
     /*
@@ -96,9 +54,10 @@ return [
     | State Parameter
     |--------------------------------------------------------------------------
     |
-    | Whether or not the state parameter is required in the query string
+    | Whether or not the state parameter is required in the query string.
     |
     */
+
     'state_param' => false,
 
     /*
@@ -106,9 +65,10 @@ return [
     | Scope Parameter
     |--------------------------------------------------------------------------
     |
-    | Whether or not the scope parameter is required in the query string
+    | Whether or not the scope parameter is required in the query string.
     |
     */
+
     'scope_param' => false,
 
     /*
@@ -116,9 +76,10 @@ return [
     | Scope Delimiter
     |--------------------------------------------------------------------------
     |
-    | Which character to use to split the scope parameter in the query string
+    | Which character to use to split the scope parameter in the query string.
     |
     */
+
     'scope_delimiter' => ',',
 
     /*
@@ -126,9 +87,10 @@ return [
     | Default Scope
     |--------------------------------------------------------------------------
     |
-    | The default scope to use if not present in the query string
+    | The default scope to use if not present in the query string.
     |
     */
+
     'default_scope' => null,
 
     /*
@@ -136,10 +98,11 @@ return [
     | Access Token TTL
     |--------------------------------------------------------------------------
     |
-    | For how long the issued access token is valid (in seconds)
-    | this can be also set on a per grant-type basis
+    | For how long the issued access token is valid (in seconds) this can be
+    | also set on a per grant-type basis.
     |
     */
+
     'access_token_ttl' => 3600,
 
     /*
@@ -147,10 +110,11 @@ return [
     | Limit clients to specific grants
     |--------------------------------------------------------------------------
     |
-    | Whether or not to limit clients to specific grant types
-    | This is useful to allow only trusted clients to access your API differently
+    | Whether or not to limit clients to specific grant types. This is useful
+    | to allow only trusted clients to access your API differently.
     |
     */
+
     'limit_clients_to_grants' => false,
 
     /*
@@ -158,10 +122,11 @@ return [
     | Limit clients to specific scopes
     |--------------------------------------------------------------------------
     |
-    | Whether or not to limit clients to specific scopes
-    | This is useful to only allow specific clients to use some scopes
+    | Whether or not to limit clients to specific scopes. This is useful to
+    | only allow specific clients to use some scopes.
     |
     */
+
     'limit_clients_to_scopes' => false,
 
     /*
@@ -169,10 +134,11 @@ return [
     | Limit scopes to specific grants
     |--------------------------------------------------------------------------
     |
-    | Whether or not to limit scopes to specific grants
-    | This is useful to allow certain scopes to be used only with certain grant types
+    | Whether or not to limit scopes to specific grants. This is useful to
+    | allow certain scopes to be used only with certain grant types.
     |
     */
+
     'limit_scopes_to_grants' => false,
 
     /*
@@ -181,8 +147,10 @@ return [
     |--------------------------------------------------------------------------
     |
     | This will tell the resource server where to check for the access_token.
-    | By default it checks both the query string and the http headers
+    | By default it checks both the query string and the http headers.
     |
     */
+
     'http_headers_only' => false,
+
 ];

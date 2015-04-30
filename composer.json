@@ -1,6 +1,6 @@
 {
     "name": "lucadegasperi/oauth2-server-laravel",
-    "description": "A Laravel 4 wrapper for the popular OAuth 2.0 Server package league/oauth2-server",
+    "description": "Laravel wrapper for the OAuth 2.0 Server package league/oauth2-server.",
     "keywords": [
         "laravel",
         "oauth2",

@@ -16,12 +16,12 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/database": "^5.0.0",
-        "illuminate/console": "^5.0.0",
-        "illuminate/contracts": "^5.0.0",
-        "illuminate/http": "^5.0.0",
-        "illuminate/support": "^5.0.0",
-        "illuminate/config": "^5.0.0",
+        "illuminate/database": "5.0.*|5.1.*",
+        "illuminate/console": "5.0.*|5.1.*",
+        "illuminate/contracts": "5.0.*|5.1.*",
+        "illuminate/http": "5.0.*|5.1.*",
+        "illuminate/support": "5.0.*|5.1.*",
+        "illuminate/config": "5.0.*|5.1.*",
         "league/oauth2-server": "4.1.*"
     },
     "require-dev": {

@@ -19,8 +19,8 @@ class CreateOauthClientGrantsTable extends Migration
             $table->string('grant_id', 40);
             $table->timestamps();
 
-            $table->index('client_id');
-            $table->index('grant_id');
+            $table->index('client_id', 'oauth_client_grants_idx');
+            $table->index('grant_id', 'oauth_client_grants_idx2');
 
             $table->foreign('client_id')
                   ->references('id')->on('oauth_clients')

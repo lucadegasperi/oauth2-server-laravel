@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use LucaDegasperi\OAuth2Server\Support\Migration;
 
-class CreateOauthGrantsTable extends Migration
+class CreateOauthScopesTable extends Migration
 {
 
     /**
@@ -13,8 +13,10 @@ class CreateOauthGrantsTable extends Migration
      */
     public function up()
     {
-        $this->schema()->create('oauth_grants', function (Blueprint $table) {
-            $table->string('id', 40)->primary();
+        $this->schema()->create('oauth_scopes', function (Blueprint $table) {
+            $table->string('id', 40)->primary('oauth_scopes_primary');
+            $table->string('description');
+
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateOauthGrantsTable extends Migration
      */
     public function down()
     {
-        $this->schema()->drop('oauth_grants');
+        $this->schema()->drop('oauth_scopes');
     }
 }

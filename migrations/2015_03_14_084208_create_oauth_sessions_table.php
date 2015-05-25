@@ -21,7 +21,7 @@ class CreateOauthSessionsTable extends Migration
             $table->string('client_redirect_uri')->nullable();
             $table->timestamps();
 
-            $table->index(['client_id', 'owner_type', 'owner_id']);
+            $table->index(['client_id', 'owner_type', 'owner_id'], 'oauth_sessions_idx');
 
             $table->foreign('client_id')
                 ->references('id')->on('oauth_clients')

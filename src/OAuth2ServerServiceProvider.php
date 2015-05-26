@@ -85,7 +85,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 if (array_key_exists('refresh_token_ttl', $grantParams)) {
                     $grant->setRefreshTokenTTL($grantParams['refresh_token_ttl']);
                 }
-                $issuer->addGrantType($grant);
+                $issuer->addGrantType($grant, $grantIdentifier);
             }
 
             $checker = $app->make('League\OAuth2\Server\ResourceServer');

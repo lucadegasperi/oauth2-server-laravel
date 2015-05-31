@@ -92,7 +92,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
                    ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
         }
 
-        if ($this->limitClientsToGrants === true and ! is_null($grantType)) {
+        if ($this->limitClientsToGrants === true && ! is_null($grantType)) {
             $query = $query->join('oauth_client_grants', 'oauth_clients.id', '=', 'oauth_client_grants.client_id')
                    ->join('oauth_grants', 'oauth_grants.id', '=', 'oauth_client_grants.grant_id')
                    ->where('oauth_grants.id', $grantType);

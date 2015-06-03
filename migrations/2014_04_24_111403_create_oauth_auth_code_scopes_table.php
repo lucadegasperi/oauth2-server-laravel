@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use LucaDegasperi\OAuth2Server\Support\Migration;
+use LucaDegasperi\OAuth2Server\Support\AbstractMigration;
 
-class CreateOauthAuthCodeScopesTable extends Migration
+class CreateOauthAuthCodeScopesTable extends AbstractMigration
 {
 
     /**

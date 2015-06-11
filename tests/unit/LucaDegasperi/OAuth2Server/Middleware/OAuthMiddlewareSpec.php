@@ -3,12 +3,23 @@
 namespace unit\LucaDegasperi\OAuth2Server\Middleware;
 
 use Illuminate\Http\Request;
+use League\OAuth2\Server\Exception\AccessDeniedException;
+use League\OAuth2\Server\Exception\InvalidScopeException;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class OAuthMiddlewareSpec extends ObjectBehavior
 {
+    private $next = null;
+
+    public function __construct()
+    {
+        $this->next = (function () {
+            throw new MiddlewareException('Called execution of $next');
+        });
+    }
+
     function let(Authorizer $authorizer)
     {
         $this->beConstructedWith($authorizer, false);
@@ -19,49 +30,43 @@ class OAuthMiddlewareSpec extends ObjectBehavior
         $this->shouldHaveType('LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware');
     }
 
-    function it_filters_against_invalid_access_tokens(Request $request, Authorizer $authorizer)
+    function it_blocks_invalid_access_tokens(Request $request, Authorizer $authorizer)
     {
-        $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
+        $authorizer->validateAccessToken(false)->willThrow(new AccessDeniedException())->shouldBeCalled();
 
-        $next = (function () {
-            throw new MiddlewareException('Called execution of $next');
-        });
+        $this->shouldNotThrow(new MiddlewareException('Called execution of $next'))
+                ->during('handle', [$request, $this->next, []]);
+    }
+
+    function it_passes_with_valid_access_token(Request $request, Authorizer $authorizer)
+    {
+        $authorizer->validateAccessToken(false)->shouldBeCalled();
 
         $this->shouldThrow(new MiddlewareException('Called execution of $next'))
-                ->during('handle', [$request, $next]);
-
-        //$this->filter('foo', 'bar')->shouldReturn(null);
+                ->during('handle', [$request, $this->next, []]);
     }
 
-    /*function it_filters_against_invalid_scopes(Authorizer $authorizer)
+    function it_block_invalid_scopes(Request $request, Authorizer $authorizer)
     {
-        $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
+        $authorizer->validateAccessToken(false)->shouldBeCalled();
         $authorizer->hasScope(['baz'])->willReturn(false)->shouldBeCalled();
 
-        $this->shouldThrow('\League\OAuth2\Server\Exception\InvalidScopeException')
-            ->duringFilter('foo', 'bar', 'baz');
+        $this->shouldThrow(new InvalidScopeException('baz'))
+                ->during('handle', [$request, $this->next, ['baz']]);
+
+        $this->shouldNotThrow(new MiddlewareException('Called execution of $next'))
+                ->during('handle', [$request, $this->next, ['baz']]);
     }
 
-    function it_passes_with_valud_scopes(Authorizer $authorizer)
+    function it_passes_with_valid_scopes(Request $request, Authorizer $authorizer)
     {
-        $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
+        $authorizer->validateAccessToken(false)->shouldBeCalled();
         $authorizer->hasScope(['baz'])->willReturn(true)->shouldBeCalled();
 
-        $this->filter('foo', 'bar', 'baz')->shouldReturn(null);
+        $this->shouldNotThrow(new InvalidScopeException('baz'))
+                ->during('handle', [$request, $this->next, ['baz']]);
+
+        $this->shouldThrow(new MiddlewareException('Called execution of $next'))
+                ->during('handle', [$request, $this->next, ['baz']]);
     }
-
-    function it_can_be_set_to_use_http_headers_only_to_check_the_access_token()
-    {
-        $this->setHttpHeadersOnly(true);
-        $this->isHttpHeadersOnly()->shouldReturn(true);
-
-        $this->setHttpHeadersOnly(false);
-        $this->isHttpHeadersOnly()->shouldReturn(false);
-    }
-
-    public function it_is_possible_to_set_the_scopes_to_check()
-    {
-        $this->setScopes(['foo', 'bar']);
-        $this->getScopes()->shouldReturn(['foo', 'bar']);
-    }*/
 }

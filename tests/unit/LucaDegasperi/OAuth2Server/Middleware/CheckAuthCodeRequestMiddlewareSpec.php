@@ -10,6 +10,15 @@ use Prophecy\Argument;
 
 class CheckAuthCodeRequestMiddlewareSpec extends ObjectBehavior
 {
+    private $next = null;
+
+    public function __construct()
+    {
+        $this->next = (function () {
+            throw new MiddlewareException('Called execution of $next');
+        });
+    }
+
     function let(Authorizer $authorizer)
     {
         $this->beConstructedWith($authorizer);
@@ -24,23 +33,20 @@ class CheckAuthCodeRequestMiddlewareSpec extends ObjectBehavior
     {
         $authorizer->checkAuthCodeRequest()->shouldBeCalled();
 
-        $next = (function () {
-            throw new MiddlewareException('Called execution of $next');
-        });
-
         $this->shouldThrow(new MiddlewareException('Called execution of $next'))
-            ->during('handle', [$request, $next]);
+            ->during('handle', [$request, $this->next]);
     }
 
     function it_exits_on_error(Request $request, Authorizer $authorizer)
     {
         $authorizer->checkAuthCodeRequest()->willThrow(new InvalidRequestException('client_id'))->shouldBeCalled();
 
-        $next = (function () {
-            throw new MiddlewareException('Called execution of $next');
-        });
-
         $this->shouldNotThrow(new MiddlewareException('Called execution of $next'))
-                ->during('handle', [$request, $next]);
+                ->during('handle', [$request, $this->next]);
     }
+}
+
+class MiddlewareException extends \Exception
+{
+
 }

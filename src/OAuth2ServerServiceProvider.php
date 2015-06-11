@@ -12,9 +12,9 @@
 namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Support\ServiceProvider;
-use LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter;
-use LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
-use LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
+use LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware;
+use LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware;
+use LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -30,7 +30,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->bootFilters();
+
     }
 
     /**
@@ -41,7 +41,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $this->registerAssets();
         $this->registerAuthorizer();
-        $this->registerFilterBindings();
+        $this->registerMiddlewareBindings();
     }
 
     /**
@@ -129,22 +129,22 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Filters to the IoC container because some filters need additional parameters
+     * Register the Middleware to the IoC container because some middleware need additional parameters
      * @return void
      */
-    public function registerFilterBindings()
+    public function registerMiddlewareBindings()
     {
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter', function ($app) {
-            return new CheckAuthCodeRequestFilter($app['oauth2-server.authorizer']);
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware', function ($app) {
+            return new CheckAuthCodeRequestMiddleware($app['oauth2-server.authorizer']);
         });
 
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Filters\OAuthFilter', function ($app) {
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware', function ($app) {
             $httpHeadersOnly = $app['config']->get('oauth2.http_headers_only');
-            return new OAuthFilter($app['oauth2-server.authorizer'], $httpHeadersOnly);
+            return new OAuthMiddleware($app['oauth2-server.authorizer'], $httpHeadersOnly);
         });
 
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter', function ($app) {
-            return new OAuthOwnerFilter($app['oauth2-server.authorizer']);
+        $this->app->bindShared('LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware', function ($app) {
+            return new OAuthOwnerMiddleware($app['oauth2-server.authorizer']);
         });
     }
 
@@ -156,16 +156,5 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['oauth2-server.authorizer'];
-    }
-
-    /**
-     * Boot the filters
-     * @return void
-     */
-    private function bootFilters()
-    {
-        $this->app['router']->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthCodeRequestFilter');
-        $this->app['router']->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
-        $this->app['router']->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
     }
 }

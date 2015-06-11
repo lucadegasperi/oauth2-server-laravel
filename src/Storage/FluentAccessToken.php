@@ -16,7 +16,7 @@ use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use Carbon\Carbon;
 
-class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
+class FluentAccessToken extends AbstractFluentAdapter implements AccessTokenInterface
 {
     /**
      * Get an instance of Entities\AccessToken
@@ -68,16 +68,16 @@ class FluentAccessToken extends FluentAdapter implements AccessTokenInterface
                 ->join('oauth_scopes', 'oauth_access_token_scopes.scope_id', '=', 'oauth_scopes.id')
                 ->where('oauth_access_token_scopes.access_token_id', $token->getId())
                 ->get();
-        
+
         $scopes = [];
-        
+
         foreach ($result as $scope) {
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
                'id' => $scope->id,
                 'description' => $scope->description
             ]);
         }
-        
+
         return $scopes;
     }
 

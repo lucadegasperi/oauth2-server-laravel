@@ -36,7 +36,7 @@
             "LucaDegasperi\\OAuth2Server\\": "src"
         },
         "classmap": [
-            "seeds",
+            "database",
             "tests/TestCase.php",
             "tests/integration/DBTestCase.php"
         ]

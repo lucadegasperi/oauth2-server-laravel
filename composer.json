@@ -1,13 +1,7 @@
 {
     "name": "lucadegasperi/oauth2-server-laravel",
     "description": "Laravel wrapper for the OAuth 2.0 Server package league/oauth2-server.",
-    "keywords": [
-        "laravel",
-        "oauth2",
-        "oauth",
-        "server",
-        "api"
-    ],
+    "keywords": ["laravel", "oauth2", "oauth", "server", "api"],
     "authors": [
         {
             "name": "Luca Degasperi",
@@ -25,7 +19,7 @@
         "league/oauth2-server": "4.1.*"
     },
     "require-dev": {
-        "orchestra/testbench": "3.1.*@dev",
+        "orchestra/testbench": "3.1.*",
         "phpunit/phpunit": "~4.0",
         "phpspec/phpspec": "~2.0",
         "mockery/mockery": "~0.9",
@@ -48,5 +42,6 @@
         }
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "license": "MIT"
 }

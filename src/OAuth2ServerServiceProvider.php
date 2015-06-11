@@ -50,7 +50,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerAssets()
     {
-        $migrationsPrefix = date('Y_m_d');
+        $migrationsPrefix = date('Y_m_d_His');
         $configPath       = __DIR__ . '/../config/oauth2.php';
         $mFrom            = __DIR__ . '/../migrations/';
         $mTo              = $this->app['path.database'] . '/migrations/';
@@ -58,22 +58,28 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom($configPath, 'oauth2');
         $this->publishes([$configPath => config_path('oauth2.php')], 'config');
-        $this->publishes([
-            $mFrom . '_000001_create_oauth_scopes_table.php'              => $mDest . '_000001_create_oauth_scopes_table.php',
-            $mFrom . '_000002_create_oauth_grants_table.php'              => $mDest . '_000002_create_oauth_grants_table.php',
-            $mFrom . '_000003_create_oauth_grant_scopes_table.php'        => $mDest . '_000003_create_oauth_grant_scopes_table.php',
-            $mFrom . '_000004_create_oauth_clients_table.php'             => $mDest . '_000004_create_oauth_clients_table.php',
-            $mFrom . '_000005_create_oauth_client_endpoints_table.php'    => $mDest . '_000005_create_oauth_client_endpoints_table.php',
-            $mFrom . '_000006_create_oauth_client_scopes_table.php'       => $mDest . '_000006_create_oauth_client_scopes_table.php',
-            $mFrom . '_000007_create_oauth_client_grants_table.php'       => $mDest . '_000007_create_oauth_client_grants_table.php',
-            $mFrom . '_000008_create_oauth_sessions_table.php'            => $mDest . '_000008_create_oauth_sessions_table.php',
-            $mFrom . '_000009_create_oauth_session_scopes_table.php'      => $mDest . '_000009_create_oauth_session_scopes_table.php',
-            $mFrom . '_000010_create_oauth_auth_codes_table.php'          => $mDest . '_000010_create_oauth_auth_codes_table.php',
-            $mFrom . '_000011_create_oauth_auth_code_scopes_table.php'    => $mDest . '_000011_create_oauth_auth_code_scopes_table.php',
-            $mFrom . '_000012_create_oauth_access_tokens_table.php'       => $mDest . '_000012_create_oauth_access_tokens_table.php',
-            $mFrom . '_000013_create_oauth_access_token_scopes_table.php' => $mDest . '_000013_create_oauth_access_token_scopes_table.php',
-            $mFrom . '_000014_create_oauth_refresh_tokens_table.php'      => $mDest . '_000014_create_oauth_refresh_tokens_table.php',
-        ], 'migrations');
+
+        // as the migration names are dynamic, we copy them only the first time.
+        // if the oauth2.php file exists in the config folder means that assets were already published
+        if (!file_exists(config_path('oauth2.php'))) {
+            $this->publishes([
+                $mFrom . '_a_create_oauth_scopes_table.php'              => $mDest . '_a_create_oauth_scopes_table.php',
+                $mFrom . '_b_create_oauth_grants_table.php'              => $mDest . '_b_create_oauth_grants_table.php',
+                $mFrom . '_c_create_oauth_grant_scopes_table.php'        => $mDest . '_c_create_oauth_grant_scopes_table.php',
+                $mFrom . '_d_create_oauth_clients_table.php'             => $mDest . '_d_create_oauth_clients_table.php',
+                $mFrom . '_e_create_oauth_client_endpoints_table.php'    => $mDest . '_e_create_oauth_client_endpoints_table.php',
+                $mFrom . '_f_create_oauth_client_scopes_table.php'       => $mDest . '_f_create_oauth_client_scopes_table.php',
+                $mFrom . '_g_create_oauth_client_grants_table.php'       => $mDest . '_g_create_oauth_client_grants_table.php',
+                $mFrom . '_h_create_oauth_sessions_table.php'            => $mDest . '_h_create_oauth_sessions_table.php',
+                $mFrom . '_i_create_oauth_session_scopes_table.php'      => $mDest . '_i_create_oauth_session_scopes_table.php',
+                $mFrom . '_j_create_oauth_auth_codes_table.php'          => $mDest . '_j_create_oauth_auth_codes_table.php',
+                $mFrom . '_k_create_oauth_auth_code_scopes_table.php'    => $mDest . '_k_create_oauth_auth_code_scopes_table.php',
+                $mFrom . '_l_create_oauth_access_tokens_table.php'       => $mDest . '_l_create_oauth_access_tokens_table.php',
+                $mFrom . '_m_create_oauth_access_token_scopes_table.php' => $mDest . '_m_create_oauth_access_token_scopes_table.php',
+                $mFrom . '_n_create_oauth_refresh_tokens_table.php'      => $mDest . '_n_create_oauth_refresh_tokens_table.php',
+            ], 'migrations');
+        }
+
     }
 
     /**

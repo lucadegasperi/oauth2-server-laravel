@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use LucaDegasperi\OAuth2Server\Support\AbstractMigration;
 
-class CreateOauthScopesTable extends AbstractMigration
+class ACreateOauthScopesTable extends AbstractMigration
 {
 
     /**

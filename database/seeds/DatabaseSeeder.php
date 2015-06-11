@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         if (App::environment() === 'production') {
             exit('I just stopped you getting fired. Love Luca');
         }
-        
+
         Eloquent::unguard();
 
         $this->call('ClientsTableSeeder');

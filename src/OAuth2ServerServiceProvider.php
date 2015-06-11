@@ -19,18 +19,38 @@ use LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware;
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     * @var bool
-     */
-    protected $defer = false;
-
-    /**
-     * Bootstrap the application events.
+     * Boot the service provider.
+     *
      * @return void
      */
     public function boot()
     {
+        $this->setupConfig();
+        $this->setupMigrations();
+    }
+    /**
+     * Setup the config.
+     *
+     * @return void
+     */
+    protected function setupConfig()
+    {
+        $source = realpath(__DIR__.'/../config/oauth2.php');
 
+        $this->publishes([$source => config_path('oauth2.php')]);
+
+        $this->mergeConfigFrom($source, 'oauth2');
+    }
+    /**
+     * Setup the migrations.
+     *
+     * @return void
+     */
+    protected function setupMigrations()
+    {
+        $source = realpath(__DIR__.'/../database/migrations/');
+
+        $this->publishes([$source => base_path('/database/migrations')], 'migrations');
     }
 
     /**
@@ -39,38 +59,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerAssets();
         $this->registerAuthorizer();
         $this->registerMiddlewareBindings();
-    }
-
-    /**
-     * Register the assets to be published
-     * @return void
-     */
-    public function registerAssets()
-    {
-        $configPath = __DIR__ . '/../config/oauth2.php';
-        $mFrom = __DIR__ . '/../migrations/';
-        $mTo = $this->app['path.database'] . '/migrations/';
-        $this->mergeConfigFrom($configPath, 'oauth2');
-        $this->publishes([$configPath => config_path('oauth2.php')], 'config');
-        $this->publishes([
-            $mFrom . '2014_04_24_110151_create_oauth_scopes_table.php'              => $mTo . '2015_01_01_000001_create_oauth_scopes_table.php',
-            $mFrom . '2014_04_24_110304_create_oauth_grants_table.php'              => $mTo . '2015_01_01_000002_create_oauth_grants_table.php',
-            $mFrom . '2014_04_24_110403_create_oauth_grant_scopes_table.php'        => $mTo . '2015_01_01_000003_create_oauth_grant_scopes_table.php',
-            $mFrom . '2014_04_24_110459_create_oauth_clients_table.php'             => $mTo . '2015_01_01_000004_create_oauth_clients_table.php',
-            $mFrom . '2014_04_24_110557_create_oauth_client_endpoints_table.php'    => $mTo . '2015_01_01_000005_create_oauth_client_endpoints_table.php',
-            $mFrom . '2014_04_24_110705_create_oauth_client_scopes_table.php'       => $mTo . '2015_01_01_000006_create_oauth_client_scopes_table.php',
-            $mFrom . '2014_04_24_110817_create_oauth_client_grants_table.php'       => $mTo . '2015_01_01_000007_create_oauth_client_grants_table.php',
-            $mFrom . '2014_04_24_111002_create_oauth_sessions_table.php'            => $mTo . '2015_01_01_000008_create_oauth_sessions_table.php',
-            $mFrom . '2014_04_24_111109_create_oauth_session_scopes_table.php'      => $mTo . '2015_01_01_000009_create_oauth_session_scopes_table.php',
-            $mFrom . '2014_04_24_111254_create_oauth_auth_codes_table.php'          => $mTo . '2015_01_01_000010_create_oauth_auth_codes_table.php',
-            $mFrom . '2014_04_24_111403_create_oauth_auth_code_scopes_table.php'    => $mTo . '2015_01_01_000011_create_oauth_auth_code_scopes_table.php',
-            $mFrom . '2014_04_24_111518_create_oauth_access_tokens_table.php'       => $mTo . '2015_01_01_000012_create_oauth_access_tokens_table.php',
-            $mFrom . '2014_04_24_111657_create_oauth_access_token_scopes_table.php' => $mTo . '2015_01_01_000013_create_oauth_access_token_scopes_table.php',
-            $mFrom . '2014_04_24_111810_create_oauth_refresh_tokens_table.php'      => $mTo . '2015_01_01_000014_create_oauth_refresh_tokens_table.php',
-        ], 'migrations');
     }
 
     /**

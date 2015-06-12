@@ -15,7 +15,7 @@ use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Entity\ScopeEntity;
 
-class FluentScope extends FluentAdapter implements ScopeInterface
+class FluentScope extends AbstractFluentAdapter implements ScopeInterface
 {
     protected $limitClientsToScopes = false;
 

@@ -12,6 +12,14 @@
 namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Support\ServiceProvider;
+use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\ResourceServer;
+use League\OAuth2\Server\Storage\AccessTokenInterface;
+use League\OAuth2\Server\Storage\AuthCodeInterface;
+use League\OAuth2\Server\Storage\ClientInterface;
+use League\OAuth2\Server\Storage\RefreshTokenInterface;
+use League\OAuth2\Server\Storage\ScopeInterface;
+use League\OAuth2\Server\Storage\SessionInterface;
 use LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware;
 use LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware;
 use LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware;
@@ -71,13 +79,13 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $this->app->bindShared('oauth2-server.authorizer', function ($app) {
             $config = $app['config']->get('oauth2');
-            $issuer = $app->make('League\OAuth2\Server\AuthorizationServer')
-                          ->setClientStorage($app->make('League\OAuth2\Server\Storage\ClientInterface'))
-                          ->setSessionStorage($app->make('League\OAuth2\Server\Storage\SessionInterface'))
-                          ->setAuthCodeStorage($app->make('League\OAuth2\Server\Storage\AuthCodeInterface'))
-                          ->setAccessTokenStorage($app->make('League\OAuth2\Server\Storage\AccessTokenInterface'))
-                          ->setRefreshTokenStorage($app->make('League\OAuth2\Server\Storage\RefreshTokenInterface'))
-                          ->setScopeStorage($app->make('League\OAuth2\Server\Storage\ScopeInterface'))
+            $issuer = $app->make(AuthorizationServer::class)
+                          ->setClientStorage($app->make(ClientInterface::class))
+                          ->setSessionStorage($app->make(SessionInterface::class))
+                          ->setAuthCodeStorage($app->make(AuthCodeInterface::class))
+                          ->setAccessTokenStorage($app->make(AccessTokenInterface::class))
+                          ->setRefreshTokenStorage($app->make(RefreshTokenInterface::class))
+                          ->setScopeStorage($app->make(ScopeInterface::class))
                           ->requireScopeParam($config['scope_param'])
                           ->setDefaultScope($config['default_scope'])
                           ->requireStateParam($config['state_param'])
@@ -90,7 +98,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 $grant->setAccessTokenTTL($grantParams['access_token_ttl']);
 
                 if (array_key_exists('callback', $grantParams)) {
-                    $grant->setVerifyCredentialsCallback($grantParams['callback']);
+                    list($className, $method) = array_pad(explode('@', $grantParams['callback']), 2, 'verify');
+                    $verifier = $app->make($className);
+                    $grant->setVerifyCredentialsCallback([$verifier, $method]);
                 }
                 if (array_key_exists('auth_token_ttl', $grantParams)) {
                     $grant->setAuthTokenTTL($grantParams['auth_token_ttl']);
@@ -101,7 +111,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 $issuer->addGrantType($grant);
             }
 
-            $checker = $app->make('League\OAuth2\Server\ResourceServer');
+            $checker = $app->make(ResourceServer::class);
 
             $authorizer = new Authorizer($issuer, $checker);
             $authorizer->setRequest($app['request']);
@@ -112,7 +122,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             return $authorizer;
         });
 
-        $this->app->bind('LucaDegasperi\OAuth2Server\Authorizer', function($app)
+        $this->app->bind(Authorizer::class, function($app)
         {
             return $app['oauth2-server.authorizer'];
         });
@@ -124,16 +134,16 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function registerMiddlewareBindings()
     {
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware', function ($app) {
+        $this->app->bindShared(CheckAuthCodeRequestMiddleware::class, function ($app) {
             return new CheckAuthCodeRequestMiddleware($app['oauth2-server.authorizer']);
         });
 
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware', function ($app) {
+        $this->app->bindShared(OAuthMiddleware::class, function ($app) {
             $httpHeadersOnly = $app['config']->get('oauth2.http_headers_only');
             return new OAuthMiddleware($app['oauth2-server.authorizer'], $httpHeadersOnly);
         });
 
-        $this->app->bindShared('LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware', function ($app) {
+        $this->app->bindShared(OAuthOwnerMiddleware::class, function ($app) {
             return new OAuthOwnerMiddleware($app['oauth2-server.authorizer']);
         });
     }

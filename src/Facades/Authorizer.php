@@ -13,7 +13,7 @@ namespace LucaDegasperi\OAuth2Server\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class AuthorizerFacade extends Facade
+class Authorizer extends Facade
 {
     /**
      * Get the registered name of the component

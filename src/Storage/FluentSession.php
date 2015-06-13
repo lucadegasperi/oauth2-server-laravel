@@ -17,7 +17,7 @@ use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use Carbon\Carbon;
 
-class FluentSession extends FluentAdapter implements SessionInterface
+class FluentSession extends AbstractFluentAdapter implements SessionInterface
 {
     /**
      * Get a session from it's identifier
@@ -74,16 +74,16 @@ class FluentSession extends FluentAdapter implements SessionInterface
                   ->join('oauth_scopes', 'oauth_session_scopes.scope_id', '=', 'oauth_scopes.id')
                   ->where('oauth_session_scopes.session_id', $session->getId())
                   ->get();
-        
+
         $scopes = [];
-        
+
         foreach ($result as $scope) {
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
                 'id' => $scope->id,
                 'description' => $scope->description,
             ]);
         }
-        
+
         return $scopes;
     }
 

@@ -17,7 +17,7 @@ use League\OAuth2\Server\Storage\ClientInterface;
 use League\OAuth2\Server\Entity\ClientEntity;
 use Carbon\Carbon;
 
-class FluentClient extends FluentAdapter implements ClientInterface
+class FluentClient extends AbstractFluentAdapter implements ClientInterface
 {
     /**
      * @var bool
@@ -60,7 +60,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
         $query = null;
-        
+
         if (! is_null($redirectUri) && is_null($clientSecret)) {
             $query = $this->getConnection()->table('oauth_clients')
                    ->select(

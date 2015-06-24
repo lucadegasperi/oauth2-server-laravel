@@ -34,6 +34,10 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
             return null;
         }
 
+        if (is_array($result)){
+            $result = (object) $result;
+        }
+
         return (new AuthCodeEntity($this->getServer()))
             ->setId($result->id)
             ->setRedirectUri($result->redirect_uri)
@@ -56,6 +60,9 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
         $scopes = [];
 
         foreach ($result as $scope) {
+            if (is_array($scope)){
+                $scope = (object) $scope;
+            }
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
                'id' => $scope->id,
                 'description' => $scope->description

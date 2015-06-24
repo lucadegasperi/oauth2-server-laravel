@@ -86,6 +86,10 @@ class FluentScope extends FluentAdapter implements ScopeInterface
             return null;
         }
 
+        if (is_array($result)){
+            $result = (object) $result;
+        }
+
         $scope = new ScopeEntity($this->getServer());
         $scope->hydrate([
             'id' => $result->id,

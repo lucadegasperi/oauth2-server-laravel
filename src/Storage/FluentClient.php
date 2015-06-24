@@ -104,6 +104,10 @@ class FluentClient extends FluentAdapter implements ClientInterface
             return null;
         }
 
+        if (is_array($result)){
+            $result = (object) $result;
+        }
+
         return $this->hydrateEntity($result);
     }
 
@@ -125,6 +129,10 @@ class FluentClient extends FluentAdapter implements ClientInterface
 
         if (is_null($result)) {
             return null;
+        }
+
+        if (is_array($result)){
+            $result = (object) $result;
         }
 
         return $this->hydrateEntity($result);

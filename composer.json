@@ -1,5 +1,5 @@
 {
-    "name": "BunceeLLC/oauth2-server-laravel",
+    "name": "lucadegasperi/oauth2-server-laravel",
     "description": "Laravel wrapper for the OAuth 2.0 Server package league/oauth2-server.",
     "keywords": [
         "laravel",

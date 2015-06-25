@@ -22,8 +22,13 @@ class OAuthOwnerMiddleware
         $this->authorizer = $authorizer;
     }
 
-    public function handle($request, Closure $next, $ownerTypes = [])
+    public function handle($request, Closure $next, $ownerTypesString = '')
     {
+        $ownerTypes = [];
+        if (!is_null($ownerTypesString)) {
+            $ownerTypes = explode('+', $ownerTypesString);
+        }
+
         if (!in_array($this->authorizer->getResourceOwnerType(), $ownerTypes)) {
             throw new AccessDeniedException();
         }

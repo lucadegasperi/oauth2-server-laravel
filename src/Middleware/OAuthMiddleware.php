@@ -30,8 +30,13 @@ class OAuthMiddleware
         $this->httpHeadersOnly = $httpHeadersOnly;
     }
 
-    public function handle($request, Closure $next, $scopes = [])
+    public function handle($request, Closure $next, $scopesString = null)
     {
+        $scopes = [];
+        if(!is_null($scopesString)) {
+            $scopes = explode('+', $scopesString);
+        }
+
         $this->authorizer->validateAccessToken($this->httpHeadersOnly);
         $this->validateScopes($scopes);
 

@@ -35,7 +35,7 @@ class OAuthMiddlewareSpec extends ObjectBehavior
         $authorizer->validateAccessToken(false)->willThrow(new AccessDeniedException())->shouldBeCalled();
 
         $this->shouldNotThrow(new MiddlewareException('Called execution of $next'))
-                ->during('handle', [$request, $this->next, []]);
+                ->during('handle', [$request, $this->next]);
     }
 
     function it_passes_with_valid_access_token(Request $request, Authorizer $authorizer)
@@ -43,7 +43,7 @@ class OAuthMiddlewareSpec extends ObjectBehavior
         $authorizer->validateAccessToken(false)->shouldBeCalled();
 
         $this->shouldThrow(new MiddlewareException('Called execution of $next'))
-                ->during('handle', [$request, $this->next, []]);
+                ->during('handle', [$request, $this->next]);
     }
 
     function it_block_invalid_scopes(Request $request, Authorizer $authorizer)
@@ -52,10 +52,10 @@ class OAuthMiddlewareSpec extends ObjectBehavior
         $authorizer->hasScope(['baz'])->willReturn(false)->shouldBeCalled();
 
         $this->shouldThrow(new InvalidScopeException('baz'))
-                ->during('handle', [$request, $this->next, ['baz']]);
+                ->during('handle', [$request, $this->next, 'baz']);
 
         $this->shouldNotThrow(new MiddlewareException('Called execution of $next'))
-                ->during('handle', [$request, $this->next, ['baz']]);
+                ->during('handle', [$request, $this->next, 'baz']);
     }
 
     function it_passes_with_valid_scopes(Request $request, Authorizer $authorizer)
@@ -64,9 +64,9 @@ class OAuthMiddlewareSpec extends ObjectBehavior
         $authorizer->hasScope(['baz'])->willReturn(true)->shouldBeCalled();
 
         $this->shouldNotThrow(new InvalidScopeException('baz'))
-                ->during('handle', [$request, $this->next, ['baz']]);
+                ->during('handle', [$request, $this->next, 'baz']);
 
         $this->shouldThrow(new MiddlewareException('Called execution of $next'))
-                ->during('handle', [$request, $this->next, ['baz']]);
+                ->during('handle', [$request, $this->next, 'baz']);
     }
 }

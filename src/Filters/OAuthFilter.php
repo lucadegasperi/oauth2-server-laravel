@@ -102,7 +102,7 @@ class OAuthFilter
      */
     public function validateScopes()
     {
-        if (!empty($this->scopes) and !$this->authorizer->hasScope($this->scopes)) {
+        if (!empty($this->scopes) && !$this->authorizer->hasScope($this->scopes)) {
             throw new InvalidScopeException(implode(',', $this->scopes));
         }
     }

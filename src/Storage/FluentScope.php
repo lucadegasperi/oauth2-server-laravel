@@ -69,12 +69,12 @@ class FluentScope extends FluentAdapter implements ScopeInterface
                     ->select('oauth_scopes.id as id', 'oauth_scopes.description as description')
                     ->where('oauth_scopes.id', $scope);
 
-        if ($this->limitClientsToScopes === true and ! is_null($clientId)) {
+        if ($this->limitClientsToScopes === true && ! is_null($clientId)) {
             $query = $query->join('oauth_client_scopes', 'oauth_scopes.id', '=', 'oauth_client_scopes.scope_id')
                            ->where('oauth_client_scopes.client_id', $clientId);
         }
 
-        if ($this->limitScopesToGrants === true and ! is_null($grantType)) {
+        if ($this->limitScopesToGrants === true && ! is_null($grantType)) {
             $query = $query->join('oauth_grant_scopes', 'oauth_scopes.id', '=', 'oauth_grant_scopes.scope_id')
                            ->join('oauth_grants', 'oauth_grants.id', '=', 'oauth_grant_scopes.grant_id')
                            ->where('oauth_grants.id', $grantType);

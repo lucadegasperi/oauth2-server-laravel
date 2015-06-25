@@ -22,7 +22,7 @@ class OAuthOwnerMiddleware
         $this->authorizer = $authorizer;
     }
 
-    public function handle($request, Closure $next, $ownerTypesString = '')
+    public function handle($request, Closure $next, $ownerTypesString = null)
     {
         $ownerTypes = [];
         if (!is_null($ownerTypesString)) {

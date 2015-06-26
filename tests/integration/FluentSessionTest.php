@@ -1,5 +1,6 @@
 <?php
 
+use LucaDegasperi\OAuth2Server\Storage\FluentAccessToken;
 use LucaDegasperi\OAuth2Server\Storage\FluentSession;
 use Mockery as m;
 
@@ -13,6 +14,9 @@ class FluentSessionTest extends DbTestCase
         $server->shouldReceive('getEventEmitter')->once()->andReturn($emitter);
         $repo = new FluentSession($this->app['db']);
         $repo->setServer($server);
+        $accessTokenRepo = new FluentAccessToken($this->app['db']);
+        $accessTokenRepo->setServer($server);
+        $server->shouldReceive('getAccessTokenStorage')->andReturn($accessTokenRepo);
 
         return $repo;
     }
@@ -110,6 +114,22 @@ class FluentSessionTest extends DbTestCase
         $this->assertInstanceOf('League\OAuth2\Server\Entity\SessionEntity', $session);
         $this->assertEquals('user', $session->getOwnerType());
         $this->assertEquals('1', $session->getOwnerId());
+    }
+
+    public function test_it_revokes_access_tokens()
+    {
+        $sessionRepo = $this->getSessionRepository();
+
+        $server = m::mock('League\OAuth2\Server\AbstractServer');
+        $accessTokenRepo = new FluentAccessToken($this->app['db']);
+        $accessTokenRepo->setServer($server);
+
+        $accessToken = $accessTokenRepo->get('totallyanaccesstoken1');
+        $this->assertInstanceOf('League\OAuth2\Server\Entity\AccessTokenEntity', $accessToken);
+
+        $sessionRepo->revokeForOwnerTypeAndId('user', '1');
+        $accessToken = $accessTokenRepo->get('totallyanaccesstoken1');
+        $this->assertNull($accessToken);
     }
 
     /*public function test_session_is_deleted()

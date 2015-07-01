@@ -27,7 +27,6 @@ class Authorizer
     protected $issuer;
 
     /**
-     * The resource server (aka the checker)
      * @var \League\OAuth2\Server\ResourceServer
      */
     protected $checker;
@@ -168,7 +167,7 @@ class Authorizer
      */
     public function validateAccessToken($httpHeadersOnly = false, $accessToken = null)
     {
-        $this->checker->isValidRequest($httpHeadersOnly, $accessToken);
+        return $this->checker->isValidRequest($httpHeadersOnly, $accessToken);
     }
 
     /**
@@ -224,6 +223,15 @@ class Authorizer
     public function getClientId()
     {
         return $this->checker->getAccessToken()->getSession()->getClient()->getId();
+    }
+    
+    /**
+     * get the client name of the current request
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->checker->getAccessToken()->getSession()->getClient()->getName();
     }
 
     /**

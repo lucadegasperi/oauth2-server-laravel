@@ -108,6 +108,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 if (array_key_exists('refresh_token_ttl', $grantParams)) {
                     $grant->setRefreshTokenTTL($grantParams['refresh_token_ttl']);
                 }
+                if (array_key_exists('rotate_refresh_tokens', $grantParams)) {
+                    $grant->setRefreshTokenRotation($grantParams['rotate_refresh_tokens']);
+                }
                 $issuer->addGrantType($grant);
             }
 

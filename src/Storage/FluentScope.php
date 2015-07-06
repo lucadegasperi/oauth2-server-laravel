@@ -14,6 +14,7 @@ namespace LucaDegasperi\OAuth2Server\Storage;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Entity\ScopeEntity;
+use Carbon\Carbon;
 
 class FluentScope extends FluentAdapter implements ScopeInterface
 {
@@ -48,6 +49,21 @@ class FluentScope extends FluentAdapter implements ScopeInterface
         return $this->limitScopesToGrants;
     }
 
+    /**
+     * Create a new scope
+     * @param  string $scopeId          Session owner's type (user, client)
+     * @param  string $scopeDescription Session owner's ID
+     * @return bool The success/failure of insertion
+     */
+    public function create($scopeId, $scopeDescription)
+    {
+        return $this->getConnection()->table('oauth_scopes')->insert([
+            'id'  => $scopeId,
+            'description' => $scopeDescription,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+    }
 
     /**
      * Return information about a scope

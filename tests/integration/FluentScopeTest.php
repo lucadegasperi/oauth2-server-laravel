@@ -96,4 +96,11 @@ class FluentScopeTest extends DBTestCase
         $this->assertEquals('scope1', $result->getId());
         $this->assertEquals('Scope 1 Description', $result->getDescription());
     }
+
+    public function test_it_creates_a_scope()
+    {
+        $repo = $this->getScopeRepository();
+        $result = $repo->create('scope_id', 'Scope description.');
+        $this->assertTrue($result);
+    }
 }

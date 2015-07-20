@@ -1,6 +1,6 @@
 <?php
 /**
- * Auth Codes Table Seeder
+ * Access Tokens Table Seeder
  *
  * @package   lucadegasperi/oauth2-server-laravel
  * @author    Luca Degasperi <luca@lucadegasperi.com>
@@ -9,36 +9,37 @@
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
 
+namespace LucaDegasperi\OAuth2Server\Tests\Database\Seeders;
+
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class AuthCodesTableSeeder extends Seeder
+class AccessTokensTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('oauth_auth_codes')->delete();
+        DB::table('oauth_access_tokens')->delete();
 
         $datetime = Carbon::now();
 
-        $codes = [
+        $tokens = [
             [
-                'id' => 'totallyanauthcode1',
+                'id' => 'totallyanaccesstoken1',
                 'session_id'  => 1,
-                'redirect_uri' => 'https://example1.com/',
                 'expire_time' => time() + 60,
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ],
             [
-                'id' => 'totallyanauthcode2',
+                'id' => 'totallyanaccesstoken2',
                 'session_id'  => 2,
-                'redirect_uri' => 'https://example2.com/',
                 'expire_time' => time() + 120,
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ],
         ];
 
-        DB::table('oauth_auth_codes')->insert($codes);
+        DB::table('oauth_access_tokens')->insert($tokens);
     }
 }

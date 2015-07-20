@@ -8,6 +8,7 @@ use Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use League\OAuth2\Server\Grant\ClientCredentialsGrant;
+use LucaDegasperi\OAuth2Server\Tests\Database\Seeders\OAuth2DatabaseSeeder;
 use Orchestra\Testbench\BehatFeatureContext;
 use PHPUnit_Framework_Assert as PHPUnit;
 
@@ -143,7 +144,9 @@ class FeatureContext extends BehatFeatureContext
             '--database' => 'testbench',
             '--path' => '../src/migrations'
         ]);
-        $this->artisan->call('db:seed');
+        $this->artisan->call('db:seed', [
+        	'--class' => OAuth2DatabaseSeeder::class
+        ]);
     }
 
     public function resetMigrations()

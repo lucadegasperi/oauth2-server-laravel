@@ -1,6 +1,6 @@
 <?php
 /**
- * Clients Table Seeder
+ * Grants Table Seeder
  *
  * @package   lucadegasperi/oauth2-server-laravel
  * @author    Luca Degasperi <luca@lucadegasperi.com>
@@ -9,54 +9,52 @@
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
 
+namespace LucaDegasperi\OAuth2Server\Tests\Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class ClientsTableSeeder extends Seeder
+class GrantsTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('oauth_clients')->delete();
+        DB::table('oauth_grants')->delete();
 
         $datetime = Carbon::now();
 
-        $clients = [
+        $grants = [
             [
-                'id' => 'client1id',
-                'secret' => 'client1secret',
-                'name' => 'client1',
+                'id' => 'grant1',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ],
             [
-                'id' => 'client2id',
-                'secret' => 'client2secret',
-                'name' => 'client2',
+                'id' => 'grant2',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ],
         ];
 
-        DB::table('oauth_clients')->insert($clients);
+        DB::table('oauth_grants')->insert($grants);
 
-        DB::table('oauth_client_endpoints')->delete();
+        DB::table('oauth_client_grants')->delete();
 
-        $clientEndpoints = [
+        $clientGrants = [
             [
                 'client_id' => 'client1id',
-                'redirect_uri' => 'http://example1.com/callback',
+                'grant_id' => 'grant1',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ],
             [
                 'client_id' => 'client2id',
-                'redirect_uri' => 'http://example2.com/callback',
+                'grant_id' => 'grant2',
                 'created_at' => $datetime,
                 'updated_at' => $datetime,
             ],
         ];
 
-        DB::table('oauth_client_endpoints')->insert($clientEndpoints);
+        DB::table('oauth_client_grants')->insert($clientGrants);
     }
 }

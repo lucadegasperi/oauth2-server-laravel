@@ -9,8 +9,11 @@
  * @link      https://github.com/lucadegasperi/oauth2-server-laravel
  */
 
+namespace LucaDegasperi\OAuth2Server\Tests\Database\Seeders;
+
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RefreshTokensTableSeeder extends Seeder
 {

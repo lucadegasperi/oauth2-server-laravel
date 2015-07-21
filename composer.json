@@ -2,6 +2,7 @@
     "name": "lucadegasperi/oauth2-server-laravel",
     "description": "Laravel wrapper for the OAuth 2.0 Server package league/oauth2-server.",
     "keywords": ["laravel", "oauth2", "oauth", "server", "api"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Luca Degasperi",
@@ -30,6 +31,14 @@
             "LucaDegasperi\\OAuth2Server\\": "src"
         },
         "classmap": [
+            "database"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LucaDegasperi\\OAuth2Server\\Tests\\": "tests"
+        },
+        "classmap": [
             "database",
             "tests/TestCase.php",
             "tests/integration/DBTestCase.php"
@@ -42,6 +51,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "license": "MIT"
+    "prefer-stable": true
 }

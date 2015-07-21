@@ -1,5 +1,7 @@
 <?php
 
+use LucaDegasperi\OAuth2Server\Tests\Database\Seeders\OAuth2DatabaseSeeder;
+
 abstract class DBTestCase extends TestCase
 {
     protected $artisan;
@@ -13,7 +15,9 @@ abstract class DBTestCase extends TestCase
             '--database' => 'testbench',
             '--path' => '../../../../database/migrations'
         ]);
-        $this->artisan->call('db:seed');
+        $this->artisan->call('db:seed', [
+        	'--class' => OAuth2DatabaseSeeder::class
+        ]);
     }
 
     protected function getEnvironmentSetUp($app)

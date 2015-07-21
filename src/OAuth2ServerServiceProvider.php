@@ -94,7 +94,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             // add the supported grant types to the authorization server
             foreach ($config['grant_types'] as $grantIdentifier => $grantParams) {
-                $grant = new $grantParams['class'];
+                $grant = $app->make($grantParams['class']);
                 $grant->setAccessTokenTTL($grantParams['access_token_ttl']);
 
                 if (array_key_exists('callback', $grantParams)) {

@@ -1,31 +1,39 @@
 <?php
 
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace unit\LucaDegasperi\OAuth2Server\Filters;
 
 use LucaDegasperi\OAuth2Server\Authorizer;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class OAuthFilterSpec extends ObjectBehavior
 {
-    function let(Authorizer $authorizer)
+    public function let(Authorizer $authorizer)
     {
         $this->beConstructedWith($authorizer, false);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
     }
 
-    function it_filters_against_invalid_access_tokens(Authorizer $authorizer)
+    public function it_filters_against_invalid_access_tokens(Authorizer $authorizer)
     {
         $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
 
         $this->filter('foo', 'bar')->shouldReturn(null);
     }
 
-    function it_filters_against_invalid_scopes(Authorizer $authorizer)
+    public function it_filters_against_invalid_scopes(Authorizer $authorizer)
     {
         $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
         $authorizer->hasScope(['baz'])->willReturn(false)->shouldBeCalled();
@@ -34,7 +42,7 @@ class OAuthFilterSpec extends ObjectBehavior
             ->duringFilter('foo', 'bar', 'baz');
     }
 
-    function it_passes_with_valud_scopes(Authorizer $authorizer)
+    public function it_passes_with_valud_scopes(Authorizer $authorizer)
     {
         $authorizer->validateAccessToken(false)->willReturn('foo')->shouldBeCalled();
         $authorizer->hasScope(['baz'])->willReturn(true)->shouldBeCalled();
@@ -42,7 +50,7 @@ class OAuthFilterSpec extends ObjectBehavior
         $this->filter('foo', 'bar', 'baz')->shouldReturn(null);
     }
 
-    function it_can_be_set_to_use_http_headers_only_to_check_the_access_token()
+    public function it_can_be_set_to_use_http_headers_only_to_check_the_access_token()
     {
         $this->setHttpHeadersOnly(true);
         $this->isHttpHeadersOnly()->shouldReturn(true);

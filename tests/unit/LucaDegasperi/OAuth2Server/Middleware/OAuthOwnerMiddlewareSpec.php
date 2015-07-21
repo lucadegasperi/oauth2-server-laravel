@@ -1,13 +1,20 @@
 <?php
 
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace unit\LucaDegasperi\OAuth2Server\Middleware;
 
 use Illuminate\Http\Request;
 use League\OAuth2\Server\Exception\AccessDeniedException;
-use League\OAuth2\Server\Exception\InvalidScopeException;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class OAuthOwnerMiddlewareSpec extends ObjectBehavior
 {
@@ -20,17 +27,17 @@ class OAuthOwnerMiddlewareSpec extends ObjectBehavior
         });
     }
 
-    function let(Authorizer $authorizer)
+    public function let(Authorizer $authorizer)
     {
         $this->beConstructedWith($authorizer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware');
     }
 
-    function it_passes_if_resource_owners_are_allowed(Request $request, Authorizer $authorizer)
+    public function it_passes_if_resource_owners_are_allowed(Request $request, Authorizer $authorizer)
     {
         $authorizer->getResourceOwnerType()->willReturn('user')->shouldBeCalled();
 
@@ -38,10 +45,9 @@ class OAuthOwnerMiddlewareSpec extends ObjectBehavior
                 ->during('handle', [$request, $this->next, 'user']);
     }
 
-    function it_blocks_if_resource_owners_are_not_allowed(Request $request, Authorizer $authorizer)
+    public function it_blocks_if_resource_owners_are_not_allowed(Request $request, Authorizer $authorizer)
     {
         $authorizer->getResourceOwnerType()->willReturn('user')->shouldBeCalled();
-
 
         $this->shouldThrow(new AccessDeniedException())
                 ->during('handle', [$request, $this->next, 'client']);

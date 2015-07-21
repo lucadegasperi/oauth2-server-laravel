@@ -1,19 +1,24 @@
 <?php
-/**
- * Fluent adapter for an OAuth 2.0 Server
+
+/*
+ * This file is part of OAuth 2.0 Laravel.
  *
- * @package   lucadegasperi/oauth2-server-laravel
- * @author    Luca Degasperi <luca@lucadegasperi.com>
- * @copyright Copyright (c) Luca Degasperi
- * @licence   http://mit-license.org/
- * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace LucaDegasperi\OAuth2Server\Storage;
 
-use League\OAuth2\Server\Storage\AbstractStorage;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
+use League\OAuth2\Server\Storage\AbstractStorage;
 
+/**
+ * This is the abstract fluent adapter class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 abstract class AbstractFluentAdapter extends AbstractStorage
 {
     /**

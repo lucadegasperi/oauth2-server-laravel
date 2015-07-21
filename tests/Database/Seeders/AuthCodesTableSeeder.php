@@ -1,12 +1,12 @@
 <?php
-/**
- * Auth Codes Table Seeder
+
+/*
+ * This file is part of OAuth 2.0 Laravel.
  *
- * @package   lucadegasperi/oauth2-server-laravel
- * @author    Luca Degasperi <luca@lucadegasperi.com>
- * @copyright Copyright (c) Luca Degasperi
- * @licence   http://mit-license.org/
- * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace LucaDegasperi\OAuth2Server\Tests\Database\Seeders;
@@ -26,7 +26,7 @@ class AuthCodesTableSeeder extends Seeder
         $codes = [
             [
                 'id' => 'totallyanauthcode1',
-                'session_id'  => 1,
+                'session_id' => 1,
                 'redirect_uri' => 'https://example1.com/',
                 'expire_time' => time() + 60,
                 'created_at' => $datetime,
@@ -34,7 +34,7 @@ class AuthCodesTableSeeder extends Seeder
             ],
             [
                 'id' => 'totallyanauthcode2',
-                'session_id'  => 2,
+                'session_id' => 2,
                 'redirect_uri' => 'https://example2.com/',
                 'expire_time' => time() + 120,
                 'created_at' => $datetime,

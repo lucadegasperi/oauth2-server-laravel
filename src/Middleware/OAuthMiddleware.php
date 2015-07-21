@@ -1,21 +1,37 @@
 <?php
 
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace LucaDegasperi\OAuth2Server\Middleware;
 
 use Closure;
 use League\OAuth2\Server\Exception\InvalidScopeException;
 use LucaDegasperi\OAuth2Server\Authorizer;
 
+/**
+ * This is the oauth middleware class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class OAuthMiddleware
 {
     /**
-     * The Authorizer instance
+     * The Authorizer instance.
+     *
      * @var \LucaDegasperi\OAuth2Server\Authorizer
      */
     protected $authorizer;
 
     /**
-     * Whether or not to check the http headers only for an access token
+     * Whether or not to check the http headers only for an access token.
+     *
      * @var bool
      */
     protected $httpHeadersOnly = false;
@@ -33,7 +49,8 @@ class OAuthMiddleware
     public function handle($request, Closure $next, $scopesString = null)
     {
         $scopes = [];
-        if(!is_null($scopesString)) {
+
+        if (!is_null($scopesString)) {
             $scopes = explode('+', $scopesString);
         }
 
@@ -44,8 +61,10 @@ class OAuthMiddleware
     }
 
     /**
-     * Validate the scopes
+     * Validate the scopes.
+     *
      * @param $scopes
+     *
      * @throws InvalidScopeException
      */
     public function validateScopes($scopes)

@@ -1,12 +1,12 @@
 <?php
-/**
- * Base Migration for the OAuth 2.0 Server
+
+/*
+ * This file is part of OAuth 2.0 Laravel.
  *
- * @package   lucadegasperi/oauth2-server-laravel
- * @author    Luca Degasperi <luca@lucadegasperi.com>
- * @copyright Copyright (c) Luca Degasperi
- * @licence   http://mit-license.org/
- * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace LucaDegasperi\OAuth2Server\Support;
@@ -15,6 +15,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * This is the abstract migration class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 abstract class AbstractMigration extends Migration
 {
     /**

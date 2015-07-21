@@ -1,12 +1,12 @@
 <?php
-/**
- * Service Provider for the OAuth 2.0 Server
+
+/*
+ * This file is part of OAuth 2.0 Laravel.
  *
- * @package   lucadegasperi/oauth2-server-laravel
- * @author    Luca Degasperi <luca@lucadegasperi.com>
- * @copyright Copyright (c) Luca Degasperi
- * @licence   http://mit-license.org/
- * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace LucaDegasperi\OAuth2Server;
@@ -24,6 +24,11 @@ use LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware;
 use LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware;
 use LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware;
 
+/**
+ * This is the oauth2 server service provider class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
     /**
@@ -36,6 +41,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->setupConfig();
         $this->setupMigrations();
     }
+
     /**
      * Setup the config.
      *
@@ -49,6 +55,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom($source, 'oauth2');
     }
+
     /**
      * Setup the migrations.
      *
@@ -63,6 +70,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
+     *
      * @return void
      */
     public function register()
@@ -72,7 +80,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Authorization server with the IoC container
+     * Register the Authorization server with the IoC container.
+     *
      * @return void
      */
     public function registerAuthorizer()
@@ -122,14 +131,14 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             return $authorizer;
         });
 
-        $this->app->bind(Authorizer::class, function($app)
-        {
+        $this->app->bind(Authorizer::class, function ($app) {
             return $app['oauth2-server.authorizer'];
         });
     }
 
     /**
-     * Register the Middleware to the IoC container because some middleware need additional parameters
+     * Register the Middleware to the IoC container because some middleware need additional parameters.
+     *
      * @return void
      */
     public function registerMiddlewareBindings()
@@ -140,6 +149,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
         $this->app->bindShared(OAuthMiddleware::class, function ($app) {
             $httpHeadersOnly = $app['config']->get('oauth2.http_headers_only');
+
             return new OAuthMiddleware($app['oauth2-server.authorizer'], $httpHeadersOnly);
         });
 
@@ -150,6 +160,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
+     *
      * @return string[]
      * @codeCoverageIgnore
      */

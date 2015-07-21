@@ -1,12 +1,20 @@
 <?php
 
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace unit\LucaDegasperi\OAuth2Server\Middleware;
 
 use Illuminate\Http\Request;
 use League\OAuth2\Server\Exception\InvalidRequestException;
 use LucaDegasperi\OAuth2Server\Authorizer;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CheckAuthCodeRequestMiddlewareSpec extends ObjectBehavior
 {
@@ -19,17 +27,17 @@ class CheckAuthCodeRequestMiddlewareSpec extends ObjectBehavior
         });
     }
 
-    function let(Authorizer $authorizer)
+    public function let(Authorizer $authorizer)
     {
         $this->beConstructedWith($authorizer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware');
     }
 
-    function it_calls_the_next_middleware_on_success(Request $request, Authorizer $authorizer)
+    public function it_calls_the_next_middleware_on_success(Request $request, Authorizer $authorizer)
     {
         $authorizer->checkAuthCodeRequest()->shouldBeCalled();
 
@@ -37,7 +45,7 @@ class CheckAuthCodeRequestMiddlewareSpec extends ObjectBehavior
             ->during('handle', [$request, $this->next]);
     }
 
-    function it_exits_on_error(Request $request, Authorizer $authorizer)
+    public function it_exits_on_error(Request $request, Authorizer $authorizer)
     {
         $authorizer->checkAuthCodeRequest()->willThrow(new InvalidRequestException('client_id'))->shouldBeCalled();
 
@@ -48,5 +56,4 @@ class CheckAuthCodeRequestMiddlewareSpec extends ObjectBehavior
 
 class MiddlewareException extends \Exception
 {
-
 }

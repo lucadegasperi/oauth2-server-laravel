@@ -46,7 +46,6 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.1-dev",
             "dev-develop": "5.0-dev"
         }
     },

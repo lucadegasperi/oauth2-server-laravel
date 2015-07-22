@@ -65,7 +65,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $source = realpath(__DIR__.'/../database/migrations/');
 
-        $this->publishes([$source => base_path('/database/migrations')], 'migrations');
+        $this->publishes([$source => database_path('migrations')], 'migrations');
     }
 
     /**

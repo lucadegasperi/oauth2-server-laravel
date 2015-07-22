@@ -9,15 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use LucaDegasperi\OAuth2Server\Support\AbstractMigration;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * This is the create oauth client endpoints table migration class.
  *
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */
-class CreateOauthClientEndpointsTable extends AbstractMigration
+class CreateOauthClientEndpointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -26,7 +27,7 @@ class CreateOauthClientEndpointsTable extends AbstractMigration
      */
     public function up()
     {
-        $this->schema()->create('oauth_client_endpoints', function (Blueprint $table) {
+        Schema::create('oauth_client_endpoints', function (Blueprint $table) {
             $table->increments('id');
             $table->string('client_id', 40);
             $table->string('redirect_uri');
@@ -49,10 +50,10 @@ class CreateOauthClientEndpointsTable extends AbstractMigration
      */
     public function down()
     {
-        $this->schema()->table('oauth_client_endpoints', function (Blueprint $table) {
+        Schema::table('oauth_client_endpoints', function (Blueprint $table) {
             $table->dropForeign('oauth_client_endpoints_client_id_foreign');
         });
 
-        $this->schema()->drop('oauth_client_endpoints');
+        Schema::drop('oauth_client_endpoints');
     }
 }

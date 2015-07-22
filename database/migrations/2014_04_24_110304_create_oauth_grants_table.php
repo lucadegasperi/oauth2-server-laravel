@@ -9,15 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use LucaDegasperi\OAuth2Server\Support\AbstractMigration;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * This is the create oauth grants table migration class.
  *
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */
-class CreateOauthGrantsTable extends AbstractMigration
+class CreateOauthGrantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -26,7 +27,7 @@ class CreateOauthGrantsTable extends AbstractMigration
      */
     public function up()
     {
-        $this->schema()->create('oauth_grants', function (Blueprint $table) {
+        Schema::create('oauth_grants', function (Blueprint $table) {
             $table->string('id', 40)->primary();
             $table->timestamps();
         });
@@ -39,6 +40,6 @@ class CreateOauthGrantsTable extends AbstractMigration
      */
     public function down()
     {
-        $this->schema()->drop('oauth_grants');
+        Schema::drop('oauth_grants');
     }
 }

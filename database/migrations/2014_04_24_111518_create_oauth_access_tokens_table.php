@@ -9,15 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use LucaDegasperi\OAuth2Server\Support\AbstractMigration;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * This is the create oauth access tokens table migration class.
  *
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */
-class CreateOauthAccessTokensTable extends AbstractMigration
+class CreateOauthAccessTokensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -26,7 +27,7 @@ class CreateOauthAccessTokensTable extends AbstractMigration
      */
     public function up()
     {
-        $this->schema()->create('oauth_access_tokens', function (Blueprint $table) {
+        Schema::create('oauth_access_tokens', function (Blueprint $table) {
             $table->string('id', 40)->primary();
             $table->integer('session_id')->unsigned();
             $table->integer('expire_time');
@@ -49,9 +50,9 @@ class CreateOauthAccessTokensTable extends AbstractMigration
      */
     public function down()
     {
-        $this->schema()->table('oauth_access_tokens', function (Blueprint $table) {
+        Schema::table('oauth_access_tokens', function (Blueprint $table) {
             $table->dropForeign('oauth_access_tokens_session_id_foreign');
         });
-        $this->schema()->drop('oauth_access_tokens');
+        Schema::drop('oauth_access_tokens');
     }
 }

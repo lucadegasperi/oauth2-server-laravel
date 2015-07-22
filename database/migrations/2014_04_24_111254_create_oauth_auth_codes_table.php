@@ -9,15 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use LucaDegasperi\OAuth2Server\Support\AbstractMigration;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * This is the create oauth auth codes table migration class.
  *
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */
-class CreateOauthAuthCodesTable extends AbstractMigration
+class CreateOauthAuthCodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -26,7 +27,7 @@ class CreateOauthAuthCodesTable extends AbstractMigration
      */
     public function up()
     {
-        $this->schema()->create('oauth_auth_codes', function (Blueprint $table) {
+        Schema::create('oauth_auth_codes', function (Blueprint $table) {
             $table->string('id', 40)->primary();
             $table->integer('session_id')->unsigned();
             $table->string('redirect_uri');
@@ -49,9 +50,9 @@ class CreateOauthAuthCodesTable extends AbstractMigration
      */
     public function down()
     {
-        $this->schema()->table('oauth_auth_codes', function (Blueprint $table) {
+        Schema::table('oauth_auth_codes', function (Blueprint $table) {
             $table->dropForeign('oauth_auth_codes_session_id_foreign');
         });
-        $this->schema()->drop('oauth_auth_codes');
+        Schema::drop('oauth_auth_codes');
     }
 }

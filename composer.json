@@ -29,10 +29,7 @@
     "autoload": {
         "psr-4": {
             "LucaDegasperi\\OAuth2Server\\": "src"
-        },
-        "classmap": [
-            "database"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {

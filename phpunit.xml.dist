@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit colors="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" bootstrap="vendor/autoload.php">
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false"
+        >
     <testsuites>
-        <testsuite name="Package Test Suite">
+        <testsuite name="Laravel OAuth2 Test Suite">
             <directory suffix=".php">./tests/integration</directory>
         </testsuite>
     </testsuites>
@@ -25,8 +35,4 @@
             </exclude>
         </whitelist>
     </filter>
-    <logging>
-        <log type="coverage-php" target="tmp/integration-coverage.cov"/>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
-    </logging>
 </phpunit>

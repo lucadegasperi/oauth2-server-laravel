@@ -12,7 +12,7 @@
 use LucaDegasperi\OAuth2Server\Storage\FluentAuthCode;
 use Mockery as m;
 
-class FluentAuthCodeTest extends DBTestCase
+class FluentAuthCodeTest extends AbstractDBTestCase
 {
     public function getAuthCodeRepository()
     {

@@ -37,8 +37,8 @@
         },
         "classmap": [
             "database",
-            "tests/TestCase.php",
-            "tests/integration/DBTestCase.php"
+            "tests/AbstractTestCase.php",
+            "tests/integration/AbstractDBTestCase.php"
         ]
     },
     "extra": {

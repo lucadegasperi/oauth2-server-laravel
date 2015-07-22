@@ -12,7 +12,7 @@
 use LucaDegasperi\OAuth2Server\Storage\FluentSession;
 use Mockery as m;
 
-class FluentSessionTest extends DbTestCase
+class FluentSessionTest extends AbstractDBTestCase
 {
     public function getSessionRepository()
     {

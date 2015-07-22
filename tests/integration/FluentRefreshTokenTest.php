@@ -12,7 +12,7 @@
 use LucaDegasperi\OAuth2Server\Storage\FluentRefreshToken;
 use Mockery as m;
 
-class FluentRefreshTokenTest extends DBTestCase
+class FluentRefreshTokenTest extends AbstractDBTestCase
 {
     public function getRefreshTokenRepository()
     {

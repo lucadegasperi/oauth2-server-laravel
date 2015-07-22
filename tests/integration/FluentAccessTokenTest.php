@@ -12,7 +12,7 @@
 use LucaDegasperi\OAuth2Server\Storage\FluentAccessToken;
 use Mockery as m;
 
-class FluentAccessTokenTest extends DBTestCase
+class FluentAccessTokenTest extends AbstractDBTestCase
 {
     public function getAccessTokenRepository()
     {

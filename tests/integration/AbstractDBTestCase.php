@@ -11,7 +11,7 @@
 
 use LucaDegasperi\OAuth2Server\Tests\Database\Seeders\OAuth2DatabaseSeeder;
 
-abstract class DBTestCase extends TestCase
+abstract class AbstractDBTestCase extends AbstractTestCase
 {
     protected $artisan;
 

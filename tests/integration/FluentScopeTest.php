@@ -12,7 +12,7 @@
 use LucaDegasperi\OAuth2Server\Storage\FluentScope;
 use Mockery as m;
 
-class FluentScopeTest extends DBTestCase
+class FluentScopeTest extends AbstractDBTestCase
 {
     public function getScopeRepository()
     {

@@ -11,7 +11,7 @@
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
-abstract class TestCase extends OrchestraTestCase
+abstract class AbstractTestCase extends OrchestraTestCase
 {
     public function setUp()
     {

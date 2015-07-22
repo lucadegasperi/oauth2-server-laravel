@@ -69,7 +69,7 @@ class OAuthMiddleware
      */
     public function validateScopes($scopes)
     {
-        if (!empty($scopes) and !$this->authorizer->hasScope($scopes)) {
+        if (!empty($scopes) && !$this->authorizer->hasScope($scopes)) {
             throw new InvalidScopeException(implode(',', $scopes));
         }
     }

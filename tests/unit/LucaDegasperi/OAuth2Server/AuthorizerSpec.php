@@ -60,7 +60,7 @@ class AuthorizerSpec extends ObjectBehavior
 
     public function it_returns_the_current_scopes(ResourceServer $checker, AccessTokenEntity $accessTokenEntity)
     {
-        $accessTokenEntity->getScopes()->willReturn(['foo','bar']);
+        $accessTokenEntity->getScopes()->willReturn(['foo', 'bar']);
         $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->getScopes()->shouldReturn(['foo', 'bar']);
     }

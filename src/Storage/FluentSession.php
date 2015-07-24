@@ -50,7 +50,7 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
     /**
      * Get a session from an access token.
      *
-     * @param  \League\OAuth2\Server\Entity\AccessTokenEntity $accessToken The access token
+     * @param \League\OAuth2\Server\Entity\AccessTokenEntity $accessToken The access token
      *
      * @return \League\OAuth2\Server\Entity\SessionEntity
      */
@@ -74,7 +74,7 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
     /**
      * Get a session's scopes.
      *
-     * @param  \League\OAuth2\Server\Entity\SessionEntity
+     * @param \League\OAuth2\Server\Entity\SessionEntity
      *
      * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
      */
@@ -102,10 +102,10 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
     /**
      * Create a new session.
      *
-     * @param  string $ownerType         Session owner's type (user, client)
-     * @param  string $ownerId           Session owner's ID
-     * @param  string $clientId          Client ID
-     * @param  string $clientRedirectUri Client redirect URI (default = null)
+     * @param string $ownerType Session owner's type (user, client)
+     * @param string $ownerId Session owner's ID
+     * @param string $clientId Client ID
+     * @param string $clientRedirectUri Client redirect URI (default = null)
      *
      * @return int The session's ID
      */
@@ -124,8 +124,8 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
     /**
      * Associate a scope with a session.
      *
-     * @param  \League\OAuth2\Server\Entity\SessionEntity $session
-     * @param  \League\OAuth2\Server\Entity\ScopeEntity $scope The scopes ID might be an integer or string
+     * @param \League\OAuth2\Server\Entity\SessionEntity $session
+     * @param \League\OAuth2\Server\Entity\ScopeEntity $scope The scopes ID might be an integer or string
      *
      * @return void
      */
@@ -142,7 +142,7 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
     /**
      * Get a session from an auth code.
      *
-     * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $authCode The auth code
+     * @param \League\OAuth2\Server\Entity\AuthCodeEntity $authCode The auth code
      *
      * @return \League\OAuth2\Server\Entity\SessionEntity
      */

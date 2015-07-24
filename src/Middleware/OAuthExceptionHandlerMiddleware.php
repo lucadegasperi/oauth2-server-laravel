@@ -22,18 +22,25 @@ use League\OAuth2\Server\Exception\OAuthException;
  */
 class OAuthExceptionHandlerMiddleware
 {
+    /**
+     * Handle an incoming request.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param \Closure $next
+     *
+     * @return mixed
+     */
     public function handle($request, Closure $next)
     {
         try {
             return $next($request);
         } catch (OAuthException $e) {
-            return new JsonResponse([
-                    'error' => $e->errorType,
-                    'error_description' => $e->getMessage(),
-                ],
-                $e->httpStatusCode,
-                $e->getHttpHeaders()
-            );
+            $data = [
+                'error' => $e->errorType,
+                'error_description' => $e->getMessage(),
+            ];
+
+            return new JsonResponse($data, $e->httpStatusCode, $e->getHttpHeaders());
         }
     }
 }

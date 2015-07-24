@@ -37,7 +37,9 @@ class OAuthMiddleware
     protected $httpHeadersOnly = false;
 
     /**
-     * @param Authorizer $authorizer
+     * Create a new oauth middleware instance.
+     *
+     * @param \LucaDegasperi\OAuth2Server\Authorizer $authorizer
      * @param bool $httpHeadersOnly
      */
     public function __construct(Authorizer $authorizer, $httpHeadersOnly = false)
@@ -46,6 +48,17 @@ class OAuthMiddleware
         $this->httpHeadersOnly = $httpHeadersOnly;
     }
 
+    /**
+     * Handle an incoming request.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param string|null $scopesString
+     *
+     * @throws \League\OAuth2\Server\Exception\InvalidScopeException
+     *
+     * @return mixed
+     */
     public function handle($request, Closure $next, $scopesString = null)
     {
         $scopes = [];
@@ -65,7 +78,7 @@ class OAuthMiddleware
      *
      * @param $scopes
      *
-     * @throws InvalidScopeException
+     * @throws \League\OAuth2\Server\Exception\InvalidScopeException
      */
     public function validateScopes($scopes)
     {

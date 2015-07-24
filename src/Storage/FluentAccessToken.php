@@ -26,7 +26,7 @@ class FluentAccessToken extends AbstractFluentAdapter implements AccessTokenInte
     /**
      * Get an instance of Entities\AccessToken.
      *
-     * @param  string $token The access token
+     * @param string $token The access token
      *
      * @return null|AbstractTokenEntity
      */
@@ -45,7 +45,8 @@ class FluentAccessToken extends AbstractFluentAdapter implements AccessTokenInte
                ->setExpireTime((int) $result->expire_time);
     }
 
-    /*public function getByRefreshToken(RefreshTokenEntity $refreshToken)
+    /*
+    public function getByRefreshToken(RefreshTokenEntity $refreshToken)
     {
         $result = $this->getConnection()->table('oauth_access_tokens')
                 ->select('oauth_access_tokens.*')
@@ -60,7 +61,8 @@ class FluentAccessToken extends AbstractFluentAdapter implements AccessTokenInte
         return (new AccessTokenEntity($this->getServer()))
                ->setId($result->id)
                ->setExpireTime((int)$result->expire_time);
-    }*/
+    }
+    */
 
     /**
      * Get the scopes for an access token.
@@ -92,9 +94,9 @@ class FluentAccessToken extends AbstractFluentAdapter implements AccessTokenInte
     /**
      * Creates a new access token.
      *
-     * @param  string $token The access token
-     * @param  int $expireTime The expire time expressed as a unix timestamp
-     * @param  string|int $sessionId The session ID
+     * @param string $token The access token
+     * @param int $expireTime The expire time expressed as a unix timestamp
+     * @param string|int $sessionId The session ID
      *
      * @return \League\OAuth2\Server\Entity\AccessTokenEntity
      */

@@ -30,13 +30,26 @@ class OAuthOwnerMiddleware
     protected $authorizer;
 
     /**
-     * @param Authorizer $authorizer
+     * Create a new oauth owner middleware instance.
+     *
+     * @param \LucaDegasperi\OAuth2Server\Authorizer $authorizer
      */
     public function __construct(Authorizer $authorizer)
     {
         $this->authorizer = $authorizer;
     }
 
+    /**
+     * Handle an incoming request.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param string|null $ownerTypesString
+     *
+     * @throws \League\OAuth2\Server\Exception\AccessDeniedException
+     *
+     * @return mixed
+     */
     public function handle($request, Closure $next, $ownerTypesString = null)
     {
         $ownerTypes = [];

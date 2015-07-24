@@ -25,7 +25,7 @@ class FluentRefreshToken extends AbstractFluentAdapter implements RefreshTokenIn
     /**
      * Return a new instance of \League\OAuth2\Server\Entity\RefreshTokenEntity.
      *
-     * @param  string $token
+     * @param string $token
      *
      * @return \League\OAuth2\Server\Entity\RefreshTokenEntity
      */

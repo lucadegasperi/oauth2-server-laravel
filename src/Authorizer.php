@@ -48,14 +48,16 @@ class Authorizer
 
     /**
      * The redirect uri generator.
+     *
+     * @var bool|null
      */
     protected $redirectUriGenerator = null;
 
     /**
      * Create a new Authorizer instance.
      *
-     * @param Issuer $issuer
-     * @param Checker $checker
+     * @param \League\OAuth2\Server\AuthorizationServer $issuer
+     * @param \League\OAuth2\Server\ResourceServer $checker
      */
     public function __construct(Issuer $issuer, Checker $checker)
     {
@@ -65,6 +67,8 @@ class Authorizer
     }
 
     /**
+     * Get the issuer.
+     *
      * @return \League\OAuth2\Server\AuthorizationServer
      */
     public function getIssuer()
@@ -73,6 +77,8 @@ class Authorizer
     }
 
     /**
+     * Get the checker.
+     *
      * @return \League\OAuth2\Server\ResourceServer
      */
     public function getChecker()
@@ -249,7 +255,7 @@ class Authorizer
     }
 
     /**
-     * get the client id of the current request.
+     * Get the client id of the current request.
      *
      * @return string
      */

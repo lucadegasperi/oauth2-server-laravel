@@ -50,7 +50,7 @@ class FluentAuthCode extends AbstractFluentAdapter implements AuthCodeInterface
     /**
      * Get the scopes for an access token.
      *
-     * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
+     * @param \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
      *
      * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
      */

@@ -29,13 +29,23 @@ class CheckAuthCodeRequestMiddleware
     protected $authorizer;
 
     /**
-     * @param Authorizer $authorizer
+     * Create a new check auth code request middleware instance.
+     *
+     * @param \LucaDegasperi\OAuth2Server\Authorizer $authorizer
      */
     public function __construct(Authorizer $authorizer)
     {
         $this->authorizer = $authorizer;
     }
 
+    /**
+     * Handle an incoming request.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param \Closure $next
+     *
+     * @return mixed
+     */
     public function handle($request, Closure $next)
     {
         $this->authorizer->checkAuthCodeRequest();

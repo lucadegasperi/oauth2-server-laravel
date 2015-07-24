@@ -25,12 +25,16 @@ use League\OAuth2\Server\Storage\ClientInterface;
 class FluentClient extends AbstractFluentAdapter implements ClientInterface
 {
     /**
+     * Limit clients to grants.
+     *
      * @var bool
      */
     protected $limitClientsToGrants = false;
 
     /**
-     * @param Resolver $connection
+     * Create a new fluent client instance.
+     *
+     * @param \Illuminate\Database\ConnectionResolverInterface $resolver
      * @param bool $limitClientsToGrants
      */
     public function __construct(Resolver $resolver, $limitClientsToGrants = false)
@@ -40,6 +44,8 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
     }
 
     /**
+     * Check if clients are limited to grants.
+     *
      * @return bool
      */
     public function areClientsLimitedToGrants()
@@ -48,7 +54,9 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
     }
 
     /**
-     * @param bool $limit whether or not to limit clients to grants
+     * Whether or not to limit clients to grants.
+     *
+     * @param bool $limit
      */
     public function limitClientsToGrants($limit = false)
     {
@@ -56,6 +64,8 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
     }
 
     /**
+     * Get the client.
+     *
      * @param string $clientId
      * @param string $clientSecret
      * @param string $redirectUri
@@ -139,6 +149,8 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
     }
 
     /**
+     * Create a new client.
+     *
      * @param string $name The client's unique name
      * @param string $id The client's unique id
      * @param string $secret The clients' unique secret
@@ -157,6 +169,8 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
     }
 
     /**
+     * Hydrate the entity.
+     *
      * @param $result
      *
      * @return \League\OAuth2\Server\Entity\ClientEntity

@@ -40,6 +40,7 @@ class CheckAuthCodeRequestMiddlewareSpec extends ObjectBehavior
     public function it_calls_the_next_middleware_on_success(Request $request, Authorizer $authorizer)
     {
         $authorizer->checkAuthCodeRequest()->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
 
         $this->shouldThrow(new MiddlewareException('Called execution of $next'))
             ->during('handle', [$request, $this->next]);
@@ -48,6 +49,7 @@ class CheckAuthCodeRequestMiddlewareSpec extends ObjectBehavior
     public function it_exits_on_error(Request $request, Authorizer $authorizer)
     {
         $authorizer->checkAuthCodeRequest()->willThrow(new InvalidRequestException('client_id'))->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
 
         $this->shouldNotThrow(new MiddlewareException('Called execution of $next'))
                 ->during('handle', [$request, $this->next]);

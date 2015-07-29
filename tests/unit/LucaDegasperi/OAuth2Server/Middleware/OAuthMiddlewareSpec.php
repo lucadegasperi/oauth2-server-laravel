@@ -41,6 +41,7 @@ class OAuthMiddlewareSpec extends ObjectBehavior
     public function it_blocks_invalid_access_tokens(Request $request, Authorizer $authorizer)
     {
         $authorizer->validateAccessToken(false)->willThrow(new AccessDeniedException())->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
 
         $this->shouldNotThrow(new MiddlewareException('Called execution of $next'))
                 ->during('handle', [$request, $this->next]);
@@ -49,6 +50,7 @@ class OAuthMiddlewareSpec extends ObjectBehavior
     public function it_passes_with_valid_access_token(Request $request, Authorizer $authorizer)
     {
         $authorizer->validateAccessToken(false)->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
 
         $this->shouldThrow(new MiddlewareException('Called execution of $next'))
                 ->during('handle', [$request, $this->next]);
@@ -58,6 +60,7 @@ class OAuthMiddlewareSpec extends ObjectBehavior
     {
         $authorizer->validateAccessToken(false)->shouldBeCalled();
         $authorizer->hasScope(['baz'])->willReturn(false)->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
 
         $this->shouldThrow(new InvalidScopeException('baz'))
                 ->during('handle', [$request, $this->next, 'baz']);
@@ -70,6 +73,7 @@ class OAuthMiddlewareSpec extends ObjectBehavior
     {
         $authorizer->validateAccessToken(false)->shouldBeCalled();
         $authorizer->hasScope(['baz'])->willReturn(true)->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
 
         $this->shouldNotThrow(new InvalidScopeException('baz'))
                 ->during('handle', [$request, $this->next, 'baz']);

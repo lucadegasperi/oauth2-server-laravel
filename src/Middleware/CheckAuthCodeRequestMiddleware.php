@@ -48,6 +48,7 @@ class CheckAuthCodeRequestMiddleware
      */
     public function handle($request, Closure $next)
     {
+        $this->authorizer->setRequest($request);
         $this->authorizer->checkAuthCodeRequest();
 
         return $next($request);

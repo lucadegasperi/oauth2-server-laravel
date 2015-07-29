@@ -57,7 +57,7 @@ class OAuthOwnerMiddleware
         if (!is_null($ownerTypesString)) {
             $ownerTypes = explode('+', $ownerTypesString);
         }
-        
+
         $this->authorizer->setRequest($request);
         if (!in_array($this->authorizer->getResourceOwnerType(), $ownerTypes)) {
             throw new AccessDeniedException();

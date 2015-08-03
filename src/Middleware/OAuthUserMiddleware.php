@@ -16,7 +16,7 @@ use League\OAuth2\Server\Exception\AccessDeniedException;
 use LucaDegasperi\OAuth2Server\Authorizer;
 
 /**
- * This is the oauth user middleware
+ * This is the oauth user middleware class.
  *
  * @author Vincent Klaiber <hello@vinkla.com>
  */
@@ -30,7 +30,7 @@ class OAuthUserMiddleware
     protected $authorizer;
 
     /**
-     * Create a new oauth owner middleware instance.
+     * Create a new oauth user middleware instance.
      *
      * @param \LucaDegasperi\OAuth2Server\Authorizer $authorizer
      */

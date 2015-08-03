@@ -9,15 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use LucaDegasperi\OAuth2Server\Support\AbstractMigration;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * This is the create oauth client scopes table migration class.
  *
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */
-class CreateOauthClientScopesTable extends AbstractMigration
+class CreateOauthClientScopesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -26,7 +27,7 @@ class CreateOauthClientScopesTable extends AbstractMigration
      */
     public function up()
     {
-        $this->schema()->create('oauth_client_scopes', function (Blueprint $table) {
+        Schema::create('oauth_client_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('client_id', 40);
             $table->string('scope_id', 40);
@@ -53,10 +54,10 @@ class CreateOauthClientScopesTable extends AbstractMigration
      */
     public function down()
     {
-        $this->schema()->table('oauth_client_scopes', function (Blueprint $table) {
+        Schema::table('oauth_client_scopes', function (Blueprint $table) {
             $table->dropForeign('oauth_client_scopes_client_id_foreign');
             $table->dropForeign('oauth_client_scopes_scope_id_foreign');
         });
-        $this->schema()->drop('oauth_client_scopes');
+        Schema::drop('oauth_client_scopes');
     }
 }

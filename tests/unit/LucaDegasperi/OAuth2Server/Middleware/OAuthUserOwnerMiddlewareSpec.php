@@ -21,7 +21,7 @@ use PhpSpec\ObjectBehavior;
  *
  * @author Vincent Klaiber <hello@vinkla.com>
  */
-class OAuthUserMiddlewareSpec extends ObjectBehavior
+class OAuthUserOwnerMiddlewareSpec extends ObjectBehavior
 {
     private $next = null;
 
@@ -39,7 +39,7 @@ class OAuthUserMiddlewareSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('LucaDegasperi\OAuth2Server\Middleware\OAuthUserMiddleware');
+        $this->shouldHaveType('LucaDegasperi\OAuth2Server\Middleware\OAuthUserOwnerMiddleware');
     }
 
     public function it_passes_if_resource_owners_are_allowed(Request $request, Authorizer $authorizer)

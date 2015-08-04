@@ -16,11 +16,11 @@ use League\OAuth2\Server\Exception\AccessDeniedException;
 use LucaDegasperi\OAuth2Server\Authorizer;
 
 /**
- * This is the oauth client middleware class.
+ * This is the oauth user middleware class.
  *
  * @author Vincent Klaiber <hello@vinkla.com>
  */
-class OAuthClientMiddleware
+class OAuthUserOwnerMiddleware
 {
     /**
      * The Authorizer instance.
@@ -30,7 +30,7 @@ class OAuthClientMiddleware
     protected $authorizer;
 
     /**
-     * Create a new oauth client middleware instance.
+     * Create a new oauth user middleware instance.
      *
      * @param \LucaDegasperi\OAuth2Server\Authorizer $authorizer
      */
@@ -51,7 +51,7 @@ class OAuthClientMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($this->authorizer->getResourceOwnerType() !== 'client') {
+        if ($this->authorizer->getResourceOwnerType() !== 'user') {
             throw new AccessDeniedException();
         }
 

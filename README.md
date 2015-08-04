@@ -27,7 +27,7 @@ This package features an [extensive wiki](https://github.com/lucadegasperi/oauth
 
 ## Support
 
-Bugs and feature request are tracked on [GitHub](https://github.com/lucadegasperi/oauth2-server-laravel/issues)
+Bugs and feature request are tracked on [GitHub](https://github.com/lucadegasperi/oauth2-server-laravel/issues). Please read our [contribution guidelines](CONTRIBUTING.md) before opening a new issue or submitting a new pull request.
 
 ## Credits
 

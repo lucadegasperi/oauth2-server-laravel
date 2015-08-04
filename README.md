@@ -31,7 +31,7 @@ Bugs and feature request are tracked on [GitHub](https://github.com/lucadegasper
 
 ## Credits
 
-The code on which this package is [based](https://github.com/php-loep/oauth2-server/), is principally developed and maintained by [Alex Bilbie](https://twitter.com/alexbilbie).
+The code on which this package is [based](https://github.com/thephpleague/oauth2-server), is principally developed and maintained by [Alex Bilbie](https://twitter.com/alexbilbie).
 
 ## License
 

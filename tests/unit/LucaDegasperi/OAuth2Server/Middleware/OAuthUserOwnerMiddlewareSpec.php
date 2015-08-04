@@ -45,6 +45,7 @@ class OAuthUserOwnerMiddlewareSpec extends ObjectBehavior
     public function it_passes_if_resource_owners_are_allowed(Request $request, Authorizer $authorizer)
     {
         $authorizer->getResourceOwnerType()->willReturn('user')->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
 
         $this->shouldThrow(new MiddlewareException('Called execution of $next'))
             ->during('handle', [$request, $this->next]);
@@ -53,6 +54,7 @@ class OAuthUserOwnerMiddlewareSpec extends ObjectBehavior
     public function it_blocks_if_resource_owners_are_not_allowed(Request $request, Authorizer $authorizer)
     {
         $authorizer->getResourceOwnerType()->willReturn('client')->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
 
         $this->shouldThrow(new AccessDeniedException())
             ->during('handle', [$request, $this->next]);

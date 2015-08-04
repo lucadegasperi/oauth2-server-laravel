@@ -67,6 +67,8 @@ class OAuthMiddleware
             $scopes = explode('+', $scopesString);
         }
 
+        $this->authorizer->setRequest($request);
+
         $this->authorizer->validateAccessToken($this->httpHeadersOnly);
         $this->validateScopes($scopes);
 

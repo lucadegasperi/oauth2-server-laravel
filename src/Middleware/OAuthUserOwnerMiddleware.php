@@ -51,6 +51,8 @@ class OAuthUserOwnerMiddleware
      */
     public function handle($request, Closure $next)
     {
+        $this->authorizer->setRequest($request);
+
         if ($this->authorizer->getResourceOwnerType() !== 'user') {
             throw new AccessDeniedException();
         }

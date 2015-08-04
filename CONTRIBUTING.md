@@ -1,15 +1,32 @@
-Thanks for contributing to this project.
+# CONTRIBUTING
 
-Everytime you open an issue please state which version of Laravel are you using and which version of this package are you using.
-This is very important so that problems can be issued quicker.
+Contributions are welcome, and are accepted via pull requests. Please review these guidelines before submitting any pull requests.
+
+## Guidelines
+
+* Please follow the [PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) and [PHP-FIG Naming Conventions](https://github.com/php-fig/fig-standards/blob/master/bylaws/002-psr-naming-conventions.md).
+* Ensure that the current tests pass, and if you've added something new, add the tests where relevant.
+* Remember that we follow [SemVer](http://semver.org). If you are changing the behaviour, or the public api, you may need to update the docs.
+* Send a coherent commit history, making sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash](http://git-scm.com/book/en/Git-Tools-Rewriting-History) them before submitting.
+* You may also need to [rebase](http://git-scm.com/book/en/Git-Branching-Rebasing) to avoid merge conflicts.
 
 
-Please ensure that you run `phpunit` from the project root after you've made any changes.
+## Running Tests
 
-If you've added something new please create a new unit test, if you've changed something please update any unit tests as appropritate.
+You will need an install of [Composer](https://getcomposer.org) before continuing.
 
-We're trying to ensure there is **100%** test code coverage (including testing PHP errors and exceptions) so please ensure any new/updated tests cover all of your changes.
+First, install the dependencies:
 
-Thank you,
+```bash
+$ composer install
+```
 
-@lucadegasperi
+Then run phpunit:
+
+```bash
+$ vendor/bin/phpunit
+```
+
+If the test suite passes on your local machine you should be good to go.
+
+When you make a pull request, the tests will automatically be run again by [Travis CI](https://travis-ci.org/) on multiple php versions and hhvm.

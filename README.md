@@ -7,11 +7,11 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel)
 [![Total Downloads](https://img.shields.io/packagist/dt/lucadegasperi/oauth2-server-laravel.svg?style=flat-square)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel)
 
-[OAuth 2.0](http://tools.ietf.org/wg/oauth/draft-ietf-oauth-v2/) authorization server and resource server for the Laravel framework. Standard compliant thanks to the amazing work by [The League of Extraordinary Packages](http://www.thephpleague.com) OAuth 2.0 authorization server and resource server.
+[OAuth 2.0](http://tools.ietf.org/wg/oauth/draft-ietf-oauth-v2/) authorization server and resource server for the Laravel framework. Standard compliant thanks to the amazing work by [The League of Extraordinary Packages](http://www.thephpleague.com) OAuth 2.0 authorization server and resource server. 
 
-The package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 Specification](http://tools.ietf.org/html/rfc6749).
+Please note that this package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 specification](http://tools.ietf.org/html/rfc6749).
 
-## Version Compability
+## Version Compatibility
 
  Laravel  | OAuth Server | PHP 
 :---------|:-------------|:----
@@ -23,7 +23,7 @@ The package assumes you have a good-enough knowledge of the principles behind th
 
 ## Documentation
 
-This package features an [extensive wiki](https://github.com/lucadegasperi/oauth2-server-laravel/wiki) to help you getting started implementing an OAuth 2.0 Server in your Laravel app.
+This package features an [extensive wiki](https://github.com/lucadegasperi/oauth2-server-laravel/wiki) to help you getting started implementing an OAuth 2.0 server in your Laravel application.
 
 ## Support
 

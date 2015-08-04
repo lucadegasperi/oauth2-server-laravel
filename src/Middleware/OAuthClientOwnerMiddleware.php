@@ -16,11 +16,11 @@ use League\OAuth2\Server\Exception\AccessDeniedException;
 use LucaDegasperi\OAuth2Server\Authorizer;
 
 /**
- * This is the oauth owner middleware class.
+ * This is the oauth client middleware class.
  *
- * @author Luca Degasperi <packages@lucadegasperi.com>
+ * @author Vincent Klaiber <hello@vinkla.com>
  */
-class OAuthOwnerMiddleware
+class OAuthClientOwnerMiddleware
 {
     /**
      * The Authorizer instance.
@@ -30,7 +30,7 @@ class OAuthOwnerMiddleware
     protected $authorizer;
 
     /**
-     * Create a new oauth owner middleware instance.
+     * Create a new oauth client middleware instance.
      *
      * @param \LucaDegasperi\OAuth2Server\Authorizer $authorizer
      */
@@ -44,21 +44,14 @@ class OAuthOwnerMiddleware
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
-     * @param string|null $ownerTypesString
      *
      * @throws \League\OAuth2\Server\Exception\AccessDeniedException
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $ownerTypesString = null)
+    public function handle($request, Closure $next)
     {
-        $ownerTypes = [];
-
-        if (!is_null($ownerTypesString)) {
-            $ownerTypes = explode('+', $ownerTypesString);
-        }
-
-        if (!in_array($this->authorizer->getResourceOwnerType(), $ownerTypes)) {
+        if ($this->authorizer->getResourceOwnerType() !== 'client') {
             throw new AccessDeniedException();
         }
 

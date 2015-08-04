@@ -36,7 +36,9 @@
             "LucaDegasperi\\OAuth2Server\\Tests\\": "tests"
         },
         "classmap": [
-            "database",
+            "database"
+        ],
+        "files": [
             "tests/AbstractTestCase.php",
             "tests/integration/AbstractDBTestCase.php"
         ]

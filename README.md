@@ -9,7 +9,7 @@
 
 [OAuth 2.0](http://tools.ietf.org/wg/oauth/draft-ietf-oauth-v2/) authorization server and resource server for the Laravel framework. Standard compliant thanks to the amazing work by [The League of Extraordinary Packages](http://www.thephpleague.com) OAuth 2.0 authorization server and resource server. 
 
-Please note that this package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 specification](http://tools.ietf.org/html/rfc6749).
+> **Note:** This package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 authorization specification](http://tools.ietf.org/html/rfc6749).
 
 ## Version Compatibility
 

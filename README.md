@@ -29,10 +29,10 @@ This package features an [extensive wiki](https://github.com/lucadegasperi/oauth
 
 Bugs and feature request are tracked on [GitHub](https://github.com/lucadegasperi/oauth2-server-laravel/issues)
 
-## License
-
-This package is released under [the MIT License](LICENSE).
-
 ## Credits
 
 The code on which this package is [based](https://github.com/php-loep/oauth2-server/), is principally developed and maintained by [Alex Bilbie](https://twitter.com/alexbilbie).
+
+## License
+
+This package is released under [the MIT License](LICENSE).

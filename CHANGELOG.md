@@ -3,11 +3,13 @@
 ## 5.0.0 (upcoming)
 
 - Added middlewares
-- Added StyleCI support
+- Added changelog
 - Added PHP CS Fixer file
-- Removed deprecated filters
+- Added StyleCI support
 - Updated and simplified migrations
 - Updated project structure
+- Updated contribution guidelines
+- Removed deprecated filters
 
 ## 4.0.2 (released 2015-05-20)
 

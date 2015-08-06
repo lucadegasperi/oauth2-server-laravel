@@ -7,6 +7,10 @@
         {
             "name": "Luca Degasperi",
             "email": "packages@lucadegasperi.com"
+        },
+        {
+            "name": "Vincent Klaiber",
+            "email": "hello@vinkla.com"
         }
     ],
     "require": {

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 5.0.0 (upcoming)
+## 5.0.0 (released 2015-08-06)
 
 - Added middlewares
 - Added changelog

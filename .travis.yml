@@ -1,28 +1,26 @@
 language: php
 
 php:
-  - 5.4
+  - 5.5.9
   - 5.5
   - 5.6
+  - 7.0
   - hhvm
 
 matrix:
+  fast_finish: true
   allow_failures:
-    - php: hhvm
+    - php: 7.0  
 
-before_script:
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev --no-interaction
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - wget https://phar.phpunit.de/phpcov.phar
+sudo: false
+    
+install:
+  - travis_retry composer install --no-interaction --prefer-source
+  
 script:
-  - mkdir -p tmp
-  - vendor/bin/phpspec run -c phpspec.yml.dist
-  - vendor/bin/phpunit --configuration phpunit.xml.dist
-after_script:
-  - php phpcov.phar merge --clover tmp/coverage.clover tmp
-  - php ocular.phar code-coverage:upload --format=php-clover tmp/coverage.clover
+  - if [ "$TRAVIS_PHP_VERSION" != "5.5.9" ] && [ "$TRAVIS_PHP_VERSION" != "5.5" ] && [ "$TRAVIS_PHP_VERSION" != "5.6" ]; then vendor/bin/phpunit; vendor/bin/phpspec run; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "5.5.9" ] || [ "$TRAVIS_PHP_VERSION" == "5.5" ] || [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
 
-cache:
-  directories:
-    - vendor
+after_script:
+  - if [ "$TRAVIS_PHP_VERSION" == "5.5.9" ] || [ "$TRAVIS_PHP_VERSION" == "5.5" ] || [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "5.5.9" ] || [ "$TRAVIS_PHP_VERSION" == "5.5" ] || [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml; fi

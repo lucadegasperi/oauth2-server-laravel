@@ -1,26 +1,33 @@
 <?php
-/**
- * Fluent storage implementation for an OAuth 2.0 Auth Code
+
+/*
+ * This file is part of OAuth 2.0 Laravel.
  *
- * @package   lucadegasperi/oauth2-server-laravel
- * @author    Luca Degasperi <luca@lucadegasperi.com>
- * @copyright Copyright (c) Luca Degasperi
- * @licence   http://mit-license.org/
- * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace LucaDegasperi\OAuth2Server\Storage;
 
+use Carbon\Carbon;
 use League\OAuth2\Server\Entity\AuthCodeEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Storage\AuthCodeInterface;
-use Carbon\Carbon;
 
-class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
+/**
+ * This is the fluent auth code class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
+class FluentAuthCode extends AbstractFluentAdapter implements AuthCodeInterface
 {
     /**
-     * Get the auth code
+     * Get the auth code.
+     *
      * @param  string $code
+     *
      * @return \League\OAuth2\Server\Entity\AuthCodeEntity
      */
     public function get($code)
@@ -31,18 +38,20 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
             ->first();
 
         if (is_null($result)) {
-            return null;
+            return;
         }
 
         return (new AuthCodeEntity($this->getServer()))
             ->setId($result->id)
             ->setRedirectUri($result->redirect_uri)
-            ->setExpireTime((int)$result->expire_time);
+            ->setExpireTime((int) $result->expire_time);
     }
 
     /**
-     * Get the scopes for an access token
-     * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
+     * Get the scopes for an access token.
+     *
+     * @param \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
+     *
      * @return array Array of \League\OAuth2\Server\Entity\ScopeEntity
      */
     public function getScopes(AuthCodeEntity $token)
@@ -58,7 +67,7 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
         foreach ($result as $scope) {
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
                'id' => $scope->id,
-                'description' => $scope->description
+                'description' => $scope->description,
             ]);
         }
 
@@ -66,24 +75,28 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
     }
 
     /**
-     * Associate a scope with an access token
+     * Associate a scope with an access token.
+     *
      * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $token The auth code
      * @param  \League\OAuth2\Server\Entity\ScopeEntity $scope The scope
+     *
      * @return void
      */
     public function associateScope(AuthCodeEntity $token, ScopeEntity $scope)
     {
         $this->getConnection()->table('oauth_auth_code_scopes')->insert([
-            'auth_code_id'    => $token->getId(),
-            'scope_id'        => $scope->getId(),
-            'created_at'      => Carbon::now(),
-            'updated_at'      => Carbon::now()
+            'auth_code_id' => $token->getId(),
+            'scope_id' => $scope->getId(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
     }
 
     /**
-     * Delete an access token
+     * Delete an access token.
+     *
      * @param  \League\OAuth2\Server\Entity\AuthCodeEntity $token The access token to delete
+     *
      * @return void
      */
     public function delete(AuthCodeEntity $token)
@@ -93,12 +106,12 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
         ->delete();
     }
 
-
     /**
      * Create an auth code.
+     *
      * @param string $token The token ID
-     * @param integer $expireTime Token expire time
-     * @param integer $sessionId Session identifier
+     * @param int $expireTime Token expire time
+     * @param int $sessionId Session identifier
      * @param string $redirectUri Client redirect uri
      *
      * @return void
@@ -106,12 +119,12 @@ class FluentAuthCode extends FluentAdapter implements AuthCodeInterface
     public function create($token, $expireTime, $sessionId, $redirectUri)
     {
         $this->getConnection()->table('oauth_auth_codes')->insert([
-            'id'              => $token,
-            'session_id'      => $sessionId,
-            'redirect_uri'    => $redirectUri,
-            'expire_time'     => $expireTime,
+            'id' => $token,
+            'session_id' => $sessionId,
+            'redirect_uri' => $redirectUri,
+            'expire_time' => $expireTime,
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'updated_at' => Carbon::now(),
         ]);
     }
 }

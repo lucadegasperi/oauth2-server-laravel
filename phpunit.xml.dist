@@ -1,32 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit colors="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" bootstrap="vendor/autoload.php">
-    <testsuites>
-        <testsuite name="Package Test Suite">
-            <directory suffix=".php">./tests/integration</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist>
-            <directory>./src</directory>
-            <exclude>
-                <directory>./build</directory>
-                <directory>./src/migrations</directory>
-                <directory>./src/config</directory>
-                <directory>./src/lang</directory>
-                <directory>./src/views</directory>
-                <directory>./composer</directory>
-                <directory>./tests</directory>
-                <directory>./travis</directory>
-                <directory>./vendor</directory>
-                <directory>./stubs</directory>
-                <directory>./seeds</directory>
-                <file>./src/OAuth2ServerServiceProvider.php</file>
-                <file>./src/Repositories/FluentAdapter.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="coverage-php" target="tmp/integration-coverage.cov"/>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
-    </logging>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         verbose="true"
+>
+   <testsuites>
+       <testsuite name="OAuth 2.0 Laravel Test Suite">
+           <directory suffix="Test.php">./tests</directory>
+       </testsuite>
+   </testsuites>
+   <filter>
+       <whitelist processUncoveredFilesFromWhitelist="true">
+           <directory suffix=".php">./src</directory>
+       </whitelist>
+   </filter>
 </phpunit>
+

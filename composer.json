@@ -1,13 +1,8 @@
 {
     "name": "lucadegasperi/oauth2-server-laravel",
-    "description": "Laravel wrapper for the OAuth 2.0 Server package league/oauth2-server.",
-    "keywords": [
-        "laravel",
-        "oauth2",
-        "oauth",
-        "server",
-        "api"
-    ],
+    "description": "A OAuth 2.0 bridge for Laravel and Lumen",
+    "keywords": ["oauth2", "oauth", "server", "api", "laravel", "lumen"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Luca Degasperi",
@@ -15,17 +10,17 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/database": "5.0.*|5.1.*",
-        "illuminate/console": "5.0.*|5.1.*",
-        "illuminate/contracts": "5.0.*|5.1.*",
-        "illuminate/http": "5.0.*|5.1.*",
-        "illuminate/support": "5.0.*|5.1.*",
-        "illuminate/config": "5.0.*|5.1.*",
+        "php": ">=5.5.9",
+        "illuminate/database": "5.1.*",
+        "illuminate/console": "5.1.*",
+        "illuminate/contracts": "5.1.*",
+        "illuminate/http": "5.1.*",
+        "illuminate/support": "5.1.*",
+        "illuminate/config": "5.1.*",
         "league/oauth2-server": "4.1.*"
     },
     "require-dev": {
-        "orchestra/testbench": "3.1.*@dev",
+        "orchestra/testbench": "3.1.*",
         "phpunit/phpunit": "~4.0",
         "phpspec/phpspec": "~2.0",
         "mockery/mockery": "~0.9",
@@ -34,18 +29,25 @@
     "autoload": {
         "psr-4": {
             "LucaDegasperi\\OAuth2Server\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LucaDegasperi\\OAuth2Server\\Tests\\": "tests"
         },
         "classmap": [
-            "seeds",
-            "tests/TestCase.php",
-            "tests/integration/DBTestCase.php"
+            "database"
+        ],
+        "files": [
+            "tests/AbstractTestCase.php",
+            "tests/integration/AbstractDBTestCase.php"
         ]
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.1-dev"
+            "dev-develop": "5.0-dev"
         }
     },
     "minimum-stability": "dev",
-    "license": "MIT"
+    "prefer-stable": true
 }

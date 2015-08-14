@@ -1,12 +1,12 @@
 <?php
-/**
- * Laravel Service Provider for the OAuth 2.0 Server
+
+/*
+ * This file is part of OAuth 2.0 Laravel.
  *
- * @package   lucadegasperi/oauth2-server-laravel
- * @author    Luca Degasperi <luca@lucadegasperi.com>
- * @copyright Copyright (c) Luca Degasperi
- * @licence   http://mit-license.org/
- * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace LucaDegasperi\OAuth2Server;
@@ -18,35 +18,46 @@ use League\OAuth2\Server\TokenType\TokenTypeInterface;
 use League\OAuth2\Server\Util\RedirectUri;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * This is the authorizer class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class Authorizer
 {
     /**
-     * The authorization server (aka the issuer)
+     * The authorization server (aka the issuer).
+     *
      * @var \League\OAuth2\Server\AuthorizationServer
      */
     protected $issuer;
 
     /**
-     * The resource server (aka the checker)
+     * The resource server (aka the checker).
+     *
      * @var \League\OAuth2\Server\ResourceServer
      */
     protected $checker;
 
     /**
-     * The auth code request parameters
+     * The auth code request parameters.
+     *
      * @var array
      */
     protected $authCodeRequestParams;
 
     /**
-     * The redirect uri generator
+     * The redirect uri generator.
+     *
+     * @var bool|null
      */
     protected $redirectUriGenerator = null;
 
     /**
-     * Create a new Authorizer instance
-     * @param Issuer $issuer
-     * @param Checker $checker
+     * Create a new Authorizer instance.
+     *
+     * @param \League\OAuth2\Server\AuthorizationServer $issuer
+     * @param \League\OAuth2\Server\ResourceServer $checker
      */
     public function __construct(Issuer $issuer, Checker $checker)
     {
@@ -56,6 +67,8 @@ class Authorizer
     }
 
     /**
+     * Get the issuer.
+     *
      * @return \League\OAuth2\Server\AuthorizationServer
      */
     public function getIssuer()
@@ -64,6 +77,8 @@ class Authorizer
     }
 
     /**
+     * Get the checker.
+     *
      * @return \League\OAuth2\Server\ResourceServer
      */
     public function getChecker()
@@ -72,7 +87,8 @@ class Authorizer
     }
 
     /**
-     * Issue an access token if the request parameters are valid
+     * Issue an access token if the request parameters are valid.
+     *
      * @return array a response object for the protocol in use
      */
     public function issueAccessToken()
@@ -81,7 +97,8 @@ class Authorizer
     }
 
     /**
-     * Get the Auth Code request parameters
+     * Get the Auth Code request parameters.
+     *
      * @return array
      */
     public function getAuthCodeRequestParams()
@@ -90,21 +107,25 @@ class Authorizer
     }
 
     /**
-     * Get a single parameter from the auth code request parameters
+     * Get a single parameter from the auth code request parameters.
+     *
      * @param $key
      * @param null $default
+     *
      * @return mixed
      */
     public function getAuthCodeRequestParam($key, $default = null)
     {
-        if(array_key_exists($key, $this->authCodeRequestParams)) {
+        if (array_key_exists($key, $this->authCodeRequestParams)) {
             return $this->authCodeRequestParams[$key];
         }
+
         return $default;
     }
 
     /**
-     * Check the validity of the auth code request
+     * Check the validity of the auth code request.
+     *
      * @return null a response appropriate for the protocol in use
      */
     public function checkAuthCodeRequest()
@@ -113,46 +134,54 @@ class Authorizer
     }
 
     /**
-     * Issue an auth code
+     * Issue an auth code.
+     *
      * @param string $ownerType the auth code owner type
      * @param string $ownerId the auth code owner id
      * @param array $params additional parameters to merge
+     *
      * @return string the auth code redirect url
      */
-    public function issueAuthCode($ownerType, $ownerId, $params = array())
+    public function issueAuthCode($ownerType, $ownerId, $params = [])
     {
         $params = array_merge($this->authCodeRequestParams, $params);
+
         return $this->issuer->getGrantType('authorization_code')->newAuthorizeRequest($ownerType, $ownerId, $params);
     }
 
     /**
-     * Generate a redirect uri when the auth code request is denied by the user
+     * Generate a redirect uri when the auth code request is denied by the user.
+     *
      * @return string a correctly formed url to redirect back to
      */
     public function authCodeRequestDeniedRedirectUri()
     {
-        $error = new AccessDeniedException;
+        $error = new AccessDeniedException();
+
         return $this->getRedirectUriGenerator()->make($this->getAuthCodeRequestParam('redirect_uri'), [
-                        'error' =>  $error->errorType,
-                        'error_description' =>  $error->getMessage()
+                        'error' => $error->errorType,
+                        'error_description' => $error->getMessage(),
                 ]
         );
     }
 
     /**
-     * get the RedirectUri generator instance
+     * get the RedirectUri generator instance.
+     *
      * @return RedirectUri
      */
     public function getRedirectUriGenerator()
     {
-        if(is_null($this->redirectUriGenerator)) {
+        if (is_null($this->redirectUriGenerator)) {
             $this->redirectUriGenerator = new RedirectUri();
         }
+
         return $this->redirectUriGenerator;
     }
 
     /**
-     * Set the RedirectUri generator instance
+     * Set the RedirectUri generator instance.
+     *
      * @param $redirectUri
      */
     public function setRedirectUriGenerator($redirectUri)
@@ -161,18 +190,21 @@ class Authorizer
     }
 
     /**
-     * Validate a request with an access token in it
+     * Validate a request with an access token in it.
+     *
      * @param bool $httpHeadersOnly whether or not to check only the http headers of the request
      * @param string|null $accessToken an access token to validate
+     *
      * @return mixed
      */
     public function validateAccessToken($httpHeadersOnly = false, $accessToken = null)
     {
-        $this->checker->isValidRequest($httpHeadersOnly, $accessToken);
+        return $this->checker->isValidRequest($httpHeadersOnly, $accessToken);
     }
 
     /**
-     * get the scopes associated with the current request
+     * get the scopes associated with the current request.
+     *
      * @return array
      */
     public function getScopes()
@@ -181,18 +213,21 @@ class Authorizer
     }
 
     /**
-     * Check if the current request has all the scopes passed
+     * Check if the current request has all the scopes passed.
+     *
      * @param string|array $scope the scope(s) to check for existence
+     *
      * @return bool
      */
     public function hasScope($scope)
     {
         if (is_array($scope)) {
             foreach ($scope as $s) {
-                 if ($this->hasScope($s) === false) {
-                     return false;
-                 }
+                if ($this->hasScope($s) === false) {
+                    return false;
+                }
             }
+
             return true;
         }
 
@@ -200,7 +235,8 @@ class Authorizer
     }
 
     /**
-     * Get the resource owner ID of the current request
+     * Get the resource owner ID of the current request.
+     *
      * @return string
      */
     public function getResourceOwnerId()
@@ -209,7 +245,8 @@ class Authorizer
     }
 
     /**
-     * Get the resource owner type of the current request (client or user)
+     * Get the resource owner type of the current request (client or user).
+     *
      * @return string
      */
     public function getResourceOwnerType()
@@ -218,7 +255,8 @@ class Authorizer
     }
 
     /**
-     * get the client id of the current request
+     * Get the client id of the current request.
+     *
      * @return string
      */
     public function getClientId()
@@ -227,7 +265,8 @@ class Authorizer
     }
 
     /**
-     * Set the request to use on the issuer and checker
+     * Set the request to use on the issuer and checker.
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
     public function setRequest(Request $request)
@@ -237,7 +276,8 @@ class Authorizer
     }
 
     /**
-     * Set the token type to use
+     * Set the token type to use.
+     *
      * @param \League\OAuth2\Server\TokenType\TokenTypeInterface $tokenType
      */
     public function setTokenType(TokenTypeInterface $tokenType)

@@ -1,31 +1,40 @@
 <?php
-/**
- * Fluent storage implementation for an OAuth 2.0 Client
+
+/*
+ * This file is part of OAuth 2.0 Laravel.
  *
- * @package   lucadegasperi/oauth2-server-laravel
- * @author    Luca Degasperi <luca@lucadegasperi.com>
- * @copyright Copyright (c) Luca Degasperi
- * @licence   http://mit-license.org/
- * @link      https://github.com/lucadegasperi/oauth2-server-laravel
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace LucaDegasperi\OAuth2Server\Storage;
 
+use Carbon\Carbon;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
+use League\OAuth2\Server\Entity\ClientEntity;
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\ClientInterface;
-use League\OAuth2\Server\Entity\ClientEntity;
-use Carbon\Carbon;
 
-class FluentClient extends FluentAdapter implements ClientInterface
+/**
+ * This is the fluent client class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
+class FluentClient extends AbstractFluentAdapter implements ClientInterface
 {
     /**
+     * Limit clients to grants.
+     *
      * @var bool
      */
     protected $limitClientsToGrants = false;
 
     /**
-     * @param Resolver $connection
+     * Create a new fluent client instance.
+     *
+     * @param \Illuminate\Database\ConnectionResolverInterface $resolver
      * @param bool $limitClientsToGrants
      */
     public function __construct(Resolver $resolver, $limitClientsToGrants = false)
@@ -35,6 +44,8 @@ class FluentClient extends FluentAdapter implements ClientInterface
     }
 
     /**
+     * Check if clients are limited to grants.
+     *
      * @return bool
      */
     public function areClientsLimitedToGrants()
@@ -43,7 +54,9 @@ class FluentClient extends FluentAdapter implements ClientInterface
     }
 
     /**
-     * @param bool $limit whether or not to limit clients to grants
+     * Whether or not to limit clients to grants.
+     *
+     * @param bool $limit
      */
     public function limitClientsToGrants($limit = false)
     {
@@ -51,17 +64,20 @@ class FluentClient extends FluentAdapter implements ClientInterface
     }
 
     /**
+     * Get the client.
+     *
      * @param string $clientId
      * @param string $clientSecret
      * @param string $redirectUri
      * @param string $grantType
+     *
      * @return null|\League\OAuth2\Server\Entity\ClientEntity
      */
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
         $query = null;
-        
-        if (! is_null($redirectUri) && is_null($clientSecret)) {
+
+        if (!is_null($redirectUri) && is_null($clientSecret)) {
             $query = $this->getConnection()->table('oauth_clients')
                    ->select(
                        'oauth_clients.id as id',
@@ -71,7 +87,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
                    ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
                    ->where('oauth_clients.id', $clientId)
                    ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
-        } elseif (! is_null($clientSecret) && is_null($redirectUri)) {
+        } elseif (!is_null($clientSecret) && is_null($redirectUri)) {
             $query = $this->getConnection()->table('oauth_clients')
                    ->select(
                        'oauth_clients.id as id',
@@ -79,7 +95,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
                        'oauth_clients.name as name')
                    ->where('oauth_clients.id', $clientId)
                    ->where('oauth_clients.secret', $clientSecret);
-        } elseif (! is_null($clientSecret) && ! is_null($redirectUri)) {
+        } elseif (!is_null($clientSecret) && !is_null($redirectUri)) {
             $query = $this->getConnection()->table('oauth_clients')
                    ->select(
                        'oauth_clients.id as id',
@@ -92,7 +108,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
                    ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
         }
 
-        if ($this->limitClientsToGrants === true and ! is_null($grantType)) {
+        if ($this->limitClientsToGrants === true && !is_null($grantType)) {
             $query = $query->join('oauth_client_grants', 'oauth_clients.id', '=', 'oauth_client_grants.client_id')
                    ->join('oauth_grants', 'oauth_grants.id', '=', 'oauth_client_grants.grant_id')
                    ->where('oauth_grants.id', $grantType);
@@ -101,7 +117,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
         $result = $query->first();
 
         if (is_null($result)) {
-            return null;
+            return;
         }
 
         if (is_array($result)){
@@ -112,8 +128,10 @@ class FluentClient extends FluentAdapter implements ClientInterface
     }
 
     /**
-     * Get the client associated with a session
+     * Get the client associated with a session.
+     *
      * @param  \League\OAuth2\Server\Entity\SessionEntity $session The session
+     *
      * @return null|\League\OAuth2\Server\Entity\ClientEntity
      */
     public function getBySession(SessionEntity $session)
@@ -128,7 +146,7 @@ class FluentClient extends FluentAdapter implements ClientInterface
                 ->first();
 
         if (is_null($result)) {
-            return null;
+            return;
         }
 
         if (is_array($result)){
@@ -139,24 +157,30 @@ class FluentClient extends FluentAdapter implements ClientInterface
     }
 
     /**
+     * Create a new client.
+     *
      * @param string $name The client's unique name
      * @param string $id The client's unique id
      * @param string $secret The clients' unique secret
+     *
      * @return int
      */
     public function create($name, $id, $secret)
     {
         return $this->getConnection()->table('oauth_clients')->insertGetId([
-            'id'  => $id,
+            'id' => $id,
             'name' => $name,
-            'secret'   => $secret,
+            'secret' => $secret,
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'updated_at' => Carbon::now(),
         ]);
     }
 
     /**
+     * Hydrate the entity.
+     *
      * @param $result
+     *
      * @return \League\OAuth2\Server\Entity\ClientEntity
      */
     protected function hydrateEntity($result)
@@ -166,8 +190,9 @@ class FluentClient extends FluentAdapter implements ClientInterface
             'id' => $result->id,
             'name' => $result->name,
             'secret' => $result->secret,
-            'redirectUri' => (isset($result->redirect_uri) ? $result->redirect_uri : null)
+            'redirectUri' => (isset($result->redirect_uri) ? $result->redirect_uri : null),
         ]);
+
         return $client;
     }
 }

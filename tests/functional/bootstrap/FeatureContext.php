@@ -1,13 +1,17 @@
 <?php
 
-use Behat\Behat\Context\ClosuredContextInterface;
-use Behat\Behat\Context\TranslatedContextInterface;
-use Behat\Behat\Event\FeatureEvent;
-use Behat\Behat\Event\ScenarioEvent;
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use League\OAuth2\Server\Grant\ClientCredentialsGrant;
+use LucaDegasperi\OAuth2Server\Tests\Database\Seeders\OAuth2DatabaseSeeder;
 use Orchestra\Testbench\BehatFeatureContext;
 use PHPUnit_Framework_Assert as PHPUnit;
 
@@ -55,7 +59,7 @@ class FeatureContext extends BehatFeatureContext
         $params = [
             'grant_type' => $grantType,
             'client_id' => $clientId,
-            'client_secret' => $clientSecret
+            'client_secret' => $clientSecret,
         ];
         $this->app['env'] = 'functional';
         $this->call('POST', $pageName, $params);
@@ -115,7 +119,7 @@ class FeatureContext extends BehatFeatureContext
     {
         return [
             'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
-            'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider'
+            'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
         ];
     }
 
@@ -123,16 +127,17 @@ class FeatureContext extends BehatFeatureContext
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application $app
+     *
      * @return void
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['path.base'] = __DIR__ . '/../../../src';
+        $app['path.base'] = __DIR__.'/../../../src';
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => ''
+            'prefix' => '',
         ]);
         $this->artisan = $app->make('artisan');
     }
@@ -141,9 +146,11 @@ class FeatureContext extends BehatFeatureContext
     {
         $this->artisan->call('migrate', [
             '--database' => 'testbench',
-            '--path' => '../src/migrations'
+            '--path' => '../src/migrations',
         ]);
-        $this->artisan->call('db:seed');
+        $this->artisan->call('db:seed', [
+            '--class' => OAuth2DatabaseSeeder::class,
+        ]);
     }
 
     public function resetMigrations()

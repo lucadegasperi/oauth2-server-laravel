@@ -128,7 +128,7 @@ class FluentScope extends AbstractFluentAdapter implements ScopeInterface
             return;
         }
 
-        if (is_array($result)){
+        if (is_array($result)) {
             $result = (object) $result;
         }
 

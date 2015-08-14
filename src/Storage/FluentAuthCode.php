@@ -41,7 +41,7 @@ class FluentAuthCode extends AbstractFluentAdapter implements AuthCodeInterface
             return;
         }
 
-        if (is_array($result)){
+        if (is_array($result)) {
             $result = (object) $result;
         }
 
@@ -69,7 +69,7 @@ class FluentAuthCode extends AbstractFluentAdapter implements AuthCodeInterface
         $scopes = [];
 
         foreach ($result as $scope) {
-            if (is_array($scope)){
+            if (is_array($scope)) {
                 $scope = (object) $scope;
             }
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([

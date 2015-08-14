@@ -120,7 +120,7 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
             return;
         }
 
-        if (is_array($result)){
+        if (is_array($result)) {
             $result = (object) $result;
         }
 
@@ -149,7 +149,7 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
             return;
         }
 
-        if (is_array($result)){
+        if (is_array($result)) {
             $result = (object) $result;
         }
 

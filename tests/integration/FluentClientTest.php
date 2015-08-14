@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use LucaDegasperi\OAuth2Server\Storage\FluentClient;
 use Mockery as m;
 
-class FluentClientTest extends DBTestCase
+class FluentClientTest extends AbstractDBTestCase
 {
     public function getClientRepository()
     {
@@ -47,7 +56,7 @@ class FluentClientTest extends DBTestCase
     {
         $repo = $this->getClientRepository();
 
-        $result1 = $repo->get("client3id", "client3secret");
+        $result1 = $repo->get('client3id', 'client3secret');
         $result2 = $repo->get('client3id', null, 'http://example3.com/callback');
         $result3 = $repo->get('client3id', 'client3secret', 'http://example3.com/callback');
 

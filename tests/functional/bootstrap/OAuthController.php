@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Routing\Controller;
 use LucaDegasperi\OAuth2Server\Authorizer;
 
@@ -18,7 +27,7 @@ class OAuthController extends Controller
 
     public function postAccessToken()
     {
-         return Response::json($this->authorizer->issueAccessToken());
+        return Response::json($this->authorizer->issueAccessToken());
     }
 
     public function getAuthorize()

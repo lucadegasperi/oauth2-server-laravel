@@ -155,7 +155,7 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
      * @param string $id The client's unique id
      * @param string $secret The clients' unique secret
      *
-     * @return int
+     * @return string
      */
     public function create($name, $id, $secret)
     {

@@ -22,7 +22,8 @@ use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Storage\SessionInterface;
 use LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware;
 use LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware;
-use LucaDegasperi\OAuth2Server\Middleware\OAuthOwnerMiddleware;
+use LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware;
+use LucaDegasperi\OAuth2Server\Middleware\OAuthUserOwnerMiddleware;
 
 /**
  * This is the oauth2 server service provider class.
@@ -156,8 +157,12 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             return new OAuthMiddleware($app['oauth2-server.authorizer'], $httpHeadersOnly);
         });
 
-        $this->app->bindShared(OAuthOwnerMiddleware::class, function ($app) {
-            return new OAuthOwnerMiddleware($app['oauth2-server.authorizer']);
+        $this->app->bindShared(OAuthClientOwnerMiddleware::class, function ($app) {
+            return new OAuthClientOwnerMiddleware($app['oauth2-server.authorizer']);
+        });
+
+        $this->app->bindShared(OAuthUserOwnerMiddleware::class, function ($app) {
+            return new OAuthUserOwnerMiddleware($app['oauth2-server.authorizer']);
         });
     }
 

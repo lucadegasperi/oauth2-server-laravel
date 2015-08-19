@@ -40,6 +40,10 @@ class FluentAccessToken extends AbstractFluentAdapter implements AccessTokenInte
             return;
         }
 
+        if (is_array($result)) {
+            $result = (object) $result;
+        }
+
         return (new AccessTokenEntity($this->getServer()))
                ->setId($result->id)
                ->setExpireTime((int) $result->expire_time);
@@ -82,6 +86,9 @@ class FluentAccessToken extends AbstractFluentAdapter implements AccessTokenInte
         $scopes = [];
 
         foreach ($result as $scope) {
+            if (is_array($scope)) {
+                $scope = (object) $scope;
+            }
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
                'id' => $scope->id,
                 'description' => $scope->description,

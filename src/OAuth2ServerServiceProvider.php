@@ -21,8 +21,8 @@ use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Storage\SessionInterface;
 use LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware;
-use LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware;
 use LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware;
+use LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware;
 use LucaDegasperi\OAuth2Server\Middleware\OAuthUserOwnerMiddleware;
 
 /**

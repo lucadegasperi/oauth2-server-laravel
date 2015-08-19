@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.0.1 (released 2015-08-19)
+
+- Added middleware registration
+
 ## 5.0.0 (released 2015-08-06)
 
 - Added middlewares

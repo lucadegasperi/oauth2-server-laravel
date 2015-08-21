@@ -77,47 +77,55 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
     {
         $query = null;
 
-        if (!is_null($redirectUri) && is_null($clientSecret)) {
+        if (! is_null($redirectUri) && is_null($clientSecret)) {
             $query = $this->getConnection()->table('oauth_clients')
-                   ->select(
-                       'oauth_clients.id as id',
-                       'oauth_clients.secret as secret',
-                       'oauth_client_endpoints.redirect_uri as redirect_uri',
-                       'oauth_clients.name as name')
-                   ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
-                   ->where('oauth_clients.id', $clientId)
-                   ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
-        } elseif (!is_null($clientSecret) && is_null($redirectUri)) {
+                ->select(
+                    'oauth_clients.id as id',
+                    'oauth_clients.secret as secret',
+                    'oauth_client_endpoints.redirect_uri as redirect_uri',
+                    'oauth_clients.name as name')
+                ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
+                ->where('oauth_clients.id', $clientId)
+                ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
+        } elseif (! is_null($clientSecret) && is_null($redirectUri)) {
             $query = $this->getConnection()->table('oauth_clients')
-                   ->select(
-                       'oauth_clients.id as id',
-                       'oauth_clients.secret as secret',
-                       'oauth_clients.name as name')
-                   ->where('oauth_clients.id', $clientId)
-                   ->where('oauth_clients.secret', $clientSecret);
-        } elseif (!is_null($clientSecret) && !is_null($redirectUri)) {
+                ->select(
+                    'oauth_clients.id as id',
+                    'oauth_clients.secret as secret',
+                    'oauth_clients.name as name')
+                ->where('oauth_clients.id', $clientId)
+                ->where('oauth_clients.secret', $clientSecret);
+        } elseif (! is_null($clientSecret) && ! is_null($redirectUri)) {
             $query = $this->getConnection()->table('oauth_clients')
-                   ->select(
-                       'oauth_clients.id as id',
-                       'oauth_clients.secret as secret',
-                       'oauth_client_endpoints.redirect_uri as redirect_uri',
-                       'oauth_clients.name as name')
-                   ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
-                   ->where('oauth_clients.id', $clientId)
-                   ->where('oauth_clients.secret', $clientSecret)
-                   ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
+                ->select(
+                    'oauth_clients.id as id',
+                    'oauth_clients.secret as secret',
+                    'oauth_client_endpoints.redirect_uri as redirect_uri',
+                    'oauth_clients.name as name')
+                ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
+                ->where('oauth_clients.id', $clientId)
+                ->where('oauth_clients.secret', $clientSecret)
+                ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
+        } elseif (is_null($clientSecret) && in_array($grantType, ['password', 'refresh_token'])) {
+            $query = $this->getConnection()->table('oauth_clients')
+                ->select(
+                    'oauth_clients.id as id',
+                    'oauth_clients.name as name',
+                    'oauth_clients.secret as secret'
+                )
+                ->where('oauth_clients.id', $clientId);
         }
 
-        if ($this->limitClientsToGrants === true && !is_null($grantType)) {
+        if ($this->limitClientsToGrants === true and ! is_null($grantType)) {
             $query = $query->join('oauth_client_grants', 'oauth_clients.id', '=', 'oauth_client_grants.client_id')
-                   ->join('oauth_grants', 'oauth_grants.id', '=', 'oauth_client_grants.grant_id')
-                   ->where('oauth_grants.id', $grantType);
+                ->join('oauth_grants', 'oauth_grants.id', '=', 'oauth_client_grants.grant_id')
+                ->where('oauth_grants.id', $grantType);
         }
 
         $result = $query->first();
 
         if (is_null($result)) {
-            return;
+            return null;
         }
 
         return $this->hydrateEntity($result);

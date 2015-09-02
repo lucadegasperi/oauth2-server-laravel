@@ -15,10 +15,10 @@ use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\AuthCodeInterface;
 use League\OAuth2\Server\Storage\ClientInterface;
+use League\OAuth2\Server\Storage\MacTokenInterface;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Storage\SessionInterface;
-use League\OAuth2\Server\Storage\MacTokenInterface;
 
 /**
  * This is the fluent storage service provider class.

@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * This is the create oauth mac keys table migration class.
- *
  */
 class CreateOauthMacKeysTable extends Migration
 {

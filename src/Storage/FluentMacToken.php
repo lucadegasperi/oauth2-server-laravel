@@ -4,11 +4,9 @@ namespace LucaDegasperi\OAuth2Server\Storage;
 
 use Carbon\Carbon;
 use League\OAuth2\Server\Storage\MacTokenInterface;
-use LucaDegasperi\OAuth2Server\Storage\AbstractFluentAdapter;
 
 /**
  * This is the fluent MAC token class.
- *
  */
 class FluentMacToken extends AbstractFluentAdapter implements MacTokenInterface
 {

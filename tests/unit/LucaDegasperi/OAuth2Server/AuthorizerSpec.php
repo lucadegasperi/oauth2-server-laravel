@@ -17,7 +17,6 @@ use League\OAuth2\Server\Entity\ClientEntity;
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\ResourceServer;
-use League\OAuth2\Server\TokenType\TokenTypeInterface;
 use League\OAuth2\Server\Util\RedirectUri;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +27,7 @@ class AuthorizerSpec extends ObjectBehavior
     {
         $this->beConstructedWith($issuer, $checker);
     }
+
     public function it_is_initializable()
     {
         $this->shouldHaveType('LucaDegasperi\OAuth2Server\Authorizer');
@@ -161,12 +161,4 @@ class AuthorizerSpec extends ObjectBehavior
 
         $this->getRedirectUriGenerator()->shouldReturn($redirectUri);
     }
-
-    /*function it_sets_a_custom_token_type(AuthorizationServer $issuer, ResourceServer $checker, TokenTypeInterface $tokenType)
-    {
-        $issuer->setTokenType($tokenType)->shouldBeCalled();
-        $checker->setTokenType($tokenType)->shouldBeCalled();
-
-        $this->setTokenType($tokenType);
-    }*/
 }

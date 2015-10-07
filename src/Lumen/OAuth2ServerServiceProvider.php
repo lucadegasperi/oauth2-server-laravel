@@ -22,5 +22,5 @@ use LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider as ServiceProvider;
  */
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
-   //
+    //
 }

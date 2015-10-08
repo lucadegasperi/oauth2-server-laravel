@@ -11,44 +11,16 @@
 
 namespace LucaDegasperi\OAuth2Server\Lumen;
 
-use LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider as BaseOAuth2ServerServiceProvider;
+use LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider as ServiceProvider;
 
 /**
  * This is the Lumen oauth server service provider class.
  *
+ * @deprecated since version 5.1. Use the base OAuth2ServerServiceProvider instead.
+ *
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */
-class OAuth2ServerServiceProvider extends BaseOAuth2ServerServiceProvider
+class OAuth2ServerServiceProvider extends ServiceProvider
 {
-    /**
-     * Boot the service provider.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        // Lumen does not support route filters.
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        parent::register();
-
-        $this->registerConfiguration();
-    }
-
-    /**
-     * Register the configuration.
-     *
-     * @return void
-     */
-    public function registerConfiguration()
-    {
-        $this->app->configure('oauth2');
-    }
+    //
 }

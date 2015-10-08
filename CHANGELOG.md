@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.1.0 (upcoming)
+
+- Improved Lumen support
+
 ## 5.0.1 (released 2015-08-19)
 
 - Added middleware registration

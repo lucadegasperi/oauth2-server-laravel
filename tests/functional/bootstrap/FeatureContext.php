@@ -31,6 +31,7 @@ class FeatureContext extends BehatFeatureContext
     {
         $this->resetMigrations();
     }
+
     /**
      * @Given /^An authorization server exists that supports the "([^"]*)" grant type$/
      */

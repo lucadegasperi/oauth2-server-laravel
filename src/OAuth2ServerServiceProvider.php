@@ -11,6 +11,7 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\ResourceServer;
@@ -39,20 +40,26 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig();
-        $this->setupMigrations();
+        $this->setupConfig($this->app);
+        $this->setupMigrations($this->app);
     }
 
     /**
      * Setup the config.
      *
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     *
      * @return void
      */
-    protected function setupConfig()
+    protected function setupConfig(Application $app)
     {
         $source = realpath(__DIR__.'/../config/oauth2.php');
 
-        $this->publishes([$source => config_path('oauth2.php')]);
+        if (class_exists('Illuminate\Foundation\Application', false) && $app->runningInConsole()) {
+            $this->publishes([$source => config_path('oauth2.php')]);
+        } elseif (class_exists('Laravel\Lumen\Application', false)) {
+            $app->configure('oauth2');
+        }
 
         $this->mergeConfigFrom($source, 'oauth2');
     }
@@ -60,13 +67,17 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Setup the migrations.
      *
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     *
      * @return void
      */
-    protected function setupMigrations()
+    protected function setupMigrations(Application $app)
     {
         $source = realpath(__DIR__.'/../database/migrations/');
 
-        $this->publishes([$source => database_path('migrations')], 'migrations');
+        if (class_exists('Illuminate\Foundation\Application', false) && $app->runningInConsole()) {
+            $this->publishes([$source => database_path('migrations')], 'migrations');
+        }
     }
 
     /**
@@ -90,17 +101,17 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app->bindShared('oauth2-server.authorizer', function ($app) {
             $config = $app['config']->get('oauth2');
             $issuer = $app->make(AuthorizationServer::class)
-                          ->setClientStorage($app->make(ClientInterface::class))
-                          ->setSessionStorage($app->make(SessionInterface::class))
-                          ->setAuthCodeStorage($app->make(AuthCodeInterface::class))
-                          ->setAccessTokenStorage($app->make(AccessTokenInterface::class))
-                          ->setRefreshTokenStorage($app->make(RefreshTokenInterface::class))
-                          ->setScopeStorage($app->make(ScopeInterface::class))
-                          ->requireScopeParam($config['scope_param'])
-                          ->setDefaultScope($config['default_scope'])
-                          ->requireStateParam($config['state_param'])
-                          ->setScopeDelimiter($config['scope_delimiter'])
-                          ->setAccessTokenTTL($config['access_token_ttl']);
+                ->setClientStorage($app->make(ClientInterface::class))
+                ->setSessionStorage($app->make(SessionInterface::class))
+                ->setAuthCodeStorage($app->make(AuthCodeInterface::class))
+                ->setAccessTokenStorage($app->make(AccessTokenInterface::class))
+                ->setRefreshTokenStorage($app->make(RefreshTokenInterface::class))
+                ->setScopeStorage($app->make(ScopeInterface::class))
+                ->requireScopeParam($config['scope_param'])
+                ->setDefaultScope($config['default_scope'])
+                ->requireStateParam($config['state_param'])
+                ->setScopeDelimiter($config['scope_delimiter'])
+                ->setAccessTokenTTL($config['access_token_ttl']);
 
             // add the supported grant types to the authorization server
             foreach ($config['grant_types'] as $grantIdentifier => $grantParams) {
@@ -112,15 +123,19 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                     $verifier = $app->make($className);
                     $grant->setVerifyCredentialsCallback([$verifier, $method]);
                 }
+
                 if (array_key_exists('auth_token_ttl', $grantParams)) {
                     $grant->setAuthTokenTTL($grantParams['auth_token_ttl']);
                 }
+
                 if (array_key_exists('refresh_token_ttl', $grantParams)) {
                     $grant->setRefreshTokenTTL($grantParams['refresh_token_ttl']);
                 }
+
                 if (array_key_exists('rotate_refresh_tokens', $grantParams)) {
                     $grant->setRefreshTokenRotation($grantParams['rotate_refresh_tokens']);
                 }
+
                 $issuer->addGrantType($grant);
             }
 
@@ -141,7 +156,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Middleware to the IoC container because some middleware need additional parameters.
+     * Register the Middleware to the IoC container because
+     * some middleware need additional parameters.
      *
      * @return void
      */

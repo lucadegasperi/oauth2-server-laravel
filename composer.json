@@ -25,10 +25,10 @@
     },
     "require-dev": {
         "orchestra/testbench": "3.1.*",
-        "phpunit/phpunit": "^4.7.6",
-        "phpspec/phpspec": "^2.2.1",
-        "mockery/mockery": "^0.9.4",
-        "henrikbjorn/phpspec-code-coverage": "^1.0.1"
+        "phpunit/phpunit": "^4.8|^5.0",
+        "phpspec/phpspec": "^2.2",
+        "mockery/mockery": "^0.9",
+        "henrikbjorn/phpspec-code-coverage": "^1.0"
     },
     "autoload": {
         "psr-4": {

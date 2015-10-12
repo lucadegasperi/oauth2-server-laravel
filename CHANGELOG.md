@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 5.1.0 (upcoming)
+## 5.0.2 (released 2015-10-12)
 
 - Improved Lumen support
 

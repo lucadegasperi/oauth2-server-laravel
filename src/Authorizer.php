@@ -87,6 +87,26 @@ class Authorizer
     }
 
     /**
+     * Get the current access token for the session.
+     *
+     * If the session does not have an active access token, an exception will be thrown.
+     *
+     * @throws \LucaDegasperi\OAuth2Server\NoActiveAccessTokenException
+     *
+     * @return \League\OAuth2\Server\Entity\AccessTokenEntity
+     */
+    public function getAccessToken()
+    {
+        $accessToken = $this->getChecker()->getAccessToken();
+
+        if (is_null($accessToken)) {
+            throw new NoActiveAccessTokenException('Tried to access session data without an active access token');
+        }
+
+        return $accessToken;
+    }
+
+    /**
      * Issue an access token if the request parameters are valid.
      *
      * @return array a response object for the protocol in use
@@ -209,7 +229,7 @@ class Authorizer
      */
     public function getScopes()
     {
-        return $this->checker->getAccessToken()->getScopes();
+        return $this->getAccessToken()->getScopes();
     }
 
     /**
@@ -231,7 +251,7 @@ class Authorizer
             return true;
         }
 
-        return $this->checker->getAccessToken()->hasScope($scope);
+        return $this->getAccessToken()->hasScope($scope);
     }
 
     /**
@@ -241,7 +261,7 @@ class Authorizer
      */
     public function getResourceOwnerId()
     {
-        return $this->checker->getAccessToken()->getSession()->getOwnerId();
+        return $this->getAccessToken()->getSession()->getOwnerId();
     }
 
     /**
@@ -251,7 +271,7 @@ class Authorizer
      */
     public function getResourceOwnerType()
     {
-        return $this->checker->getAccessToken()->getSession()->getOwnerType();
+        return $this->getAccessToken()->getSession()->getOwnerType();
     }
 
     /**

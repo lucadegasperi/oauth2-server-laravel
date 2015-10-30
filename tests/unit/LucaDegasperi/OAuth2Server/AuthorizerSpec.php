@@ -18,6 +18,7 @@ use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Util\RedirectUri;
+use LucaDegasperi\OAuth2Server\NoActiveAccessTokenException;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -65,6 +66,12 @@ class AuthorizerSpec extends ObjectBehavior
         $this->getScopes()->shouldReturn(['foo', 'bar']);
     }
 
+    public function it_throws_exception_if_current_scopes_accessed_without_active_access_token(ResourceServer $checker)
+    {
+        $checker->getAccessToken()->willReturn(null);
+        $this->shouldThrow(NoActiveAccessTokenException::class)->during('getScopes');
+    }
+
     public function it_checks_if_a_scope_is_included_into_the_current_ones(ResourceServer $checker, AccessTokenEntity $accessTokenEntity)
     {
         $accessTokenEntity->hasScope('foo')->willReturn(true)->shouldBeCalled();
@@ -100,6 +107,12 @@ class AuthorizerSpec extends ObjectBehavior
         $this->hasScope(['foo', 'bar'])->shouldReturn(true);
     }
 
+    public function it_throws_if_scopes_are_checked_without_active_access_token(ResourceServer $checker)
+    {
+        $checker->getAccessToken()->willReturn(null);
+        $this->shouldThrow(NoActiveAccessTokenException::class)->during('hasScope', ['foo']);
+    }
+
     public function it_returns_the_resource_owner_id(ResourceServer $checker, AccessTokenEntity $accessTokenEntity, SessionEntity $sessionEntity)
     {
         $sessionEntity->getOwnerId()->willReturn('1')->shouldBeCalled();
@@ -108,12 +121,24 @@ class AuthorizerSpec extends ObjectBehavior
         $this->getResourceOwnerId()->shouldReturn('1');
     }
 
+    public function it_throws_exception_if_resource_owner_id_accessed_without_active_session(ResourceServer $checker)
+    {
+        $checker->getAccessToken()->willReturn(null);
+        $this->shouldThrow(NoActiveAccessTokenException::class)->during('getResourceOwnerId');
+    }
+
     public function it_returns_the_resource_owner_type(ResourceServer $checker, AccessTokenEntity $accessTokenEntity, SessionEntity $sessionEntity)
     {
         $sessionEntity->getOwnerType()->willReturn('user')->shouldBeCalled();
         $accessTokenEntity->getSession()->willReturn($sessionEntity)->shouldBeCalled();
         $checker->getAccessToken()->willReturn($accessTokenEntity)->shouldBeCalled();
         $this->getResourceOwnerType()->shouldReturn('user');
+    }
+
+    public function test_it_throws_exception_if_resource_owner_type_accessed_without_active_session(ResourceServer $checker)
+    {
+        $checker->getAccessToken()->willReturn(null);
+        $this->shouldThrow(NoActiveAccessTokenException::class)->during('getResourceOwnerType');
     }
 
     public function it_returns_the_client_id(ResourceServer $checker, AccessTokenEntity $accessTokenEntity, SessionEntity $sessionEntity, ClientEntity $clientEntity)

@@ -18,7 +18,7 @@ use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Util\RedirectUri;
-use LucaDegasperi\OAuth2Server\NoActiveAccessTokenException;
+use LucaDegasperi\OAuth2Server\Exceptions\NoActiveAccessTokenException;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\HttpFoundation\Request;
 

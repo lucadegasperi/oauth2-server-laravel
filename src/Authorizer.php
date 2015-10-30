@@ -16,6 +16,7 @@ use League\OAuth2\Server\Exception\AccessDeniedException;
 use League\OAuth2\Server\ResourceServer as Checker;
 use League\OAuth2\Server\TokenType\TokenTypeInterface;
 use League\OAuth2\Server\Util\RedirectUri;
+use LucaDegasperi\OAuth2Server\Exceptions\NoActiveAccessTokenException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -91,7 +92,7 @@ class Authorizer
      *
      * If the session does not have an active access token, an exception will be thrown.
      *
-     * @throws \LucaDegasperi\OAuth2Server\NoActiveAccessTokenException
+     * @throws \LucaDegasperi\OAuth2Server\Exceptions\NoActiveAccessTokenException
      *
      * @return \League\OAuth2\Server\Entity\AccessTokenEntity
      */

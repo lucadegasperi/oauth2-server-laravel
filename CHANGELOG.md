@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.0.3 (released 2015-11-02)
+
+- Added new access token exception
+
 ## 5.0.2 (released 2015-10-12)
 
 - Improved Lumen support

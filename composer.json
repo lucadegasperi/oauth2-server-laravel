@@ -17,7 +17,7 @@
     [
         {
             "type": "vcs",
-            "url": "https://github.com/exdoh/oauth2-server.git"
+            "url": "https://github.com/exdoh/oauth2-server"
         }
     ],
     "require": {

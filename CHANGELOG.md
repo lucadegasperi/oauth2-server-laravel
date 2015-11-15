@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.1.0 (released 2015-11-15)
+
+- Added Laravel 5.2 support
+
 ## 5.0.3 (released 2015-11-02)
 
 - Added new access token exception

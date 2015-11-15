@@ -12,7 +12,9 @@
 namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Lumen\Application as LumenApplication;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
@@ -55,9 +57,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $source = realpath(__DIR__.'/../config/oauth2.php');
 
-        if (class_exists('Illuminate\Foundation\Application', false) && $app->runningInConsole()) {
+        if ($app instanceof LaravelApplication && $app->runningInConsole()) {
             $this->publishes([$source => config_path('oauth2.php')]);
-        } elseif (class_exists('Laravel\Lumen\Application', false)) {
+        } elseif ($app instanceof LumenApplication) {
             $app->configure('oauth2');
         }
 
@@ -75,7 +77,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $source = realpath(__DIR__.'/../database/migrations/');
 
-        if (class_exists('Illuminate\Foundation\Application', false) && $app->runningInConsole()) {
+        if ($app instanceof LaravelApplication && $app->runningInConsole()) {
             $this->publishes([$source => database_path('migrations')], 'migrations');
         }
     }

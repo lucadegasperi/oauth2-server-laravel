@@ -114,7 +114,7 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
                    ->where('oauth_grants.id', $grantType);
         }
 
-        $result = $query->first();
+        $result = (object) $query->first();
 
         if (is_null($result)) {
             return;

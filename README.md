@@ -28,7 +28,7 @@
 
 This package features an [extensive documentation](docs) to help you getting started implementing an OAuth 2.0 server in your Laravel application.
 
-## Support
+## Contributing
 
 Bugs and feature request are tracked on [GitHub](https://github.com/lucadegasperi/oauth2-server-laravel/issues). Please read our [contribution guidelines](CONTRIBUTING.md) before opening a new issue or submitting a new pull request.
 

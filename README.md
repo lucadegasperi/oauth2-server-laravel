@@ -26,7 +26,7 @@
 
 ## Documentation
 
-This package features an [extensive wiki](https://github.com/lucadegasperi/oauth2-server-laravel/wiki) to help you getting started implementing an OAuth 2.0 server in your Laravel application.
+This package features an [extensive documentation](docs) to help you getting started implementing an OAuth 2.0 server in your Laravel application.
 
 ## Support
 

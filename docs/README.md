@@ -10,7 +10,8 @@ This wiki will guide you through all the things you need to successfully integra
 4. [Laravel 5 Installation](getting-started/laravel-5.md)
 5. [Lumen Installation](getting-started/lumen.md)
 6. [Configuration](getting-started/config.md)
-7. [Apache ModRewrite](getting-started/apache.md)
+7. [Middleware](getting-started/middleware.md)
+8. [Apache ModRewrite](getting-started/apache.md)
 
 ## Authorization Server
 

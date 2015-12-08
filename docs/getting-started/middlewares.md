@@ -2,21 +2,21 @@
 
 This package comes with four different middlewares to make the integration into Laravel much easier.
 
-##### OAuthMiddleware
+### OAuthMiddleware
 
 This is the core middleware which should be used in almost all cases for authoring requests.
 
-##### OAuthClientOwnerMiddleware
+### OAuthClientOwnerMiddleware
 
 Use this middleware to check if the current authorization request owner is of the type `client`. This middleware is associated with the `client_credentials` grant.
 
-##### OAuthUserOwnerMiddleware
+### OAuthUserOwnerMiddleware
 
 Use this middleware to check if the current authorization request owner is of the type `user`. This middleware is associated with the `password` grant.
 
 > **Note:** this middleware is required in order to fetch the current resource owners ID.
 
-##### CheckAuthCodeRequestMiddleware
+### CheckAuthCodeRequestMiddleware
 
 Use this middleware to check access tokens on the client after successfully authenticating the resource owner and obtaining authorization. This middleware is associated with the `authorization_code` grant.
 

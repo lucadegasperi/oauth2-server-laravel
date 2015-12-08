@@ -1,4 +1,4 @@
-# Middleware
+# Middlewares
 
 This package comes with four different middlewares to make the integration into Laravel much easier.
 

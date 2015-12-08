@@ -32,6 +32,8 @@ public function __construct()
 }
 ```
 
+If the middlewares isn't in the correct order, methods like the `Authorizer::getResourceOwnerId()` wont work.
+
 ---
 
 [&larr; Back to start](../README.md)

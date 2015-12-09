@@ -36,6 +36,7 @@
       <input type="hidden" name="response_type" value="{{$params['response_type']}}">
       <input type="hidden" name="state" value="{{$params['state']}}">
       <input type="hidden" name="scope" value="{{$params['scope']}}">
+      
       <button type="submit" name="approve">Approve</button>
       <button type="submit" name="deny">Deny</button>
     </form>

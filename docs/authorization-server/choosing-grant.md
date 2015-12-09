@@ -45,7 +45,7 @@ If you’ve ever signed into a website or application with your Twitter/Facebook
 
 Essentially a user will click on a “sign in with Facebook” (or other <attr title=“Identity Provider”>IdP</attr>) and then be redirected from the application/website (the “client”) to the IdP authorization server. The user will then sign in to the IdP with their credentials, and then - if they haven’t already - authorise the client to allow it to use the user’s data (such as their name, email address, etc). If they authorise the request the user will be redirected back to the client with a token (called the authorization code) in the query string (e.g. `http://client.com/redirect?code=XYZ123`) which the client will capture and exchange for an access token in the background.
 
-This grant is suitable where the resource owner is a user and they are using a client which is allows a user to interact with a website in a browser. An obvious example is the client being another website, but desktop applications such as Spotify or Reeder use embedded browsers.
+This grant is suitable where the resource owner is a user and they are using a client which allows a user to interact with a website in a browser. An obvious example is the client being another website, but desktop applications such as Spotify or Reeder use embedded browsers.
 
 Some mobile applications use this flow and again use an embedded browser (or redirect the user to the native browser and then are redirected back to the app using a custom protocol).
 

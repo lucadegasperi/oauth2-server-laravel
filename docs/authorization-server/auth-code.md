@@ -15,7 +15,7 @@
 2. Set up a route to respond to the incoming auth code requests
 
     ```php
-    Route::get('oauth/authorize', ['as' => 'oauth.authorize.get','middleware' => ['check-authorization-params', 'auth'], function() {
+    Route::get('oauth/authorize', ['as' => 'oauth.authorize.get', 'middleware' => ['check-authorization-params', 'auth'], function() {
         // display a form where the user can authorize the client to access it's data
        $authParams = Authorizer::getAuthCodeRequestParams();
        $formParams = array_except($authParams,'client');
@@ -24,32 +24,22 @@
            return $scope->getId();
        }, $authParams['scopes']));
 
-       return View::make('oauth.authorization-form', ['params'=>$formParams,'client'=>$authParams['client']]);
+       return View::make('oauth.authorization-form', ['params' => $formParams, 'client' => $authParams['client']]);
     }]);
     ```
-    **Note:** The form you submit should preserve the query string.  
-    **Example of view('oauth.authorization-form'):**
-     ```php
-    @extends('layouts.default')
+    > **Note:** The form you submit should preserve the query string.  
 
-    @section('content')
-        {!! Form::open(['method' => 'POST','class'=>'form-horizontal', 'url'=> route('oauth.authorize.post',$params)]) !!}
-        <div class="form-group">
-            <dl class="dl-horizontal">
-                <dt>Client Name</dt>
-                <dd>{{$client->getName()}}</dd>
-            </dl>
-        </div>
-        {!! Form::hidden('client_id', $params['client_id']) !!}
-        {!! Form::hidden('redirect_uri', $params['redirect_uri']) !!}
-        {!! Form::hidden('response_type', $params['response_type']) !!}
-        {!! Form::hidden('state', $params['state']) !!}
-        {!! Form::hidden('scope', $params['scope']) !!}
-        {!! Form::submit('Approve', ['name'=>'approve', 'value'=>1, 'class'=>'btn btn-success']) !!}
-        {!! Form::submit('Deny', ['name'=>'deny', 'value'=>1, 'class'=>'btn bg-danger']) !!}
-        {!! Form::close() !!}
-    @endsection
-     ```
+    ```php
+    <form method="post" action="{{route('oauth.authorize.post', $params)}}">
+      <input type="hidden" name="client_id" value="{{$params['client_id']}}">
+      <input type="hidden" name="redirect_uri" value="{{$params['redirect_uri']}}">
+      <input type="hidden" name="response_type" value="{{$params['response_type']}}">
+      <input type="hidden" name="state" value="{{$params['state']}}">
+      <input type="hidden" name="scope" value="{{$params['scope']}}">
+      <button type="submit" name="approve">Approve</button>
+      <button type="submit" name="deny">Deny</button>
+    </form>
+    ```
 
 3. Set up a route to respond to the form being posted.
 

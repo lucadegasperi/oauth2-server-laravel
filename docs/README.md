@@ -37,3 +37,7 @@ This wiki will guide you through all the things you need to successfully integra
 - [The OAuth 2.0 authorization framework specification](https://tools.ietf.org/html/rfc6749)
 - [The PHP League's official documentation](http://oauth2.thephpleague.com)
 - [OAuth 2 Simplified by Aaron Parecki](https://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified)
+
+## Contributing
+
+We welcome any pull request to improve the documentation. Please see our [contributing guidelines](../CONTRIBUTING.md).

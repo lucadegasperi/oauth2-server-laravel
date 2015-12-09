@@ -16,10 +16,12 @@
 
     ```php
     Route::get('oauth/authorize', ['as' => 'oauth.authorize.get', 'middleware' => ['check-authorization-params', 'auth'], function() {
-        // display a form where the user can authorize the client to access it's data
        $authParams = Authorizer::getAuthCodeRequestParams();
+
        $formParams = array_except($authParams,'client');
+
        $formParams['client_id'] = $authParams['client']->getId();
+
        $formParams['scope'] = implode(config('oauth2.scope_delimiter'), array_map(function ($scope) {
            return $scope->getId();
        }, $authParams['scopes']));
@@ -30,13 +32,14 @@
     > **Note:** The form you submit should preserve the query string.  
 
     ```php
+    <h2>{{$client->getName()}}</h2>
     <form method="post" action="{{route('oauth.authorize.post', $params)}}">
       <input type="hidden" name="client_id" value="{{$params['client_id']}}">
       <input type="hidden" name="redirect_uri" value="{{$params['redirect_uri']}}">
       <input type="hidden" name="response_type" value="{{$params['response_type']}}">
       <input type="hidden" name="state" value="{{$params['state']}}">
       <input type="hidden" name="scope" value="{{$params['scope']}}">
-      
+
       <button type="submit" name="approve">Approve</button>
       <button type="submit" name="deny">Deny</button>
     </form>
@@ -45,21 +48,22 @@
 3. Set up a route to respond to the form being posted.
 
     ```php
-    Route::post('oauth/authorize', ['as' => 'oauth.authorize.post','middleware' => ['csrf', 'check-authorization-params', 'auth'], function() {
+    Route::post('oauth/authorize', ['as' => 'oauth.authorize.post', 'middleware' => ['csrf', 'check-authorization-params', 'auth'], function() {
 
         $params = Authorizer::getAuthCodeRequestParams();
         $params['user_id'] = Auth::user()->id;
-        $redirectUri = '';
+        $redirectUri = '/';
 
-        // if the user has allowed the client to access its data, redirect back to the client with an auth code
-        if (Input::get('approve') !== null) {
+        // If the user has allowed the client to access its data, redirect back to the client with an auth code.
+        if (Request::has('approve')) {
             $redirectUri = Authorizer::issueAuthCode('user', $params['user_id'], $params);
         }
 
-        // if the user has denied the client to access its data, redirect back to the client with an error message
-        if (Input::get('deny') !== null) {
+        // If the user has denied the client to access its data, redirect back to the client with an error message.
+        if (Request::has('deny')) {
             $redirectUri = Authorizer::authCodeRequestDeniedRedirectUri();
         }
+
         return Redirect::to($redirectUri);
     }]);
     ```

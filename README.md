@@ -38,4 +38,4 @@ The code on which this package is [based](https://github.com/thephpleague/oauth2
 
 ## License
 
-This package is released under [the MIT License](LICENSE).
+The Laravel OAuth 2.0 package is released under [the MIT License](LICENSE).

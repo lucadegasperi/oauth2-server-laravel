@@ -41,3 +41,7 @@ This wiki will guide you through all the things you need to successfully integra
 ## Contributing
 
 We welcome any pull request to improve the documentation. Please see our [contributing guidelines](../CONTRIBUTING.md).
+
+## License
+
+The Laravel OAuth 2.0 package is released under [the MIT License](../LICENSE).

@@ -13,7 +13,7 @@ This wiki will guide you through all the things you need to successfully integra
 7. [Middlewares](getting-started/middlewares.md)
 8. [Apache ModRewrite](getting-started/apache.md)
 
-## Authorization Server
+#### Authorization Server
 
 1. [Choosing a Grant](authorization-server/choosing-grant.md)
 2. Implementing an Authorization Server
@@ -25,9 +25,15 @@ This wiki will guide you through all the things you need to successfully integra
     1. Using a different storage
     2. [Creating your own grant type](authorization-server/custom.md)
 
-## Resource Server
+#### Resource Server
 
 1. [Securing your API endpoints](resource-server/securing-endpoints.md)
     2. [Defining scopes](resource-server/securing-endpoints.md#defining-scopes)
     3. [Checking the access token](resource-server/securing-endpoints.md#checking-the-access-token)
     4. [Checking the scopes](resource-server/securing-endpoints.md#checking-the-scopes)
+
+## Articles & Resources
+
+- [The OAuth 2.0 authorization framework specification](https://tools.ietf.org/html/rfc6749)
+- [The PHP League's official documentation](http://oauth2.thephpleague.com)
+- [OAuth 2 Simplified by Aaron Parecki](https://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified)

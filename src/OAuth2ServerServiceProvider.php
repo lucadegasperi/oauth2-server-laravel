@@ -20,6 +20,7 @@ use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\AuthCodeInterface;
 use League\OAuth2\Server\Storage\ClientInterface;
+use League\OAuth2\Server\Storage\MacTokenInterface;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Storage\SessionInterface;
@@ -142,6 +143,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             }
 
             $checker = $app->make(ResourceServer::class);
+            $checker->setMacStorage($app->make(MacTokenInterface::class));
 
             $authorizer = new Authorizer($issuer, $checker);
             $authorizer->setRequest($app['request']);

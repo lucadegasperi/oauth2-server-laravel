@@ -15,6 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\AuthCodeInterface;
 use League\OAuth2\Server\Storage\ClientInterface;
+use League\OAuth2\Server\Storage\MacTokenInterface;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Storage\SessionInterface;
@@ -100,6 +101,13 @@ class FluentStorageServiceProvider extends ServiceProvider
 
             return $storage;
         });
+
+        $this->app->bindShared(FluentMacToken::class, function () use ($provider) {
+            $storage = new FluentMacToken($provider->app['db']);
+            $storage->setConnectionName($provider->getConnectionName());
+
+            return $storage;
+        });
     }
 
     /**
@@ -115,6 +123,7 @@ class FluentStorageServiceProvider extends ServiceProvider
         $this->app->bind(AuthCodeInterface::class, FluentAuthCode::class);
         $this->app->bind(AccessTokenInterface::class, FluentAccessToken::class);
         $this->app->bind(RefreshTokenInterface::class, FluentRefreshToken::class);
+        $this->app->bind(MacTokenInterface::class, FluentMacToken::class);
     }
 
     /**

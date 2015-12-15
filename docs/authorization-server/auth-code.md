@@ -40,8 +40,8 @@
       <input type="hidden" name="state" value="{{$params['state']}}">
       <input type="hidden" name="scope" value="{{$params['scope']}}">
 
-      <button type="submit" name="approve">Approve</button>
-      <button type="submit" name="deny">Deny</button>
+      <button type="submit" name="approve" value="1">Approve</button>
+      <button type="submit" name="deny" value="1">Deny</button>
     </form>
     ```
 

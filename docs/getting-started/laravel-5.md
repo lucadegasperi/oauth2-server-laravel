@@ -39,7 +39,7 @@ In order to make some the authorization and resource server work correctly with 
 > **Note:** remember to add the csrf middleware manually on any route where it's appropriate.
 
 ### Migrations and Configuration Publishing
-Run `php artisan vendor:publish` to publish this package configuration and migrations. Afterwards you can edit the file `config/oauth2.php` to suit your needs.
+Run `php artisan vendor:publish  --provider="LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider"` to publish this package configuration and migrations. Afterwards you can edit the file `config/oauth2.php` to suit your needs.
 
 > **Note:** migrations are only published, remember to run them when ready.
 

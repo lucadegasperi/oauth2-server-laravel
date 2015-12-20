@@ -21,7 +21,7 @@ Add this line to the `aliases` array:
 
 Add the following line to your `app/Http/Kernel.php` file in the `$middleware` array
 ```php
-\LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class
+\LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
 ```
 This will catch any OAuth error and respond appropriately.
 
@@ -30,7 +30,7 @@ Then add
 'oauth' => \LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware::class,
 'oauth-user' => \LucaDegasperi\OAuth2Server\Middleware\OAuthUserOwnerMiddleware::class,
 'oauth-client' => \LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware::class,
-'check-authorization-params' => \LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class
+'check-authorization-params' => \LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware::class,
 ```
 to the `$routeMiddleware` array.
 

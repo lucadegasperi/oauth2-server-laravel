@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.1.1 (released 2015-12-22)
+
+- Fix Laravel 5.2 support bug
+
 ## 5.1.0 (released 2015-11-15)
 
 - Added Laravel 5.2 support

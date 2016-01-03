@@ -34,6 +34,7 @@
     ```php
     <h2>{{$client->getName()}}</h2>
     <form method="post" action="{{route('oauth.authorize.post', $params)}}">
+      {{ csrf_field() }}
       <input type="hidden" name="client_id" value="{{$params['client_id']}}">
       <input type="hidden" name="redirect_uri" value="{{$params['redirect_uri']}}">
       <input type="hidden" name="response_type" value="{{$params['response_type']}}">

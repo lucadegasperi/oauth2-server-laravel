@@ -26,9 +26,9 @@
 
 ## Documentation
 
-This package features an [extensive wiki](https://github.com/lucadegasperi/oauth2-server-laravel/wiki) to help you getting started implementing an OAuth 2.0 server in your Laravel application.
+This package features an [extensive documentation](docs#readme) to help you getting started implementing an OAuth 2.0 server in your Laravel application.
 
-## Support
+## Contributing
 
 Bugs and feature request are tracked on [GitHub](https://github.com/lucadegasperi/oauth2-server-laravel/issues). Please read our [contribution guidelines](CONTRIBUTING.md) before opening a new issue or submitting a new pull request.
 
@@ -38,4 +38,4 @@ The code on which this package is [based](https://github.com/thephpleague/oauth2
 
 ## License
 
-This package is released under [the MIT License](LICENSE).
+The Laravel OAuth 2.0 package is released under [the MIT License](LICENSE).

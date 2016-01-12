@@ -11,8 +11,9 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Foundation\Application as LaravelApplication;
+use Illuminate\Contracts\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
 use League\OAuth2\Server\AuthorizationServer;
@@ -49,11 +50,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Setup the config.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */
-    protected function setupConfig(Application $app)
+    protected function setupConfig(Container $app)
     {
         $source = realpath(__DIR__.'/../config/oauth2.php');
 
@@ -69,11 +70,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Setup the migrations.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */
-    protected function setupMigrations(Application $app)
+    protected function setupMigrations(Container $app)
     {
         $source = realpath(__DIR__.'/../database/migrations/');
 
@@ -96,11 +97,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Register the Authorization server with the IoC container.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */
-    public function registerAuthorizer(Application $app)
+    public function registerAuthorizer(Container $app)
     {
         $app->singleton('oauth2-server.authorizer', function ($app) {
             $config = $app['config']->get('oauth2');
@@ -161,11 +162,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Register the Middleware to the IoC container because
      * some middleware need additional parameters.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */
-    public function registerMiddlewareBindings(Application $app)
+    public function registerMiddlewareBindings(Container $app)
     {
         $app->singleton(CheckAuthCodeRequestMiddleware::class, function ($app) {
             return new CheckAuthCodeRequestMiddleware($app['oauth2-server.authorizer']);

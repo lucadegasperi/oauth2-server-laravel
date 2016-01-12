@@ -11,7 +11,7 @@
 
 namespace LucaDegasperi\OAuth2Server\Storage;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\AuthCodeInterface;
@@ -51,11 +51,11 @@ class FluentStorageServiceProvider extends ServiceProvider
     /**
      * Bind the storage implementations to the IoC container.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */
-    public function registerStorageBindings(Application $app)
+    public function registerStorageBindings(Container $app)
     {
         $provider = $this;
 
@@ -108,11 +108,11 @@ class FluentStorageServiceProvider extends ServiceProvider
     /**
      * Bind the interfaces to their implementations.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */
-    public function registerInterfaceBindings(Application $app)
+    public function registerInterfaceBindings(Container $app)
     {
         $app->bind(ClientInterface::class, FluentClient::class);
         $app->bind(ScopeInterface::class, FluentScope::class);

@@ -187,7 +187,7 @@ class Authorizer
     }
 
     /**
-     * get the RedirectUri generator instance.
+     * Get the RedirectUri generator instance.
      *
      * @return RedirectUri
      */

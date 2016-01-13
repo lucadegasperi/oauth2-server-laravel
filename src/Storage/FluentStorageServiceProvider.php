@@ -11,7 +11,7 @@
 
 namespace LucaDegasperi\OAuth2Server\Storage;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Container\Container as Application;
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\AuthCodeInterface;

@@ -127,7 +127,7 @@ class FeatureContext extends BehatFeatureContext
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */

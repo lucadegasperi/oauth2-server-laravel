@@ -11,7 +11,7 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Container\Container as Application;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
@@ -49,7 +49,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Setup the config.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */
@@ -69,7 +69,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Setup the migrations.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */
@@ -96,7 +96,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Register the Authorization server with the IoC container.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */
@@ -161,7 +161,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * Register the Middleware to the IoC container because
      * some middleware need additional parameters.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Container\Container $app
      *
      * @return void
      */

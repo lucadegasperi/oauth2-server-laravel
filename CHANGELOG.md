@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 5.1.3 (released 2016-01-13)
+
+- Fix Lumen 5.2 support
+
 ## 5.1.2 (released 2016-01-13)
 
 - Fix Lumen 5.2 support bug

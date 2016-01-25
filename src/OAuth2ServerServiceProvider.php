@@ -140,7 +140,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                     $grant->setRefreshTokenRotation($grantParams['rotate_refresh_tokens']);
                 }
 
-                $issuer->addGrantType($grant);
+                $issuer->addGrantType($grant, $grantIdentifier);
             }
 
             $checker = $app->make(ResourceServer::class);

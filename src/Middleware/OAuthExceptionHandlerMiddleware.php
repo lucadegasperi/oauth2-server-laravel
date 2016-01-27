@@ -33,7 +33,13 @@ class OAuthExceptionHandlerMiddleware
     public function handle($request, Closure $next)
     {
         try {
-            return $next($request);
+            $response = $next($request);
+            // Was an exception thrown? If so and available catch in our middleware
+            if (isset($response->exception) && $response->exception) {
+                throw $response->exception;
+            }
+
+            return $response;
         } catch (OAuthException $e) {
             $data = [
                 'error' => $e->errorType,

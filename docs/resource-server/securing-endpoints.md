@@ -1,11 +1,12 @@
 # Securing your API endpoints
 
-This package comes with a series of tools to help you protect your API endpoints using OAuth 2.0. This tools include the access token verification and the permissions verification. First let's talk about defining permissions (scopes).
+This package comes with a series of tools to help you protect your API endpoints using OAuth 2.0. This package include the access token verification and the permissions verification. First let's talk about defining permissions (scopes).
 
 ### Defining scopes
 
-In the context of OAuth, scopes are the part of your API, the client (the third-party application) is trying to access. You can think of them as a sort of permission the client asks to have. Scopes are completely arbitrary string you define. When using this package, all your scopes should be saved into the `oauth_scopes` table.
-When a client asks for an access token he'll pass the scopes he needs in order to work. The authorization server will then verify the scopes exist and the client has the right to use them.
+In the context of OAuth, scopes are the part of your API, the client (the third-party application) is trying to access. You can think of them as a sort of permission the client asks for. Scopes are a completely arbitrary string defined by you. When using this package, all your scopes should be saved into the `oauth_scopes` table.
+
+When a client asks for an access token he'll also provide the scopes he needs for the application. The authorization server will then verify the scopes exist and the client has the right to use them.
 
 > Using scopes is optional, but any non trivial application will benefit from them.
 
@@ -18,6 +19,7 @@ Route::get('protected-resource', ['middleware' => 'oauth', function() {
     // return the protected resource
 }]);
 ```
+
 This middleware will allow the access to the protected resource to any client with a valid access token. It will also send the client an error if he hasn't provided a valid access token. If you want to limit the access to the resource only to clients with certain permissions, here's where scopes come in handy.
 
 ### Checking the scopes
@@ -29,6 +31,7 @@ Route::get('protected-resource', ['middleware' => 'oauth:scope1+scope2', functio
     // return the protected resource
 }]);
 ```
+
 When at least one of the scope doesn't match the permissions the client has, the middleware will return an error to the client, informing it that it doesn't have the required permissions to access the endpoint.
 
 ### Checking the access token owner

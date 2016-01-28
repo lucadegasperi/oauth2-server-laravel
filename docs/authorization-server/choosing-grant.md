@@ -1,6 +1,6 @@
 # Choosing a Grant
 
-OAuth 2.0 by it’s nature is a very flexible standard and can be adapted to work in many different scenarios. The [core specification](http://tools.ietf.org/html/rfc6749) describes four authorization grants:
+OAuth 2.0 by its nature is a very flexible standard and can be adapted to work in many different scenarios. The [core specification](http://tools.ietf.org/html/rfc6749) describes four authorization grants:
 
 * Authorization code grant
 * Implicit grant
@@ -43,7 +43,7 @@ The authorization code grant is the grant that most people think of when OAuth i
 
 If you’ve ever signed into a website or application with your Twitter/Facebook/Google/(insert major Internet company here) account then you’ll have experienced using this grant.
 
-Essentially a user will click on a “sign in with Facebook” (or other <attr title=“Identity Provider”>IdP</attr>) and then be redirected from the application/website (the “client”) to the IdP authorization server. The user will then sign in to the IdP with their credentials, and then - if they haven’t already - authorise the client to allow it to use the user’s data (such as their name, email address, etc). If they authorise the request the user will be redirected back to the client with a token (called the authorization code) in the query string (e.g. `http://client.com/redirect?code=XYZ123`) which the client will capture and exchange for an access token in the background.
+Essentially a user will click on a “sign in with Facebook” (or other <attr title=“Identity Provider”>IdP</attr>) and then be redirected from the application/website (the “client”) to the IdP authorization server. The user will then sign in to the IdP with their credentials, and then - if they haven’t already - authorize the client to allow it to use the user’s data (such as their name, email address, etc). If they authorize the request the user will be redirected back to the client with a token (called the authorization code) in the query string (e.g. `http://client.com/redirect?code=XYZ123`) which the client will capture and exchange for an access token in the background.
 
 This grant is suitable where the resource owner is a user and they are using a client which allows a user to interact with a website in a browser. An obvious example is the client being another website, but desktop applications such as Spotify or Reeder use embedded browsers.
 

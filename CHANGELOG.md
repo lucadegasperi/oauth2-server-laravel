@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 5.1.4 (released 2016-01-29)
+
+- Fix bug in middleware
+
 # 5.1.3 (released 2016-01-13)
 
 - Fix Lumen 5.2 support

@@ -77,7 +77,14 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
     {
         $query = null;
 
-        if (!is_null($redirectUri) && is_null($clientSecret)) {
+        if (is_null($redirectUri) && is_null($clientSecret)) {
+            $query = $this->getConnection()->table('oauth_clients')
+                ->select(
+                    'oauth_clients.id as id',
+                    'oauth_clients.secret as secret',
+                    'oauth_clients.name as name')
+                ->where('oauth_clients.id', $clientId);
+        } elseif (!is_null($redirectUri) && is_null($clientSecret)) {
             $query = $this->getConnection()->table('oauth_clients')
                    ->select(
                        'oauth_clients.id as id',

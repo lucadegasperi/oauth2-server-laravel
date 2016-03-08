@@ -23,6 +23,14 @@ class FluentClientTest extends AbstractDBTestCase
         return $repo;
     }
 
+    public function test_get_client_with_id_only()
+    {
+        $repo = $this->getClientRepository();
+        $client = $repo->get('client1id');
+
+        $this->assertIsClient($client);
+    }
+
     public function test_get_client_with_secret_only()
     {
         // arrange
@@ -32,7 +40,7 @@ class FluentClientTest extends AbstractDBTestCase
         $client = $repo->get('client1id', 'client1secret');
 
         // assert
-        $this->assertIsClient($client, false);
+        $this->assertIsClient($client);
     }
 
     public function test_get_client_with_redirect_uri_only()

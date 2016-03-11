@@ -3,7 +3,7 @@
 Composer is the recommended way to install this package. Add the following line to your `composer.json` file:
 
 ```json
-"lucadegasperi/oauth2-server-laravel": "5.0.*"
+"lucadegasperi/oauth2-server-laravel": "5.1.*"
 ```
 
 Then run `composer update` to get the package.

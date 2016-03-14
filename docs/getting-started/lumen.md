@@ -36,6 +36,11 @@ $app->routeMiddleware([
 ]);
 ```
 
+... and Authorizer alias
+```php
+class_alias(\LucaDegasperi\OAuth2Server\Facades\Authorizer::class, 'Authorizer');
+```
+
 ### Copy config
 
 Copy `vendor/lucadegasperi/oauth2-server-laravel/config/oauth2.php` to your own config folder (`config/oauth2.php` in your project root). It has to be the correct config folder as it is registered using `$app->configure()`.

@@ -5,7 +5,7 @@ The file in `config/oauth2.php` contains plenty of options you can use to config
 ### `grant_types`
 options: `array`
 
-An array of grant types supported by the authorization server to obtain an access token. See [Issuing access tokens](https://github.com/lucadegasperi/oauth2-server-laravel/wiki#authorization-server) for how to configure and use the different grant types.
+An array of grant types supported by the authorization server to obtain an access token. See [Issuing access tokens](https://github.com/lucadegasperi/oauth2-server-laravel/blob/master/docs/authorization-server/choosing-grant.md) for how to configure and use the different grant types.
 
 ### `token_type`
 options: `string`

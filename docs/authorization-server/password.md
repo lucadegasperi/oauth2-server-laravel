@@ -11,7 +11,7 @@
     ]
     ```
 
-2. Create a class with a `verify` method where you check if the provided user is a valid one.
+2. Create a class with a `verify` method where you check if the provided user is a valid one. In the following example you have to create a `PasswordGrantVerifier.php` in your `app` folder.
 
     ```php
     namespace App;

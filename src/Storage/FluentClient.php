@@ -177,6 +177,8 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
      */
     protected function hydrateEntity($result)
     {
+        $result = (object) $result;
+        
         $client = new ClientEntity($this->getServer());
         $client->hydrate([
             'id' => $result->id,

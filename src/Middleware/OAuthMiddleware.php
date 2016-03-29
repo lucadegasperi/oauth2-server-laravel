@@ -64,7 +64,7 @@ class OAuthMiddleware
         $scopes = [];
 
         if (!is_null($scopesString)) {
-
+            // We extract all posible scopes combinations, its required to meed at least one.
             $scopeCombinations = explode('|', $scopesString);
         }
 
@@ -86,7 +86,6 @@ class OAuthMiddleware
     public function validateCombinations($combinations)
     {
         if (!empty($combinations)) {
-            $combinationMeet = false;
             foreach ($combinations as $index => $combination) {
                 $scopes = explode('+', $combination);
                 if($this->validateScopes($scopes))

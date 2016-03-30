@@ -62,17 +62,41 @@ class OAuthMiddleware
     public function handle($request, Closure $next, $scopesString = null)
     {
         $scopes = [];
+        $scopeCombinations = [];
 
         if (!is_null($scopesString)) {
-            $scopes = explode('+', $scopesString);
+            // We extract all possible scopes combinations, its required to meet at least one.
+            $scopeCombinations = explode('|', $scopesString);
         }
 
         $this->authorizer->setRequest($request);
 
         $this->authorizer->validateAccessToken($this->httpHeadersOnly);
-        $this->validateScopes($scopes);
+        $this->validateCombinations($scopeCombinations);
 
         return $next($request);
+    }
+
+    /**
+     * Validate the scopes.
+     *
+     * @param $scopes
+     *
+     * @throws \League\OAuth2\Server\Exception\InvalidScopeException
+     */
+    public function validateCombinations($combinations)
+    {
+        if (!empty($combinations)) {
+            foreach ($combinations as $index => $combination) {
+                $scopes = explode('+', $combination);
+                if($this->validateScopes($scopes))
+                {
+                    return true;
+                }
+            }
+
+            throw new InvalidScopeException(implode(',', $combinations));
+        }
     }
 
     /**
@@ -85,7 +109,8 @@ class OAuthMiddleware
     public function validateScopes($scopes)
     {
         if (!empty($scopes) && !$this->authorizer->hasScope($scopes)) {
-            throw new InvalidScopeException(implode(',', $scopes));
+            return false;
         }
+        return true;
     }
 }

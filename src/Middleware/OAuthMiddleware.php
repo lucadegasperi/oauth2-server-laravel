@@ -62,6 +62,7 @@ class OAuthMiddleware
     public function handle($request, Closure $next, $scopesString = null)
     {
         $scopes = [];
+        $scopeCombinations = [];
 
         if (!is_null($scopesString)) {
             // We extract all posible scopes combinations, its required to meed at least one.

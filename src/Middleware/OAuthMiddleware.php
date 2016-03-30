@@ -65,7 +65,7 @@ class OAuthMiddleware
         $scopeCombinations = [];
 
         if (!is_null($scopesString)) {
-            // We extract all posible scopes combinations, its required to meed at least one.
+            // We extract all possible scopes combinations, its required to meet at least one.
             $scopeCombinations = explode('|', $scopesString);
         }
 

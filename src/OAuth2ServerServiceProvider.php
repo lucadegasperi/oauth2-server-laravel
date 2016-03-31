@@ -5,6 +5,13 @@ namespace LucaDegasperi\OAuth2Server;
 
 use DateInterval;
 use Illuminate\Support\ServiceProvider;
+use League\OAuth2\Server\Grant\AuthCodeGrant;
+use League\OAuth2\Server\Grant\ImplicitGrant;
+use League\OAuth2\Server\Grant\PasswordGrant;
+use League\OAuth2\Server\Grant\RefreshTokenGrant;
+use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
+use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
+use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use League\OAuth2\Server\Server;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
@@ -30,7 +37,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
+        $this->bootGuard();
     }
 
     protected function registerServer()
@@ -48,7 +55,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             foreach ($app['config']->get('oauth2.grant_types') as $grantType) {
                 $server->enableGrantType(
-                    $app->make($grantType['class']),
+                    $app->make($grantType['class'], $grantType),
                     new DateInterval('PT' . $grantType['ttl'] . 'S')
                 );
             }
@@ -58,6 +65,55 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
     protected function registerGrantTypes()
     {
+        $this->app->bind(AuthCodeGrant::class, function ($app, $parameters = []) {
 
+            return new AuthCodeGrant(
+                $app->make(AuthCodeRepositoryInterface::class),
+                $app->make(RefreshTokenRepositoryInterface::class),
+                $app->make(UserRepositoryInterface::class),
+                new DateInterval('PT' . $parameters['auth_code_ttl'] . 'S')
+            );
+
+        });
+
+        $this->app->bind(ImplicitGrant::class, function ($app, $parameters = []) {
+
+            return new ImplicitGrant(
+                $app->make(UserRepositoryInterface::class)
+            );
+
+        });
+
+        $this->app->bind(PasswordGrant::class, function ($app, $parameters = []) {
+
+            return new PasswordGrant(
+                $app->make(UserRepositoryInterface::class),
+                $app->make(RefreshTokenRepositoryInterface::class)
+            );
+
+        });
+
+        $this->app->bind(RefreshTokenGrant::class, function ($app, $parameters = []) {
+
+            return new RefreshTokenGrant(
+                $app->make(RefreshTokenRepositoryInterface::class)
+            );
+
+        });
+    }
+
+    protected function bootGuard()
+    {
+        $this->app['auth']->extend('oauth', function ($app, $name, array $config) {
+            $guard = new Guard(
+                $app['auth']->createUserProvider($config['provider']),
+                $app->make(Server::class),
+                $app['request']
+            );
+
+            $app->refresh('request', $guard, 'setRequest');
+
+            return $guard;
+        });
     }
 }

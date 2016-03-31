@@ -37,6 +37,11 @@ class Guard implements IlluminateGuard
     private $accessToken = null;
 
     /**
+     * @var OAuthServerException
+     */
+    private $exception = null;
+
+    /**
      * @var ResourceServer
      */
     private $resourceServer;
@@ -171,7 +176,13 @@ class Guard implements IlluminateGuard
             $this->user = null;
             $this->client = null;
             $this->accessToken = null;
+            $this->exception = $exception;
         }
+    }
+
+    public function getException()
+    {
+        return $this->exception;
     }
 
     public function getResourceServer()

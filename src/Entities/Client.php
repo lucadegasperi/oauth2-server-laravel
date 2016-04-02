@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace LucaDegasperi\OAuth2Server\Entities;
 
@@ -74,6 +82,7 @@ class Client extends Model implements ClientEntityInterface
     {
         return $this->redirect_uri;
     }
+
 
     public function accessTokens()
     {

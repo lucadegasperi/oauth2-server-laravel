@@ -1,5 +1,12 @@
 <?php
-
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace LucaDegasperi\OAuth2Server;
 
@@ -43,6 +50,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     protected function registerServer()
     {
         $this->app->singleton(Server::class, function ($app) {
+
             $server = new Server(
                 $app->make(ClientRepositoryInterface::class),
                 $app->make(AccessTokenRepositoryInterface::class),
@@ -56,7 +64,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             foreach ($app['config']->get('oauth2.grant_types') as $grantType) {
                 $server->enableGrantType(
                     $app->make($grantType['class'], $grantType),
-                    new DateInterval('PT' . $grantType['ttl'] . 'S')
+                    new DateInterval('PT' . $grantType['access_token_ttl'] . 'S')
                 );
             }
 

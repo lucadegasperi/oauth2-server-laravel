@@ -1,7 +1,7 @@
 {
     "name": "lucadegasperi/oauth2-server-laravel",
-    "description": "An OAuth 2.0 bridge for Laravel and Lumen",
-    "keywords": ["oauth2", "oauth", "server", "api", "laravel", "lumen"],
+    "description": "An OAuth 2.0 bridge for Laravel",
+    "keywords": ["oauth2", "oauth", "server", "api", "laravel", "league", "authentication", "authorization"],
     "license": "MIT",
     "authors": [
         {
@@ -21,7 +21,7 @@
         "illuminate/http": "5.2.*",
         "illuminate/support": "5.2.*",
         "illuminate/config": "5.2.*",
-        "league/oauth2-server": "5.0.0-RC1",
+        "league/oauth2-server": "^5.0",
         "symfony/psr-http-message-bridge": "^0.2.0"
     },
     "require-dev": {

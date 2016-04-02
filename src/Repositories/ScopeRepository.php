@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of OAuth 2.0 Laravel.
+ *
+ * (c) Luca Degasperi <packages@lucadegasperi.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
@@ -19,7 +27,7 @@ class ScopeRepository implements ScopeRepositoryInterface
      */
     public function getScopeEntityByIdentifier($identifier)
     {
-        Scope::where('identifier', $identifier)->first();
+        return Scope::where('identifier', $identifier)->first();
     }
 
     /**
@@ -42,5 +50,22 @@ class ScopeRepository implements ScopeRepositoryInterface
         if (!$clientEntity->has('scopes')) {
             return $scopes;
         }
+
+        $clientScopes = $clientEntity->scopes;
+
+        // TODO: this can be simplified imho.
+        $scopes = array_filter($scopes, function($scope) use ($clientScopes) {
+
+            $identifier = $scope->getItentifier();
+
+            return $clientScopes->contains(function($key, $value) use ($identifier) {
+                $value->getIdentifer() == $identifier;
+            });
+
+        });
+
+        // TODO: add possibility to append scopes from clients or grants
+
+        return $scopes;
     }
 }

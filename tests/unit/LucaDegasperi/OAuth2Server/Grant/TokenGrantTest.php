@@ -90,9 +90,7 @@ class TokenGrantTest extends \PHPUnit_Framework_TestCase
             'client_secret' =>  'foobar',
         ];
 
-        $_SERVER = [
-            //'HTTP_AUTHORIZATION'    => 'Bearer 4637648641763471634736147123423'
-        ];
+        $_SERVER = [];
 
         $server = new AuthorizationServer();
         $grant = new TokenGrant();

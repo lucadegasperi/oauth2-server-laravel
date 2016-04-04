@@ -130,21 +130,12 @@ class TokenGrant extends AbstractGrant
             throw new Exception\InvalidClientException();
         }
 
-        //var_dump($this->access_token);
-        //exit();
-
         $access_token = $this->server->getRequest()->headers->get('authorization',null);
         if ($access_token === null) {
             throw new Exception\AccessDeniedException();
         }
 
-        //var_dump($this->access_token);
-        //exit();
-
         $bearerToken = str_replace( 'Bearer ','',$access_token );
-
-        //var_dump($this->access_token);
-        //exit();
 
         // Set the access token
         $this->accessToken = $this->server->getAccessTokenStorage()->get($bearerToken);
@@ -153,10 +144,7 @@ class TokenGrant extends AbstractGrant
         if (!$this->accessToken instanceof AccessTokenEntity) {
             throw new Exception\AccessDeniedException();
         }
-
-        //var_dump($this->access_token);
-        //exit();
-
+        
         // Check the access token hasn't expired
         // Ensure the auth code hasn't expired
         if ($this->accessToken->isExpired() === true) {

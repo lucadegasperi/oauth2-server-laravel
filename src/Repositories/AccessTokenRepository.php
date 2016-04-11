@@ -10,17 +10,40 @@
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
-use League\OAuth2\Server\Entities\Interfaces\AccessTokenEntityInterface;
+use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use LucaDegasperi\OAuth2Server\Entities\AccessToken;
 
 class AccessTokenRepository implements AccessTokenRepositoryInterface
 {
+    /**
+     * Create a new access token
+     *
+     * @param \League\OAuth2\Server\Entities\ClientEntityInterface $clientEntity
+     * @param \League\OAuth2\Server\Entities\ScopeEntityInterface[] $scopes
+     * @param mixed $userIdentifier
+     *
+     * @return AccessTokenEntityInterface
+     */
+    public function getNewToken(ClientEntityInterface $clientEntity, array $scopes, $userIdentifier = null)
+    {
+        $accessToken = new AccessToken();
+        $accessToken->setClient($clientEntity);
+
+        foreach($scopes as $scope) {
+            $accessToken->addScope($scope);
+        }
+
+        $accessToken->setUserIdentifier($userIdentifier);
+
+        return $accessToken;
+    }
 
     /**
      * Persists a new access token to permanent storage.
      *
-     * @param \League\OAuth2\Server\Entities\Interfaces\AccessTokenEntityInterface $accessTokenEntity
+     * @param \League\OAuth2\Server\Entities\AccessTokenEntityInterface $accessTokenEntity
      */
     public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
     {

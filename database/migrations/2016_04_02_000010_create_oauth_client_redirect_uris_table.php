@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Schema;
  *
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */
-class CreateOauthAccessTokensTable extends Migration
+class CreateOauthClientRedirectUrisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -25,18 +25,12 @@ class CreateOauthAccessTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_access_tokens', function (Blueprint $table) {
+        Schema::create('oauth_client_redirect_uris', function (Blueprint $table) {
             
             $table->primary('id');
-            $table->string('token')->unique();
-
+            $table->string('uri')->unique();
             $table->integer('client_id')->unsigned();
 
-            // use a string for the user identifier
-            $table->string('user_id')->nullable();
-
-            // TODO: make it the current timestamp
-            $table->timestamp('expires_at')->useCurrent();
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('oauth_clients')->onDelete('cascade');
@@ -50,6 +44,6 @@ class CreateOauthAccessTokensTable extends Migration
      */
     public function down()
     {
-        Schema::drop('oauth_access_tokens');
+        Schema::drop('oauth_client_redirect_uris');
     }
 }

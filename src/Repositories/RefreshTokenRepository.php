@@ -10,17 +10,26 @@
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
-use League\OAuth2\Server\Entities\Interfaces\RefreshTokenEntityInterface;
+use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use LucaDegasperi\OAuth2Server\Entities\RefreshToken;
 
 class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 {
+    /**
+     * Creates a new refresh token
+     *
+     * @return RefreshTokenEntityInterface
+     */
+    public function getNewRefreshToken()
+    {
+        return new RefreshToken();
+    }
 
     /**
      * Create a new refresh token_name.
      *
-     * @param \League\OAuth2\Server\Entities\Interfaces\RefreshTokenEntityInterface $refreshTokenEntity
+     * @param \League\OAuth2\Server\Entities\RefreshTokenEntityInterface $refreshTokenEntity
      */
     public function persistNewRefreshToken(RefreshTokenEntityInterface $refreshTokenEntity)
     {

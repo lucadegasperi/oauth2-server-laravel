@@ -15,7 +15,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard as IlluminateGuard;
 use Illuminate\Contracts\Auth\UserProvider;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Server as ResourceServer;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;

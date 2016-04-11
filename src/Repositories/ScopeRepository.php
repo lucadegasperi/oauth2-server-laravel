@@ -10,8 +10,8 @@
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
-use League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface;
-use League\OAuth2\Server\Entities\Interfaces\ScopeEntityInterface;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Entities\ScopeEntityInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use LucaDegasperi\OAuth2Server\Entities\Scope;
 
@@ -23,7 +23,7 @@ class ScopeRepository implements ScopeRepositoryInterface
      *
      * @param string $identifier The scope identifier
      *
-     * @return \League\OAuth2\Server\Entities\Interfaces\ScopeEntityInterface
+     * @return \League\OAuth2\Server\Entities\ScopeEntityInterface
      */
     public function getScopeEntityByIdentifier($identifier)
     {
@@ -36,10 +36,10 @@ class ScopeRepository implements ScopeRepositoryInterface
      *
      * @param ScopeEntityInterface[] $scopes
      * @param string $grantType
-     * @param \League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface $clientEntity
+     * @param \League\OAuth2\Server\Entities\ClientEntityInterface $clientEntity
      * @param null|string $userIdentifier
      *
-     * @return \League\OAuth2\Server\Entities\Interfaces\ScopeEntityInterface[]
+     * @return \League\OAuth2\Server\Entities\ScopeEntityInterface[]
      */
     public function finalizeScopes(
         array $scopes,

@@ -31,7 +31,6 @@ class CreateOauthClientsTable extends Migration
             $table->string('secret');
             $table->string('name');
             $table->string('description');
-            $table->string('redirect_uri');
             $table->timestamps();
         });
     }

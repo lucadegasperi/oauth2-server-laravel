@@ -11,7 +11,7 @@
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
 use Illuminate\Contracts\Auth\UserProvider;
-use League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
@@ -34,9 +34,9 @@ class UserRepository implements UserRepositoryInterface
      * @param string $username
      * @param string $password
      * @param string $grantType The grant type used
-     * @param \League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface $clientEntity
+     * @param \League\OAuth2\Server\Entities\ClientEntityInterface $clientEntity
      *
-     * @return \League\OAuth2\Server\Entities\Interfaces\UserEntityInterface
+     * @return \League\OAuth2\Server\Entities\UserEntityInterface
      */
     public function getUserEntityByUserCredentials(
         $username,

@@ -11,7 +11,7 @@
 namespace LucaDegasperi\OAuth2Server\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use League\OAuth2\Server\Entities\Interfaces\ScopeEntityInterface;
+use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
 /**
  * @property mixed id

@@ -10,7 +10,7 @@
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
-use League\OAuth2\Server\Entities\Interfaces\AuthCodeEntityInterface;
+use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use LucaDegasperi\OAuth2Server\Entities\AuthCode;
 
@@ -18,9 +18,19 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
 {
 
     /**
+     * Creates a new AuthCode
+     *
+     * @return \League\OAuth2\Server\Entities\AuthCodeEntityInterface
+     */
+    public function getNewAuthCode()
+    {
+        return new AuthCode();
+    }
+
+    /**
      * Persists a new auth code to permanent storage.
      *
-     * @param \League\OAuth2\Server\Entities\Interfaces\AuthCodeEntityInterface $authCodeEntity
+     * @param \League\OAuth2\Server\Entities\AuthCodeEntityInterface $authCodeEntity
      */
     public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity)
     {

@@ -11,13 +11,14 @@
 namespace LucaDegasperi\OAuth2Server\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
 
 /**
  * @property mixed id
  * @property mixed name
  * @property string redirect_uri
  * @property string identifier
+ * @property mixed redirectUris
  */
 class Client extends Model implements ClientEntityInterface
 {
@@ -74,13 +75,17 @@ class Client extends Model implements ClientEntityInterface
     }
 
     /**
-     * Returns the registered redirect URI.
+     * Returns the registered redirect URI (as a string).
      *
-     * @return string
+     * Alternatively return an indexed array of redirect URIs.
+     *
+     * @return string|string[]
      */
     public function getRedirectUri()
     {
-        return $this->redirect_uri;
+        return $this->redirectUris->map(function($item, $key){
+            return $item->uri;
+        })->toArray();
     }
 
 
@@ -97,5 +102,10 @@ class Client extends Model implements ClientEntityInterface
     public function scopes()
     {
         return $this->belongsToMany(Scope::class, 'oauth_client_scopes');
+    }
+
+    public function redirectUris()
+    {
+        return $this->hasMany(RedirectUri::class);
     }
 }

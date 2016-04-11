@@ -11,8 +11,8 @@
 namespace LucaDegasperi\OAuth2Server\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use League\OAuth2\Server\Entities\Interfaces\AccessTokenEntityInterface;
-use League\OAuth2\Server\Entities\Interfaces\RefreshTokenEntityInterface;
+use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
+use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use Carbon\Carbon;
 
 /**
@@ -70,7 +70,7 @@ class RefreshToken extends Model implements RefreshTokenEntityInterface
     /**
      * Set the access token that the refresh token was associated with.
      *
-     * @param \League\OAuth2\Server\Entities\Interfaces\AccessTokenEntityInterface $accessToken
+     * @param \League\OAuth2\Server\Entities\AccessTokenEntityInterface $accessToken
      */
     public function setAccessToken(AccessTokenEntityInterface $accessToken)
     {
@@ -80,7 +80,7 @@ class RefreshToken extends Model implements RefreshTokenEntityInterface
     /**
      * Get the access token that the refresh token was originally associated with.
      *
-     * @return \League\OAuth2\Server\Entities\Interfaces\AccessTokenEntityInterface
+     * @return \League\OAuth2\Server\Entities\AccessTokenEntityInterface
      */
     public function getAccessToken()
     {

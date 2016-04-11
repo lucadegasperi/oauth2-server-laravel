@@ -10,14 +10,12 @@
 
 namespace LucaDegasperi\OAuth2Server\Entities;
 
-use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Illuminate\Database\Eloquent\Model;
-use League\OAuth2\Server\Entities\Interfaces\AccessTokenEntityInterface;
-use League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface;
-use League\OAuth2\Server\Entities\Interfaces\ScopeEntityInterface;
+use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Entities\ScopeEntityInterface;
 use Carbon\Carbon;
+use League\OAuth2\Server\Entities\Traits\AccessTokenTrait;
 
 /**
  * @property mixed client
@@ -30,31 +28,11 @@ use Carbon\Carbon;
  */
 class AccessToken extends Model implements AccessTokenEntityInterface
 {
+    use AccessTokenTrait;
 
     protected $table = 'oauth_access_tokens';
 
     protected $dates = ['expires_at'];
-
-    /**
-     * Generate a JWT from the access token
-     *
-     * @param string $privateKeyPath
-     *
-     * @return string
-     */
-    public function convertToJWT($privateKeyPath)
-    {
-        return (new Builder())
-            ->setAudience($this->getClient()->getIdentifier())
-            ->setId($this->getIdentifier(), true)
-            ->setIssuedAt(time())
-            ->setNotBefore(time())
-            ->setExpiration($this->getExpiryDateTime()->getTimestamp())
-            ->setSubject($this->getUserIdentifier())
-            ->set('scopes', $this->getScopes())
-            ->sign(new Sha256(), new Key($privateKeyPath))
-            ->getToken();
-    }
 
     /**
      * Get the token's identifier.
@@ -129,7 +107,7 @@ class AccessToken extends Model implements AccessTokenEntityInterface
     /**
      * Set the client that the token was issued to.
      *
-     * @param \League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface $client
+     * @param \League\OAuth2\Server\Entities\ClientEntityInterface $client
      */
     public function setClient(ClientEntityInterface $client)
     {
@@ -139,7 +117,7 @@ class AccessToken extends Model implements AccessTokenEntityInterface
     /**
      * Associate a scope with the token.
      *
-     * @param \League\OAuth2\Server\Entities\Interfaces\ScopeEntityInterface $scope
+     * @param \League\OAuth2\Server\Entities\ScopeEntityInterface $scope
      */
     public function addScope(ScopeEntityInterface $scope)
     {
@@ -153,7 +131,7 @@ class AccessToken extends Model implements AccessTokenEntityInterface
      */
     public function getScopes()
     {
-        return $this->scopes;
+        return $this->scopes->toArray();
     }
 
     /**

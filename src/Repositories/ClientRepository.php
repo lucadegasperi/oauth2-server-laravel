@@ -23,7 +23,7 @@ class ClientRepository implements ClientRepositoryInterface
      * @param string $grantType The grant type used
      * @param null|string $clientSecret The client's secret (if sent)
      *
-     * @return \League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface
+     * @return \League\OAuth2\Server\Entities\ClientEntityInterface
      */
     public function getClientEntity($clientIdentifier, $grantType, $clientSecret = null)
     {

@@ -13,9 +13,9 @@ namespace LucaDegasperi\OAuth2Server\Entities;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
-use League\OAuth2\Server\Entities\Interfaces\AuthCodeEntityInterface;
-use League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface;
-use League\OAuth2\Server\Entities\Interfaces\ScopeEntityInterface;
+use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
 /**
  * @property mixed redirect_uri
@@ -121,7 +121,7 @@ class AuthCode extends Model implements AuthCodeEntityInterface
     /**
      * Set the client that the token was issued to.
      *
-     * @param \League\OAuth2\Server\Entities\Interfaces\ClientEntityInterface $client
+     * @param \League\OAuth2\Server\Entities\ClientEntityInterface $client
      */
     public function setClient(ClientEntityInterface $client)
     {
@@ -131,7 +131,7 @@ class AuthCode extends Model implements AuthCodeEntityInterface
     /**
      * Associate a scope with the token.
      *
-     * @param \League\OAuth2\Server\Entities\Interfaces\ScopeEntityInterface $scope
+     * @param \League\OAuth2\Server\Entities\ScopeEntityInterface $scope
      */
     public function addScope(ScopeEntityInterface $scope)
     {

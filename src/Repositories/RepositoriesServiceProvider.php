@@ -33,6 +33,6 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(ClientRepositoryInterface::class,       ClientRepository::class);
         $this->app->bind(RefreshTokenRepositoryInterface::class, RefreshTokenRepository::class);
         $this->app->bind(ScopeRepositoryInterface::class,        ScopeRepository::class);
-        $this->app->bind(UserRepositoryInterface::class,         UserRepositoryInterface::class);
+        $this->app->bind(UserRepositoryInterface::class,         UserRepository::class);
     }
 }

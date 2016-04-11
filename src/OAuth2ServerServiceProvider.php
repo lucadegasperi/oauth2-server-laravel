@@ -136,10 +136,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     protected function bootMigrationPublishing()
     {
         $source = realpath(__DIR__ . '/../database/migrations/');
-
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([$source => database_path('migrations')], 'migrations');
-        }
+        $this->publishes([$source => database_path('migrations')], 'migrations');
     }
 
     /**
@@ -150,9 +147,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     protected function bootConfigPublishing()
     {
         $source = realpath(__DIR__ . '/../config/oauth2.php');
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([$source => config_path('oauth2.php')]);
-        }
+        $this->publishes([$source => config_path('oauth2.php')]);
         $this->mergeConfigFrom($source, 'oauth2');
     }
 }

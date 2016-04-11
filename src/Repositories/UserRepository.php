@@ -10,7 +10,7 @@
 
 namespace LucaDegasperi\OAuth2Server\Repositories;
 
-use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Auth\AuthManager;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
@@ -18,14 +18,14 @@ class UserRepository implements UserRepositoryInterface
 {
 
     /**
-     * @var UserProvider
+     * @var AuthManager
      */
-    private $provider;
+    private $authManager;
 
-    public function __construct(UserProvider $provider)
+    public function __construct(AuthManager $authManager)
     {
 
-        $this->provider = $provider;
+        $this->authManager = $authManager;
     }
 
     /**
@@ -50,7 +50,7 @@ class UserRepository implements UserRepositoryInterface
             'password' => $password,
         ];
 
-        $user = $this->provider->retrieveByCredentials($credentials);
+        $user = $this->authManager->getProvider()->retrieveByCredentials($credentials);
 
         if (is_null($user)) {
 
@@ -59,7 +59,7 @@ class UserRepository implements UserRepositoryInterface
 
         // TODO: validate grant type and client for user
 
-        return $this->provider->validateCredentials($user, $credentials) ? $user : null;
+        return $this->authManager->getProvider()->validateCredentials($user, $credentials) ? $user : null;
 
     }
 }

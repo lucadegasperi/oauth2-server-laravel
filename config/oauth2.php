@@ -39,8 +39,6 @@ return [
     | Private Key Path
     |--------------------------------------------------------------------------
     |
-    | This will tell the authorization server the output format for the access
-    | token and the resource server how to parse the access token used.
     |
     */
     'private_key_path' => 'file://path_to_private_key/private.key',
@@ -51,11 +49,19 @@ return [
     | Public Key Path
     |--------------------------------------------------------------------------
     |
-    | This will tell the authorization server the output format for the access
-    | token and the resource server how to parse the access token used.
     |
     */
     'public_key_path' => 'file://path_to_private_key/public.key',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Key Passphrase
+    |--------------------------------------------------------------------------
+    |
+    | Default value is null, put your passphrase here if the key has one
+    |
+    */
+    'key_passphrase' => null,
 
     /*
     |--------------------------------------------------------------------------

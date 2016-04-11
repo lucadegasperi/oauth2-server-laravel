@@ -12,6 +12,7 @@ namespace LucaDegasperi\OAuth2Server;
 
 use DateInterval;
 use Illuminate\Support\ServiceProvider;
+use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\Grant\ImplicitGrant;
 use League\OAuth2\Server\Grant\PasswordGrant;
@@ -58,8 +59,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 $app->make(ClientRepositoryInterface::class),
                 $app->make(AccessTokenRepositoryInterface::class),
                 $app->make(ScopeRepositoryInterface::class),
-                $app['config']->get('oauth2.private_key_path'),
-                $app['config']->get('oauth2.public_key_path'),
+                new CryptKey($app['config']->get('oauth2.private_key_path'), $app['config']->get('oauth2.key_passphrase')),
+                new CryptKey($app['config']->get('oauth2.public_key_path'), $app['config']->get('oauth2.key_passphrase')),
                 $app->make($app['config']->get('oauth2.response_type')),
                 $app->make($app['config']->get('oauth2.authorization_validator'))
             );

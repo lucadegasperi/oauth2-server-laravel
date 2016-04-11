@@ -37,7 +37,7 @@ class CreateOauthAuthCodesTable extends Migration
             $table->string('user_id');
 
             // TODO: make it the current timestamp
-            $table->timestamp('expires_at')->default('CURRENT_TIMESTAMP');
+            $table->timestamp('expires_at')->useCurrent();
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('oauth_clients')->onDelete('cascade');

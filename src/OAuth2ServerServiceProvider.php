@@ -44,6 +44,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->bootConfigPublishing();
+        $this->bootMigrationPublishing();
+
         $this->bootGuard();
     }
 
@@ -123,5 +126,33 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             return $guard;
         });
+    }
+
+    /**
+     * Setup the migrations.
+     *
+     * @return void
+     */
+    protected function bootMigrationPublishing()
+    {
+        $source = realpath(__DIR__ . '/../database/migrations/');
+
+        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
+            $this->publishes([$source => database_path('migrations')], 'migrations');
+        }
+    }
+
+    /**
+     * Setup the config.
+     *
+     * @return void
+     */
+    protected function bootConfigPublishing()
+    {
+        $source = realpath(__DIR__ . '/../config/oauth2.php');
+        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
+            $this->publishes([$source => config_path('oauth2.php')]);
+        }
+        $this->mergeConfigFrom($source, 'oauth2');
     }
 }

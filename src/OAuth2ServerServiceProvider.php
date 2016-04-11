@@ -72,6 +72,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 );
             }
 
+            return $server;
+
         });
     }
 

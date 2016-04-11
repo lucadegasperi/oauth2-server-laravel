@@ -27,7 +27,7 @@ class CreateOauthAuthCodeScopesTable extends Migration
     {
         Schema::create('oauth_auth_codes_scopes', function (Blueprint $table) {
 
-            $table->primary('id');
+            $table->increments('id');
             $table->integer('auth_code_id')->unsigned();
             $table->integer('scope_id')->unsigned();
 

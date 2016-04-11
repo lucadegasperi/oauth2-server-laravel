@@ -26,7 +26,7 @@ class CreateOauthScopesTable extends Migration
     public function up()
     {
         Schema::create('oauth_scopes', function (Blueprint $table) {
-            $table->primary('id');
+            $table->increments('id');
             $table->string('identifier')->unique();
             $table->string('name');
             $table->string('description');

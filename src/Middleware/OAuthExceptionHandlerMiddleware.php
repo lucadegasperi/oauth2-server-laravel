@@ -46,7 +46,15 @@ class OAuthExceptionHandlerMiddleware
                 'error_description' => $e->getMessage(),
             ];
 
-            return new JsonResponse($data, $e->httpStatusCode, $e->getHttpHeaders());
+            $headers = [];
+            foreach ($e->getHttpHeaders() as $v) {
+                $parts = explode(':', $v);
+                if (count($parts) > 1) {
+                    $headers[$parts[0]] = $parts[1];
+                }
+            }
+
+            return new JsonResponse($data, $e->httpStatusCode, $headers);
         }
     }
 }

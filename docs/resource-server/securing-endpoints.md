@@ -36,7 +36,7 @@ When at least one of the scope doesn't match the permissions the client has, the
 
 ### Checking the access token owner
 
-When using the client_credentials grant type, the access token owner and the client can be the same entity to distinguish this particular case there's the `oauth-owner` middleware. Parameters for this middleware are either `client` or `user`
+When using the client_credentials grant type, the access token owner and the client can be the same entity to distinguish this particular case there's the `oauth-user` middleware. Parameters for this middleware are either `client` or `user`
 
 ### Finding access token owner
 

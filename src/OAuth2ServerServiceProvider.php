@@ -11,11 +11,13 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
+use Closure;
 use Illuminate\Contracts\Container\Container as Application;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
 use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Exception\ServerErrorException;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\AuthCodeInterface;
@@ -55,7 +57,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     protected function setupConfig(Application $app)
     {
-        $source = realpath(__DIR__.'/../config/oauth2.php');
+        $source = realpath(__DIR__ . '/../config/oauth2.php');
 
         if ($app instanceof LaravelApplication && $app->runningInConsole()) {
             $this->publishes([$source => config_path('oauth2.php')]);
@@ -75,7 +77,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     protected function setupMigrations(Application $app)
     {
-        $source = realpath(__DIR__.'/../database/migrations/');
+        $source = realpath(__DIR__ . '/../database/migrations/');
 
         if ($app instanceof LaravelApplication && $app->runningInConsole()) {
             $this->publishes([$source => database_path('migrations')], 'migrations');
@@ -123,9 +125,23 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 $grant->setAccessTokenTTL($grantParams['access_token_ttl']);
 
                 if (array_key_exists('callback', $grantParams)) {
-                    list($className, $method) = array_pad(explode('@', $grantParams['callback']), 2, 'verify');
-                    $verifier = $app->make($className);
-                    $grant->setVerifyCredentialsCallback([$verifier, $method]);
+                    $callback = null;
+
+                    if ($grantParams['callback'] instanceof Closure) {
+                        $callback = $grantParams['callback'];
+                    }
+
+                    if (is_string($grantParams['callback'])) {
+                        list($className, $method) = array_pad(explode('@', $grantParams['callback']), 2, 'verify');
+                        $verifier = $app->make($className);
+                        $callback = [$verifier, $method];
+                    }
+
+                    if (!$callback) {
+                        throw new ServerErrorException('Callback should be either a clousure or callable.');
+                    }
+
+                    $grant->setVerifyCredentialsCallback($callback);
                 }
 
                 if (array_key_exists('auth_token_ttl', $grantParams)) {

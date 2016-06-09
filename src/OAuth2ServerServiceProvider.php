@@ -57,7 +57,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     protected function setupConfig(Application $app)
     {
-        $source = realpath(__DIR__ . '/../config/oauth2.php');
+        $source = realpath(__DIR__.'/../config/oauth2.php');
 
         if ($app instanceof LaravelApplication && $app->runningInConsole()) {
             $this->publishes([$source => config_path('oauth2.php')]);
@@ -77,7 +77,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     protected function setupMigrations(Application $app)
     {
-        $source = realpath(__DIR__ . '/../database/migrations/');
+        $source = realpath(__DIR__.'/../database/migrations/');
 
         if ($app instanceof LaravelApplication && $app->runningInConsole()) {
             $this->publishes([$source => database_path('migrations')], 'migrations');

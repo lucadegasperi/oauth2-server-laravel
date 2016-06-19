@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * This is the authorizer facade class.
- * 
  * @see \LucaDegasperi\OAuth2Server\Authorizer
- * 
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */
 class Authorizer extends Facade

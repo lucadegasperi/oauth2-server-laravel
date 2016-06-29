@@ -50,6 +50,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->bootMigrationPublishing();
 
         $this->bootGuard();
+
+        $this->loadViewsFrom(__DIR__ . '/../views', 'oauth2server');
     }
 
     protected function registerServer()

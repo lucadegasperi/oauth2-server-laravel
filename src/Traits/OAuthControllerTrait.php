@@ -67,7 +67,7 @@ trait OAuthControllerTrait
 
     public function getAuthorizationView(AuthorizationRequest $authRequest, $queryString)
     {
-        $view = property_exists($this, 'authorizationView') ? $this->authorizationView : 'auth.authorize';
+        $view = property_exists($this, 'authorizationView') ? $this->authorizationView : 'oauth2server::authorize';
         return view($view)
             ->with('authRequest', $authRequest)
             ->with('queryString', $queryString);

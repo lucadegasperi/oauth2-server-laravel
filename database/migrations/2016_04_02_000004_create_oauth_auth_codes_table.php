@@ -29,7 +29,7 @@ class CreateOauthAuthCodesTable extends Migration
             
             $table->increments('id');
             $table->string('code')->unique();
-            $table->string('redirect_uri');
+            $table->string('redirect_uri')->nullable();
 
             $table->integer('client_id')->unsigned();
 

@@ -74,7 +74,7 @@ class RefreshToken extends Model implements RefreshTokenEntityInterface
      */
     public function setAccessToken(AccessTokenEntityInterface $accessToken)
     {
-        $this->accessToken()->save($accessToken);
+        $this->accessToken()->associate($accessToken);
     }
 
     /**

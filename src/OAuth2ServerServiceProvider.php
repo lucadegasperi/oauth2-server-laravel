@@ -94,13 +94,19 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $this->app->bind(AuthCodeGrant::class, function ($app, $parameters = []) {
 
-            return new AuthCodeGrant(
+            $grant = new AuthCodeGrant(
                 $app->make(AuthCodeRepositoryInterface::class),
                 $app->make(RefreshTokenRepositoryInterface::class),
-                $app->make(UserRepositoryInterface::class),
                 new DateInterval('PT' . $parameters['auth_code_ttl'] . 'S')
             );
 
+            if(array_key_exists($parameters['code_exchange_proof'])) {
+                if($parameters['code_exchange_proof'] === true) {
+                    $grant->enableCodeExchangeProof();
+                }
+            }
+
+            return $grant;
         });
 
         $this->app->bind(ImplicitGrant::class, function ($app, $parameters = []) {

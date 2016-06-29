@@ -125,7 +125,7 @@ class AuthCode extends Model implements AuthCodeEntityInterface
      */
     public function setClient(ClientEntityInterface $client)
     {
-        $this->client()->save($client);
+        $this->client()->associate($client);
     }
 
     /**
@@ -145,7 +145,7 @@ class AuthCode extends Model implements AuthCodeEntityInterface
      */
     public function getScopes()
     {
-        return $this->scopes;
+        return $this->scopes->toArray();
     }
 
     public function client()

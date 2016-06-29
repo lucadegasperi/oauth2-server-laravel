@@ -25,7 +25,7 @@ class CreateOauthAuthCodeScopesTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_auth_codes_scopes', function (Blueprint $table) {
+        Schema::create('oauth_auth_code_scopes', function (Blueprint $table) {
 
             $table->increments('id');
             $table->integer('auth_code_id')->unsigned();
@@ -51,6 +51,6 @@ class CreateOauthAuthCodeScopesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('oauth_auth_codes_scopes');
+        Schema::drop('oauth_auth_code_scopes');
     }
 }

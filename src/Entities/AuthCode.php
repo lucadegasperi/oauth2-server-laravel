@@ -105,7 +105,7 @@ class AuthCode extends Model implements AuthCodeEntityInterface
      */
     public function getUserIdentifier()
     {
-        return $this->user->getIdentifier();
+        return $this->user_id;
     }
 
     /**

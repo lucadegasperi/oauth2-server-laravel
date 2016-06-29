@@ -45,8 +45,9 @@ class UserRepository implements UserRepositoryInterface
         ClientEntityInterface $clientEntity
     ) {
 
+        // TODO: allow developer to choose which credentials key to use
         $credentials = [
-            'username' => $username,
+            'email' => $username,
             'password' => $password,
         ];
 

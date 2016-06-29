@@ -102,7 +102,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 new DateInterval('PT' . $parameters['auth_code_ttl'] . 'S')
             );
 
-            if(array_key_exists($parameters['code_exchange_proof'])) {
+            if(array_key_exists('code_exchange_proof', $parameters)) {
                 if($parameters['code_exchange_proof'] === true) {
                     $grant->enableCodeExchangeProof();
                 }

@@ -111,7 +111,7 @@ class AccessToken extends Model implements AccessTokenEntityInterface
      */
     public function setClient(ClientEntityInterface $client)
     {
-        $this->client()->save($client);
+        $this->client()->associate($client);
     }
 
     /**

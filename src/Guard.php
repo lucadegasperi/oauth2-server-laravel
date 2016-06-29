@@ -17,7 +17,7 @@ use Illuminate\Contracts\Auth\UserProvider;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
-use League\OAuth2\Server\Server as ResourceServer;
+use League\OAuth2\Server\ResourceServer;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 class Guard implements IlluminateGuard
@@ -64,8 +64,8 @@ class Guard implements IlluminateGuard
     public function __construct(UserProvider $provider, ResourceServer $resourceServer, Request $request)
     {
         $this->provider = $provider;
-        $this->request = $request;
         $this->resourceServer = $resourceServer;
+        $this->request = $request;
     }
 
     /**
@@ -148,6 +148,8 @@ class Guard implements IlluminateGuard
         }
 
         $this->parseRequest();
+
+        return $this->client;
     }
 
     public function setClient(ClientEntityInterface $client)

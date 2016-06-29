@@ -134,16 +134,6 @@ class AccessToken extends Model implements AccessTokenEntityInterface
         return $this->scopes->toArray();
     }
 
-    /**
-     * Has the token expired?
-     *
-     * @return bool
-     */
-    public function isExpired()
-    {
-        return $this->expires_at->lt(new Carbon());
-    }
-
     public function client()
     {
         return $this->belongsTo(Client::class);

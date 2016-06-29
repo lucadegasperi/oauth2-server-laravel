@@ -20,7 +20,8 @@ use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
-use League\OAuth2\Server\Server;
+use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
@@ -53,9 +54,9 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
     protected function registerServer()
     {
-        $this->app->singleton(Server::class, function ($app) {
+        $this->app->singleton(AuthorizationServer::class, function ($app) {
 
-            $server = new Server(
+            $server = new AuthorizationServer(
                 $app->make(ClientRepositoryInterface::class),
                 $app->make(AccessTokenRepositoryInterface::class),
                 $app->make(ScopeRepositoryInterface::class),
@@ -71,6 +72,18 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                     new DateInterval('PT' . $grantType['access_token_ttl'] . 'S')
                 );
             }
+
+            return $server;
+
+        });
+
+        $this->app->singleton(ResourceServer::class, function ($app) {
+
+            $server = new ResourceServer(
+                $app->make(AccessTokenRepositoryInterface::class),
+                new CryptKey($app['config']->get('oauth2.public_key_path'), $app['config']->get('oauth2.key_passphrase')),
+                $app->make($app['config']->get('oauth2.authorization_validator'))
+            );
 
             return $server;
 
@@ -121,7 +134,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->app['auth']->extend('oauth', function ($app, $name, array $config) {
             $guard = new Guard(
                 $app['auth']->createUserProvider($config['provider']),
-                $app->make(Server::class),
+                $app->make(ResourceServer::class),
                 $app['request']
             );
 

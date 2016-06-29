@@ -12,7 +12,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * This is the create oauth scopes table migration class.
+ * This is the create oauth access tokens table migration class.
  *
  * @author Luca Degasperi <packages@lucadegasperi.com>
  */

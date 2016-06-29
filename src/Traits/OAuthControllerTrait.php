@@ -75,8 +75,14 @@ trait OAuthControllerTrait
 
     public function getAuthorizationApprovedAttribute(ServerRequestInterface $request)
     {
-        $attribute = property_exists($this,
-            'authorizationApprovedAttribute') ? $this->authorizationApprovedAttribute : 'authorize';
-        return $request->getAttribute($attribute, false);
+        $attribute = property_exists($this, 'authorizationApprovedAttribute') ? $this->authorizationApprovedAttribute : 'authorize';
+        return $this->getRequestParameter($attribute, $request, false);
+    }
+
+    protected function getRequestParameter($parameter, ServerRequestInterface $request, $default = null)
+    {
+        $requestParameters = (array)$request->getParsedBody();
+
+        return isset($requestParameters[$parameter]) ? $requestParameters[$parameter] : $default;
     }
 }

@@ -19,6 +19,7 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\ResourceServer;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 class Guard implements IlluminateGuard
 {
@@ -65,7 +66,8 @@ class Guard implements IlluminateGuard
     {
         $this->provider = $provider;
         $this->resourceServer = $resourceServer;
-        $this->request = $request;
+        $psr7Factory = new DiactorosFactory();
+        $this->request = $psr7Factory->createRequest($request);
     }
 
     /**
@@ -166,7 +168,8 @@ class Guard implements IlluminateGuard
      */
     public function setRequest(Request $request)
     {
-        $this->request = $request;
+        $psr7Factory = new DiactorosFactory();
+        $this->request = $psr7Factory->createRequest($request);
         return $this;
     }
 

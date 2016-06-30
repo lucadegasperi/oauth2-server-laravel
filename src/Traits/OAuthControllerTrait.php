@@ -27,12 +27,8 @@ trait OAuthControllerTrait
             return $server->respondToAccessTokenRequest($request, $response);
         } catch (OAuthServerException $e) {
             return $e->generateHttpResponse($response);
-        } catch (\Exception $e) {
-            // Unknown exception
-            $body = new Stream('php://temp', 'r+');
-            $body->write($e->getMessage());
-
-            return $response->withStatus(500)->withBody($body);
+        } catch (\Exception $exception) {
+            return (new OAuthServerException($exception->getMessage(), 0, 'unknown_error', 500))->generateHttpResponse($response);
         }
     }
 
@@ -59,9 +55,7 @@ trait OAuthControllerTrait
         } catch (OAuthServerException $exception) {
             return $exception->generateHttpResponse($response);
         } catch (\Exception $exception) {
-            $body = new Stream('php://temp', 'r+');
-            $body->write($exception->getMessage());
-            return $response->withStatus(500)->withBody($body);
+            return (new OAuthServerException($exception->getMessage(), 0, 'unknown_error', 500))->generateHttpResponse($response);
         }
     }
 

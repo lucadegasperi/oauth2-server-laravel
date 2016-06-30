@@ -139,7 +139,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
     protected function bootGuard()
     {
-        $this->app['auth']->extend('oauth', function ($app, $name, array $config) {
+        $this->app['auth']->extend('oauth2', function ($app, $name, array $config) {
             $guard = new Guard(
                 $app['auth']->createUserProvider($config['provider']),
                 $app->make(ResourceServer::class),

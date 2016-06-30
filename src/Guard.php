@@ -14,7 +14,7 @@ use Illuminate\Auth\GuardHelpers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard as IlluminateGuard;
 use Illuminate\Contracts\Auth\UserProvider;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Illuminate\Http\Request;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\ResourceServer;
@@ -191,6 +191,7 @@ class Guard implements IlluminateGuard
             $this->accessToken = null;
             $this->exception = $exception;
         }
+        // TODO: catch other exceptions as well.
     }
 
     public function getException()

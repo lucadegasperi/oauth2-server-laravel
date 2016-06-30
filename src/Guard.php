@@ -184,6 +184,7 @@ class Guard implements IlluminateGuard
             // TODO: parse client into entity
             $this->client = $this->request->getAttribute('oauth_client_id');
             $this->scopes = $this->request->getAttribute('oauth_scopes', []);
+            $this->accessToken = $this->request->getAttribute('oauth_access_token_id');
 
         } catch (OAuthServerException $exception) {
             $this->user = null;

@@ -17,6 +17,7 @@ use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
+use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\ResourceServer;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;

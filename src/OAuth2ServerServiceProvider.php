@@ -143,7 +143,8 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             $guard = new Guard(
                 $app['auth']->createUserProvider($config['provider']),
                 $app->make(ResourceServer::class),
-                $app['request']
+                $app['request'],
+                $app->make(ClientRepositoryInterface::class)
             );
 
             $app->refresh('request', $guard, 'setRequest');

@@ -54,6 +54,10 @@ class Guard implements IlluminateGuard
      * @var ResourceServer
      */
     private $resourceServer;
+    /**
+     * @var ClientRepositoryInterface
+     */
+    private $clientRepository;
 
     /**
      * Guard constructor.
@@ -61,13 +65,20 @@ class Guard implements IlluminateGuard
      * @param UserProvider $provider
      * @param ResourceServer $resourceServer
      * @param Request $request
+     * @param ClientRepositoryInterface $clientRepository
      */
-    public function __construct(UserProvider $provider, ResourceServer $resourceServer, Request $request)
+    public function __construct(
+        UserProvider $provider,
+        ResourceServer $resourceServer,
+        Request $request,
+        ClientRepositoryInterface $clientRepository
+    )
     {
         $this->provider = $provider;
         $this->resourceServer = $resourceServer;
         $psr7Factory = new DiactorosFactory();
         $this->request = $psr7Factory->createRequest($request);
+        $this->clientRepository = $clientRepository;
     }
 
     /**
@@ -180,9 +191,7 @@ class Guard implements IlluminateGuard
             $this->request = $this->resourceServer->validateAuthenticatedRequest($this->request);
 
             $this->user = $this->provider->retrieveById($this->request->getAttribute('oauth_user_id'));
-
-            // TODO: parse client into entity
-            $this->client = $this->request->getAttribute('oauth_client_id');
+            $this->client = $this->clientRepository->getClientEntity($this->request->getAttribute('oauth_client_id'));
             $this->scopes = $this->request->getAttribute('oauth_scopes', []);
             $this->accessToken = $this->request->getAttribute('oauth_access_token_id');
 

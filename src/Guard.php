@@ -192,7 +192,8 @@ class Guard implements IlluminateGuard
             $this->request = $this->resourceServer->validateAuthenticatedRequest($this->request);
 
             $this->user = $this->provider->retrieveById($this->request->getAttribute('oauth_user_id'));
-            $this->client = $this->clientRepository->getClientEntity($this->request->getAttribute('oauth_client_id'), null);
+            // TODO: open PR for the null workaround
+            $this->client = $this->clientRepository->getClientEntity($this->request->getAttribute('oauth_client_id'), null, null, false);
             $this->scopes = $this->request->getAttribute('oauth_scopes', []);
             $this->accessToken = $this->request->getAttribute('oauth_access_token_id');
 

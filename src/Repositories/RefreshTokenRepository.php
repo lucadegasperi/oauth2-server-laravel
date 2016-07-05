@@ -17,7 +17,7 @@ use LucaDegasperi\OAuth2Server\Entities\RefreshToken;
 class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 {
     /**
-     * Creates a new refresh token
+     * Creates a new refresh token.
      *
      * @return RefreshTokenEntityInterface
      */

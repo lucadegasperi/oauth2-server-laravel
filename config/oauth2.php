@@ -30,9 +30,8 @@ return [
         [
             'class' => \League\OAuth2\Server\Grant\PasswordGrant::class,
             'access_token_ttl' => '',
-        ]
+        ],
     ],
-
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +41,6 @@ return [
     |
     */
     'private_key_path' => 'file://path_to_private_key/private.key',
-
 
     /*
     |--------------------------------------------------------------------------
@@ -76,7 +74,6 @@ return [
     */
     'response_type' => \League\OAuth2\Server\ResponseTypes\BearerTokenResponse::class,
 
-
     /*
     |--------------------------------------------------------------------------
     | Authorization Validator
@@ -87,6 +84,6 @@ return [
     | Default value is \League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator::class
     |
     */
-    'authorization_validator' => \League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator::class
+    'authorization_validator' => \League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator::class,
 
 ];

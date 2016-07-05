@@ -15,7 +15,6 @@ use LucaDegasperi\OAuth2Server\Entities\Client;
 
 class ClientRepository implements ClientRepositoryInterface
 {
-
     /**
      * Get a client.
      *

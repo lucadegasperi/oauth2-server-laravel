@@ -24,7 +24,6 @@ class ScopeRepository implements ScopeRepositoryInterface
 
     public function __construct($defaultScopes = [])
     {
-
         $this->defaultScopes = $defaultScopes;
     }
 
@@ -64,11 +63,11 @@ class ScopeRepository implements ScopeRepositoryInterface
         $clientScopes = $clientEntity->scopes;
 
         // TODO: this can be simplified imho.
-        $scopes = array_filter($scopes, function($scope) use ($clientScopes) {
+        $scopes = array_filter($scopes, function ($scope) use ($clientScopes) {
 
             $identifier = $scope->getItentifier();
 
-            return $clientScopes->contains(function($key, $value) use ($identifier) {
+            return $clientScopes->contains(function ($key, $value) use ($identifier) {
                 $value->getIdentifer() == $identifier;
             });
 

@@ -10,11 +10,11 @@
 
 namespace LucaDegasperi\OAuth2Server\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
-use Carbon\Carbon;
 use League\OAuth2\Server\Entities\Traits\AccessTokenTrait;
 
 /**

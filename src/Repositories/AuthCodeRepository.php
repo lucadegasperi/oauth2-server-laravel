@@ -16,9 +16,8 @@ use LucaDegasperi\OAuth2Server\Entities\AuthCode;
 
 class AuthCodeRepository implements AuthCodeRepositoryInterface
 {
-
     /**
-     * Creates a new AuthCode
+     * Creates a new AuthCode.
      *
      * @return \League\OAuth2\Server\Entities\AuthCodeEntityInterface
      */

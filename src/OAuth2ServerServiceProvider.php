@@ -12,19 +12,19 @@ namespace LucaDegasperi\OAuth2Server;
 
 use DateInterval;
 use Illuminate\Support\ServiceProvider;
+use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\Grant\ImplicitGrant;
 use League\OAuth2\Server\Grant\PasswordGrant;
 use League\OAuth2\Server\Grant\RefreshTokenGrant;
-use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
-use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
-use League\OAuth2\Server\Repositories\UserRepositoryInterface;
-use League\OAuth2\Server\AuthorizationServer;
-use League\OAuth2\Server\ResourceServer;
-use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
+use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
+use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
+use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
+use League\OAuth2\Server\Repositories\UserRepositoryInterface;
+use League\OAuth2\Server\ResourceServer;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -51,7 +51,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
         $this->bootGuard();
 
-        $this->loadViewsFrom(__DIR__ . '/../views', 'oauth2server');
+        $this->loadViewsFrom(__DIR__.'/../views', 'oauth2server');
     }
 
     protected function registerServer()
@@ -71,7 +71,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             foreach ($app['config']->get('oauth2.grant_types') as $grantType) {
                 $server->enableGrantType(
                     $app->make($grantType['class'], $grantType),
-                    new DateInterval('PT' . $grantType['access_token_ttl'] . 'S')
+                    new DateInterval('PT'.$grantType['access_token_ttl'].'S')
                 );
             }
 
@@ -99,11 +99,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             $grant = new AuthCodeGrant(
                 $app->make(AuthCodeRepositoryInterface::class),
                 $app->make(RefreshTokenRepositoryInterface::class),
-                new DateInterval('PT' . $parameters['auth_code_ttl'] . 'S')
+                new DateInterval('PT'.$parameters['auth_code_ttl'].'S')
             );
 
-            if(array_key_exists('code_exchange_proof', $parameters)) {
-                if($parameters['code_exchange_proof'] === true) {
+            if (array_key_exists('code_exchange_proof', $parameters)) {
+                if ($parameters['code_exchange_proof'] === true) {
                     $grant->enableCodeExchangeProof();
                 }
             }
@@ -160,7 +160,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     protected function bootMigrationPublishing()
     {
-        $source = realpath(__DIR__ . '/../database/migrations/');
+        $source = realpath(__DIR__.'/../database/migrations/');
         $this->publishes([$source => database_path('migrations')], 'migrations');
     }
 
@@ -171,7 +171,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     protected function bootConfigPublishing()
     {
-        $source = realpath(__DIR__ . '/../config/oauth2.php');
+        $source = realpath(__DIR__.'/../config/oauth2.php');
         $this->publishes([$source => config_path('oauth2.php')]);
         $this->mergeConfigFrom($source, 'oauth2');
     }

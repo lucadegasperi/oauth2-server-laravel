@@ -11,7 +11,6 @@
 namespace LucaDegasperi\OAuth2Server;
 
 use Illuminate\Auth\GuardHelpers;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard as IlluminateGuard;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
@@ -19,7 +18,6 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\ResourceServer;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 class Guard implements IlluminateGuard
@@ -55,7 +53,7 @@ class Guard implements IlluminateGuard
      * @var ResourceServer
      */
     private $resourceServer;
-    
+
     /**
      * @var ClientRepositoryInterface
      */
@@ -74,8 +72,7 @@ class Guard implements IlluminateGuard
         ResourceServer $resourceServer,
         Request $request,
         ClientRepositoryInterface $clientRepository
-    )
-    {
+    ) {
         $this->provider = $provider;
         $this->resourceServer = $resourceServer;
         $psr7Factory = new DiactorosFactory();
@@ -103,6 +100,7 @@ class Guard implements IlluminateGuard
      * Validate a user's credentials.
      *
      * @param  array $credentials
+     *
      * @return bool
      */
     public function validate(array $credentials = [])
@@ -129,7 +127,6 @@ class Guard implements IlluminateGuard
         return !is_null($user) && $this->provider->validateCredentials($user, $credentials);
     }
 
-
     public function scopes()
     {
         if (!is_null($this->scopes)) {
@@ -152,9 +149,8 @@ class Guard implements IlluminateGuard
         return $this->accessToken;
     }
 
-
     /**
-     * Get the client doing the request
+     * Get the client doing the request.
      */
     public function client()
     {
@@ -170,6 +166,7 @@ class Guard implements IlluminateGuard
     public function setClient(ClientEntityInterface $client)
     {
         $this->client = $client;
+
         return $this;
     }
 
@@ -177,19 +174,20 @@ class Guard implements IlluminateGuard
      * Set the current request instance.
      *
      * @param Request $request
+     *
      * @return $this
      */
     public function setRequest(Request $request)
     {
         $psr7Factory = new DiactorosFactory();
         $this->request = $psr7Factory->createRequest($request);
+
         return $this;
     }
 
     protected function parseRequest()
     {
         try {
-
             $this->request = $this->resourceServer->validateAuthenticatedRequest($this->request);
 
             $this->user = $this->provider->retrieveById($this->request->getAttribute('oauth_user_id'));
@@ -197,7 +195,6 @@ class Guard implements IlluminateGuard
             $this->client = $this->clientRepository->getClientEntity($this->request->getAttribute('oauth_client_id'), null, null, false);
             $this->scopes = $this->request->getAttribute('oauth_scopes', []);
             $this->accessToken = $this->request->getAttribute('oauth_access_token_id');
-
         } catch (OAuthServerException $exception) {
             $this->user = null;
             $this->client = null;
@@ -220,6 +217,7 @@ class Guard implements IlluminateGuard
     public function setResourceServer(ResourceServer $server)
     {
         $this->resourceServer = $server;
+
         return $this;
     }
 }

@@ -26,7 +26,7 @@ class CreateOauthAccessTokensTable extends Migration
     public function up()
     {
         Schema::create('oauth_access_tokens', function (Blueprint $table) {
-            
+
             $table->increments('id');
             $table->string('token')->unique();
 

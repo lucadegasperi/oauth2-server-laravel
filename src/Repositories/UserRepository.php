@@ -16,7 +16,6 @@ use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
-
     /**
      * @var AuthManager
      */
@@ -24,7 +23,6 @@ class UserRepository implements UserRepositoryInterface
 
     public function __construct(AuthManager $authManager)
     {
-
         $this->authManager = $authManager;
     }
 
@@ -54,13 +52,11 @@ class UserRepository implements UserRepositoryInterface
         $user = $this->authManager->getProvider()->retrieveByCredentials($credentials);
 
         if (is_null($user)) {
-
-            return null;
+            return;
         }
 
         // TODO: validate grant type and client for user
 
         return $this->authManager->getProvider()->validateCredentials($user, $credentials) ? $user : null;
-
     }
 }

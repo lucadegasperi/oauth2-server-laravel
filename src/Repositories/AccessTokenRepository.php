@@ -18,7 +18,7 @@ use LucaDegasperi\OAuth2Server\Entities\AccessToken;
 class AccessTokenRepository implements AccessTokenRepositoryInterface
 {
     /**
-     * Create a new access token
+     * Create a new access token.
      *
      * @param \League\OAuth2\Server\Entities\ClientEntityInterface $clientEntity
      * @param \League\OAuth2\Server\Entities\ScopeEntityInterface[] $scopes

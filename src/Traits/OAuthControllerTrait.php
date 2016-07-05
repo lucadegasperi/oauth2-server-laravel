@@ -3,19 +3,17 @@
  * Created by PhpStorm.
  * User: Luca
  * Date: 29/06/16
- * Time: 16:18
+ * Time: 16:18.
  */
 
 namespace LucaDegasperi\OAuth2Server\Traits;
 
-use League\OAuth2\Server\RequestTypes\AuthorizationRequest;
-use League\OAuth2\Server\Exception\OAuthServerException;
-use League\OAuth2\Server\AuthorizationServer;
-use Psr\Http\Message\ServerRequestInterface;
 use Illuminate\Support\Facades\Auth;
+use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use League\OAuth2\Server\RequestTypes\AuthorizationRequest;
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response;
-use Zend\Diactoros\Stream;
-
 
 trait OAuthControllerTrait
 {
@@ -51,7 +49,6 @@ trait OAuthControllerTrait
             } else {
                 return $this->getAuthorizationView($authRequest, $request->getUri()->getQuery());
             }
-
         } catch (OAuthServerException $exception) {
             return $exception->generateHttpResponse($response);
         } catch (\Exception $exception) {
@@ -62,6 +59,7 @@ trait OAuthControllerTrait
     public function getAuthorizationView(AuthorizationRequest $authRequest, $queryString)
     {
         $view = property_exists($this, 'authorizationView') ? $this->authorizationView : 'oauth2server::authorize';
+
         return view($view)
             ->with('authRequest', $authRequest)
             ->with('queryString', $queryString);
@@ -70,12 +68,13 @@ trait OAuthControllerTrait
     public function getAuthorizationApprovedAttribute(ServerRequestInterface $request)
     {
         $attribute = property_exists($this, 'authorizationApprovedAttribute') ? $this->authorizationApprovedAttribute : 'authorize';
-        return (bool)$this->getRequestParameter($attribute, $request, false);
+
+        return (bool) $this->getRequestParameter($attribute, $request, false);
     }
 
     protected function getRequestParameter($parameter, ServerRequestInterface $request, $default = null)
     {
-        $requestParameters = (array)$request->getParsedBody();
+        $requestParameters = (array) $request->getParsedBody();
 
         return isset($requestParameters[$parameter]) ? $requestParameters[$parameter] : $default;
     }

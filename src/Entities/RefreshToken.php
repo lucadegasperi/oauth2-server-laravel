@@ -10,10 +10,10 @@
 
 namespace LucaDegasperi\OAuth2Server\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
-use Carbon\Carbon;
 
 /**
  * @property string token
@@ -22,7 +22,6 @@ use Carbon\Carbon;
  */
 class RefreshToken extends Model implements RefreshTokenEntityInterface
 {
-
     protected $table = 'oauth_refresh_tokens';
 
     protected $dates = ['expires_at'];

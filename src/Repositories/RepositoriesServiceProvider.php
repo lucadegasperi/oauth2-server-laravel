@@ -20,7 +20,6 @@ use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
 class RepositoriesServiceProvider extends ServiceProvider
 {
-
     /**
      * Register the service provider.
      *

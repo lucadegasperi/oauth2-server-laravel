@@ -55,6 +55,7 @@ class Guard implements IlluminateGuard
      * @var ResourceServer
      */
     private $resourceServer;
+    
     /**
      * @var ClientRepositoryInterface
      */

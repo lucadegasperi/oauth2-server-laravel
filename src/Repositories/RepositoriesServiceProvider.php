@@ -32,7 +32,9 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(AuthCodeRepositoryInterface::class,     AuthCodeRepository::class);
         $this->app->bind(ClientRepositoryInterface::class,       ClientRepository::class);
         $this->app->bind(RefreshTokenRepositoryInterface::class, RefreshTokenRepository::class);
-        $this->app->bind(ScopeRepositoryInterface::class,        ScopeRepository::class);
         $this->app->bind(UserRepositoryInterface::class,         UserRepository::class);
+        $this->app->bind(ScopeRepositoryInterface::class, function ($app) {
+            return new ScopeRepository($app['config']->get('oauth2.default_scopes', []));
+        });
     }
 }

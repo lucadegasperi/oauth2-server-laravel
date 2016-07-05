@@ -17,6 +17,16 @@ use LucaDegasperi\OAuth2Server\Entities\Scope;
 
 class ScopeRepository implements ScopeRepositoryInterface
 {
+    /**
+     * @var string
+     */
+    private $defaultScopes;
+
+    public function __construct($defaultScopes = [])
+    {
+
+        $this->defaultScopes = $defaultScopes;
+    }
 
     /**
      * Return information about a scope.

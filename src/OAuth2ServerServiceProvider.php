@@ -46,7 +46,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
         $this->bootGuard();
 
-        $this->loadViewsFrom(__DIR__.'/../views', 'oauth2server');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'oauth2server');
     }
 
     /**

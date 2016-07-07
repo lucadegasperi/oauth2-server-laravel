@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 6.0.0 (upcoming)
+
+- Rewrite for league/oauth2-server 5.0
+- Added Laravel 5.3 support
+- Added auth guard support
+- Removed PHP 5.5 support
+
 ## 5.1.1 (released 2015-12-22)
 
 - Fix Laravel 5.2 support bug

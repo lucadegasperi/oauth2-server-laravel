@@ -26,8 +26,55 @@ use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use League\OAuth2\Server\ResourceServer;
 
+/**
+ * This is the oauth2 server service provider class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ * @author Vincent Klaiber <hello@vinkla.com>
+ */
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
+    /**
+     * Boot the service provider.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->setupConfig();
+        $this->setupMigrations();
+
+        $this->bootGuard();
+
+        $this->loadViewsFrom(__DIR__.'/../views', 'oauth2server');
+    }
+
+    /**
+     * Setup the config.
+     *
+     * @return void
+     */
+    protected function setupConfig()
+    {
+        $source = realpath(__DIR__.'/../config/oauth2.php');
+
+        $this->publishes([$source => config_path('oauth2.php')]);
+
+        $this->mergeConfigFrom($source, 'oauth2');
+    }
+
+    /**
+     * Setup the migrations.
+     *
+     * @return void
+     */
+    protected function setupMigrations()
+    {
+        $source = realpath(__DIR__.'/../database/migrations/');
+
+        $this->publishes([$source => database_path('migrations')], 'migrations');
+    }
+
     /**
      * Register the service provider.
      *
@@ -37,21 +84,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     {
         $this->registerGrantTypes();
         $this->registerServer();
-    }
-
-    /**
-     * Boot the authentication services for the application.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->bootConfigPublishing();
-        $this->bootMigrationPublishing();
-
-        $this->bootGuard();
-
-        $this->loadViewsFrom(__DIR__.'/../views', 'oauth2server');
     }
 
     protected function registerServer()
@@ -151,28 +183,5 @@ class OAuth2ServerServiceProvider extends ServiceProvider
 
             return $guard;
         });
-    }
-
-    /**
-     * Setup the migrations.
-     *
-     * @return void
-     */
-    protected function bootMigrationPublishing()
-    {
-        $source = realpath(__DIR__.'/../database/migrations/');
-        $this->publishes([$source => database_path('migrations')], 'migrations');
-    }
-
-    /**
-     * Setup the config.
-     *
-     * @return void
-     */
-    protected function bootConfigPublishing()
-    {
-        $source = realpath(__DIR__.'/../config/oauth2.php');
-        $this->publishes([$source => config_path('oauth2.php')]);
-        $this->mergeConfigFrom($source, 'oauth2');
     }
 }

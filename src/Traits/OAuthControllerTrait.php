@@ -9,13 +9,6 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Created by PhpStorm.
- * User: Luca
- * Date: 29/06/16
- * Time: 16:18.
- */
-
 namespace LucaDegasperi\OAuth2Server\Traits;
 
 use Illuminate\Support\Facades\Auth;

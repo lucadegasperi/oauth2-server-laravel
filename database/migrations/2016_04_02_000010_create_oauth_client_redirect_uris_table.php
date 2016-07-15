@@ -28,7 +28,6 @@ class CreateOauthClientRedirectUrisTable extends Migration
     public function up()
     {
         Schema::create('oauth_client_redirect_uris', function (Blueprint $table) {
-
             $table->increments('id');
             $table->string('uri')->unique();
             $table->integer('client_id')->unsigned();

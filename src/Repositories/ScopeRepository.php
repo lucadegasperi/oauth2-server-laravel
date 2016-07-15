@@ -51,12 +51,7 @@ class ScopeRepository implements ScopeRepositoryInterface
      *
      * @return \League\OAuth2\Server\Entities\ScopeEntityInterface[]
      */
-    public function finalizeScopes(
-        array $scopes,
-        $grantType,
-        ClientEntityInterface $clientEntity,
-        $userIdentifier = null
-    ) {
+    public function finalizeScopes(array $scopes, $grantType, ClientEntityInterface $clientEntity, $userIdentifier = null) {
         if (!$clientEntity->has('scopes')) {
             return $scopes;
         }
@@ -65,13 +60,11 @@ class ScopeRepository implements ScopeRepositoryInterface
 
         // TODO: this can be simplified imho.
         $scopes = array_filter($scopes, function ($scope) use ($clientScopes) {
-
             $identifier = $scope->getItentifier();
 
             return $clientScopes->contains(function ($key, $value) use ($identifier) {
                 $value->getIdentifer() == $identifier;
             });
-
         });
 
         // TODO: add possibility to append scopes from clients or grants

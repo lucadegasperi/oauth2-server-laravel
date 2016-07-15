@@ -90,7 +90,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     protected function registerServer()
     {
         $this->app->singleton(AuthorizationServer::class, function ($app) {
-
             $server = new AuthorizationServer(
                 $app->make(ClientRepositoryInterface::class),
                 $app->make(AccessTokenRepositoryInterface::class),
@@ -113,7 +112,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(ResourceServer::class, function ($app) {
-
             $server = new ResourceServer(
                 $app->make(AccessTokenRepositoryInterface::class),
                 new CryptKey($app['config']->get('oauth2.public_key_path'), $app['config']->get('oauth2.key_passphrase')),
@@ -121,14 +119,12 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             );
 
             return $server;
-
         });
     }
 
     protected function registerGrantTypes()
     {
         $this->app->bind(AuthCodeGrant::class, function ($app, $parameters = []) {
-
             $grant = new AuthCodeGrant(
                 $app->make(AuthCodeRepositoryInterface::class),
                 $app->make(RefreshTokenRepositoryInterface::class),
@@ -149,24 +145,19 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             return new ImplicitGrant(
                 $app->make(UserRepositoryInterface::class)
             );
-
         });
 
         $this->app->bind(PasswordGrant::class, function ($app, $parameters = []) {
-
             return new PasswordGrant(
                 $app->make(UserRepositoryInterface::class),
                 $app->make(RefreshTokenRepositoryInterface::class)
             );
-
         });
 
         $this->app->bind(RefreshTokenGrant::class, function ($app, $parameters = []) {
-
             return new RefreshTokenGrant(
                 $app->make(RefreshTokenRepositoryInterface::class)
             );
-
         });
     }
 

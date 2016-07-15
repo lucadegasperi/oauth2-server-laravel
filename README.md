@@ -1,4 +1,4 @@
-# OAuth 2.0 Server for Laravel
+# Laravel OAuth 2.0
 
 ![oauth2-server-laravel](https://cloud.githubusercontent.com/assets/499192/9065550/751404ba-3ad2-11e5-9f92-3d4d5d4b9c54.png)
 
@@ -23,6 +23,7 @@
  5.0.x    | 4.0.x        |>= 5.4
  5.1.x    | 5.0.x        |>= 5.5.9
  5.2.x    | 5.1.x        |>= 5.5.9
+ 5.3.x    | 6.0.x        |>= 5.6.4
 
 ## Documentation
 

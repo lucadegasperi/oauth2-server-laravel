@@ -1,6 +1,7 @@
 <?php
+
 /*
- * This file is part of OAuth 2.0 Laravel.
+ * This file is part of Laravel OAuth 2.0.
  *
  * (c) Luca Degasperi <packages@lucadegasperi.com>
  *

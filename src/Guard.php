@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Laravel OAuth 2.0.
  *

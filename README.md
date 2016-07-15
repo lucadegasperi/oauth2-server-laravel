@@ -4,8 +4,8 @@
 
 [OAuth 2.0](http://tools.ietf.org/wg/oauth/draft-ietf-oauth-v2/) authorization server and resource server for the Laravel and Lumen frameworks. Standard compliant thanks to the amazing work by [The League of Extraordinary Packages](http://www.thephpleague.com) OAuth 2.0 authorization server and resource server.
 
-[![StyleCI](https://styleci.io/repos/13300645/shield?style=flat)](https://styleci.io/repos/13300645)
 [![Build Status](https://img.shields.io/travis/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://travis-ci.org/lucadegasperi/oauth2-server-laravel)
+[![StyleCI](https://styleci.io/repos/13300645/shield?style=flat)](https://styleci.io/repos/13300645)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel)
 [![Latest Version](http://img.shields.io/github/release/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)

@@ -8,8 +8,8 @@
 [![StyleCI](https://styleci.io/repos/13300645/shield?style=flat)](https://styleci.io/repos/13300645)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel)
-[![Latest Version](http://img.shields.io/github/release/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)
 [![Total Downloads](https://img.shields.io/packagist/dt/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel)
+[![Latest Version](http://img.shields.io/github/release/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)
 [![License](https://img.shields.io/packagist/l/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel)
 
 > **Note:** This package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 authorization specification](http://tools.ietf.org/html/rfc6749).

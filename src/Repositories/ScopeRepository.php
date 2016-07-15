@@ -51,7 +51,8 @@ class ScopeRepository implements ScopeRepositoryInterface
      *
      * @return \League\OAuth2\Server\Entities\ScopeEntityInterface[]
      */
-    public function finalizeScopes(array $scopes, $grantType, ClientEntityInterface $clientEntity, $userIdentifier = null) {
+    public function finalizeScopes(array $scopes, $grantType, ClientEntityInterface $clientEntity, $userIdentifier = null)
+    {
         if (!$clientEntity->has('scopes')) {
             return $scopes;
         }

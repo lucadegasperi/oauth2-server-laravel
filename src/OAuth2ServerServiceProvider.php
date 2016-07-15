@@ -108,7 +108,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
             }
 
             return $server;
-
         });
 
         $this->app->singleton(ResourceServer::class, function ($app) {
@@ -141,7 +140,6 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(ImplicitGrant::class, function ($app, $parameters = []) {
-
             return new ImplicitGrant(
                 $app->make(UserRepositoryInterface::class)
             );

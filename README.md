@@ -4,13 +4,13 @@
 
 [OAuth 2.0](http://tools.ietf.org/wg/oauth/draft-ietf-oauth-v2/) authorization server and resource server for the Laravel and Lumen frameworks. Standard compliant thanks to the amazing work by [The League of Extraordinary Packages](http://www.thephpleague.com) OAuth 2.0 authorization server and resource server.
 
-[![Latest Version](http://img.shields.io/github/release/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)
 [![StyleCI](https://styleci.io/repos/13300645/shield?style=flat)](https://styleci.io/repos/13300645)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://travis-ci.org/lucadegasperi/oauth2-server-laravel)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel)
+[![Latest Version](http://img.shields.io/github/release/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)
 [![Total Downloads](https://img.shields.io/packagist/dt/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel)
+[![License](https://img.shields.io/packagist/l/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel)
 
 > **Note:** This package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 authorization specification](http://tools.ietf.org/html/rfc6749).
 

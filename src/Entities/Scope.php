@@ -21,6 +21,11 @@ use League\OAuth2\Server\Entities\ScopeEntityInterface;
  */
 class Scope extends Model implements ScopeEntityInterface
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'oauth_scopes';
 
     /**

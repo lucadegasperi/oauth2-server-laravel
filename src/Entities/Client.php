@@ -21,6 +21,11 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
  */
 class Client extends Model implements ClientEntityInterface
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'oauth_clients';
 
     /**

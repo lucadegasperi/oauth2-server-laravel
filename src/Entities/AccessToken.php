@@ -28,6 +28,11 @@ class AccessToken extends Model implements AccessTokenEntityInterface
 {
     use AccessTokenTrait;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'oauth_access_tokens';
 
     protected $dates = ['expires_at'];

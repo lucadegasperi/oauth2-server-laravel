@@ -23,6 +23,11 @@ use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
  */
 class RefreshToken extends Model implements RefreshTokenEntityInterface
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'oauth_refresh_tokens';
 
     protected $dates = ['expires_at'];

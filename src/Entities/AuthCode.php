@@ -25,6 +25,11 @@ use League\OAuth2\Server\Entities\ScopeEntityInterface;
  */
 class AuthCode extends Model implements AuthCodeEntityInterface
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'oauth_auth_codes';
 
     protected $dates = ['expires_at'];

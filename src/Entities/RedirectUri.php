@@ -20,6 +20,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class RedirectUri extends Model
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'oauth_client_redirect_uris';
 
     public function client()

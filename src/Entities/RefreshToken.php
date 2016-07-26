@@ -30,6 +30,11 @@ class RefreshToken extends Model implements RefreshTokenEntityInterface
      */
     protected $table = 'oauth_refresh_tokens';
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var string[]
+     */
     protected $dates = ['expires_at'];
 
     /**

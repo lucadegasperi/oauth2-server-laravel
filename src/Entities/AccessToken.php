@@ -35,6 +35,11 @@ class AccessToken extends Model implements AccessTokenEntityInterface
      */
     protected $table = 'oauth_access_tokens';
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var string[]
+     */
     protected $dates = ['expires_at'];
 
     /**

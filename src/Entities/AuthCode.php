@@ -32,6 +32,11 @@ class AuthCode extends Model implements AuthCodeEntityInterface
      */
     protected $table = 'oauth_auth_codes';
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var string[]
+     */
     protected $dates = ['expires_at'];
 
     /**

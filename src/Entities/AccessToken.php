@@ -18,14 +18,11 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 use League\OAuth2\Server\Entities\Traits\AccessTokenTrait;
 
+
 /**
- * @property mixed client
- * @property string client_id
- * @property int|string user_id
- * @property Carbon expires_at
- * @property mixed id
- * @property string token
- * @property mixed scopes
+ * This is the access token model class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
  */
 class AccessToken extends Model implements AccessTokenEntityInterface
 {

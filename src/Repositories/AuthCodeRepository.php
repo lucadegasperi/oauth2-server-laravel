@@ -15,6 +15,11 @@ use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use LucaDegasperi\OAuth2Server\Entities\AuthCode;
 
+/**
+ * This is the auth code repository class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class AuthCodeRepository implements AuthCodeRepositoryInterface
 {
     /**

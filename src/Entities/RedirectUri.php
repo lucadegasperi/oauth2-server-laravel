@@ -14,8 +14,9 @@ namespace LucaDegasperi\OAuth2Server\Entities;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property mixed id
- * @property mixed identifier
+ * This is the redirect uri model class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
  */
 class RedirectUri extends Model
 {

@@ -15,11 +15,9 @@ use Illuminate\Database\Eloquent\Model;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 
 /**
- * @property mixed id
- * @property mixed name
- * @property string redirect_uri
- * @property string identifier
- * @property mixed redirectUris
+ * This is the client model class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
  */
 class Client extends Model implements ClientEntityInterface
 {

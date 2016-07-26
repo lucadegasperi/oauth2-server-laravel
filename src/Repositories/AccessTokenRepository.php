@@ -16,6 +16,11 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use LucaDegasperi\OAuth2Server\Entities\AccessToken;
 
+/**
+ * This is the access token repository class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class AccessTokenRepository implements AccessTokenRepositoryInterface
 {
     /**

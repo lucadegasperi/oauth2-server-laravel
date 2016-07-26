@@ -19,6 +19,11 @@ use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
+/**
+ * This is the repository service provider class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class RepositoriesServiceProvider extends ServiceProvider
 {
     /**

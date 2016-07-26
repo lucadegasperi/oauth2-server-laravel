@@ -18,6 +18,11 @@ use League\OAuth2\Server\RequestTypes\AuthorizationRequest;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response;
 
+/**
+ * This is the oauth controller trait.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 trait OAuthControllerTrait
 {
     public function postAccessToken(ServerRequestInterface $request, AuthorizationServer $server)

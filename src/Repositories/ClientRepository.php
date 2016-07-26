@@ -14,6 +14,11 @@ namespace LucaDegasperi\OAuth2Server\Repositories;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use LucaDegasperi\OAuth2Server\Entities\Client;
 
+/**
+ * This is the client repository class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class ClientRepository implements ClientRepositoryInterface
 {
     /**

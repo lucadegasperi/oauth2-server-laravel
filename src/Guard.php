@@ -21,6 +21,11 @@ use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\ResourceServer;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
+/**
+ * This is the guard class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class Guard implements IlluminateGuard
 {
     use GuardHelpers;

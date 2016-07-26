@@ -17,9 +17,9 @@ use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 
 /**
- * @property string token
- * @property Carbon expires_at
- * @property mixed accessToken
+ * This is the refresh token model class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
  */
 class RefreshToken extends Model implements RefreshTokenEntityInterface
 {

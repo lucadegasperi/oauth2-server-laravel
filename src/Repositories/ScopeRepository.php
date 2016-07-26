@@ -16,6 +16,11 @@ use League\OAuth2\Server\Entities\ScopeEntityInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use LucaDegasperi\OAuth2Server\Entities\Scope;
 
+/**
+ * This is the scope repository class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class ScopeRepository implements ScopeRepositoryInterface
 {
     /**

@@ -19,13 +19,9 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
 /**
- * @property mixed redirect_uri
- * @property mixed code
- * @property mixed user
- * @property Carbon expires_at
- * @property mixed scopes
- * @property int|string user_id
- * @property mixed client
+ * This is the auth code model class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
  */
 class AuthCode extends Model implements AuthCodeEntityInterface
 {

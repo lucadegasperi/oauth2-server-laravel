@@ -15,6 +15,11 @@ use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use LucaDegasperi\OAuth2Server\Entities\RefreshToken;
 
+/**
+ * This is the refresh token repository class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 {
     /**

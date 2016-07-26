@@ -15,6 +15,11 @@ use Illuminate\Auth\AuthManager;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
+/**
+ * This is the user repository class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
+ */
 class UserRepository implements UserRepositoryInterface
 {
     /**

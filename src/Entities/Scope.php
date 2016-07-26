@@ -15,8 +15,9 @@ use Illuminate\Database\Eloquent\Model;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
 /**
- * @property mixed id
- * @property mixed identifier
+ * This is the scope model class.
+ *
+ * @author Luca Degasperi <packages@lucadegasperi.com>
  */
 class Scope extends Model implements ScopeEntityInterface
 {

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 5.2.0 (released 2016-08-10)
+
+- Add Laravel 5.3 support
+
 # 5.1.4 (released 2016-01-29)
 
 - Fix bug in middleware

@@ -81,7 +81,8 @@ class SSOGrant extends AbstractGrant
      */
     protected function getVerifyCredentialsCallback()
     {
-        if (is_null($this->callback) || !is_callable($this->callback)) {
+        if (is_null($this->callback) || !is_callable($this->callback))
+        {
             throw new Exception\ServerErrorException('Null or non-callable callback set on SSO grant');
         }
 
@@ -109,19 +110,6 @@ class SSOGrant extends AbstractGrant
             throw new Exception\InvalidRequestException('client_secret');
         }
 
-        // Validate client ID and client secret
-        $client = $this->server->getClientStorage()->get(
-            $clientId,
-            $clientSecret,
-            null,
-            $this->getIdentifier()
-        );
-
-        if (($client instanceof ClientEntity) === false) {
-            $this->server->getEventEmitter()->emit(new Event\ClientAuthenticationFailedEvent($this->server->getRequest()));
-            throw new Exception\InvalidClientException();
-        }
-
         $identity = $this->server->getRequest()->request->get(self::SSO_IDENTITY_FIELD, null);
         if (is_null($identity))
         {
@@ -138,6 +126,19 @@ class SSOGrant extends AbstractGrant
         if ( is_null($signature) )
         {
             throw new Exception\InvalidRequestException('Missing signature credential property');
+        }
+
+        // Validate client ID and client secret
+        $client = $this->server->getClientStorage()->get(
+            $clientId,
+            $clientSecret,
+            null,
+            $this->getIdentifier()
+        );
+
+        if (($client instanceof ClientEntity) === false) {
+            $this->server->getEventEmitter()->emit(new Event\ClientAuthenticationFailedEvent($this->server->getRequest()));
+            throw new Exception\InvalidClientException();
         }
 
         $credentials = [

@@ -80,7 +80,7 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
             'grant_type' => 'sso',
             'client_id'  =>  'testapp',
             'client_secret' =>  'foobar',
-            'identity'   =>  'superadmin@aristamd.com',
+            'identity'   =>  'testuser@test.com',
         ];
 
         $server = new AuthorizationServer();
@@ -98,7 +98,7 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
             'grant_type'   => 'sso',
             'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
-            'identity'     =>  'superadmin@aristamd.com',
+            'identity'     =>  'testuser@test.com',
             'redirect_uri' => '/#/app/referrals',
         ];
 
@@ -117,7 +117,7 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
             'grant_type'   => 'sso',
             'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
-            'identity'     =>  'superadmin@aristamd.com',
+            'identity'     =>  'testuser@test.com',
             'redirect_uri' =>  '/#/app/referrals',
             'signature'    =>  '3ee3666123455abd48453f62fd181165',
             'scope' => 'foo'
@@ -181,7 +181,7 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
             'grant_type'   => 'sso',
             'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
-            'identity'     =>  'superadmin@aristamd.com',
+            'identity'     =>  'testuser@test.com',
             'redirect_uri' =>  '/#/app/referrals',
             'signature'    =>  '3ee3666123455abd48453f62fd181165',
             'scope' => 'blah'
@@ -247,7 +247,7 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
             'grant_type'   => 'sso',
             'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
-            'identity'     =>  'superadmin@aristamd.com',
+            'identity'     =>  'testuser@test.com',
             'redirect_uri' =>  '/#/app/referrals',
             'signature'    =>  '3ee3666123455abd48453f62fd181165',
             'scope' => 'foo'
@@ -310,7 +310,7 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
             'grant_type'   => 'sso',
             'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
-            'identity'     =>  'superadmin@aristamd.com',
+            'identity'     =>  'testuser@test.com',
             'redirect_uri' =>  '/#/app/referrals',
             'signature'    =>  '3ee3666123455abd48453f62fd181165',
             'scope' => 'foo'
@@ -374,7 +374,7 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
             'grant_type'   => 'sso',
             'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
-            'identity'     =>  'superadmin@aristamd.com',
+            'identity'     =>  'testuser@test.com',
             'redirect_uri' =>  '/#/app/referrals',
             'signature'    =>  '3ee3666123455abd48453f62fd181165',
             'scope' => 'foo'
@@ -441,7 +441,7 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
             'grant_type'   => 'sso',
             'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
-            'identity'     =>  'superadmin@aristamd.com',
+            'identity'     =>  'testuser@test.com',
             'redirect_uri' =>  '/#/app/referrals',
             'signature'    =>  '3ee3666123455abd48453f62fd181165',
             'scope' => 'foo'

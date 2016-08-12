@@ -1,10 +1,9 @@
 <?php
 /**
- * OAuth 2.0 Password grant
+ * OAuth 2.0 SSO grant
  *
  * @package     league/oauth2-server
- * @author      Alex Bilbie <hello@alexbilbie.com>
- * @copyright   Copyright (c) Alex Bilbie
+ * @author      Luis Cordero H. (lcordero@wearegap.com)
  * @license     http://mit-license.org/
  * @link        https://github.com/thephpleague/oauth2-server
  */

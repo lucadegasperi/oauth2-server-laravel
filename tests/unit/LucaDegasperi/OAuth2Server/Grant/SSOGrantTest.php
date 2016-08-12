@@ -30,7 +30,14 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('League\OAuth2\Server\Exception\InvalidRequestException');
 
-        $_POST['grant_type'] = 'sso';
+        $_POST = [
+            'grant_type'   => 'sso',
+            'client_secret' =>  'foobar',
+            'identity'     =>  'testuser@test.com',
+            'redirect_uri' =>  '/#/app/referrals',
+            'signature'    =>  '3ee3666123455abd48453f62fd181165',
+            'scope' => 'foo'
+        ];
 
         $server = new AuthorizationServer();
         $grant = new SSOGrant();
@@ -44,8 +51,12 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('League\OAuth2\Server\Exception\InvalidRequestException');
 
         $_POST = [
-            'grant_type' => 'sso',
-            'client_id'  =>  'testapp',
+            'grant_type'   => 'sso',
+            'client_id'    =>  'testapp',
+            'identity'     =>  'testuser@test.com',
+            'redirect_uri' =>  '/#/app/referrals',
+            'signature'    =>  '3ee3666123455abd48453f62fd181165',
+            'scope' => 'foo'
         ];
 
         $server = new AuthorizationServer();
@@ -60,9 +71,12 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('League\OAuth2\Server\Exception\InvalidRequestException');
 
         $_POST = [
-            'grant_type' => 'sso',
-            'client_id'  =>  'testapp',
+            'grant_type'   => 'sso',
+            'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
+            'redirect_uri' =>  '/#/app/referrals',
+            'signature'    =>  '3ee3666123455abd48453f62fd181165',
+            'scope' => 'foo'
         ];
 
         $server = new AuthorizationServer();
@@ -77,10 +91,12 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('League\OAuth2\Server\Exception\InvalidRequestException');
 
         $_POST = [
-            'grant_type' => 'sso',
-            'client_id'  =>  'testapp',
+            'grant_type'   => 'sso',
+            'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
-            'identity'   =>  'testuser@test.com',
+            'identity'     =>  'testuser@test.com',
+            'signature'    =>  '3ee3666123455abd48453f62fd181165',
+            'scope' => 'foo'
         ];
 
         $server = new AuthorizationServer();
@@ -99,7 +115,8 @@ class SSOGrantTest extends \PHPUnit_Framework_TestCase
             'client_id'    =>  'testapp',
             'client_secret' =>  'foobar',
             'identity'     =>  'testuser@test.com',
-            'redirect_uri' => '/#/app/referrals',
+            'redirect_uri' =>  '/#/app/referrals',
+            'scope' => 'foo'
         ];
 
         $server = new AuthorizationServer();

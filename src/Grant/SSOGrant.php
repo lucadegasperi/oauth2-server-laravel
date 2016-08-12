@@ -113,19 +113,19 @@ class SSOGrant extends AbstractGrant
         $identity = $this->server->getRequest()->request->get(self::SSO_IDENTITY_FIELD, null);
         if (is_null($identity))
         {
-            throw new Exception\InvalidRequestException('Missing identity credential property');
+            throw new Exception\InvalidRequestException('identity');
         }
 
         $redirect_uri = $this->server->getRequest()->request->get(self::SSO_REDIRECT_URI_FIELD, null);
         if ( is_null($redirect_uri) )
         {
-            throw new Exception\InvalidRequestException('Missing redirect_uri credential property');
+            throw new Exception\InvalidRequestException('redirect_uri');
         }
 
         $signature = $this->server->getRequest()->request->get(self::SSO_SIGNATURE_FIELD, null);
         if ( is_null($signature) )
         {
-            throw new Exception\InvalidRequestException('Missing signature credential property');
+            throw new Exception\InvalidRequestException('signature');
         }
 
         // Validate client ID and client secret

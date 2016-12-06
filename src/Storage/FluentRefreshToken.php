@@ -47,7 +47,7 @@ class FluentRefreshToken extends AbstractFluentAdapter implements RefreshTokenIn
     }
 
     /**
-     * Create a new refresh token_name.
+     * Create or update a refresh token_name.
      *
      * @param  string $token
      * @param  int $expireTime
@@ -57,13 +57,28 @@ class FluentRefreshToken extends AbstractFluentAdapter implements RefreshTokenIn
      */
     public function create($token, $expireTime, $accessToken)
     {
-        $this->getConnection()->table('oauth_refresh_tokens')->insert([
-            'id' => $token,
-            'expire_time' => $expireTime,
-            'access_token_id' => $accessToken,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        $refreshToken = $this->get($token);
+
+        if( empty($refreshToken) )
+        {
+            $this->getConnection()->table('oauth_refresh_tokens')->insert([
+                'id' => $token,
+                'expire_time' => $expireTime,
+                'access_token_id' => $accessToken,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+        else
+        {
+            $this->getConnection()->table('oauth_refresh_tokens')
+            ->where( 'id', $token )
+            ->update([
+                'expire_time' => $expireTime,
+                'access_token_id' => $accessToken,
+                'updated_at' => Carbon::now(),
+            ]);
+        }
 
         return (new RefreshTokenEntity($this->getServer()))
                ->setId($token)

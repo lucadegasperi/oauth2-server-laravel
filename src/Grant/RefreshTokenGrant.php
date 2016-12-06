@@ -112,8 +112,7 @@ class RefreshTokenGrant extends RefreshTokenGrantOriginal
             $newAccessToken->associateScope($newScope);
         }
 
-        // Expire the old token and save the new one
-        $oldAccessToken->expire();
+        // Save the new one
         $newAccessToken->save();
 
         $this->server->getTokenType()->setSession($session);
@@ -138,6 +137,10 @@ class RefreshTokenGrant extends RefreshTokenGrantOriginal
             $this->server->getTokenType()->setParam('refresh_token', $oldRefreshToken->getId());
         }
 
+        // Expire the old token
+        $oldAccessToken->expire();
+        
+        // Return a response
         return $this->server->getTokenType()->generateResponse();
     }
 }

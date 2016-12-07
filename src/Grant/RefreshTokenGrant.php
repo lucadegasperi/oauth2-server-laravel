@@ -115,10 +115,13 @@ class RefreshTokenGrant extends RefreshTokenGrantOriginal
         // Save the new one
         $newAccessToken->save();
 
+        // We need to assign the new access token to the current user session.
         $this->server->getTokenType()->setSession($session);
         $this->server->getTokenType()->setParam('access_token', $newAccessToken->getId());
         $this->server->getTokenType()->setParam('expires_in', $remindingTime);
 
+        // Now we need to change the refresh token before exipiring the old access token,
+        // otherwise it will delete the refresh token because of the delete cascade constraint 
         if ($this->shouldRotateRefreshTokens()) {
             // Expire the old refresh token
             $oldRefreshToken->expire();
@@ -132,15 +135,17 @@ class RefreshTokenGrant extends RefreshTokenGrantOriginal
 
             $this->server->getTokenType()->setParam('refresh_token', $newRefreshToken->getId());
         } else {
+            // Here you will change the refresh token and removes the reference to the old access token
+            // and set the reference to the new access token.
             $oldRefreshToken->setAccessToken($newAccessToken);
             $oldRefreshToken->save();
             $this->server->getTokenType()->setParam('refresh_token', $oldRefreshToken->getId());
         }
 
-        // Expire the old token
+        // Now its save to expire the old token, in that way it won't be available anymore.
         $oldAccessToken->expire();
         
-        // Return a response
+        // Return a response with the tokens details
         return $this->server->getTokenType()->generateResponse();
     }
 }

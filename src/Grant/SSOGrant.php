@@ -143,7 +143,10 @@ class SSOGrant extends AbstractGrant
         $credentials = [
             self::SSO_IDENTITY_FIELD => $identity,
             self::SSO_REDIRECT_URI_FIELD => $redirect_uri,
-            self::SSO_SIGNATURE_FIELD => $signature
+            self::SSO_SIGNATURE_FIELD => $signature,
+            'client' => $this->server->getRequest()->request->get('client'),
+            'nonce' => $this->server->getRequest()->request->get('nonce'),
+            'practice' => $this->server->getRequest()->request->get('practice')
         ];
 
         // Check if user's username and password are correct

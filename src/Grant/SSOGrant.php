@@ -30,6 +30,9 @@ class SSOGrant extends AbstractGrant
     const  SSO_IDENTITY_FIELD = 'identity';
     const SSO_REDIRECT_URI_FIELD = 'redirect_uri';
     const SSO_SIGNATURE_FIELD = 'signature';
+    const SSO_CLIENT_FIELD = 'client_app';
+    const SSO_NONCE_FIELD = 'nonce';
+    const SSO_ORGANIZATION_FIELD = 'organization';
 
     /**
      * Grant identifier
@@ -127,6 +130,24 @@ class SSOGrant extends AbstractGrant
             throw new Exception\InvalidRequestException('signature');
         }
 
+        $client_app = $this->server->getRequest()->request->get(self::SSO_CLIENT_FIELD, null);
+        if ( is_null($client_app) )
+        {
+            throw new Exception\InvalidRequestException('client_app');
+        }
+
+        $nonce = $this->server->getRequest()->request->get(self::SSO_NONCE_FIELD, null);
+        if ( is_null($nonce) )
+        {
+            throw new Exception\InvalidRequestException('nonce');
+        }
+
+        $organization = $this->server->getRequest()->request->get(self::SSO_ORGANIZATION_FIELD, null);
+        if ( is_null($organization) )
+        {
+            throw new Exception\InvalidRequestException('organization');
+        }
+
         // Validate client ID and client secret
         $client = $this->server->getClientStorage()->get(
             $clientId,
@@ -144,9 +165,9 @@ class SSOGrant extends AbstractGrant
             self::SSO_IDENTITY_FIELD => $identity,
             self::SSO_REDIRECT_URI_FIELD => $redirect_uri,
             self::SSO_SIGNATURE_FIELD => $signature,
-            'client' => $this->server->getRequest()->request->get('client'),
-            'nonce' => $this->server->getRequest()->request->get('nonce'),
-            'practice' => $this->server->getRequest()->request->get('practice')
+            self::SSO_CLIENT_FIELD => $client_app,
+            self::SSO_NONCE_FIELD => $nonce,
+            self::SSO_ORGANIZATION_FIELD => $organization
         ];
 
         // Check if user's username and password are correct

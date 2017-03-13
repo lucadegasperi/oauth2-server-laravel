@@ -33,6 +33,7 @@ class CreateOauthAccessTokensTable extends Migration
             $table->integer('expire_time');
 
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['id', 'session_id']);
             $table->index('session_id');

@@ -36,6 +36,7 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
     {
         $result = $this->getConnection()->table('oauth_sessions')
                     ->where('oauth_sessions.id', $sessionId)
+                    ->where('deleted_at', null)
                     ->first();
 
         if (is_null($result)) {
@@ -58,8 +59,10 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
     {
         $result = $this->getConnection()->table('oauth_sessions')
                 ->select('oauth_sessions.*')
+                ->where('oauth_sessions.deleted_at', null)
                 ->join('oauth_access_tokens', 'oauth_sessions.id', '=', 'oauth_access_tokens.session_id')
                 ->where('oauth_access_tokens.id', $accessToken->getId())
+                ->where('oauth_access_tokens.deleted_at', null)
                 ->first();
 
         if (is_null($result)) {
@@ -152,6 +155,7 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
             ->select('oauth_sessions.*')
             ->join('oauth_auth_codes', 'oauth_sessions.id', '=', 'oauth_auth_codes.session_id')
             ->where('oauth_auth_codes.id', $authCode->getId())
+            ->where('oauth_sessions.deleted_at', null)
             ->first();
 
         if (is_null($result)) {

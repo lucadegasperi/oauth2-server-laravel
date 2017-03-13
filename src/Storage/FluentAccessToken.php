@@ -34,6 +34,7 @@ class FluentAccessToken extends AbstractFluentAdapter implements AccessTokenInte
     {
         $result = $this->getConnection()->table('oauth_access_tokens')
                 ->where('oauth_access_tokens.id', $token)
+                ->where('oauth_access_tokens.deleted_at', null)
                 ->first();
 
         if (is_null($result)) {

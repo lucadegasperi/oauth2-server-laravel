@@ -62,4 +62,32 @@ class OAuthUserOwnerMiddlewareSpec extends ObjectBehavior
         $this->shouldNotThrow(new MiddlewareException('Called execution of $next'))
             ->during('handle', [$request, $this->next]);
     }
+
+    public function it_passes_with_combined_valid_scopes(Request $request, Authorizer $authorizer)
+    {
+        $authorizer->validateAccessToken(false)->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
+        $authorizer->hasScope(['baz'])->willReturn(true)->shouldBeCalled();
+        $authorizer->hasScope(['foo'])->willReturn(false)->shouldBeCalled();
+
+        $this->shouldNotThrow(new InvalidScopeException('baz'))
+                ->during('handle', [$request, $this->next, 'foo|baz']);
+
+        $this->shouldThrow(new MiddlewareException('Called execution of $next'))
+                ->during('handle', [$request, $this->next, 'foo|baz']);
+    }
+
+    public function it_block_with_combined_invalid_scopes(Request $request, Authorizer $authorizer)
+    {
+        $authorizer->validateAccessToken(false)->shouldBeCalled();
+        $authorizer->setRequest($request)->shouldBeCalled();
+        $authorizer->hasScope(['foo'])->willReturn(false)->shouldBeCalled();
+        $authorizer->hasScope(['baz','foo'])->willReturn(false)->shouldBeCalled();
+
+        $this->shouldThrow(new InvalidScopeException('foo,baz+foo'))
+                ->during('handle', [$request, $this->next, 'foo|baz+foo']);
+
+        $this->shouldNotThrow(new MiddlewareException('Called execution of $next'))
+                ->during('handle', [$request, $this->next, 'foo|baz+foo']);
+    }
 }

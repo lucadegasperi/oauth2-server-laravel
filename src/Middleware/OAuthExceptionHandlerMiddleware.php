@@ -32,21 +32,18 @@ class OAuthExceptionHandlerMiddleware
      */
     public function handle($request, Closure $next)
     {
-        try {
-            $response = $next($request);
-            // Was an exception thrown? If so and available catch in our middleware
-            if (isset($response->exception) && $response->exception) {
-                throw $response->exception;
-            }
+        $response = $next($request);
 
-            return $response;
-        } catch (OAuthException $e) {
+        // Was an OAuthException previously caught by the pipeline? If so, hijack response, replacing with json error.
+        if (isset($response->exception) && $response->exception instanceof OAuthException) {
             $data = [
-                'error' => $e->errorType,
-                'error_description' => $e->getMessage(),
+                'error' => $response->exception->errorType,
+                'error_description' => $response->exception->getMessage(),
             ];
 
-            return new JsonResponse($data, $e->httpStatusCode, $e->getHttpHeaders());
+            return new JsonResponse($data, $response->exception->httpStatusCode, $response->exception->getHttpHeaders());
         }
+
+        return $response;
     }
 }

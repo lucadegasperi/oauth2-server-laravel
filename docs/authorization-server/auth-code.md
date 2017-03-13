@@ -72,9 +72,9 @@
 4. Add a route to respond to the access token requests
 
     ```php
-    Route::post('oauth/access_token', function() {
-        return Response::json(Authorizer::issueAccessToken());
-    });
+    $app->post('oauth/access_token', function() {
+        return response()->json(Authorizer::issueAccessToken());
+     });
     ```
 
 5. Next add a sample `client` to the `oauth_clients` table.  

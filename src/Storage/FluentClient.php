@@ -77,7 +77,16 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
     {
         $query = null;
 
-        if (!is_null($redirectUri) && is_null($clientSecret)) {
+        if (is_null($redirectUri) && is_null($clientSecret)) {
+            $query = $this->getConnection()->table('oauth_clients')
+                  ->select(
+                      'oauth_clients.id as id',
+                      'oauth_clients.secret as secret',
+                      'oauth_client_endpoints.redirect_uri as redirect_uri',
+                      'oauth_clients.name as name')
+                  ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
+                  ->where('oauth_clients.id', $clientId);
+        } elseif (!is_null($redirectUri) && is_null($clientSecret)) {
             $query = $this->getConnection()->table('oauth_clients')
                    ->select(
                        'oauth_clients.id as id',
@@ -92,7 +101,9 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
                    ->select(
                        'oauth_clients.id as id',
                        'oauth_clients.secret as secret',
+                       'oauth_client_endpoints.redirect_uri as redirect_uri',
                        'oauth_clients.name as name')
+                   ->join('oauth_client_endpoints', 'oauth_clients.id', '=', 'oauth_client_endpoints.client_id')
                    ->where('oauth_clients.id', $clientId)
                    ->where('oauth_clients.secret', $clientSecret);
         } elseif (!is_null($clientSecret) && !is_null($redirectUri)) {

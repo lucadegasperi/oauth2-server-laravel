@@ -40,6 +40,10 @@ class FluentRefreshToken extends AbstractFluentAdapter implements RefreshTokenIn
             return;
         }
 
+        if (is_array($result)){
+            $result = (object) $result;
+        }
+
         return (new RefreshTokenEntity($this->getServer()))
                ->setId($result->id)
                ->setAccessTokenId($result->access_token_id)

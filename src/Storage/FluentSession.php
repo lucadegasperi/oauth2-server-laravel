@@ -42,6 +42,10 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
             return;
         }
 
+        if (is_array($result)){
+            $result = (object) $result;
+        }
+
         return (new SessionEntity($this->getServer()))
                ->setId($result->id)
                ->setOwner($result->owner_type, $result->owner_id);
@@ -64,6 +68,10 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
 
         if (is_null($result)) {
             return;
+        }
+
+        if (is_array($result)){
+            $result = (object) $result;
         }
 
         return (new SessionEntity($this->getServer()))
@@ -90,6 +98,9 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
         $scopes = [];
 
         foreach ($result as $scope) {
+            if (is_array($scope)){
+                $scope = (object) $scope;
+            }
             $scopes[] = (new ScopeEntity($this->getServer()))->hydrate([
                 'id' => $scope->id,
                 'description' => $scope->description,
@@ -156,6 +167,10 @@ class FluentSession extends AbstractFluentAdapter implements SessionInterface
 
         if (is_null($result)) {
             return;
+        }
+
+        if (is_array($result)){
+            $result = (object) $result;
         }
 
         return (new SessionEntity($this->getServer()))

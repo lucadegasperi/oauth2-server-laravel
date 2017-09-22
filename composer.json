@@ -15,12 +15,12 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/database": "5.1.* || 5.2.* || 5.3.* || 5.4.*",
-        "illuminate/console": "5.1.* || 5.2.* || 5.3.* || 5.4.*",
-        "illuminate/contracts": "5.1.* || 5.2.* || 5.3.* || 5.4.*",
-        "illuminate/http": "5.1.* || 5.2.* || 5.3.* || 5.4.*",
-        "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.*",
-        "illuminate/config": "5.1.* || 5.2.* || 5.3.* || 5.4.*",
+        "illuminate/database": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
+        "illuminate/console": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
+        "illuminate/contracts": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
+        "illuminate/http": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
+        "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
+        "illuminate/config": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
         "league/oauth2-server": "4.1.*"
     },
     "require-dev": {

@@ -75,7 +75,8 @@ class FluentStorageServiceProvider extends ServiceProvider
 
         $app->singleton(FluentClient::class, function ($app) use ($provider) {
             $limitClientsToGrants = $app['config']->get('oauth2.limit_clients_to_grants');
-            $storage = new FluentClient($provider->app['db'], $limitClientsToGrants);
+            $limitRedirectUri = $app['config']->get('oauth2.limit_clients_to_predefined_url');
+            $storage = new FluentClient($provider->app['db'], $limitClientsToGrants, $limitRedirectUri);
             $storage->setConnectionName($provider->getConnectionName());
 
             return $storage;

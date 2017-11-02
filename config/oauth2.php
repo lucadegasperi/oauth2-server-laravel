@@ -25,6 +25,20 @@ return [
     | Please see this link to find available grant types
     | http://git.io/vJLAv
     |
+    | This is an example that supports return type code and refresh tokens
+    | 'grant_types' => [
+    |    'authorization_code' => [
+    |        'class' => '\League\OAuth2\Server\Grant\AuthCodeGrant',
+    |        'access_token_ttl' => 36000,
+    |        'auth_token_ttl'   => 36000
+    |    ],
+    |    'refresh_token' => [
+    |        'class' => '\League\OAuth2\Server\Grant\RefreshTokenGrant',
+    |        'access_token_ttl' => 36000,
+    |        'refresh_token_ttl' => 360000000
+    |    ]
+    |],
+    |
     */
 
     'grant_types' => [

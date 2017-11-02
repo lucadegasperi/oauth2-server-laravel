@@ -144,7 +144,7 @@ class FluentClient extends AbstractFluentAdapter implements ClientInterface
 
         //populate redirect_uri in case where it is not in DB
         if(!$this->limitRedirectUri){
-            $result->redirect_uri = "not required";
+            $result->redirect_uri = 'not required';
         }
 
 

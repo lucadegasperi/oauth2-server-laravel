@@ -1,9 +1,9 @@
-<?php namespace LucaDegasperi\OAuth2Server\Commands;
+<?php namespace Tikamsah\OAuth2Server\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use LucaDegasperi\OAuth2Server\Repositories\SessionManagementInterface;
+use Tikamsah\OAuth2Server\Repositories\SessionManagementInterface;
 
 class ExpiredTokensCommand extends Command
 {

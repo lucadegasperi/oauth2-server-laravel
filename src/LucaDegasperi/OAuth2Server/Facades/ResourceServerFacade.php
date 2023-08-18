@@ -1,4 +1,4 @@
-<?php namespace LucaDegasperi\OAuth2Server\Facades;
+<?php namespace Tikamsah\OAuth2Server\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

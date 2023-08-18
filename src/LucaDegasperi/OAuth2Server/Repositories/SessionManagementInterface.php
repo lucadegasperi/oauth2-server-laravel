@@ -1,4 +1,4 @@
-<?php namespace LucaDegasperi\OAuth2Server\Repositories;
+<?php namespace Tikamsah\OAuth2Server\Repositories;
 
 interface SessionManagementInterface
 {

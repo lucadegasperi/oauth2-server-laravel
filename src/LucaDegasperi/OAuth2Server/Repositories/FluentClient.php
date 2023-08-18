@@ -1,4 +1,4 @@
-<?php namespace LucaDegasperi\OAuth2Server\Repositories;
+<?php namespace Tikamsah\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\ClientInterface;
 use DB;
@@ -81,7 +81,7 @@ class FluentClient implements ClientInterface
                         ->where('oauth_client_endpoints.redirect_uri', $redirectUri);
         }
 
-        if (Config::get('lucadegasperi/oauth2-server-laravel::oauth2.limit_clients_to_grants') === true and ! is_null($grantType)) {
+        if (Config::get('tikamsah/oauth2-server-laravel::oauth2.limit_clients_to_grants') === true and ! is_null($grantType)) {
             $query = $query->join('oauth_client_grants', 'oauth_clients.id', '=', 'oauth_client_grants.client_id')
                            ->join('oauth_grants', 'oauth_grants.id', '=', 'oauth_client_grants.grant_id')
                            ->where('oauth_grants.grant', $grantType);

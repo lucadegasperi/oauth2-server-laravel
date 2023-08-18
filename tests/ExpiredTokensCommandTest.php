@@ -1,14 +1,14 @@
 <?php
 
 use \Mockery as m;
-use LucaDegasperi\OAuth2Server\Commands\ExpiredTokensCommand;
+use Tikamsah\OAuth2Server\Commands\ExpiredTokensCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class ExpiredTokensCommandTest extends TestCase
 {
     public function getSession()
     {
-        return m::mock('LucaDegasperi\OAuth2Server\Repositories\SessionManagementInterface');
+        return m::mock('Tikamsah\OAuth2Server\Repositories\SessionManagementInterface');
     }
 
     public function getCommand($session)

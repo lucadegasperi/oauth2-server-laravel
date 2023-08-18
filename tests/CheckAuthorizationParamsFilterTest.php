@@ -6,7 +6,7 @@ class CheckAuthorizationParamsFilterTest extends TestCase {
 
     public function getFilter()
     {
-        return new LucaDegasperi\OAuth2Server\Filters\CheckAuthorizationParamsFilter;
+        return new Tikamsah\OAuth2Server\Filters\CheckAuthorizationParamsFilter;
     }
 
     public function getStub()

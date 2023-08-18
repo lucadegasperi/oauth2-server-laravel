@@ -6,7 +6,7 @@ class OAuthOwnerFilterTest extends TestCase {
 
     public function getFilter()
     {
-        return new LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter;
+        return new Tikamsah\OAuth2Server\Filters\OAuthOwnerFilter;
     }
 
     public function test_with_existing_owner_type()

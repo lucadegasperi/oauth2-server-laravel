@@ -1,5 +1,5 @@
 {
-    "name": "lucadegasperi/oauth2-server-laravel",
+    "name": "tikamsah/oauth2-server-laravel",
     "description": "A Laravel 4 wrapper for the popular OAuth 2.0 Server package league/oauth2-server",
     "keywords": [
         "laravel",
@@ -11,7 +11,7 @@
     "authors": [
         {
             "name": "Luca Degasperi",
-            "email": "packages@lucadegasperi.com"
+            "email": "packages@tikamsah.com"
         }
     ],
     "require": {
@@ -30,7 +30,7 @@
             "tests/TestCase.php"
         ],
         "psr-0": {
-            "LucaDegasperi\\OAuth2Server": "src/"
+            "Tikamsah\\OAuth2Server": "src/"
         }
     },
     "minimum-stability": "dev",

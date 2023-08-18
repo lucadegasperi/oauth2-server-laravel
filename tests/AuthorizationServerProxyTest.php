@@ -1,7 +1,7 @@
 <?php
 
 use \Mockery as m;
-use LucaDegasperi\OAuth2Server\Proxies\AuthorizationServerProxy;
+use Tikamsah\OAuth2Server\Proxies\AuthorizationServerProxy;
 
 class AuthorizationServerProxyTest extends TestCase {
 

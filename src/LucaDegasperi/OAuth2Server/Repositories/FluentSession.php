@@ -1,4 +1,4 @@
-<?php namespace LucaDegasperi\OAuth2Server\Repositories;
+<?php namespace Tikamsah\OAuth2Server\Repositories;
 
 use League\OAuth2\Server\Storage\SessionInterface;
 use DB;

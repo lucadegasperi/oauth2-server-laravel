@@ -1,4 +1,4 @@
-<?php namespace LucaDegasperi\OAuth2Server\Filters;
+<?php namespace Tikamsah\OAuth2Server\Filters;
 
 use ResourceServer;
 use Response;
@@ -18,7 +18,7 @@ class OAuthFilter
     public function filter()
     {
         try {
-            ResourceServer::isValid(Config::get('lucadegasperi/oauth2-server-laravel::oauth2.http_headers_only'));
+            ResourceServer::isValid(Config::get('tikamsah/oauth2-server-laravel::oauth2.http_headers_only'));
         } catch (\League\OAuth2\Server\Exception\InvalidAccessTokenException $e) {
             return Response::json(array(
                 'status' => 401,

@@ -1,4 +1,4 @@
-<?php namespace LucaDegasperi\OAuth2Server\Filters;
+<?php namespace Tikamsah\OAuth2Server\Filters;
 
 use AuthorizationServer;
 use Response;

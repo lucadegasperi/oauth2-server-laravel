@@ -4,14 +4,14 @@ class TestCase extends Orchestra\Testbench\TestCase {
 
     protected function getPackageProviders()
     {
-        return array('LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider');
+        return array('Tikamsah\OAuth2Server\OAuth2ServerServiceProvider');
     }
 
     protected function getPackageAliases()
     {
         return array(
-            'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
-            'ResourceServer'  => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
+            'AuthorizationServer' => 'Tikamsah\OAuth2Server\Facades\AuthorizationServerFacade',
+            'ResourceServer'  => 'Tikamsah\OAuth2Server\Facades\ResourceServerFacade',
         );
     }
 

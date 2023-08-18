@@ -1,7 +1,7 @@
-<?php namespace LucaDegasperi\OAuth2Server;
+<?php namespace Tikamsah\OAuth2Server;
 
 use Illuminate\Support\ServiceProvider;
-use LucaDegasperi\OAuth2Server\Proxies\AuthorizationServerProxy;
+use Tikamsah\OAuth2Server\Proxies\AuthorizationServerProxy;
 
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -20,19 +20,19 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('lucadegasperi/oauth2-server-laravel', 'lucadegasperi/oauth2-server-laravel');
+        $this->package('tikamsah/oauth2-server-laravel', 'tikamsah/oauth2-server-laravel');
 
         /** @var \Illuminate\Routing\Router $router */
         $router = $this->app['router'];
 
         // Bind a filter to check if the auth code grant type params are provided
-        $router->filter('check-authorization-params', 'LucaDegasperi\OAuth2Server\Filters\CheckAuthorizationParamsFilter');
+        $router->filter('check-authorization-params', 'Tikamsah\OAuth2Server\Filters\CheckAuthorizationParamsFilter');
 
         // Bind a filter to make sure that an endpoint is accessible only by authorized members eventually with specific scopes
-        $router->filter('oauth', 'LucaDegasperi\OAuth2Server\Filters\OAuthFilter');
+        $router->filter('oauth', 'Tikamsah\OAuth2Server\Filters\OAuthFilter');
 
         // Bind a filter to make sure that an endpoint is accessible only by a specific owner
-        $router->filter('oauth-owner', 'LucaDegasperi\OAuth2Server\Filters\OAuthOwnerFilter');
+        $router->filter('oauth-owner', 'Tikamsah\OAuth2Server\Filters\OAuthOwnerFilter');
     }
 
     /**
@@ -45,16 +45,16 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         // let's bind the interfaces to the implementations
         $app = $this->app;
 
-        $app->bind('League\OAuth2\Server\Storage\ClientInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentClient');
-        $app->bind('League\OAuth2\Server\Storage\ScopeInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentScope');
-        $app->bind('League\OAuth2\Server\Storage\SessionInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
-        $app->bind('LucaDegasperi\OAuth2Server\Repositories\SessionManagementInterface', 'LucaDegasperi\OAuth2Server\Repositories\FluentSession');
+        $app->bind('League\OAuth2\Server\Storage\ClientInterface', 'Tikamsah\OAuth2Server\Repositories\FluentClient');
+        $app->bind('League\OAuth2\Server\Storage\ScopeInterface', 'Tikamsah\OAuth2Server\Repositories\FluentScope');
+        $app->bind('League\OAuth2\Server\Storage\SessionInterface', 'Tikamsah\OAuth2Server\Repositories\FluentSession');
+        $app->bind('Tikamsah\OAuth2Server\Repositories\SessionManagementInterface', 'Tikamsah\OAuth2Server\Repositories\FluentSession');
 
         $app['oauth2.authorization-server'] = $app->share(function ($app) {
 
             $server = $app->make('League\OAuth2\Server\Authorization');
 
-            $config = $app['config']->get('lucadegasperi/oauth2-server-laravel::oauth2');
+            $config = $app['config']->get('tikamsah/oauth2-server-laravel::oauth2');
 
             // add the supported grant types to the authorization server
             foreach ($config['grant_types'] as $grantKey => $grantValue) {
@@ -99,7 +99,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         });
 
         $app['oauth2.expired-tokens-command'] = $app->share(function ($app) {
-            return $app->make('LucaDegasperi\OAuth2Server\Commands\ExpiredTokensCommand');
+            return $app->make('Tikamsah\OAuth2Server\Commands\ExpiredTokensCommand');
         });
 
         $this->commands('oauth2.expired-tokens-command');

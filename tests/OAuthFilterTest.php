@@ -6,7 +6,7 @@ class OAuthFilterTest extends TestCase {
 
     public function getFilter()
     {
-        return new LucaDegasperi\OAuth2Server\Filters\OAuthFilter;
+        return new Tikamsah\OAuth2Server\Filters\OAuthFilter;
     }
 
     public function test_valid_filter_with_no_scope()

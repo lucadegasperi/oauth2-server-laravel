@@ -1,4 +1,4 @@
-<?php namespace LucaDegasperi\OAuth2Server\Proxies;
+<?php namespace Tikamsah\OAuth2Server\Proxies;
 
 use League\OAuth2\Server\Authorization as Authorization;
 use League\OAuth2\Server\Util\RedirectUri;
